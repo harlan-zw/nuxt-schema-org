@@ -1,0 +1,52 @@
+{
+  "name": "nuxt-schema-org",
+  "type": "module",
+  "version": "1.1.0-beta.6",
+  "description": "Nuxt module for @vueuse/schema-org",
+  "author": "Harlan Wilton <harlan@harlanzw.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/harlan-zw",
+  "homepage": "https://github.com/vueuse/schema-org#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueuse/schema-org.git",
+    "directory": "packages/nuxt"
+  },
+  "bugs": {
+    "url": "https://github.com/vueuse/schema-org/issues"
+  },
+  "keywords": [
+    "schema-org",
+    "nuxt",
+    "@vueuse/schema-org",
+    "nuxt-module",
+    "nuxt3"
+  ],
+  "exports": {
+    ".": {
+      "require": "./dist/module.cjs",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "main": "dist/module.cjs",
+  "types": "dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "nuxi prepare ../../playgrounds/nuxt3 && nuxt-module-build",
+    "stub": "nuxt-module-build --stub && nuxi prepare ../../test/fixtures/nuxt",
+    "play": "nuxi dev ../../playgrounds/nuxt3",
+    "play:build": "nuxi build ../../playgrounds/nuxt3"
+  },
+  "dependencies": {
+    "@nuxt/kit": "3.0.0",
+    "@unhead/schema-org-vue": "workspace:*",
+    "pathe": "^1.0.0"
+  },
+  "devDependencies": {
+    "nuxt": "3.0.0",
+    "@nuxt/module-builder": "^0.2.1",
+    "@nuxt/schema": "3.0.0"
+  }
+}
