@@ -1,4 +1,4 @@
-## Vue Schema.org Product
+## Schema.org Product
 
 - **Type**: `defineProduct(input?: Product)`{lang="ts"}
 

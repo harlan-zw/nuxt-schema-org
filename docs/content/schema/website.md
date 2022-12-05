@@ -1,4 +1,4 @@
-## Vue Schema.org WebSite
+## Schema.org WebSite
 
 - **Type**: `defineWebSite(input?: WebSite)`{lang="ts"}
 

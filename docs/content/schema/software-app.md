@@ -1,4 +1,4 @@
-## Vue Schema.org SoftwareApp
+## Schema.org SoftwareApp
 
 - **Type**: `defineSoftwareApp(input?: SoftwareApp)`{lang="ts"}
 

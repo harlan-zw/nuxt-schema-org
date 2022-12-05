@@ -1,4 +1,4 @@
-## Vue Schema.org Movie
+## Schema.org Movie
 
 **Type**: `defineMovie(input?: Movie)`{lang="ts"}
 

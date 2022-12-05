@@ -1,4 +1,4 @@
-## Vue Schema.org Video
+## Schema.org Video
 
 - **Type**: `defineVideo(input?: Video)`{lang="ts"}
 

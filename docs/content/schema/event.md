@@ -1,4 +1,4 @@
-## Vue Schema.org Event
+## Schema.org Event
 
 - **Type**: `defineEvent(input?: Event)`{lang="ts"}
 

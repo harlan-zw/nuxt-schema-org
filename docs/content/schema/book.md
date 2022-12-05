@@ -1,4 +1,4 @@
-## Vue Schema.org Book
+## Schema.org Book
 
 - **Type**: `defineBook(input?: Book)`{lang="ts"}
 

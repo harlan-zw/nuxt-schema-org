@@ -1,8 +1,8 @@
 import { SchemaOrgUnheadPlugin } from '@unhead/schema-org-vue'
 // @ts-expect-error untyped
+import { joinURL } from 'ufo'
 import config from '#nuxt-schema-org/config'
 import { defineNuxtPlugin, useRouter } from '#app'
-import {joinURL} from "ufo";
 
 export default defineNuxtPlugin((nuxtApp) => {
   const head = nuxtApp.vueApp._context.provides.usehead

@@ -1,4 +1,4 @@
-## Vue Schema.org LocalBusiness
+## Schema.org LocalBusiness
 
 **Type**: `defineLocalBusiness(input?: LocalBusiness)`{lang="ts"}
 

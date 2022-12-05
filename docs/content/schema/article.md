@@ -1,4 +1,4 @@
-## Vue Schema.org Article
+## Schema.org Article
 
 - **Type**: `defineArticle(input?: Article)`{lang="ts"}
 

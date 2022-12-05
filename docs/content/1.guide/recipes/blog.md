@@ -2,7 +2,7 @@
 title: Blog
 ---
 
-# Setting up Schema.org for a Blog in Vue
+#  Schema.org for a Blog
 
 Creating a blog is a fun way to share what you learn and grow a following through organic traffic.
 

@@ -1,4 +1,4 @@
-## Vue Schema.org HowTo
+## Schema.org HowTo
 
 - **Type**: `defineHowTo(input?: HowTo)`{lang="ts"}
 

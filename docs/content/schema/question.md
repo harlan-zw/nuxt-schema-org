@@ -1,4 +1,4 @@
-## Vue Schema.org Question
+## Schema.org Question
 
 - **Type**: `defineQuestion(input?: Question)`{lang="ts"}
 

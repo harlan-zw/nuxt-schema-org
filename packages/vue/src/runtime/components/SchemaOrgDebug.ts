@@ -1,4 +1,4 @@
-import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, unref } from 'vue'
+import { defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, unref, watch } from 'vue'
 
 export const SchemaOrgDebug = defineComponent({
   name: 'SchemaOrgDebug',
@@ -14,12 +14,12 @@ export const SchemaOrgDebug = defineComponent({
 
     onMounted(() => {
       nextTick(() => {
-        let $el = document.querySelector('script[data-id="schema-org-graph"]')
+        let $el = document.querySelector('script[type="application/ld+json"]')
         if (!$el)
           return
 
         const fetchSchema = () => {
-          $el = document.querySelector('script[data-id="schema-org-graph"]')
+          $el = document.querySelector('script[type="application/ld+json"]')
           schemaRaw.value = $el?.textContent || ''
         }
 

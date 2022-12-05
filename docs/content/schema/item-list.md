@@ -1,4 +1,4 @@
-## Vue Schema.org ItemList
+## Schema.org ItemList
 
 - **Type**: `defineItemList(input?: ItemList)`{lang="ts"}
 

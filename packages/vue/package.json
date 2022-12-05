@@ -10,7 +10,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vueuse/schema-org.git",
-    "path": "packages/schema-org"
+    "path": "packages/vue"
   },
   "bugs": {
     "url": "https://github.com/vueuse/schema-org/issues"

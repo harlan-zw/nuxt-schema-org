@@ -1,4 +1,4 @@
-## Vue Schema.org Person
+## Schema.org Person
 
 - **Type**: `definePerson(input?: Person)`{lang="ts"}
 

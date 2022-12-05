@@ -1,4 +1,4 @@
-## Vue Schema.org Image
+## Schema.org Image
 
 - **Type**: `defineImage(input?: Image)`{lang="ts"}
 

@@ -23,9 +23,9 @@ export function SchemaOrgUnheadPlugin(config: UserConfig, meta: () => Record<str
               ...node,
               _resolver: loadResolver(await node._resolver),
             }
-            console.log('node', newNode)
             graph.push(newNode)
           }
+          tag.tagPosition = config.position === 'head' ? 'head' : 'bodyClose'
         }
         if (tag.tag === 'title')
           resolvedMeta.title = tag.children
@@ -44,8 +44,7 @@ export function SchemaOrgUnheadPlugin(config: UserConfig, meta: () => Record<str
             tag.children = JSON.stringify({
               '@context': 'https://schema.org',
               '@graph': graph.resolveGraph(),
-            })
-            console.log(graph.resolveGraph())
+            }, null, 2)
             delete tag.props.nodes
           }
         }

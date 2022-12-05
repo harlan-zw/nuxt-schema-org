@@ -2,7 +2,7 @@
 title: How To
 ---
 
-# Setting up Schema.org for a How To Page in Vue
+#  Schema.org for a How To Page
 
 ::alert{type="warning"}
 🔨 Documentation in progress

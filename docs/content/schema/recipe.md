@@ -1,4 +1,4 @@
-## Vue Schema.org Recipe
+## Schema.org Recipe
 
 - **Type**: `defineRecipe(input?: Recipe)`{lang="ts"}
 

@@ -1,17 +1,26 @@
 import { defineNuxtConfig } from 'nuxt/config'
+import { createResolver } from '@nuxt/kit'
+
+const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
   extends: ['@nuxt-themes/docus'],
 
+  modules: [
+    'nuxt-windicss',
+    'nuxt-schema-org',
+    resolve('./app/module'),
+  ],
+
   app: {
     head: {
-      title: '@vueuse',
+      title: '@unhead/schema-org',
       meta: [
-        { property: 'og:title', content: '@vueuse/schema-org' },
+        { property: 'og:title', content: '@unhead/schema-org' },
         { property: 'og:description', content: 'Simple and automated Schema.org for Google Rich Results with Vue.' },
         { property: 'og:url', content: 'https://vue-schema-org.netlify.app/' },
         { property: 'og:image', content: 'https://vue-schema-org.netlify.app/og.png' },
-        { name: 'twitter:title', content: '@vueuse/schema-org' },
+        { name: 'twitter:title', content: '@unhead/schema-org' },
         { name: 'twitter:description', content: 'Simple and automated Schema.org for Google Rich Results with Vue.' },
         { name: 'twitter:image', content: 'https://vue-schema-org.netlify.app/og.png' },
         { name: 'twitter:card', content: 'summary_large_image' },
@@ -32,42 +41,15 @@ export default defineNuxtConfig({
     },
   },
 
-  components: [
-    {
-      path: './node_modules/@nuxt-themes/docus/components/app',
-      global: true,
-      prefix: '',
+  content: {
+    highlight: {
+      theme: {
+        dark: 'github-dark',
+        default: 'github-light'
+      },
     },
-    {
-      path: './node_modules/@nuxt-themes/docus/components/content',
-      global: true,
-      prefix: '',
-    },
-    {
-      path: './node_modules/@nuxt-themes/docus/components/docs',
-      global: true,
-      prefix: '',
-    },
-    {
-      path: './node_modules/@nuxt-themes/docus/components/github',
-      global: true,
-      prefix: '',
-    },
-    {
-      path: './node_modules/@nuxt-themes/docus/components/icons',
-      global: true,
-      prefix: '',
-    },
-    {
-      path: './node_modules/@nuxt-themes/docus/components/prose',
-      global: true,
-      prefix: '',
-    },
-    {
-      path: './components',
-      prefix: '',
-    },
-  ],
+  },
+
   nitro: {
     prerender: {
       crawlLinks: true,

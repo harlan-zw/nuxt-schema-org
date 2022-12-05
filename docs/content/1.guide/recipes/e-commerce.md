@@ -2,7 +2,7 @@
 title: eCommerce
 ---
 
-# Setting up Schema.org for eCommerce in Vue
+#  Schema.org for eCommerce
 
 ::alert{type="warning"}
 🔨 Documentation in progress

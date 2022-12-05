@@ -2,7 +2,7 @@
 title: Breadcrumbs
 ---
 
-# Setting up Schema.org for Breadcrumbs in Vue
+#  Schema.org for Breadcrumbs
 
 Creating breadcrumbs on your site is a great way to help your users understand your website hierarchy.
 

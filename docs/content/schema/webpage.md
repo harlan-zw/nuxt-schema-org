@@ -1,4 +1,4 @@
-## Vue Schema.org WebPage
+## Schema.org WebPage
 
 - **Type**: `defineWebPage(input?: WebPage)`{lang="ts"}
 

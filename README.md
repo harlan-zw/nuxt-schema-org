@@ -33,8 +33,6 @@ The quickest and easiest way to build Schema.org graphs for JavaScript Runtimes 
 This package provides a JS low-level API that frameworks can build their Schema.org implementations from, without any specific
 JS runtimes requirements.
 
-It was built for [@vueuse/schema-org](https://github.com/vueuse/schema-org).
-
 ## Features
 
 - 😎 Choose your own provider: Simple ([Google](https://developers.google.com/search/docs/advanced/structured-data/search-gallery) and [Yoast](https://developer.yoast.com/features/schema/overview) best practices) and Full ([schema-dts](https://github.com/google/schema-dts))

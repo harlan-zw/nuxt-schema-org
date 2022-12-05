@@ -34,10 +34,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxi prepare ../../playgrounds/nuxt3 && nuxt-module-build",
+    "build": "nuxi prepare ../../examples/nuxt3 && nuxt-module-build",
     "stub": "nuxt-module-build --stub && nuxi prepare ../../test/fixtures/nuxt",
-    "play": "nuxi dev ../../playgrounds/nuxt3",
-    "play:build": "nuxi build ../../playgrounds/nuxt3"
+    "play": "nuxi dev ../../examples/nuxt3",
+    "play:build": "nuxi build ../../examples/nuxt3"
   },
   "dependencies": {
     "@nuxt/kit": "3.0.0",
@@ -45,8 +45,8 @@
     "pathe": "^1.0.0"
   },
   "devDependencies": {
-    "nuxt": "3.0.0",
     "@nuxt/module-builder": "^0.2.1",
-    "@nuxt/schema": "3.0.0"
+    "@nuxt/schema": "3.0.0",
+    "nuxt": "3.0.0"
   }
 }

@@ -2,7 +2,7 @@
 title: FAQ
 ---
 
-# Setting up Schema.org for a FAQ in Vue
+#  Schema.org for a FAQ
 
 Creating a FAQ page on your site is a great way to help your users understand your website. 
 

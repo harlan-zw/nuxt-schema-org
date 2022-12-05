@@ -1,4 +1,4 @@
-## Vue Schema.org Course
+## Schema.org Course
 
 - **Type**: `defineCourse(input?: Course)`{lang="ts"}
 

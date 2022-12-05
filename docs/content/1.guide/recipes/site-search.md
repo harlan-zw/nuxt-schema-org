@@ -2,7 +2,7 @@
 title: Site Search
 ---
 
-# Setting up Schema.org for Site Search in Vue
+#  Schema.org for Site Search
 
 If your site offers a search function, you may like to define markup to help Google understand it.
 

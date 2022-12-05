@@ -1,4 +1,4 @@
-## Vue Schema.org Organization
+## Schema.org Organization
 
 - **Type**: `defineOrganization(input?: Organization)`{lang="ts"}
 

@@ -4,7 +4,7 @@ import {SchemaOrgNode} from "../src/types";
 
 export async function injectSchemaOrg(): Promise<SchemaOrgNode[]> {
   // filter for schema.org tag
-  const schemaOrg = (await getActiveHead()!.resolveTags()).find((tag) => tag.key === 'schema-org-graph')!.innerHTML
+  const schemaOrg = (await getActiveHead()!.resolveTags()).find((tag) => tag.key === 'schema-org-graph')!.children
   return JSON.parse(<string> schemaOrg)['@graph']
 }
 

@@ -1,4 +1,4 @@
-## Vue Schema.org Breadcrumb
+## Schema.org Breadcrumb
 
 - **Type**: `defineBreadcrumb(input?: Breadcrumb)`{lang="ts"}
 

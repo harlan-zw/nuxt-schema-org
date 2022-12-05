@@ -1,4 +1,4 @@
-## Vue Schema.org Comment
+## Schema.org Comment
 
 - **Type**: `defineComment(input?: Comment)`{lang="ts"}
 
