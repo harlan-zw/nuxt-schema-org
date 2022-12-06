@@ -22,5 +22,6 @@
     "unbuild": "^1.0.1",
     "vitest": "^0.25.3",
     "unhead": "latest"
-  }
+  },
+  "version": "0.0.1"
 }
