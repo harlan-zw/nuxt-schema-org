@@ -7,6 +7,7 @@
   "license": "MIT",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "scripts": {
+    "prepare": "nuxi prepare test/fixtures/nuxt",
     "build": "pnpm -r --filter=./packages/** run build",
     "stub": "pnpm -r --parallel --filter=./packages/** run stub",
     "lint": "eslint \"{packages,test}/**/*.{ts,vue,json,yml}\" --fix",

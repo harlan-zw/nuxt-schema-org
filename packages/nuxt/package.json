@@ -34,10 +34,10 @@
     "dist"
   ],
   "scripts": {
-    "build": "nuxi prepare ../../examples/nuxt3 && nuxt-module-build",
+    "build": "nuxi prepare ../../test/fixtures/nuxt && nuxt-module-build",
     "stub": "nuxt-module-build --stub && nuxi prepare ../../test/fixtures/nuxt",
-    "play": "nuxi dev ../../examples/nuxt3",
-    "play:build": "nuxi build ../../examples/nuxt3"
+    "play": "nuxi dev ../../test/fixtures/nuxt",
+    "play:build": "nuxi build ../../test/fixtures/nuxt"
   },
   "dependencies": {
     "@nuxt/kit": "3.0.0",
