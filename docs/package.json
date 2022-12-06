@@ -1,6 +1,4 @@
 {
-  "name": "docus-starter",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "nuxi dev",
@@ -9,7 +7,6 @@
     "preview": "nuxi preview"
   },
   "devDependencies": {
-    "nuxt-schema-org": "workspace:*",
     "@unhead/schema-org-vue": "workspace:*",
     "@nuxt-themes/docus": "1.1.1",
     "nuxt": "3.0.0",

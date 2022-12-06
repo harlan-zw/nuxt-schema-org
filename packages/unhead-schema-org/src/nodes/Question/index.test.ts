@@ -63,7 +63,7 @@ describe('defineQuestion', () => {
           ]
         `)
     }, {
-      url: 'https://example.com/frequently-asked-questions',
+      path: '/frequently-asked-questions',
       title: 'FAQ',
     })
   })

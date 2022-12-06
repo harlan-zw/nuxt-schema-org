@@ -8,7 +8,6 @@ export default defineNuxtConfig({
 
   modules: [
     'nuxt-windicss',
-    'nuxt-schema-org',
     resolve('./app/module'),
   ],
 
