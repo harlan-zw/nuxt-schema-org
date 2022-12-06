@@ -37,6 +37,3 @@ jobs:
       - run: pnpm i
       - run: pnpm build
       - run: pnpm test
-
-      - name: Build
-        run: pnpm run build
