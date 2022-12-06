@@ -1,5 +1,5 @@
 import type { ComponentResolver } from 'unplugin-vue-components'
-import { name } from '../package.json'
+import { name as PackageName } from '../package.json'
 
 export interface SchemaOrgResolverOptions {
   /**
@@ -50,7 +50,7 @@ export const schemaAutoImports = [
 
 export const schemaOrgAutoImports = [
   {
-    from: name,
+    from: PackageName,
     imports: schemaAutoImports,
   },
 ]
@@ -90,7 +90,7 @@ export function SchemaOrgResolver(options: SchemaOrgResolverOptions = {}): Compo
         if (schemaOrgComponents.includes(componentName)) {
           return {
             name: componentName,
-            from: name,
+            from: PackageName,
           }
         }
       }
