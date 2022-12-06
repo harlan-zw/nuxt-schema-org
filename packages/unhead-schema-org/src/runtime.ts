@@ -88,5 +88,5 @@ export function useSchemaOrg(input?: any): any {
         nodes: input,
       },
     ],
-  })
+  }, { mode: process.env.NODE_ENV === 'development' ? 'all' : 'server' })
 }

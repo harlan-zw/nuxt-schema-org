@@ -1,5 +1,4 @@
 import type { HeadPlugin } from '@unhead/schema'
-import { loadResolver } from './resolver'
 import type { MetaInput, ResolvedMeta } from './types'
 import {
   createSchemaOrgGraph, resolveMeta,
@@ -17,6 +16,8 @@ export function SchemaOrgUnheadPlugin(config: MetaInput, meta: () => Record<stri
       },
       'tag:normalise': async function ({ tag }) {
         if (tag.key === 'schema-org-graph') {
+          // this is a bit expensive, load in seperate chunk
+          const { loadResolver } = await import('./resolver')
           const nodes = await tag.props.nodes
           for (const node of Array.isArray(nodes) ? nodes : [nodes]) {
             const newNode = {
