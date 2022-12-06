@@ -13,21 +13,24 @@ import { loadResolver } from '../resolver'
 import type { SchemaOrgGraph } from './graph'
 
 export const resolveMeta = (meta: MetaInput) => {
-  if (!meta.path)
-    meta.path = '/'
   if (!meta.host && meta.canonicalHost)
     meta.host = meta.canonicalHost
+  if (!meta.tagPosition && meta.position)
+    meta.tagPosition = meta.position
+  if (!meta.currency && meta.defaultCurrency)
+    meta.currency = meta.defaultCurrency
+  if (!meta.inLanguage && meta.defaultLanguage)
+    meta.inLanguage = meta.defaultLanguage
+  if (!meta.path)
+    meta.path = '/'
+
   if (!meta.host && typeof document !== 'undefined')
     meta.host = document.location.host
 
   if (!meta.url && meta.canonicalUrl)
     meta.url = meta.canonicalUrl
 
-  if (!meta.url && meta.path)
-    meta.url = joinURL(meta.host, meta.path)
-
-  if (!meta.inLanguage && meta.defaultLanguage)
-    meta.inLanguage = meta.defaultLanguage
+  meta.url = joinURL(meta.host, meta.path)
 
   return <ResolvedMeta> {
     host: meta.host,

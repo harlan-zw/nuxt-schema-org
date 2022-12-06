@@ -1,19 +1,19 @@
 import type { HeadPlugin } from '@unhead/schema'
 import { loadResolver } from './resolver'
-import type { MetaInput, UserConfig } from './types'
+import type { MetaInput, ResolvedMeta } from './types'
 import {
-  createSchemaOrgGraph,
+  createSchemaOrgGraph, resolveMeta,
 } from '.'
 import type { SchemaOrgGraph } from '.'
 
-export function SchemaOrgUnheadPlugin(config: UserConfig, meta: () => Record<string, any>): any {
+export function SchemaOrgUnheadPlugin(config: MetaInput, meta: () => Record<string, any>): any {
+  config = resolveMeta({ ...config })
   let graph: SchemaOrgGraph
-  let resolvedMeta: MetaInput
+  const resolvedMeta = {} as ResolvedMeta
   return <HeadPlugin> ({
     hooks: {
       'entries:resolve': function () {
         graph = createSchemaOrgGraph()
-        resolvedMeta = { ...meta(), ...config }
       },
       'tag:normalise': async function ({ tag }) {
         if (tag.key === 'schema-org-graph') {
@@ -25,7 +25,7 @@ export function SchemaOrgUnheadPlugin(config: UserConfig, meta: () => Record<str
             }
             graph.push(newNode)
           }
-          tag.tagPosition = config.position === 'head' ? 'head' : 'bodyClose'
+          tag.tagPosition = config.tagPosition === 'head' ? 'head' : 'bodyClose'
         }
         if (tag.tag === 'title')
           resolvedMeta.title = tag.children
@@ -40,10 +40,9 @@ export function SchemaOrgUnheadPlugin(config: UserConfig, meta: () => Record<str
         // find the schema.org node
         for (const tag of ctx.tags) {
           if (tag.tag === 'script' && tag.key === 'schema-org-graph') {
-            graph.meta = { ...graph.meta, ...resolvedMeta }
             tag.children = JSON.stringify({
               '@context': 'https://schema.org',
-              '@graph': graph.resolveGraph(),
+              '@graph': graph.resolveGraph({ ...config, ...resolvedMeta, ...(await meta()) }),
             }, null, 2)
             delete tag.props.nodes
           }

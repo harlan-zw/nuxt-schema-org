@@ -258,7 +258,7 @@ describe('defineEvent', () => {
           ]
         `)
     }, {
-      defaultCurrency: 'USD',
+      currency: 'USD',
     })
   })
 })

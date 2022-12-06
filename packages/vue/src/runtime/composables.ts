@@ -1,3 +1,4 @@
+import type { MaybeComputedRefOrPromise } from '@unhead/vue'
 import { useHead } from '@unhead/vue'
 import type {
   AggregateOffer,
@@ -34,10 +35,9 @@ import type {
   WebSite,
 } from '@unhead/schema-org'
 
-import type { Ref } from 'vue'
-
-export type MaybeRef<T> = T | Ref<T> | (() => T)
-export type DeepMaybeRef<T> = { [K in keyof T]: MaybeRef<T[K]> }
+export type DeepMaybeRef<T> = {
+  [key in keyof T]?: MaybeComputedRefOrPromise<T[key]>
+}
 
 const provideResolver = <T>(input?: T, resolver?: string) => {
   if (!input)

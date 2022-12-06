@@ -1,5 +1,5 @@
 import {getActiveHead, createHead} from 'unhead'
-import {SchemaOrgUnheadPlugin} from "../src";
+import {MetaInput, SchemaOrgUnheadPlugin} from "../src";
 import {SchemaOrgNode} from "../src/types";
 
 export async function injectSchemaOrg(): Promise<SchemaOrgNode[]> {
@@ -13,13 +13,13 @@ export async function findNode<T>(id: string) {
   // @ts-expect-error untyped
   return nodes.find((node) => node['@id'] === id || node['@id'].endsWith(id)) as T
 }
-export async function useSetup(fn: () => void, meta: Record<string, any> = {}) {
+export async function useSetup(fn: () => void, meta: Partial<MetaInput> = {}) {
   createHead({
     plugins: [
       SchemaOrgUnheadPlugin({
-          defaultCurrency: 'AUD',
-          canonicalHost: 'https://example.com/',
-          defaultLanguage: 'en-AU',
+          currency: 'AUD',
+          host: 'https://example.com/',
+          inLanguage: 'en-AU',
           ...meta,
         },
         () => {

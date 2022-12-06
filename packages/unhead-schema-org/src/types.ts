@@ -20,6 +20,10 @@ export interface ResolvedMeta {
 }
 
 export interface MetaInput {
+  /**
+   * Whether to inject the scripts at the end of the body or in the head.
+   */
+  tagPosition?: 'body' | 'head'
   host: string
   url?: string
   path?: string
@@ -28,8 +32,12 @@ export interface MetaInput {
   inLanguage?: string
   title?: string
   description?: string
-  datePublished?: string
-  dateModified?: string
+  datePublished?: Date | string
+  dateModified?: Date | string
+  /**
+   * @deprecated use tagPosition
+   */
+  position?: 'body' | 'head'
   /**
    * @deprecated use `language`
    */
@@ -46,7 +54,13 @@ export interface MetaInput {
    * @deprecated use `url` or `path`
    */
   canonicalUrl?: string
+  /**
+   * @deprecated use root keys.
+   */
+  meta?: MetaInput
 }
+
+export interface UserConfig extends MetaInput {}
 
 export interface SchemaOrgNodeDefinition<ResolvedInput> {
   alias?: string
@@ -98,9 +112,3 @@ export interface IdReference {
 
 export type Id = `#${string}` | `https://${string}#${string}`
 
-export interface UserConfig extends MetaInput {
-  /**
-   * Whether to inject the scripts at the end of the body or in the head.
-   */
-  position?: 'body' | 'head'
-}

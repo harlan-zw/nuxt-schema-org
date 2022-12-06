@@ -29,21 +29,8 @@ export default defineNuxtModule<ModuleOptions>({
       bridge: false,
     },
   },
-  async setup(moduleOptions, nuxt) {
+  async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
-
-    // moduleOptions = resolveUserConfig(moduleOptions)
-
-    // spa we can read the window.origin as a fallback
-    // if (nuxt.options.ssr && !moduleOptions.canonicalHost && !moduleOptions.meta?.host)
-    //   console.warn('WARN [nuxt-schema-org] Please provide a `canonicalHost` when using this module with SSR enabled.')
-
-    // if ssr is disabled we need to inject the client
-    // if (!nuxt.options.ssr)
-    //   moduleOptions.client = true
-    // // enable client in dev mode
-    // if (typeof moduleOptions.client === 'undefined')
-    //   moduleOptions.client = !!nuxt.options.dev
 
     // set the runtime alias so nuxt knows where our types are
     const moduleRuntimeDir = resolve('./runtime')
@@ -55,7 +42,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.alias['#nuxt-schema-org/config'] = addTemplate({
       filename: 'nuxt-schema-org-config.mjs',
-      getContents: () => `export default ${JSON.stringify(moduleOptions)}`,
+      getContents: () => `export default ${JSON.stringify(config)}`,
     }).dst
 
     for (const component of schemaOrgComponents) {

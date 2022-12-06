@@ -1,6 +1,5 @@
 import { SchemaOrgUnheadPlugin } from '@unhead/schema-org-vue'
 // @ts-expect-error untyped
-import { joinURL } from 'ufo'
 import config from '#nuxt-schema-org/config'
 import { defineNuxtPlugin, useRouter } from '#app'
 
@@ -9,11 +8,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 
   const router = useRouter()
   const currentRoute = router.currentRoute
-  head.hooks.addHooks(SchemaOrgUnheadPlugin(config, () => {
+  head.hooks.addHooks(SchemaOrgUnheadPlugin(config, async () => {
     const route = currentRoute.value
-    return {
-      url: joinURL(config.canonicalHost, route.path),
+    const meta = {
+      ...config,
+      path: route.path,
       ...route.meta,
     }
+    await nuxtApp.hooks.callHook('schema-org:meta', meta)
+    return meta
   }).hooks)
 })

@@ -465,9 +465,8 @@ describe('defineArticle', () => {
         'inLanguage': 'en-US',
       })
     }, {
-      canonicalHost: 'https://kootingalpecancompany.com',
       host: 'https://kootingalpecancompany.com/',
-      defaultLanguage: 'en-US',
+      inLanguage: 'en-US',
       path: '/pecan-tree-kootingal',
       title: 'The pecan tree &#8220;Carya illinoinensis&#8221;',
       image: 'https://res.cloudinary.com/kootingalpecancompany/images/w_1920,h_2560/f_auto,q_auto/v1648723707/IMG_0446/IMG_0446.jpg?_i=AA',
