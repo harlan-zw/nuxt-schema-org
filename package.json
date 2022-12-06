@@ -16,13 +16,10 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.33.1",
     "bumpp": "^8.2.1",
-    "cheerio": "1.0.0-rc.12",
     "eslint": "^8.29.0",
     "jsdom": "^20.0.3",
-    "playwright": "^1.28.1",
     "typescript": "^4.9.3",
     "unbuild": "^1.0.1",
-    "utility-types": "^3.10.0",
     "vitest": "^0.25.3",
     "unhead": "latest"
   }
