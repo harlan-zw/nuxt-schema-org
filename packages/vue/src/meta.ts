@@ -44,7 +44,6 @@ export const schemaAutoImports = [
   'defineReadAction',
   'defineSoftwareApp',
   'defineBookEdition',
-  'defineSearchAction',
   'defineReadAction',
 ]
 
