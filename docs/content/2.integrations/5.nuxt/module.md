@@ -61,7 +61,7 @@ To server-side render Schema.org, you'll need to provide a [canonical host](http
 export default defineNuxtConfig({
   // ...
   schemaOrg: {
-    canonicalHost: 'https://example.com',
+    host: 'https://example.com',
   },
 })
 ```
@@ -79,7 +79,7 @@ This should be done in either your `app.vue` or `layouts/default.vue` file.
 ```vue [Composition API]
 <script lang="ts" setup>
 useSchemaOrg([
-  // @todo Select Identity: https://vue-schema-org.netlify.app/guide/guides/identity
+  // @todo Select Identity: https://unhead-schema-org.harlanzw.com//guide/guides/identity
   defineWebSite({
     name: 'My Awesome Website',
   }),
@@ -90,7 +90,7 @@ useSchemaOrg([
 
 ```vue [Component API]
 <template>
-  <!-- @todo Select Identity: https://vue-schema-org.netlify.app/guide/guides/identity -->
+  <!-- @todo Select Identity: https://unhead-schema-org.harlanzw.com//guide/guides/identity -->
   <SchemaOrgWebSite name="My Awesome Website" />
   <SchemaOrgWebPage />
 </template>

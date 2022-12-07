@@ -3,7 +3,7 @@ export default defineAppConfig({
     title: 'unhead-schema-org',
     name: 'unhead-schema-org',
     description: 'Simple and quick Schema.org for everyone, powered by unhead.',
-    url: 'https://vue-schema-org.netlify.app/',
+    url: 'https://unhead-schema-org.harlanzw.com//',
     layout: 'default',
     socials: {
       twitter: '@harlan_zw',
@@ -21,7 +21,7 @@ export default defineAppConfig({
       logo: true,
     },
     cover: {
-      src: 'https://vue-schema-org.netlify.app/og.png',
+      src: 'https://unhead-schema-org.harlanzw.com//og.png',
     },
   }
 })

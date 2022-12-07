@@ -17,11 +17,11 @@ export default defineNuxtConfig({
       meta: [
         { property: 'og:title', content: '@unhead/schema-org' },
         { property: 'og:description', content: 'Simple and automated Schema.org for Google Rich Results with Vue.' },
-        { property: 'og:url', content: 'https://vue-schema-org.netlify.app/' },
-        { property: 'og:image', content: 'https://vue-schema-org.netlify.app/og.png' },
+        { property: 'og:url', content: 'https://unhead-schema-org.harlanzw.com//' },
+        { property: 'og:image', content: 'https://unhead-schema-org.harlanzw.com//og.png' },
         { name: 'twitter:title', content: '@unhead/schema-org' },
         { name: 'twitter:description', content: 'Simple and automated Schema.org for Google Rich Results with Vue.' },
-        { name: 'twitter:image', content: 'https://vue-schema-org.netlify.app/og.png' },
+        { name: 'twitter:image', content: 'https://unhead-schema-org.harlanzw.com//og.png' },
         { name: 'twitter:card', content: 'summary_large_image' },
       ],
       link: [
