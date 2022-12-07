@@ -46,7 +46,7 @@
     "stub": "unbuild . --stub"
   },
   "peerDependencies": {
-    "@vueuse/head": ">=1.0.18"
+    "@unhead/vue": ">=1.0.20"
   },
   "devDependencies": {
     "@unhead/schema": "^1.0.7",

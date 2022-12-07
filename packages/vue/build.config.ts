@@ -13,7 +13,6 @@ export default defineBuildConfig({
     'vite',
     'vue-router',
     '@unhead/vue',
-    '@vueuse/head',
     'unplugin-ast',
     'unplugin',
     'unplugin-vue-components',
