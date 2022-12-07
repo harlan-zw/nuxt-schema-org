@@ -4,8 +4,8 @@
 <a href='https://github.com/harlan-zw/unhead-schema-org/actions/workflows/test.yml'>
 <img src='https://github.com/harlan-zw/unhead-schema-org/actions/workflows/test.yml/badge.svg' >
 </a>
-<a href="https://www.npmjs.com/package/unhead-schema-org" target="__blank"><img src="https://img.shields.io/npm/v/unhead-schema-org?color=2B90B6&label=" alt="NPM version"></a>
-<a href="https://www.npmjs.com/package/unhead-schema-org" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/unhead-schema-org?color=349dbe&label="></a>
+<a href="https://www.npmjs.com/package/@unhead/schema-org" target="__blank"><img src="https://img.shields.io/npm/v/@unhead/schema-org?color=2B90B6&label=" alt="NPM version"></a>
+<a href="https://www.npmjs.com/package/@unhead/schema-org" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/@unhead/schema-org?color=349dbe&label="></a>
 <br>
 <a href="https://github.com/harlan-zw/unhead-schema-org" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/unhead-schema-org?style=social"></a>
 </p>
