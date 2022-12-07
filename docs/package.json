@@ -7,8 +7,8 @@
     "preview": "nuxi preview"
   },
   "devDependencies": {
+    "@nuxt-themes/docus": "1.1.3",
     "@unhead/schema-org-vue": "workspace:*",
-    "@nuxt-themes/docus": "1.1.1",
     "nuxt": "3.0.0",
     "nuxt-windicss": "latest"
   },
