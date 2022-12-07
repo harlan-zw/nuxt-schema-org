@@ -48,11 +48,11 @@ describe('defineEvent', () => {
             "inLanguage": "en-AU",
             "name": "test",
             "organizer": {
-              "@id": "https://example.com/#/schema/organization/PqBFgu8CTD",
+              "@id": "https://example.com/#/schema/organization/d3d4507",
             },
           },
           {
-            "@id": "https://example.com/#/schema/organization/PqBFgu8CTD",
+            "@id": "https://example.com/#/schema/organization/d3d4507",
             "@type": [
               "Organization",
               "PerformingGroup",
@@ -195,68 +195,68 @@ describe('defineEvent', () => {
       const graphNodes = await injectSchemaOrg()
 
       expect(graphNodes).toMatchInlineSnapshot(`
-          [
-            {
-              "@id": "https://example.com/#event",
-              "@type": "Event",
-              "description": "The Adventures of Kira and Morrison is coming to Snickertown in a can't miss performance.",
-              "endDate": "2025-07-21T23:00-05:00",
-              "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
-              "eventStatus": "https://schema.org/EventScheduled",
-              "image": [
-                "https://example.com/photos/1x1/photo.jpg",
-                "https://example.com/photos/4x3/photo.jpg",
-                "https://example.com/photos/16x9/photo.jpg",
-              ],
-              "inLanguage": "en-AU",
-              "location": [
-                {
-                  "@type": "VirtualLocation",
-                  "url": "https://operaonline.stream5.com/",
+        [
+          {
+            "@id": "https://example.com/#event",
+            "@type": "Event",
+            "description": "The Adventures of Kira and Morrison is coming to Snickertown in a can't miss performance.",
+            "endDate": "2025-07-21T23:00-05:00",
+            "eventAttendanceMode": "https://schema.org/MixedEventAttendanceMode",
+            "eventStatus": "https://schema.org/EventScheduled",
+            "image": [
+              "https://example.com/photos/1x1/photo.jpg",
+              "https://example.com/photos/4x3/photo.jpg",
+              "https://example.com/photos/16x9/photo.jpg",
+            ],
+            "inLanguage": "en-AU",
+            "location": [
+              {
+                "@type": "VirtualLocation",
+                "url": "https://operaonline.stream5.com/",
+              },
+              {
+                "@type": "VirtualLocation",
+                "address": {
+                  "addressCountry": "US",
+                  "addressLocality": "Snickertown",
+                  "addressRegion": "PA",
+                  "postalCode": "19019",
+                  "streetAddress": "100 West Snickerpark Dr",
                 },
-                {
-                  "@type": "VirtualLocation",
-                  "address": {
-                    "addressCountry": "US",
-                    "addressLocality": "Snickertown",
-                    "addressRegion": "PA",
-                    "postalCode": "19019",
-                    "streetAddress": "100 West Snickerpark Dr",
-                  },
-                  "name": "Snickerpark Stadium",
-                },
-              ],
-              "name": "The Adventures of Kira and Morrison",
-              "offers": {
-                "@type": "Offer",
-                "availability": "https://schema.org/InStock",
-                "price": 30,
-                "priceCurrency": "USD",
-                "priceValidUntil": "2023-12-30T00:00:00.000Z",
-                "url": "https://www.example.com/event_offer/12345_201803180430",
-                "validFrom": "2024-06-21T12:00:00.000Z",
+                "name": "Snickerpark Stadium",
               },
-              "organizer": {
-                "@id": "https://example.com/#/schema/organization/klOKg4ARc8",
-              },
-              "performer": {
-                "@id": "https://example.com/#/schema/performinggroup/tkm1kzXzg3",
-              },
-              "startDate": "2025-07-21T19:00-05:00",
+            ],
+            "name": "The Adventures of Kira and Morrison",
+            "offers": {
+              "@type": "Offer",
+              "availability": "https://schema.org/InStock",
+              "price": 30,
+              "priceCurrency": "USD",
+              "priceValidUntil": "2023-12-30T00:00:00.000Z",
+              "url": "https://www.example.com/event_offer/12345_201803180430",
+              "validFrom": "2024-06-21T12:00:00.000Z",
             },
-            {
-              "@id": "https://example.com/#/schema/performinggroup/tkm1kzXzg3",
-              "@type": "PerformingGroup",
-              "name": "Kira and Morrison",
+            "organizer": {
+              "@id": "https://example.com/#/schema/organization/ff95f9d",
             },
-            {
-              "@id": "https://example.com/#/schema/organization/klOKg4ARc8",
-              "@type": "Organization",
-              "name": "Kira and Morrison Music",
-              "url": "https://kiraandmorrisonmusic.com",
+            "performer": {
+              "@id": "https://example.com/#/schema/performinggroup/1a358dc",
             },
-          ]
-        `)
+            "startDate": "2025-07-21T19:00-05:00",
+          },
+          {
+            "@id": "https://example.com/#/schema/performinggroup/1a358dc",
+            "@type": "PerformingGroup",
+            "name": "Kira and Morrison",
+          },
+          {
+            "@id": "https://example.com/#/schema/organization/ff95f9d",
+            "@type": "Organization",
+            "name": "Kira and Morrison Music",
+            "url": "https://kiraandmorrisonmusic.com",
+          },
+        ]
+      `)
     }, {
       currency: 'USD',
     })

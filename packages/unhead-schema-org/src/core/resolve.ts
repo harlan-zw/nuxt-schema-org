@@ -1,5 +1,3 @@
-import { hash } from 'ohash'
-import { defu } from 'defu'
 import { joinURL } from 'ufo'
 import type {
   Arrayable,
@@ -8,7 +6,7 @@ import type {
   SchemaOrgNodeDefinition, Thing,
 } from '../types'
 import type { ResolverOptions } from '../utils'
-import { asArray, idReference, prefixId, setIfEmpty, stripEmptyProperties } from '../utils'
+import {asArray, hashCode, idReference, prefixId, setIfEmpty, stripEmptyProperties} from '../utils'
 import { loadResolver } from '../resolver'
 import type { SchemaOrgGraph } from './graph'
 
@@ -56,7 +54,10 @@ export const resolveNode = <T extends Thing>(node: T, ctx: SchemaOrgGraph, resol
     let defaults = resolver.defaults || {}
     if (typeof defaults === 'function')
       defaults = defaults(ctx)
-    node = defu(node, defaults) as T
+    node = {
+      ...defaults,
+      ...node,
+    }
   }
 
   // handle meta inherits
@@ -113,7 +114,7 @@ export const resolveNodeId = <T extends Thing>(node: T, ctx: SchemaOrgGraph, res
       if (!key.startsWith('_'))
         hashNodeData[key] = val
     })
-    node['@id'] = prefixId(ctx.meta[prefix], `#/schema/${alias}/${hash(hashNodeData)}`)
+    node['@id'] = prefixId(ctx.meta[prefix], `#/schema/${alias}/${hashCode(JSON.stringify(hashNodeData))}`)
   }
   return node
 }

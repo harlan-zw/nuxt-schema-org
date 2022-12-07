@@ -43,12 +43,8 @@
   "peerDependencies": {
     "unhead": ">=1.0.9"
   },
-  "dependencies": {
-    "defu": "^6.1.1",
-    "ohash": "^1.0.0",
-    "ufo": "^1.0.1"
-  },
   "devDependencies": {
+    "ufo": "^1.0.1",
     "unhead": "latest"
   }
 }

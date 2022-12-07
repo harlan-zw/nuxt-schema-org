@@ -43,7 +43,7 @@ describe('defineMovie', () => {
               "name": "Ryan Coogle",
             },
             "image": {
-              "@id": "https://example.com/#/schema/image/a1sKnqufzD",
+              "@id": "https://example.com/#/schema/image/ea39998",
             },
             "name": "Black Panther",
             "review": {
@@ -63,7 +63,7 @@ describe('defineMovie', () => {
             "url": "https://example.com/2019-best-picture-noms#black-panther",
           },
           {
-            "@id": "https://example.com/#/schema/image/a1sKnqufzD",
+            "@id": "https://example.com/#/schema/image/ea39998",
             "@type": "ImageObject",
             "contentUrl": "https://example.com/photos/6x9/photo.jpg",
             "inLanguage": "en-AU",

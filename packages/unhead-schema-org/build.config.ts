@@ -4,6 +4,7 @@ export default defineBuildConfig({
   clean: true,
   declaration: true,
   rollup: {
+    inlineDependencies: true,
     emitCJS: true,
   },
   entries: [

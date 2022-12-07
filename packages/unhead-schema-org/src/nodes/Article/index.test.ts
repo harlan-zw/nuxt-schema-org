@@ -32,13 +32,13 @@ describe('defineArticle', () => {
             "description": "test",
             "headline": "test",
             "image": {
-              "@id": "https://example.com/#/schema/image/riaRi7jPJC",
+              "@id": "https://example.com/#/schema/image/10ff64c",
             },
             "inLanguage": "en-AU",
             "thumbnailUrl": "https://example.com/my-image.png",
           },
           {
-            "@id": "https://example.com/#/schema/image/riaRi7jPJC",
+            "@id": "https://example.com/#/schema/image/10ff64c",
             "@type": "ImageObject",
             "contentUrl": "https://example.com/my-image.png",
             "inLanguage": "en-AU",
@@ -62,35 +62,35 @@ describe('defineArticle', () => {
       expect(article?.description).toEqual('my article description')
       expect(article?.image).toMatchInlineSnapshot(`
         {
-          "@id": "https://example.com/#/schema/image/9zy4GMmGsY",
+          "@id": "https://example.com/#/schema/image/4f5963e",
         }
       `)
       //
       // expect(client.graphNodes.length).toEqual(2)
       expect(client).toMatchInlineSnapshot(`
-          [
-            {
-              "@id": "https://example.com/test/#article",
-              "@type": "Article",
-              "dateModified": "2021-11-10T10:10:10.000Z",
-              "datePublished": "2021-11-10T10:10:10.000Z",
-              "description": "my article description",
-              "headline": "Article headline",
-              "image": {
-                "@id": "https://example.com/#/schema/image/9zy4GMmGsY",
-              },
-              "inLanguage": "en-AU",
-              "thumbnailUrl": "https://example.com/image.png",
+        [
+          {
+            "@id": "https://example.com/test/#article",
+            "@type": "Article",
+            "dateModified": "2021-11-10T10:10:10.000Z",
+            "datePublished": "2021-11-10T10:10:10.000Z",
+            "description": "my article description",
+            "headline": "Article headline",
+            "image": {
+              "@id": "https://example.com/#/schema/image/4f5963e",
             },
-            {
-              "@id": "https://example.com/#/schema/image/9zy4GMmGsY",
-              "@type": "ImageObject",
-              "contentUrl": "https://example.com/image.png",
-              "inLanguage": "en-AU",
-              "url": "https://example.com/image.png",
-            },
-          ]
-        `)
+            "inLanguage": "en-AU",
+            "thumbnailUrl": "https://example.com/image.png",
+          },
+          {
+            "@id": "https://example.com/#/schema/image/4f5963e",
+            "@type": "ImageObject",
+            "contentUrl": "https://example.com/image.png",
+            "inLanguage": "en-AU",
+            "url": "https://example.com/image.png",
+          },
+        ]
+      `)
     }, {
       path: '/test',
       title: 'Article headline',
@@ -234,14 +234,14 @@ describe('defineArticle', () => {
           "@id": "https://example.com/#article",
           "@type": "Article",
           "author": {
-            "@id": "https://example.com/#/schema/person/xwVZGAwW3S",
+            "@id": "https://example.com/#/schema/person/605fa9",
           },
           "dateModified": "2021-11-10T10:10:10.000Z",
           "datePublished": "2021-11-10T10:10:10.000Z",
           "description": "test",
           "headline": "test",
           "image": {
-            "@id": "https://example.com/#/schema/image/riaRi7jPJC",
+            "@id": "https://example.com/#/schema/image/10ff64c",
           },
           "inLanguage": "en-AU",
           "isPartOf": {
@@ -259,12 +259,12 @@ describe('defineArticle', () => {
 
       const id = client[2].author['@id']
 
-      expect(id).toEqual('https://example.com/#/schema/person/xwVZGAwW3S')
+      expect(id).toEqual('https://example.com/#/schema/person/605fa9')
 
       const person = client[3]
       expect(person).toMatchInlineSnapshot(`
         {
-          "@id": "https://example.com/#/schema/person/xwVZGAwW3S",
+          "@id": "https://example.com/#/schema/person/605fa9",
           "@type": "Person",
           "name": "Harlan Wilton",
           "url": "https://harlanzw.com",
@@ -335,10 +335,10 @@ describe('defineArticle', () => {
             "@type": "Article",
             "author": [
               {
-                "@id": "https://example.com/#/schema/person/xRdko3dItW",
+                "@id": "https://example.com/#/schema/person/77f3c81",
               },
               {
-                "@id": "https://example.com/#/schema/person/zhc2uL2FnG",
+                "@id": "https://example.com/#/schema/person/249c409",
               },
             ],
             "dateModified": "2021-11-10T10:10:10.000Z",
@@ -346,7 +346,7 @@ describe('defineArticle', () => {
             "description": "test",
             "headline": "test",
             "image": {
-              "@id": "https://example.com/#/schema/image/riaRi7jPJC",
+              "@id": "https://example.com/#/schema/image/10ff64c",
             },
             "inLanguage": "en-AU",
             "isPartOf": {
@@ -361,13 +361,13 @@ describe('defineArticle', () => {
             "thumbnailUrl": "https://example.com/my-image.png",
           },
           {
-            "@id": "https://example.com/#/schema/person/xRdko3dItW",
+            "@id": "https://example.com/#/schema/person/77f3c81",
             "@type": "Person",
             "name": "John doe",
             "url": "https://harlanzw.com",
           },
           {
-            "@id": "https://example.com/#/schema/person/zhc2uL2FnG",
+            "@id": "https://example.com/#/schema/person/249c409",
             "@type": "Person",
             "name": "Jane doe",
             "url": "https://harlanzw.com",
@@ -381,7 +381,7 @@ describe('defineArticle', () => {
             "url": "https://example.com/test.png",
           },
           {
-            "@id": "https://example.com/#/schema/image/riaRi7jPJC",
+            "@id": "https://example.com/#/schema/image/10ff64c",
             "@type": "ImageObject",
             "contentUrl": "https://example.com/my-image.png",
             "inLanguage": "en-AU",
@@ -448,7 +448,7 @@ describe('defineArticle', () => {
           '@id': 'https://kootingalpecancompany.com/#identity',
         },
         'image': {
-          '@id': 'https://kootingalpecancompany.com/#/schema/image/A9Tm9pWwUV',
+          '@id': 'https://kootingalpecancompany.com/#/schema/image/ea5d710',
         },
         'thumbnailUrl': 'https://res.cloudinary.com/kootingalpecancompany/images/w_1920,h_2560/f_auto,q_auto/v1648723707/IMG_0446/IMG_0446.jpg?_i=AA',
         'keywords': [

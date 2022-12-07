@@ -25,11 +25,11 @@ describe('defineCourse', () => {
             "description": "Introductory CS course laying out the basics.",
             "name": "Introduction to Computer Science and Programming",
             "provider": {
-              "@id": "https://example.com/#/schema/organization/CNZC84PK4Y",
+              "@id": "https://example.com/#/schema/organization/4db941",
             },
           },
           {
-            "@id": "https://example.com/#/schema/organization/CNZC84PK4Y",
+            "@id": "https://example.com/#/schema/organization/4db941",
             "@type": "Organization",
             "name": "University of Technology - Eureka",
             "sameAs": "http://www.ut-eureka.edu",
