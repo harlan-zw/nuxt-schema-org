@@ -19,7 +19,7 @@ importers:
       jsdom: 20.0.3
       typescript: 4.9.3
       unbuild: 1.0.1
-      unhead: 1.0.7
+      unhead: 1.0.9
       vitest: 0.25.4_jsdom@20.0.3
 
   docs:
@@ -45,16 +45,11 @@ importers:
 
   packages/unhead-schema-org:
     specifiers:
-      defu: ^6.1.1
-      ohash: ^1.0.0
       ufo: ^1.0.1
       unhead: latest
-    dependencies:
-      defu: 6.1.1
-      ohash: 1.0.0
-      ufo: 1.0.1
     devDependencies:
-      unhead: 1.0.7
+      ufo: 1.0.1
+      unhead: 1.0.9
 
   packages/vue:
     specifiers:
@@ -66,7 +61,7 @@ importers:
     devDependencies:
       '@unhead/schema': 1.0.7
       '@unhead/schema-org': link:../unhead-schema-org
-      '@unhead/vue': 1.0.7_vue@3.2.45
+      '@unhead/vue': 1.0.9_vue@3.2.45
       unplugin-vue-components: 0.22.11_vue@3.2.45
       vue: 3.2.45
 
@@ -1897,8 +1892,21 @@ packages:
       '@unhead/schema': 1.0.7
     dev: true
 
+  /@unhead/dom/1.0.9:
+    resolution: {integrity: sha512-88GBHfpk4j2p2z8YBQ3+9qQOdQcTbj56oMX5O5Y3BPiXdIOqBVYpY8hnZ/b2N2xxsm+6aNmBHydte/1ckQalRg==}
+    dependencies:
+      '@unhead/schema': 1.0.9
+    dev: true
+
   /@unhead/schema/1.0.7:
     resolution: {integrity: sha512-96nh3Hd05tALcpuisy3+g/fQcu88wxu81isYC+0Lb5avn9y71BTwmuf22neX/DprK11aZmpNaJIOTs0iU+OS0w==}
+    dependencies:
+      '@zhead/schema': 1.0.7
+      hookable: 5.4.2
+    dev: true
+
+  /@unhead/schema/1.0.9:
+    resolution: {integrity: sha512-S9rJBs5f4zKF6jYYpur8N7VDOOPPnw70j1VOtjh1F3ZNzvvXXcXaoLH5ZB1iMjCjzzgHpwHwi4eVNt19GKYeFQ==}
     dependencies:
       '@zhead/schema': 1.0.7
       hookable: 5.4.2
@@ -1910,12 +1918,12 @@ packages:
       '@unhead/schema': 1.0.7
     dev: true
 
-  /@unhead/vue/1.0.7_vue@3.2.45:
-    resolution: {integrity: sha512-kUlX6TZi4i0if5lV32dHVaEbTQqfXsLSj+MGHs6iLx+dzRHjFGYQkpEyWURNM6jXYqiYTscD0mY2h79MqDXD2Q==}
+  /@unhead/vue/1.0.9_vue@3.2.45:
+    resolution: {integrity: sha512-yHTBN6+lE1JXqLv4eT4ojJvIvj7AMEcVxfqKi/XgfvHfF2vAM3G3CwiPQZ/ssh8EKqyU0gNIQH9eelDAep41Ag==}
     peerDependencies:
       vue: '>=2.7 || >=3'
     dependencies:
-      '@unhead/schema': 1.0.7
+      '@unhead/schema': 1.0.9
       hookable: 5.4.2
       vue: 3.2.45
     dev: true
@@ -2126,7 +2134,7 @@ packages:
       '@unhead/dom': 1.0.7
       '@unhead/schema': 1.0.7
       '@unhead/ssr': 1.0.7
-      '@unhead/vue': 1.0.7_vue@3.2.45
+      '@unhead/vue': 1.0.9_vue@3.2.45
       vue: 3.2.45
     dev: true
 
@@ -6610,6 +6618,7 @@ packages:
 
   /ohash/1.0.0:
     resolution: {integrity: sha512-kxSyzq6tt+6EE/xCnD1XaFhCCjUNUaz3X30rJp6mnjGLXAAvuPFqohMdv0aScWzajR45C29HyBaXZ8jXBwnh9A==}
+    dev: true
 
   /ohmyfetch/0.4.21:
     resolution: {integrity: sha512-VG7f/JRvqvBOYvL0tHyEIEG7XHWm7OqIfAs6/HqwWwDfjiJ1g0huIpe5sFEmyb+7hpFa1EGNH2aERWR72tlClw==}
@@ -8628,6 +8637,14 @@ packages:
     dependencies:
       '@unhead/dom': 1.0.7
       '@unhead/schema': 1.0.7
+      hookable: 5.4.2
+    dev: true
+
+  /unhead/1.0.9:
+    resolution: {integrity: sha512-NraRIdKv0MuztMz/6R7aysVeeEHDcaskyYY78Prob85s31dpcdod6T7PkK0sokRubrhJZCpR9dyJpdVkJ+EcXw==}
+    dependencies:
+      '@unhead/dom': 1.0.9
+      '@unhead/schema': 1.0.9
       hookable: 5.4.2
     dev: true
 
