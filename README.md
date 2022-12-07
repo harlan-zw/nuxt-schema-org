@@ -41,8 +41,9 @@ Simple, universal Schema.org. Powered by <a href="https://unhead.harlanzw.com/">
 npm add -D @unhead/schema-org
 ```
 
-For temporary documentation you can visit [vue-schema-org.netlify.app](https://vue-schema-org.netlify.app/), proper documentation
-will come soon.
+## Usage
+
+Visit the [documentation](https://unhead-schema-org.harlanzw.com) for more information.
 
 ## Sponsors
 
