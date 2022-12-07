@@ -6,7 +6,7 @@ import type {
   SchemaOrgNodeDefinition, Thing,
 } from '../types'
 import type { ResolverOptions } from '../utils'
-import {asArray, hashCode, idReference, prefixId, setIfEmpty, stripEmptyProperties} from '../utils'
+import { asArray, hashCode, idReference, prefixId, setIfEmpty, stripEmptyProperties } from '../utils'
 import { loadResolver } from '../resolver'
 import type { SchemaOrgGraph } from './graph'
 
