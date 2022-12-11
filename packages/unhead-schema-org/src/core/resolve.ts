@@ -31,6 +31,7 @@ export const resolveMeta = (meta: MetaInput) => {
   meta.url = joinURL(meta.host, meta.path)
 
   return <ResolvedMeta> {
+    ...meta,
     host: meta.host,
     url: meta.url,
     currency: meta.currency,
