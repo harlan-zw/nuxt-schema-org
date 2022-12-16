@@ -32,11 +32,13 @@ importers:
       nuxt: 3.0.0
       nuxt-seo-kit: ^0.2.1
       nuxt-windicss: latest
+      playwright: ^1.28.1
       postcss-custom-properties: ^12.1.8
       vue-github-button: ^3.0.3
     dependencies:
       '@headlessui/vue': 1.7.6
       '@nuxtlabs/github-module': 1.5.4
+      playwright: 1.28.1
       postcss-custom-properties: 12.1.11
       vue-github-button: 3.1.0
     devDependencies:
@@ -7117,7 +7119,15 @@ packages:
     resolution: {integrity: sha512-3PixLnGPno0E8rSBJjtwqTwJe3Yw72QwBBBxNoukIj3lEeBNXwbNiKrNuB1oyQgTBw5QHUhNO3SteEtHaMK6ag==}
     engines: {node: '>=14'}
     hasBin: true
-    dev: true
+
+  /playwright/1.28.1:
+    resolution: {integrity: sha512-92Sz6XBlfHlb9tK5UCDzIFAuIkHHpemA9zwUaqvo+w7sFMSmVMGmvKcbptof/eJObq63PGnMhM75x7qxhTR78Q==}
+    engines: {node: '>=14'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      playwright-core: 1.28.1
+    dev: false
 
   /pluralize/8.0.0:
     resolution: {integrity: sha512-Nc3IT5yHzflTfbjgqWcCPpo7DaKy4FnpB0l/zCAW0Tc7jxAiuqSxHasntB3D7887LSrA93kDJ9IXovxJYxyLCA==}
