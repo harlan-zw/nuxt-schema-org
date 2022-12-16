@@ -4,26 +4,30 @@ import { createResolver } from '@nuxt/kit'
 const { resolve } = createResolver(import.meta.url)
 
 export default defineNuxtConfig({
-  extends: ['@nuxt-themes/docus'],
+  extends: [
+    '@nuxt-themes/docus',
+    'nuxt-seo-kit',
+  ],
 
   modules: [
     'nuxt-windicss',
     resolve('./app/module'),
   ],
 
+  runtimeConfig: {
+    public: {
+      indexable: true,
+      siteUrl: 'https://unhead-schema-org.harlanzw.com/',
+      siteTitle: 'Unhead Schema.org',
+      siteDescription: 'Simple, universal Schema.org.',
+      trailingSlash: false,
+      language: 'en',
+    }
+  },
+
   app: {
     head: {
-      title: '@unhead/schema-org',
-      meta: [
-        { property: 'og:title', content: '@unhead/schema-org' },
-        { property: 'og:description', content: 'Simple and automated Schema.org for Google Rich Results with Vue.' },
-        { property: 'og:url', content: 'https://unhead-schema-org.harlanzw.com//' },
-        { property: 'og:image', content: 'https://unhead-schema-org.harlanzw.com//og.png' },
-        { name: 'twitter:title', content: '@unhead/schema-org' },
-        { name: 'twitter:description', content: 'Simple and automated Schema.org for Google Rich Results with Vue.' },
-        { name: 'twitter:image', content: 'https://unhead-schema-org.harlanzw.com//og.png' },
-        { name: 'twitter:card', content: 'summary_large_image' },
-      ],
+      title: 'Unhead Schema.org',
       link: [
         { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml', media: '(prefers-color-scheme:no-preference)' },
         { rel: 'icon', href: '/logo-dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme:dark)' },

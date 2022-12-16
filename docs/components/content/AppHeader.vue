@@ -36,7 +36,7 @@ const githubColorScheme = computed(() => color.value === 'dark' ? 'no-preference
             <img src="https://avatars.githubusercontent.com/u/5326365?v=4" class="rounded-full h-7 w-7 mr-2">
             <div class="flex flex-col">
               <span class="opacity-60 text-xs">Created by</span>
-              <h1 class="font-bold text-sm opacity-80">harlan_zw</h1>
+              <h1 class="font-bold text-sm opacity-80">harlanzw</h1>
             </div>
           </div>
         </a>
@@ -47,79 +47,79 @@ const githubColorScheme = computed(() => color.value === 'dark' ? 'no-preference
 
 <style scoped lang="ts">
 css({
-  ':deep(.icon)': {
-    width: '{space.5}',
-    height: '{space.5}'
-  },
+':deep(.icon)': {
+  width: '{space.5}',
+  height: '{space.5}'
+},
 
-  '.navbar-logo': {
-    '.left &': {
-      '.has-dialog &': {
-        display: 'none',
-        '@lg': {
-          display: 'block'
-        }
-      },
-    },
-    '.center &': {
-      display: 'block',
-      '@lg': {
-        display: 'none'
-      }
-    }
-  },
+'.navbar-logo': {
+'.left &': {
+'.has-dialog &': {
+  display: 'none',
+'@lg': {
+  display: 'block'
+}
+},
+},
+'.center &': {
+  display: 'block',
+'@lg': {
+  display: 'none'
+}
+}
+},
 
-  header: {
-    backdropFilter: '{backdrop.filter}',
-    position: 'sticky',
-    top: 0,
-    zIndex: 10,
-    width: '100%',
-    borderBottom: '1px solid {color.gray.100}',
-    backgroundColor: '{backdrop.background}',
-    height: '{docus.header.height}',
+header: {
+  backdropFilter: '{backdrop.filter}',
+  position: 'sticky',
+  top: 0,
+  zIndex: 10,
+  width: '100%',
+  borderBottom: '1px solid {color.gray.100}',
+  backgroundColor: '{backdrop.background}',
+  height: '{docus.header.height}',
 
-    '@dark': {
-      borderBottom: '1px solid {color.gray.900}',
-    },
+'@dark': {
+  borderBottom: '1px solid {color.gray.900}',
+},
 
-    '.container': {
-      display: 'grid',
-      height: '100%',
-      gridTemplateColumns: 'repeat(12, minmax(0, 1fr))',
-      gap: '2rem'
-    },
+'.container': {
+  display: 'grid',
+  height: '100%',
+  gridTemplateColumns: 'repeat(12, minmax(0, 1fr))',
+  gap: '2rem'
+},
 
-    section: {
-      display: 'flex',
-      alignItems: 'center',
-      flex: 'none',
-      '&.left': {
-        gridColumn: 'span 2 / span 2'
-      },
-      '&.center': {
-        gridColumn: 'span 8 / span 8',
-        justifyContent: 'center',
-        flex: '1',
-       'nav': {
-          display: 'none',
+section: {
+  display: 'flex',
+  alignItems: 'center',
+  flex: 'none',
+'&.left': {
+  gridColumn: 'span 3 / span 3'
+},
+'&.center': {
+  gridColumn: 'span 6 / span 6',
+  justifyContent: 'center',
+  flex: '1',
+'nav': {
+  display: 'none',
 '@sm': {
-       display: 'flex'
-     }
-                     }
-      },
-      '&.right': {
-        display: 'none',
-        gridColumn: 'span 2 / span 2',
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        flex: 'none',
-        gap: '{space.4}',
-        '@sm': {
-          display: 'flex'
-        }
-      }
-    }
-  }
+  display: 'flex'
+}
+}
+},
+'&.right': {
+  display: 'none',
+  gridColumn: 'span 3 / span 3',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
+  flex: 'none',
+  gap: '{space.4}',
+'@sm': {
+  display: 'flex'
+}
+}
+}
+}
 })
 </style>

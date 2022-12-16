@@ -1,9 +1,9 @@
 export default defineAppConfig({
   docus: {
-    title: 'unhead-schema-org',
-    name: 'unhead-schema-org',
+    title: 'Unhead Schema.org',
+    name: 'Unhead Schema.org',
     description: 'Simple and quick Schema.org for everyone, powered by unhead.',
-    url: 'https://unhead-schema-org.harlanzw.com//',
+    url: 'https://unhead-schema-org.harlanzw.com/',
     layout: 'default',
     socials: {
       twitter: '@harlan_zw',
