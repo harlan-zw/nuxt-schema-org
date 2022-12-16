@@ -8,7 +8,6 @@
   },
   "devDependencies": {
     "@nuxt-themes/docus": "1.1.8",
-    "@unhead/schema-org-vue": "workspace:*",
     "nuxt": "3.0.0",
     "nuxt-seo-kit": "^0.2.0",
     "nuxt-windicss": "latest"
