@@ -11,6 +11,7 @@ export default defineNuxtConfig({
 
   modules: [
     'nuxt-windicss',
+    '@nuxtjs/fontaine',
     resolve('./app/module'),
   ],
 
@@ -32,6 +33,9 @@ export default defineNuxtConfig({
         { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml', media: '(prefers-color-scheme:no-preference)' },
         { rel: 'icon', href: '/logo-dark.svg', type: 'image/svg+xml', media: '(prefers-color-scheme:dark)' },
         { rel: 'icon', href: '/logo-light.svg', type: 'image/svg+xml', media: '(prefers-color-scheme:light)' },
+        { rel: 'preconnect', href: 'https://fonts.googleapis.com', crossorigin: true },
+        { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: true },
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap' },
       ],
       script: [
         {
@@ -42,6 +46,10 @@ export default defineNuxtConfig({
         },
       ],
     },
+  },
+
+  fontMetrics: {
+    fonts: ['Inter'],
   },
 
   content: {
