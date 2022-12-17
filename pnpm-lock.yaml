@@ -30,7 +30,7 @@ importers:
       '@nuxtlabs/github-module': ^1.4.6
       chrome-aws-lambda: ^10.1.0
       nuxt: 3.0.0
-      nuxt-seo-kit: ^0.2.2
+      nuxt-seo-kit: ^0.2.4
       nuxt-windicss: latest
       playwright: ^1.29.0
       postcss-custom-properties: ^12.1.8
@@ -46,7 +46,7 @@ importers:
       '@nuxtjs/fontaine': 0.2.3
       chrome-aws-lambda: 10.1.0
       nuxt: 3.0.0
-      nuxt-seo-kit: 0.2.2
+      nuxt-seo-kit: 0.2.4
       nuxt-windicss: 2.6.0
 
   packages/unhead-schema-org:
@@ -6604,8 +6604,8 @@ packages:
       - supports-color
     dev: true
 
-  /nuxt-seo-kit/0.2.2:
-    resolution: {integrity: sha512-DspAatezsXNwuY8rmCzHblMqCPB9ZE3WmP1bMfGKu1On+4ZEXVi8PxdnDhf+LHdgG4vHZhmxspiYjr/lX//lwA==}
+  /nuxt-seo-kit/0.2.4:
+    resolution: {integrity: sha512-DnBRtn10umD2y7naoiGlQhQ3n1ClIATdUg6ITA8gFJO/7xwSaa/0LAUY8KCn9T8i6cP0yuv9He9mBm28deE2sw==}
     dependencies:
       '@nuxt/kit': 3.0.0
       defu: 6.1.1
