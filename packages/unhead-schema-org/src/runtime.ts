@@ -12,7 +12,7 @@ import type {
   HowTo,
   HowToStep,
   ImageObject,
-  ItemList,
+  ItemList, ListItem,
   LocalBusiness,
   Movie,
   Offer,

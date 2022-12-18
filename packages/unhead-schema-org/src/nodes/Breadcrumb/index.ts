@@ -4,7 +4,7 @@ import {
 } from '../../utils'
 import type { WebPage } from '../WebPage'
 import { PrimaryWebPageId } from '../WebPage'
-import { resolveListItem } from '../ListItem'
+import { listItemResolver } from '../ListItem'
 import type { ItemList } from '../ItemList'
 import { defineSchemaOrgResolver, resolveRelation } from '../../core'
 
@@ -32,7 +32,7 @@ export const breadcrumbResolver = defineSchemaOrgResolver<BreadcrumbList>({
     if (breadcrumb.itemListElement) {
       let index = 1
 
-      breadcrumb.itemListElement = resolveRelation(breadcrumb.itemListElement, ctx, resolveListItem, {
+      breadcrumb.itemListElement = resolveRelation(breadcrumb.itemListElement, ctx, listItemResolver, {
         array: true,
         afterResolve(node) {
           setIfEmpty(node, 'position', index++)

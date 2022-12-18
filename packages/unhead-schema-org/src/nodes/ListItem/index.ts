@@ -1,5 +1,5 @@
 import type { Thing } from '../../types'
-import { defineSchemaOrgResolver } from '../../core'
+import { defineSchemaOrgResolver, resolveRelation } from '../../core'
 import { resolveWithBase } from '../../utils'
 
 /**
@@ -40,8 +40,9 @@ export const listItemResolver = defineSchemaOrgResolver<ListItem>({
   resolve(node, ctx) {
     if (typeof node.item === 'string')
       node.item = resolveWithBase(ctx.meta.host, node.item as string)
+    else if (typeof node.item === 'object')
+      node.item = resolveRelation(node.item, ctx)
 
     return node
   },
 })
-
