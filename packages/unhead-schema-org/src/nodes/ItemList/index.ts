@@ -1,7 +1,7 @@
 import type { NodeRelations, Thing } from '../../types'
 import type { ListItem } from '../ListItem'
 import { defineSchemaOrgResolver, resolveRelation } from '../../core'
-import { resolveListItem } from '../ListItem'
+import { listItemResolver } from '../ListItem'
 import { setIfEmpty } from '../../utils'
 
 export interface ItemListSimple extends Thing {
@@ -35,7 +35,7 @@ export const itemListResolver = defineSchemaOrgResolver<ItemList>({
     if (node.itemListElement) {
       let index = 1
 
-      node.itemListElement = resolveRelation(node.itemListElement, ctx, resolveListItem, {
+      node.itemListElement = resolveRelation(node.itemListElement, ctx, listItemResolver, {
         array: true,
         afterResolve(node) {
           setIfEmpty(node, 'position', index++)

@@ -25,6 +25,7 @@ export const schemaAutoImports = [
   'defineHowToStep',
   'defineImage',
   'defineItemList',
+  'defineListItem',
   'defineLocalBusiness',
   'defineMovie',
   'defineOffer',

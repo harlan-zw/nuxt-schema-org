@@ -13,7 +13,7 @@ import type {
   HowTo,
   HowToStep,
   ImageObject,
-  ItemList,
+  ItemList, ListItem,
   LocalBusiness,
   Movie,
   Offer,
@@ -75,6 +75,7 @@ export const defineWebSite = <T extends Record<string, any>>(input?: DeepMaybeRe
 export const defineBook = <T extends Record<string, any>>(input?: DeepMaybeRef<Book & T>) => provideResolver(input, 'book')
 export const defineCourse = <T extends Record<string, any>>(input?: DeepMaybeRef<Course & T>) => provideResolver(input, 'course')
 export const defineItemList = <T extends Record<string, any>>(input?: DeepMaybeRef<ItemList & T>) => provideResolver(input, 'itemList')
+export const defineListItem = <T extends Record<string, any>>(input?: DeepMaybeRef<ListItem & T>) => provideResolver(input, 'listItem')
 export const defineMovie = <T extends Record<string, any>>(input?: DeepMaybeRef<Movie & T>) => provideResolver(input, 'movie')
 export const defineSearchAction = <T extends Record<string, any>>(input?: DeepMaybeRef<SearchAction & T>) => provideResolver(input, 'searchAction')
 export const defineReadAction = <T extends Record<string, any>>(input?: DeepMaybeRef<ReadAction & T>) => provideResolver(input, 'readAction')

@@ -84,6 +84,8 @@ export function loadResolver(resolver: string): SchemaOrgNodeDefinition<any> | n
       return courseResolver
     case 'itemList':
       return itemListResolver
+    case 'listItem':
+      return listItemResolver
     case 'movie':
       return movieResolver
     case 'searchAction':
