@@ -39,4 +39,3 @@ export const ratingResolver = defineSchemaOrgResolver<Rating>({
     'worstRating': 1,
   },
 })
-

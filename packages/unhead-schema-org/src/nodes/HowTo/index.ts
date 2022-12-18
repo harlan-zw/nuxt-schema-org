@@ -88,4 +88,3 @@ export const howToResolver = defineSchemaOrgResolver<HowTo>({
 
 export * from './HowToStep'
 export * from './HowToStepDirection'
-

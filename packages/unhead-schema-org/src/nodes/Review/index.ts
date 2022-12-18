@@ -47,4 +47,3 @@ export const reviewResolver = defineSchemaOrgResolver<Review>({
     return review
   },
 })
-

@@ -60,4 +60,3 @@ export const createSchemaOrgGraph = (): SchemaOrgGraph => {
   }
   return ctx
 }
-

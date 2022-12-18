@@ -58,4 +58,3 @@ export const searchActionResolver = defineSchemaOrgResolver<SearchAction>({
     return node
   },
 })
-

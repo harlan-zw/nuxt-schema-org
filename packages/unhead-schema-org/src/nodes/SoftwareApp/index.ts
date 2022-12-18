@@ -76,4 +76,3 @@ export const softwareAppResolver = defineSchemaOrgResolver<SoftwareApp>({
     return node
   },
 })
-

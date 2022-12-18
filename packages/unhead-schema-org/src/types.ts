@@ -111,4 +111,3 @@ export interface IdReference {
 }
 
 export type Id = `#${string}` | `https://${string}#${string}`
-
