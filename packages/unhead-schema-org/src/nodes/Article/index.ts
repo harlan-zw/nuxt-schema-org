@@ -22,7 +22,7 @@ import type { VideoObject } from '../Video'
 import { personResolver } from '../Person'
 import { defineSchemaOrgResolver, resolveRelation } from '../../core'
 
-type ValidArticleSubTypes = 'Article' | 'AdvertiserContentArticle' | 'NewsArticle' | 'Report' | 'SatiricalArticle' | 'ScholarlyArticle' | 'SocialMediaPosting' | 'TechArticle'
+type ValidArticleSubTypes = 'Article' | 'BlogPosting' | 'AdvertiserContentArticle' | 'NewsArticle' | 'Report' | 'SatiricalArticle' | 'ScholarlyArticle' | 'SocialMediaPosting' | 'TechArticle'
 
 export interface ArticleSimple extends Thing {
   ['@type']?: Arrayable<ValidArticleSubTypes>

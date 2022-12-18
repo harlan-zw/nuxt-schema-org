@@ -61,6 +61,7 @@
 
 - `AdvertiserContentArticle`
 - `NewsArticle`
+- `BlogPosting`
 - `Report`
 - `SatiricalArticle`
 - `ScholarlyArticle`

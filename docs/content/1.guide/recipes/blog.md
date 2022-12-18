@@ -47,16 +47,16 @@ useSchemaOrg([
 
 ## Specifying the Article Type
 
-Providing a sub-level type of Article can help clarify what kind of content the page is about.
+Providing a type of Article can help clarify what kind of content the page is about.
 
-See the [Article Sub-Types](/schema/article#sub-types) for the list of available types.
+The most common types are: `BlogPosting` and `NewsArticle`.
 
 ::code-group
 
 ```ts [Composition API]
 useSchemaOrg([
   defineArticle({
-    '@type': 'TechArticle',
+    '@type': 'BlogPosting',
     // ...
   })
 ])
@@ -65,12 +65,14 @@ useSchemaOrg([
 ```vue [Component API]
 <template>
   <SchemaOrgArticle 
-    type="TechArticle"
+    type="BlogPosting"
    />
 </template>
 ```
 
 ::
+
+See the [Article Types](/schema/article#sub-types) for the list of available types.
 
 ## Providing an author
 
