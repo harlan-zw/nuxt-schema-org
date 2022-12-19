@@ -16,13 +16,14 @@ export default defineNuxtConfig({
   ],
 
   runtimeConfig: {
+    indexable: true,
     public: {
-      indexable: true,
       siteUrl: 'https://unhead-schema-org.harlanzw.com/',
-      siteTitle: 'Unhead Schema.org',
+      siteName: 'Unhead Schema.org',
       siteDescription: 'Simple, universal Schema.org.',
       trailingSlash: false,
       language: 'en',
+      titleSeparator: '·',
     }
   },
 
