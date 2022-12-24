@@ -102,10 +102,9 @@ export function useSchemaOrg(input?: Arrayable<any>): any {
         type: 'application/ld+json',
         id: 'schema-org-graph',
         key: 'schema-org-graph',
-        tagDuplicateStrategy: 'merge',
         // @ts-expect-error runtime type
         nodes: input,
       },
     ],
-  })
+  }, { mode: isSPA ? 'all' : 'server' })
 }
