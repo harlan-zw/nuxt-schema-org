@@ -17,6 +17,8 @@ export interface ResolvedMeta {
   description?: string
   datePublished?: string
   dateModified?: string
+
+  trailingSlash?: boolean
 }
 
 export interface MetaInput {
@@ -24,6 +26,8 @@ export interface MetaInput {
    * Whether to inject the scripts at the end of the body or in the head.
    */
   tagPosition?: 'body' | 'head'
+
+  trailingSlash?: boolean
   host: string
   url?: string
   path?: string

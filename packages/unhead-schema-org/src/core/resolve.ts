@@ -1,4 +1,4 @@
-import { joinURL } from 'ufo'
+import { hasTrailingSlash, joinURL, withTrailingSlash, withoutTrailingSlash } from 'ufo'
 import type {
   Arrayable,
   MetaInput,
@@ -27,6 +27,13 @@ export const resolveMeta = (meta: MetaInput) => {
 
   if (!meta.url && meta.canonicalUrl)
     meta.url = meta.canonicalUrl
+
+  if (meta.path !== '/') {
+    if (meta.trailingSlash && !hasTrailingSlash(meta.path))
+      meta.path = withTrailingSlash(meta.path)
+    else if (!meta.trailingSlash && hasTrailingSlash(meta.path))
+      meta.path = withoutTrailingSlash(meta.path)
+  }
 
   meta.url = joinURL(meta.host, meta.path)
 

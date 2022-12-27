@@ -116,22 +116,22 @@ describe('defineWebPage', () => {
       const webpage = await findNode<WebPage>(PrimaryWebPageId)
 
       expect(webpage).toMatchInlineSnapshot(`
-          {
-            "@id": "https://example.com/#webpage",
-            "@type": "WebPage",
-            "description": "description",
-            "name": "headline",
-            "potentialAction": [
-              {
-                "@type": "ReadAction",
-                "target": [
-                  "https://example.com/",
-                ],
-              },
-            ],
-            "url": "https://example.com/",
-          }
-        `)
+        {
+          "@id": "https://example.com/#webpage",
+          "@type": "WebPage",
+          "description": "description",
+          "name": "headline",
+          "potentialAction": [
+            {
+              "@type": "ReadAction",
+              "target": [
+                "https://example.com/",
+              ],
+            },
+          ],
+          "url": "https://example.com/",
+        }
+      `)
     }, {
       path: '/',
       title: 'headline',
@@ -441,6 +441,44 @@ describe('defineWebPage', () => {
           },
         ]
       `)
+    })
+  })
+
+  it('arbitrary resolves trailing', async () => {
+    await useSetup(async () => {
+      useSchemaOrg([
+        defineWebPage({ image: defineImage({ url: '/logo.png' }) }),
+      ])
+
+      const graphNodes = await injectSchemaOrg()
+
+      expect(graphNodes).toMatchInlineSnapshot(`
+        [
+          {
+            "@id": "https://example.com/about/#webpage",
+            "@type": "WebPage",
+            "image": {
+              "@type": "ImageObject",
+              "contentUrl": "https://example.com/logo.png",
+              "inLanguage": "en-AU",
+              "url": "https://example.com/logo.png",
+            },
+            "potentialAction": [
+              {
+                "@type": "ReadAction",
+                "target": [
+                  "https://example.com/about/",
+                ],
+              },
+            ],
+            "url": "https://example.com/about/",
+          },
+        ]
+      `)
+    }, {
+      path: '/about',
+      trailingSlash: true,
+      host: 'https://example.com',
     })
   })
 })
