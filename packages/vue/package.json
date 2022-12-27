@@ -49,10 +49,10 @@
     "@unhead/vue": ">=1.0.10"
   },
   "devDependencies": {
-    "@unhead/schema": "^1.0.10",
+    "@unhead/schema": "^1.0.14",
     "@unhead/schema-org": "workspace:*",
-    "@unhead/vue": "^1.0.10",
-    "unplugin-vue-components": "^0.22.11",
+    "@unhead/vue": "^1.0.14",
+    "unplugin-vue-components": "^0.22.12",
     "vue": "latest"
   }
 }
