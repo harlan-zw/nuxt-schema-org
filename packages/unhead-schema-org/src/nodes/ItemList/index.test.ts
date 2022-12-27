@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { injectSchemaOrg, useSetup } from '../../../.test'
-import {defineItemList, defineListItem, defineMovie, useSchemaOrg} from '../..'
+import { defineItemList, defineListItem, defineMovie, useSchemaOrg } from '../..'
 describe('defineItemList', () => {
   it('movie example', async () => {
     await useSetup(async () => {
@@ -18,13 +18,13 @@ describe('defineItemList', () => {
                 review: {
                   reviewRating: 5,
                   author: 'John D.',
-                  reviewBody: 'Heartbreaking, inpsiring, moving. Bradley Cooper is a triple threat.'
+                  reviewBody: 'Heartbreaking, inpsiring, moving. Bradley Cooper is a triple threat.',
                 },
                 aggregateRating: {
                   ratingValue: 4.5,
                   bestRating: 5,
                   ratingCount: 1000,
-                }
+                },
               }),
             },
             defineListItem({
@@ -33,7 +33,7 @@ describe('defineItemList', () => {
                 name: 'Bohemian Rhapsody',
                 image: 'https://example.com/a-star-is-born.jpg',
               }),
-            })
+            }),
           ],
         }),
       ])

@@ -13,8 +13,8 @@ import type { Person } from '../Person'
 import { personResolver } from '../Person'
 import type { Review } from '../Review'
 import { reviewResolver } from '../Review'
-import { videoResolver, VideoObject } from '../Video'
-
+import type { VideoObject } from '../Video'
+import { videoResolver } from '../Video'
 
 export interface MovieSimple extends Thing {
   /**
