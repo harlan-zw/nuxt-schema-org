@@ -232,7 +232,7 @@ describe('defineEvent', () => {
               "availability": "https://schema.org/InStock",
               "price": 30,
               "priceCurrency": "USD",
-              "priceValidUntil": "2023-12-30T00:00:00.000Z",
+              "priceValidUntil": "2024-12-30T00:00:00.000Z",
               "url": "https://www.example.com/event_offer/12345_201803180430",
               "validFrom": "2024-06-21T12:00:00.000Z",
             },

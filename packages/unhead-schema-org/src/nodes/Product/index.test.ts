@@ -56,7 +56,7 @@ describe('defineProduct', () => {
               "availability": "https://schema.org/InStock",
               "price": 50,
               "priceCurrency": "AUD",
-              "priceValidUntil": "2023-12-30T00:00:00.000Z",
+              "priceValidUntil": "2024-12-30T00:00:00.000Z",
             },
             "review": {
               "@type": "Review",
