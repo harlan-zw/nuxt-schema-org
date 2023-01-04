@@ -20,7 +20,7 @@ describe('defineJobPosting', () => {
           },
           title: 'Job posting title',
           employmentType: 'FULL_TIME',
-          validThrough: '2023-05-01'
+          validThrough: '2023-05-01',
         }),
       ])
 
