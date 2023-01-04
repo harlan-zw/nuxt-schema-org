@@ -12,7 +12,9 @@ import type {
   HowTo,
   HowToStep,
   ImageObject,
-  ItemList, ListItem,
+  ItemList,
+  JobPosting,
+  ListItem,
   LocalBusiness,
   Movie,
   Offer,
@@ -55,6 +57,7 @@ export const definePlace = <T extends Record<string, any>>(input?: Place & T) =>
 export const defineHowTo = <T extends Record<string, any>>(input?: HowTo & T) => provideResolver(input, 'howTo')
 export const defineHowToStep = <T extends Record<string, any>>(input?: HowToStep & T) => provideResolver(input, 'howToStep')
 export const defineImage = <T extends Record<string, any>>(input?: ImageObject & T) => provideResolver(input, 'image')
+export const defineJobPosting = <T extends Record<string, any>>(input?: JobPosting & T) => provideResolver(input, 'jobPosting')
 export const defineLocalBusiness = <T extends Record<string, any>>(input?: LocalBusiness & T) => provideResolver(input, 'localBusiness')
 export const defineOffer = <T extends Record<string, any>>(input?: Offer & T) => provideResolver(input, 'offer')
 export const defineOpeningHours = <T extends Record<string, any>>(input?: OpeningHoursSpecification & T) => provideResolver(input, 'openingHours')

@@ -12,6 +12,7 @@ import {
   howToStepResolver,
   imageResolver,
   itemListResolver,
+  jobPostingResolver,
   listItemResolver,
   localBusinessResolver,
   movieResolver,
@@ -84,6 +85,8 @@ export function loadResolver(resolver: string): SchemaOrgNodeDefinition<any> | n
       return courseResolver
     case 'itemList':
       return itemListResolver
+    case 'jobPosting':
+      return jobPostingResolver
     case 'listItem':
       return listItemResolver
     case 'movie':
