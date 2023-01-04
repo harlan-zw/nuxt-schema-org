@@ -6,7 +6,7 @@ import { addressResolver } from '../PostalAddress'
 export interface PlaceSimple extends Thing {
   '@type'?: 'Place'
   name: string
-  address: NodeRelation<PostalAddress>
+  address: NodeRelation<PostalAddress | string>
   latitude?: number | string
   longitude?: number | string
 }
@@ -21,7 +21,8 @@ export const placeResolver = defineSchemaOrgResolver<Place>({
     '@type': 'Place',
   },
   resolve(node, ctx) {
-    node.address = resolveRelation(node.address, ctx, addressResolver)
+    if (typeof node.address !== 'string')
+      node.address = resolveRelation(node.address, ctx, addressResolver)
     return node
   },
 })

@@ -1,9 +1,12 @@
-import type { ResolvableDate, Thing } from '../../types'
+import type { NodeRelation, ResolvableDate, Thing } from '../../types'
 import { resolvableDateToDate } from '../../utils'
-import { defineSchemaOrgResolver } from '../../core'
+import { defineSchemaOrgResolver, resolveRelation } from '../../core'
 import type { Organization } from '../Organization'
 import type { Place } from '../Place'
-import type { MonetaryAmount } from './MonetaryAmount'
+import { organizationResolver } from '../Organization'
+import { placeResolver } from '../Place'
+import type { MonetaryAmount } from '../MonetaryAmount'
+import { monetaryAmountResolver } from '../MonetaryAmount'
 
 export interface JobPostingSimple extends Thing {
   /**
@@ -25,14 +28,14 @@ export interface JobPostingSimple extends Thing {
    * The organization offering the job position. This must be the name of the company (for example, "Starbucks, Inc"),
    * and not the specific location that is hiring (for example, "Starbucks on Main Street").
    */
-  hiringOrganization: Organization
+  hiringOrganization: NodeRelation<Organization>
 
   /**
    * The physical location(s) of the business where the employee will report to work (such as an office or worksite),
    * not the location where the job was posted. Include as many properties as possible. The more properties you provide,
    * the higher quality the job posting is to our users. Note that you must include the addressCountry property.
    */
-  jobLocation: Place
+  jobLocation: NodeRelation<Place>
 
   /**
    * The title of the job (not the title of the posting). For example, "Software Engineer" or "Barista"
@@ -54,6 +57,16 @@ export interface JobPostingSimple extends Thing {
    * or "2017-02-24T19:33:17+00:00".
    */
   validThrough?: ResolvableDate
+
+  /**
+   * A description of the job location (e.g. TELECOMMUTE for telecommute jobs).
+   */
+  jobLocationType?: 'TELECOMMUTE'
+
+  /**
+   * Indicates whether the URL that's associated with this job posting enables direct application for the job.
+   */
+  directApply?: boolean
 }
 
 export interface JobPosting extends JobPostingSimple {}
@@ -62,8 +75,13 @@ export const jobPostingResolver = defineSchemaOrgResolver<JobPosting>({
   defaults: {
     '@type': 'JobPosting',
   },
-  resolve(node) {
+  resolve(node, ctx) {
     node.datePosted = resolvableDateToDate(node.datePosted)
+    node.hiringOrganization = resolveRelation(node.hiringOrganization, ctx, organizationResolver)
+    node.jobLocation = resolveRelation(node.jobLocation, ctx, placeResolver)
+    node.baseSalary = resolveRelation(node.baseSalary, ctx, monetaryAmountResolver)
+    if (node.validThrough)
+      node.validThrough = resolvableDateToDate(node.validThrough)
     return node
   },
 })

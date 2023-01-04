@@ -20,7 +20,7 @@ describe('defineJobPosting', () => {
           },
           title: 'Job posting title',
           employmentType: 'FULL_TIME',
-          validThrough: '2023-05-01',
+          validThrough: '2024-04-01',
         }),
       ])
 
@@ -34,15 +34,18 @@ describe('defineJobPosting', () => {
             "description": "<p>job description</p>",
             "employmentType": "FULL_TIME",
             "hiringOrganization": {
+              "@type": "Organization",
               "name": "Organization inc",
+              "url": "https://example.com/",
             },
             "jobLocation": {
+              "@type": "Place",
               "address": "Some postalcode",
               "latitude": 50.1,
               "longitude": 4.8,
             },
             "title": "Job posting title",
-            "validThrough": "2023-05-01",
+            "validThrough": "2024-3-1",
           },
         ]
       `)
