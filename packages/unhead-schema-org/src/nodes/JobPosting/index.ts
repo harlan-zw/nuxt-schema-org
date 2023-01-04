@@ -1,5 +1,5 @@
 import type { NodeRelation, ResolvableDate, Thing } from '../../types'
-import { resolvableDateToDate } from '../../utils'
+import { resolvableDateToIso } from '../../utils';
 import { defineSchemaOrgResolver, resolveRelation } from '../../core'
 import type { Organization } from '../Organization'
 import type { Place } from '../Place'
@@ -76,12 +76,11 @@ export const jobPostingResolver = defineSchemaOrgResolver<JobPosting>({
     '@type': 'JobPosting',
   },
   resolve(node, ctx) {
-    node.datePosted = resolvableDateToDate(node.datePosted)
+    node.datePosted = resolvableDateToIso(node.datePosted)!
     node.hiringOrganization = resolveRelation(node.hiringOrganization, ctx, organizationResolver)
     node.jobLocation = resolveRelation(node.jobLocation, ctx, placeResolver)
     node.baseSalary = resolveRelation(node.baseSalary, ctx, monetaryAmountResolver)
-    if (node.validThrough)
-      node.validThrough = resolvableDateToDate(node.validThrough)
+    node.validThrough = resolvableDateToIso(node.validThrough)
     return node
   },
 })
