@@ -182,6 +182,7 @@ describe('defineEvent', () => {
           offers: {
             price: 30,
             url: 'https://www.example.com/event_offer/12345_201803180430',
+            priceValidUntil: '2023-12-30T00:00:00.000Z',
             validFrom: new Date(Date.UTC(2024, 5, 21, 12)),
           },
           description: 'The Adventures of Kira and Morrison is coming to Snickertown in a can\'t miss performance.',
