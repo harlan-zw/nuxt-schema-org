@@ -40,7 +40,7 @@ describe('defineSoftwareApp', () => {
               "availability": "https://schema.org/InStock",
               "price": "1.00",
               "priceCurrency": "USD",
-              "priceValidUntil": "2024-12-30T00:00:00.000Z",
+              "priceValidUntil": "2023-12-30T00:00:00.000Z",
             },
             "operatingSystem": "ANDROID",
           },
