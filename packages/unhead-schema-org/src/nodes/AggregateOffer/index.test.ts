@@ -36,9 +36,11 @@ describe('defineAggregateOffer', () => {
           offers: [
             {
               price: '1.00',
+              priceValidUntil: '2023-12-30T00:00:00.000Z',
             },
             {
               price: '2.00',
+              priceValidUntil: '2023-12-30T00:00:00.000Z',
             },
           ],
         }),

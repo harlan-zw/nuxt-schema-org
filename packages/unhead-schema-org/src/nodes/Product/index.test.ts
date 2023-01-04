@@ -13,7 +13,10 @@ describe('defineProduct', () => {
           name: 'test',
           image: '/product.png',
           offers: [
-            50,
+            {
+              price: 50,
+              priceValidUntil: '2023-12-30T00:00:00.000Z',
+            },
           ],
           aggregateRating: defineAggregateRating({
             ratingCount: 88,

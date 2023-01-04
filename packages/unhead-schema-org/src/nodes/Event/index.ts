@@ -21,10 +21,10 @@ import { defineSchemaOrgResolver, resolveRelation } from '../../core'
 import type { Offer } from '../Offer'
 import { offerResolver } from '../Offer'
 import { organizationResolver } from '../Organization'
-import type { Place } from './Place'
-import { placeResolver } from './Place'
-import type { VirtualLocation } from './VirtualLocation'
-import { virtualLocationResolver } from './VirtualLocation'
+import type { Place } from '../Place'
+import { placeResolver } from '../Place'
+import type { VirtualLocation } from '../VirtualLocation'
+import { virtualLocationResolver } from '../VirtualLocation'
 
 type EventAttendanceModeTypes = 'OfflineEventAttendanceMode' | 'OnlineEventAttendanceMode' | 'MixedEventAttendanceMode'
 type EventStatusTypes = 'EventCancelled' | 'EventMovedOnline' | 'EventPostponed' | 'EventRescheduled' | 'EventScheduled'
@@ -153,5 +153,5 @@ export const eventResolver = defineSchemaOrgResolver<Event>({
   },
 })
 
-export * from './VirtualLocation'
-export * from './Place'
+export * from '../VirtualLocation'
+export * from '../Place'

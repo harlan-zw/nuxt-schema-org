@@ -15,6 +15,7 @@ describe('defineSoftwareApp', () => {
             ratingCount: 8864,
           },
           offers: {
+            priceValidUntil: '2023-12-30T00:00:00.000Z',
             price: '1.00',
             priceCurrency: 'USD',
           },
