@@ -2,7 +2,7 @@ import type { ResolvableDate, Thing } from '../../types'
 import { resolvableDateToDate } from '../../utils'
 import { defineSchemaOrgResolver } from '../../core'
 import type { Organization } from '../Organization'
-import type { Place } from './Place'
+import type { Place } from '../Place'
 import type { MonetaryAmount } from './MonetaryAmount'
 
 export interface JobPostingSimple extends Thing {
