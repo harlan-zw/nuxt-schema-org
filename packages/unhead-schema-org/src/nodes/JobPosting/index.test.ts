@@ -19,6 +19,8 @@ describe('defineJobPosting', () => {
             longitude: 4.8,
           },
           title: 'Job posting title',
+          employmentType: 'FULL_TIME',
+          validThrough: '2023-05-01'
         }),
       ])
 
@@ -30,6 +32,7 @@ describe('defineJobPosting', () => {
             "@type": "JobPosting",
             "datePosted": "2023-3-1",
             "description": "<p>job description</p>",
+            "employmentType": "FULL_TIME",
             "hiringOrganization": {
               "name": "Organization inc",
             },
@@ -39,6 +42,7 @@ describe('defineJobPosting', () => {
               "longitude": 4.8,
             },
             "title": "Job posting title",
+            "validThrough": "2023-05-01",
           },
         ]
       `)

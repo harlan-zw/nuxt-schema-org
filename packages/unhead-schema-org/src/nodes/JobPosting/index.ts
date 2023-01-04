@@ -43,6 +43,17 @@ export interface JobPostingSimple extends Thing {
    * The actual base salary for the job, as provided by the employer (not an estimate).
    */
   baseSalary?: MonetaryAmount
+
+  /**
+   * Type of employment
+   */
+  employmentType?: 'FULL_TIME' | 'PART_TIME' | 'CONTRACTOR' | 'TEMPORARY' | 'INTERN' | 'VOLUNTEER' | 'PER_DIEM' | 'OTHER'
+
+  /**
+   * The date when the job posting will expire in ISO 8601 format. For example, "2017-02-24"
+   * or "2017-02-24T19:33:17+00:00".
+   */
+  validThrough?: ResolvableDate
 }
 
 export interface JobPosting extends JobPostingSimple {}
