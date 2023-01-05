@@ -13,7 +13,9 @@ import type {
   HowTo,
   HowToStep,
   ImageObject,
-  ItemList, ListItem,
+  ItemList,
+  JobPosting,
+  ListItem,
   LocalBusiness,
   Movie,
   Offer,
@@ -60,6 +62,7 @@ export const definePlace = <T extends Record<string, any>>(input?: DeepMaybeRef<
 export const defineHowTo = <T extends Record<string, any>>(input?: DeepMaybeRef<HowTo & T>) => provideResolver(input, 'howTo')
 export const defineHowToStep = <T extends Record<string, any>>(input?: DeepMaybeRef<HowToStep & T>) => provideResolver(input, 'howToStep')
 export const defineImage = <T extends Record<string, any>>(input?: DeepMaybeRef<ImageObject & T>) => provideResolver(input, 'image')
+export const defineJobPosting = <T extends Record<string, any>>(input?: DeepMaybeRef<JobPosting & T>) => provideResolver(input, 'jobPosting')
 export const defineLocalBusiness = <T extends Record<string, any>>(input?: DeepMaybeRef<LocalBusiness & T>) => provideResolver(input, 'localBusiness')
 export const defineOffer = <T extends Record<string, any>>(input?: DeepMaybeRef<Offer & T>) => provideResolver(input, 'offer')
 export const defineOpeningHours = <T extends Record<string, any>>(input?: DeepMaybeRef<OpeningHoursSpecification & T>) => provideResolver(input, 'openingHours')
