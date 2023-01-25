@@ -52,22 +52,22 @@ importers:
   packages/unhead-schema-org:
     specifiers:
       ufo: ^1.0.1
-      unhead: ^1.0.14
+      unhead: ^1.0.18
     devDependencies:
       ufo: 1.0.1
-      unhead: 1.0.14
+      unhead: 1.0.18
 
   packages/vue:
     specifiers:
-      '@unhead/schema': ^1.0.14
+      '@unhead/schema': ^1.0.18
       '@unhead/schema-org': workspace:*
-      '@unhead/vue': ^1.0.14
+      '@unhead/vue': ^1.0.18
       unplugin-vue-components: ^0.22.12
       vue: latest
     devDependencies:
-      '@unhead/schema': 1.0.14
+      '@unhead/schema': 1.0.18
       '@unhead/schema-org': link:../unhead-schema-org
-      '@unhead/vue': 1.0.14_vue@3.2.45
+      '@unhead/vue': 1.0.18_vue@3.2.45
       unplugin-vue-components: 0.22.12_vue@3.2.45
       vue: 3.2.45
 
@@ -2253,12 +2253,6 @@ packages:
       - rollup
     dev: true
 
-  /@unhead/dom/1.0.14:
-    resolution: {integrity: sha512-AMOOMUNbybHrvtuddy5aEkDibL3grwUCoUT1aHHqfvtEy86t/ftRGKT4T9znx54IxlXN9FnoNpeSOg4D8OP/5w==}
-    dependencies:
-      '@unhead/schema': 1.0.14
-    dev: true
-
   /@unhead/dom/1.0.18:
     resolution: {integrity: sha512-zX7w/Z3a1/spyQ3SuxB/0s1Tjx8zu5RzYBBXTtYvGutF8g/ScXreC0c5Vm5F3x4HOPdWG+71Qr/M+k6AxPLHDA==}
     dependencies:
@@ -2272,13 +2266,6 @@ packages:
       '@unhead/vue': '>=1.0.10'
     dev: true
 
-  /@unhead/schema/1.0.14:
-    resolution: {integrity: sha512-eL03X15KvI10igudFkvV1sWUIMcMGQed0qOk+V5fyp036NZLQ5MF9ygyZOKkZ71jbdL8/1Afe8+f2tklc4v8zQ==}
-    dependencies:
-      '@zhead/schema': 1.0.9
-      hookable: 5.4.2
-    dev: true
-
   /@unhead/schema/1.0.18:
     resolution: {integrity: sha512-LjNxwwQMZTD0b3LlB4/mmCZpO6HP7ZjK5sKuMpy7/+2O9HJO6TefxsDVrJVAitdUfm5Jej9cNEjnL2gJkc2uWg==}
     dependencies:
@@ -2290,16 +2277,6 @@ packages:
     resolution: {integrity: sha512-In0bJSLAyN8DdCuNJaoOIrjsK40g904ELR/0Eue9VzyO0fe147dPGfYlwwUrZOqj0JzGtndiQCF/D6bjn76ovw==}
     dependencies:
       '@unhead/schema': 1.0.18
-    dev: true
-
-  /@unhead/vue/1.0.14_vue@3.2.45:
-    resolution: {integrity: sha512-PwJLCSq/eVLbLw7SbMCa20rEeL301w52UG2YhRpQTfsChBMBRGg3Nsl/PPWIurwkBXPpCsVL3AFppaCK5BCJ5Q==}
-    peerDependencies:
-      vue: '>=2.7 || >=3'
-    dependencies:
-      '@unhead/schema': 1.0.14
-      hookable: 5.4.2
-      vue: 3.2.45
     dev: true
 
   /@unhead/vue/1.0.18_vue@3.2.45:
@@ -9335,14 +9312,6 @@ packages:
       mime: 3.0.0
       node-fetch-native: 1.0.1
       pathe: 1.1.0
-    dev: true
-
-  /unhead/1.0.14:
-    resolution: {integrity: sha512-0i0UA6DS44ul0QN4ibP389EiykjHCe3B9gM5eg40O4O8KfDyXgFJ5osdGdfwkmzWR8uWUMLwauNE4FIEFk5NGg==}
-    dependencies:
-      '@unhead/dom': 1.0.14
-      '@unhead/schema': 1.0.14
-      hookable: 5.4.2
     dev: true
 
   /unhead/1.0.18:
