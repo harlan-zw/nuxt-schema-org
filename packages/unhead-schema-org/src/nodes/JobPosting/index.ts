@@ -1,5 +1,5 @@
 import type { NodeRelation, ResolvableDate, Thing } from '../../types'
-import { resolvableDateToIso } from '../../utils';
+import { resolvableDateToIso } from '../../utils'
 import { defineSchemaOrgResolver, resolveRelation } from '../../core'
 import type { Organization } from '../Organization'
 import type { Place } from '../Place'

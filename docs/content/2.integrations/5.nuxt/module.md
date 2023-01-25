@@ -3,13 +3,11 @@ title: nuxt-schema-org
 description: Install the nuxt-schema-org module to start using Schema.org in your Nuxt app.
 ---
 
-# nuxt-schema-org
+# Nuxt Schema.org
+
+ℹ️ Looking for a complete SEO solution? Check out [Nuxt SEO Kit](https://github.com/harlan-zw/nuxt-seo-kit).
 
 ## Install
-
-::alert{type="warning"}
-⚠️ The module does not support Nuxt v2 or Nuxt Bridge.
-::
 
 ::code-group
 
