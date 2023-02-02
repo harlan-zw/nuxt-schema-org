@@ -57,6 +57,12 @@ To server-side render Schema.org, you'll need to provide a [canonical host](http
 
 ```ts nuxt.config.ts
 export default defineNuxtConfig({
+  // recommended
+  runtimeConfig: {
+    public: {
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || 'https://example.com',
+    }
+  },
   // ...
   schemaOrg: {
     host: 'https://example.com',
