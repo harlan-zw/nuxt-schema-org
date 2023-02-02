@@ -50,7 +50,7 @@ export interface JobPostingSimple extends Thing {
   /**
    * Type of employment
    */
-  employmentType?: 'FULL_TIME' | 'PART_TIME' | 'CONTRACTOR' | 'TEMPORARY' | 'INTERN' | 'VOLUNTEER' | 'PER_DIEM' | 'OTHER'
+  employmentType?: EmploymentType | EmploymentType[]
 
   /**
    * The date when the job posting will expire in ISO 8601 format. For example, "2017-02-24"
@@ -84,3 +84,13 @@ export const jobPostingResolver = defineSchemaOrgResolver<JobPosting>({
     return node
   },
 })
+
+type EmploymentType =
+  'FULL_TIME'
+  | 'PART_TIME'
+  | 'CONTRACTOR'
+  | 'TEMPORARY'
+  | 'INTERN'
+  | 'VOLUNTEER'
+  | 'PER_DIEM'
+  | 'OTHER'

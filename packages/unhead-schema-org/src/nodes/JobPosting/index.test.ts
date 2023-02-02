@@ -19,7 +19,7 @@ describe('defineJobPosting', () => {
             longitude: 4.8,
           },
           title: 'Job posting title',
-          employmentType: 'FULL_TIME',
+          employmentType: ['FULL_TIME', 'PART_TIME'],
           validThrough: '2024-04-01',
         }),
       ])
@@ -32,7 +32,10 @@ describe('defineJobPosting', () => {
             "@type": "JobPosting",
             "datePosted": "2023-04-01T00:00:00.000Z",
             "description": "<p>job description</p>",
-            "employmentType": "FULL_TIME",
+            "employmentType": [
+              "FULL_TIME",
+              "PART_TIME",
+            ],
             "hiringOrganization": {
               "@type": "Organization",
               "name": "Organization inc",
