@@ -14,14 +14,14 @@
     "test:update": "vitest -u"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.34.1",
+    "@antfu/eslint-config": "^0.35.1",
     "bumpp": "^8.2.1",
-    "eslint": "^8.32.0",
+    "eslint": "^8.33.0",
     "jsdom": "^21.1.0",
-    "typescript": "^4.9.4",
+    "typescript": "^4.9.5",
     "unbuild": "^1.1.1",
-    "unhead": "^1.0.18",
-    "vitest": "^0.28.1"
+    "unhead": "^1.0.20",
+    "vitest": "^0.28.3"
   },
   "version": "0.4.0"
 }
