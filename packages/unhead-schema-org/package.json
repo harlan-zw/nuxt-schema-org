@@ -41,10 +41,10 @@
     "lint": "eslint \"{src,test}/**/*.{ts,vue,json,yml}\" --fix"
   },
   "peerDependencies": {
-    "unhead": ">=1.0.10"
+    "unhead": ">=1.1.9"
   },
   "devDependencies": {
-    "ufo": "^1.0.1",
-    "unhead": "^1.0.20"
+    "ufo": "^1.1.0",
+    "unhead": "^1.1.9"
   }
 }

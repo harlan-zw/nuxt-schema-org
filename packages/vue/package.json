@@ -46,13 +46,13 @@
     "stub": "unbuild . --stub"
   },
   "peerDependencies": {
-    "@unhead/vue": ">=1.0.10"
+    "@unhead/vue": ">=1.1.9"
   },
   "devDependencies": {
-    "@unhead/schema": "^1.0.20",
+    "@unhead/schema": "^1.1.9",
     "@unhead/schema-org": "workspace:*",
-    "@unhead/vue": "^1.0.20",
-    "unplugin-vue-components": "^0.23.0",
+    "@unhead/vue": "^1.1.9",
+    "unplugin-vue-components": "^0.24.0",
     "vue": "^3.2.47"
   }
 }

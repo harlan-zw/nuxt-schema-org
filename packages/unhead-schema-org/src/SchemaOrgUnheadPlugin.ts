@@ -29,7 +29,7 @@ export function SchemaOrgUnheadPlugin(config: MetaInput, meta: () => Record<stri
           tag.tagPosition = config.tagPosition === 'head' ? 'head' : 'bodyClose'
         }
         if (tag.tag === 'title')
-          resolvedMeta.title = tag.children
+          resolvedMeta.title = tag.textContent
         else if (tag.tag === 'meta' && tag.props.name === 'description')
           resolvedMeta.description = tag.props.content
         else if (tag.tag === 'link' && tag.props.rel === 'canonical')
@@ -41,7 +41,7 @@ export function SchemaOrgUnheadPlugin(config: MetaInput, meta: () => Record<stri
         // find the schema.org node
         for (const tag of ctx.tags) {
           if (tag.tag === 'script' && tag.key === 'schema-org-graph') {
-            tag.children = JSON.stringify({
+            tag.innerHTML = JSON.stringify({
               '@context': 'https://schema.org',
               '@graph': graph.resolveGraph({ ...config, ...resolvedMeta, ...(await meta()) }),
             }, null, 2)
