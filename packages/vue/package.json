@@ -1,7 +1,7 @@
 {
   "name": "@unhead/schema-org-vue",
   "type": "module",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Vue Schema.org for Simple and Automated Google Rich Results for everyone",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
