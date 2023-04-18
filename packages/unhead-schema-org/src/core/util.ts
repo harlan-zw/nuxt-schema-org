@@ -2,20 +2,21 @@ import { hash } from 'ohash'
 import type { Id, SchemaOrgNode } from '../types'
 import { resolveAsGraphKey } from '../utils'
 
-const groupBy = <T>(array: T[], predicate: (value: T, index: number, array: T[]) => string) =>
-  array.reduce((acc, value, index, array) => {
+function groupBy<T>(array: T[], predicate: (value: T, index: number, array: T[]) => string) {
+  return array.reduce((acc, value, index, array) => {
     const key = predicate(value, index, array)
     if (!acc[key])
       acc[key] = []
     acc[key].push(value)
     return acc
   }, {} as { [key: string]: T[] })
+}
 
 /**
  * Dedupe, flatten and a collection of nodes. Will also sort node keys and remove meta keys.
  * @param nodes
  */
-export const dedupeNodes = (nodes: SchemaOrgNode[]) => {
+export function dedupeNodes(nodes: SchemaOrgNode[]) {
   const sortedNodeKeys = nodes.keys()
 
   // assign based on id to dedupe across context

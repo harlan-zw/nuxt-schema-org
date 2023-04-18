@@ -22,7 +22,7 @@ import {
   useSchemaOrg,
 } from '..'
 
-const shallowVNodesToText = (nodes: any) => {
+function shallowVNodesToText(nodes: any) {
   let text = ''
   for (const node of nodes) {
     if (typeof node.children === 'string')
@@ -31,7 +31,7 @@ const shallowVNodesToText = (nodes: any) => {
   return text
 }
 
-const fixKey = (s: string) => {
+function fixKey(s: string) {
   // kebab case to camel case
   let key = s.replace(/-./g, x => x[1].toUpperCase())
   // supports @type & @id
@@ -40,7 +40,7 @@ const fixKey = (s: string) => {
   return key
 }
 
-const ignoreKey = (s: string) => {
+function ignoreKey(s: string) {
   // pretty hacky, need to setup all props
   if (s.startsWith('aria-') || s.startsWith('data-'))
     return false
@@ -48,7 +48,7 @@ const ignoreKey = (s: string) => {
   return ['class', 'style'].includes(s)
 }
 
-export const defineSchemaOrgComponent = (name: string, defineFn: (input: any) => any) => {
+export function defineSchemaOrgComponent(name: string, defineFn: (input: any) => any) {
   return defineComponent({
     name,
     props: {

@@ -12,7 +12,7 @@ export interface SchemaOrgGraph {
   find: <T extends Thing>(id: Id | string) => T | null
 }
 
-export const createSchemaOrgGraph = (): SchemaOrgGraph => {
+export function createSchemaOrgGraph(): SchemaOrgGraph {
   const ctx: SchemaOrgGraph = {
     find<T extends Thing>(id: Id | string) {
       const key = resolveAsGraphKey(id) as Id

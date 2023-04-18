@@ -41,7 +41,7 @@ export type DeepMaybeRef<T> = {
   [key in keyof T]?: MaybeComputedRefOrPromise<T[key]>
 }
 
-const provideResolver = <T>(input?: T, resolver?: string) => {
+function provideResolver<T>(input?: T, resolver?: string) {
   if (!input)
     input = {} as T
   // avoid unreferring by wrapping it in a function
@@ -50,40 +50,108 @@ const provideResolver = <T>(input?: T, resolver?: string) => {
   return input
 }
 
-export const defineAddress = <T extends Record<string, any>>(input?: DeepMaybeRef<PostalAddress & T>) => provideResolver(input, 'address')
-export const defineAggregateOffer = <T extends Record<string, any>>(input?: DeepMaybeRef<AggregateOffer & T>) => provideResolver(input, 'aggregateOffer')
-export const defineAggregateRating = <T extends Record<string, any>>(input?: DeepMaybeRef<AggregateRating & T>) => provideResolver(input, 'aggregateRating')
-export const defineArticle = <T extends Record<string, any>>(input?: DeepMaybeRef<Article & T>) => provideResolver(input, 'article')
-export const defineBreadcrumb = <T extends Record<string, any>>(input?: DeepMaybeRef<BreadcrumbList & T>) => provideResolver(input, 'breadcrumb')
-export const defineComment = <T extends Record<string, any>>(input?: DeepMaybeRef<Comment & T>) => provideResolver(input, 'comment')
-export const defineEvent = <T extends Record<string, any>>(input?: DeepMaybeRef<Event & T>) => provideResolver(input, 'event')
-export const defineVirtualLocation = <T extends Record<string, any>>(input?: DeepMaybeRef<VirtualLocation & T>) => provideResolver(input, 'virtualLocation')
-export const definePlace = <T extends Record<string, any>>(input?: DeepMaybeRef<Place & T>) => provideResolver(input, 'place')
-export const defineHowTo = <T extends Record<string, any>>(input?: DeepMaybeRef<HowTo & T>) => provideResolver(input, 'howTo')
-export const defineHowToStep = <T extends Record<string, any>>(input?: DeepMaybeRef<HowToStep & T>) => provideResolver(input, 'howToStep')
-export const defineImage = <T extends Record<string, any>>(input?: DeepMaybeRef<ImageObject & T>) => provideResolver(input, 'image')
-export const defineJobPosting = <T extends Record<string, any>>(input?: DeepMaybeRef<JobPosting & T>) => provideResolver(input, 'jobPosting')
-export const defineLocalBusiness = <T extends Record<string, any>>(input?: DeepMaybeRef<LocalBusiness & T>) => provideResolver(input, 'localBusiness')
-export const defineOffer = <T extends Record<string, any>>(input?: DeepMaybeRef<Offer & T>) => provideResolver(input, 'offer')
-export const defineOpeningHours = <T extends Record<string, any>>(input?: DeepMaybeRef<OpeningHoursSpecification & T>) => provideResolver(input, 'openingHours')
-export const defineOrganization = <T extends Record<string, any>>(input?: DeepMaybeRef<Organization & T>) => provideResolver(input, 'organization')
-export const definePerson = <T extends Record<string, any>>(input?: DeepMaybeRef<Person & T>) => provideResolver(input, 'person')
-export const defineProduct = <T extends Record<string, any>>(input?: DeepMaybeRef<Product & T>) => provideResolver(input, 'product')
-export const defineQuestion = <T extends Record<string, any>>(input?: DeepMaybeRef<Question & T>) => provideResolver(input, 'question')
-export const defineRecipe = <T extends Record<string, any>>(input?: DeepMaybeRef<Recipe & T>) => provideResolver(input, 'recipe')
-export const defineReview = <T extends Record<string, any>>(input?: DeepMaybeRef<Review & T>) => provideResolver(input, 'review')
-export const defineVideo = <T extends Record<string, any>>(input?: DeepMaybeRef<VideoObject & T>) => provideResolver(input, 'video')
-export const defineWebPage = <T extends Record<string, any>>(input?: DeepMaybeRef<WebPage & T>) => provideResolver(input, 'webPage')
-export const defineWebSite = <T extends Record<string, any>>(input?: DeepMaybeRef<WebSite & T>) => provideResolver(input, 'webSite')
-export const defineBook = <T extends Record<string, any>>(input?: DeepMaybeRef<Book & T>) => provideResolver(input, 'book')
-export const defineCourse = <T extends Record<string, any>>(input?: DeepMaybeRef<Course & T>) => provideResolver(input, 'course')
-export const defineItemList = <T extends Record<string, any>>(input?: DeepMaybeRef<ItemList & T>) => provideResolver(input, 'itemList')
-export const defineListItem = <T extends Record<string, any>>(input?: DeepMaybeRef<ListItem & T>) => provideResolver(input, 'listItem')
-export const defineMovie = <T extends Record<string, any>>(input?: DeepMaybeRef<Movie & T>) => provideResolver(input, 'movie')
-export const defineSearchAction = <T extends Record<string, any>>(input?: DeepMaybeRef<SearchAction & T>) => provideResolver(input, 'searchAction')
-export const defineReadAction = <T extends Record<string, any>>(input?: DeepMaybeRef<ReadAction & T>) => provideResolver(input, 'readAction')
-export const defineSoftwareApp = <T extends Record<string, any>>(input?: DeepMaybeRef<SoftwareApp & T>) => provideResolver(input, 'softwareApp')
-export const defineBookEdition = <T extends Record<string, any>>(input?: DeepMaybeRef<BookEdition & T>) => provideResolver(input, 'bookEdition')
+export function defineAddress<T extends Record<string, any>>(input?: DeepMaybeRef<PostalAddress & T>) {
+  return provideResolver(input, 'address')
+}
+export function defineAggregateOffer<T extends Record<string, any>>(input?: DeepMaybeRef<AggregateOffer & T>) {
+  return provideResolver(input, 'aggregateOffer')
+}
+export function defineAggregateRating<T extends Record<string, any>>(input?: DeepMaybeRef<AggregateRating & T>) {
+  return provideResolver(input, 'aggregateRating')
+}
+export function defineArticle<T extends Record<string, any>>(input?: DeepMaybeRef<Article & T>) {
+  return provideResolver(input, 'article')
+}
+export function defineBreadcrumb<T extends Record<string, any>>(input?: DeepMaybeRef<BreadcrumbList & T>) {
+  return provideResolver(input, 'breadcrumb')
+}
+export function defineComment<T extends Record<string, any>>(input?: DeepMaybeRef<Comment & T>) {
+  return provideResolver(input, 'comment')
+}
+export function defineEvent<T extends Record<string, any>>(input?: DeepMaybeRef<Event & T>) {
+  return provideResolver(input, 'event')
+}
+export function defineVirtualLocation<T extends Record<string, any>>(input?: DeepMaybeRef<VirtualLocation & T>) {
+  return provideResolver(input, 'virtualLocation')
+}
+export function definePlace<T extends Record<string, any>>(input?: DeepMaybeRef<Place & T>) {
+  return provideResolver(input, 'place')
+}
+export function defineHowTo<T extends Record<string, any>>(input?: DeepMaybeRef<HowTo & T>) {
+  return provideResolver(input, 'howTo')
+}
+export function defineHowToStep<T extends Record<string, any>>(input?: DeepMaybeRef<HowToStep & T>) {
+  return provideResolver(input, 'howToStep')
+}
+export function defineImage<T extends Record<string, any>>(input?: DeepMaybeRef<ImageObject & T>) {
+  return provideResolver(input, 'image')
+}
+export function defineJobPosting<T extends Record<string, any>>(input?: DeepMaybeRef<JobPosting & T>) {
+  return provideResolver(input, 'jobPosting')
+}
+export function defineLocalBusiness<T extends Record<string, any>>(input?: DeepMaybeRef<LocalBusiness & T>) {
+  return provideResolver(input, 'localBusiness')
+}
+export function defineOffer<T extends Record<string, any>>(input?: DeepMaybeRef<Offer & T>) {
+  return provideResolver(input, 'offer')
+}
+export function defineOpeningHours<T extends Record<string, any>>(input?: DeepMaybeRef<OpeningHoursSpecification & T>) {
+  return provideResolver(input, 'openingHours')
+}
+export function defineOrganization<T extends Record<string, any>>(input?: DeepMaybeRef<Organization & T>) {
+  return provideResolver(input, 'organization')
+}
+export function definePerson<T extends Record<string, any>>(input?: DeepMaybeRef<Person & T>) {
+  return provideResolver(input, 'person')
+}
+export function defineProduct<T extends Record<string, any>>(input?: DeepMaybeRef<Product & T>) {
+  return provideResolver(input, 'product')
+}
+export function defineQuestion<T extends Record<string, any>>(input?: DeepMaybeRef<Question & T>) {
+  return provideResolver(input, 'question')
+}
+export function defineRecipe<T extends Record<string, any>>(input?: DeepMaybeRef<Recipe & T>) {
+  return provideResolver(input, 'recipe')
+}
+export function defineReview<T extends Record<string, any>>(input?: DeepMaybeRef<Review & T>) {
+  return provideResolver(input, 'review')
+}
+export function defineVideo<T extends Record<string, any>>(input?: DeepMaybeRef<VideoObject & T>) {
+  return provideResolver(input, 'video')
+}
+export function defineWebPage<T extends Record<string, any>>(input?: DeepMaybeRef<WebPage & T>) {
+  return provideResolver(input, 'webPage')
+}
+export function defineWebSite<T extends Record<string, any>>(input?: DeepMaybeRef<WebSite & T>) {
+  return provideResolver(input, 'webSite')
+}
+export function defineBook<T extends Record<string, any>>(input?: DeepMaybeRef<Book & T>) {
+  return provideResolver(input, 'book')
+}
+export function defineCourse<T extends Record<string, any>>(input?: DeepMaybeRef<Course & T>) {
+  return provideResolver(input, 'course')
+}
+export function defineItemList<T extends Record<string, any>>(input?: DeepMaybeRef<ItemList & T>) {
+  return provideResolver(input, 'itemList')
+}
+export function defineListItem<T extends Record<string, any>>(input?: DeepMaybeRef<ListItem & T>) {
+  return provideResolver(input, 'listItem')
+}
+export function defineMovie<T extends Record<string, any>>(input?: DeepMaybeRef<Movie & T>) {
+  return provideResolver(input, 'movie')
+}
+export function defineSearchAction<T extends Record<string, any>>(input?: DeepMaybeRef<SearchAction & T>) {
+  return provideResolver(input, 'searchAction')
+}
+export function defineReadAction<T extends Record<string, any>>(input?: DeepMaybeRef<ReadAction & T>) {
+  return provideResolver(input, 'readAction')
+}
+export function defineSoftwareApp<T extends Record<string, any>>(input?: DeepMaybeRef<SoftwareApp & T>) {
+  return provideResolver(input, 'softwareApp')
+}
+export function defineBookEdition<T extends Record<string, any>>(input?: DeepMaybeRef<BookEdition & T>) {
+  return provideResolver(input, 'bookEdition')
+}
 
 type Arrayable<T> = T | Array<T>
 

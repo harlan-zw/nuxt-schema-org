@@ -44,7 +44,7 @@
     "unhead": ">=1.1.9"
   },
   "devDependencies": {
-    "ufo": "^1.1.0",
-    "unhead": "^1.1.9"
+    "ufo": "^1.1.1",
+    "unhead": "^1.1.26"
   }
 }

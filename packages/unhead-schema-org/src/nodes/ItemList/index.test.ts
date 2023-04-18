@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { injectSchemaOrg, useSetup } from '../../../.test'
 import { defineItemList, defineListItem, defineMovie, useSchemaOrg } from '../..'
+
 describe('defineItemList', () => {
   it('movie example', async () => {
     await useSetup(async () => {

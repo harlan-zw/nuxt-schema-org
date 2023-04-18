@@ -10,7 +10,7 @@ import { asArray, hashCode, idReference, prefixId, setIfEmpty, stripEmptyPropert
 import { loadResolver } from '../resolver'
 import type { SchemaOrgGraph } from './graph'
 
-export const resolveMeta = (meta: MetaInput) => {
+export function resolveMeta(meta: MetaInput) {
   if (!meta.host && meta.canonicalHost)
     meta.host = meta.canonicalHost
   if (!meta.tagPosition && meta.position)
@@ -51,7 +51,7 @@ export const resolveMeta = (meta: MetaInput) => {
   }
 }
 
-export const resolveNode = <T extends Thing>(node: T, ctx: SchemaOrgGraph, resolver: SchemaOrgNodeDefinition<T>) => {
+export function resolveNode<T extends Thing>(node: T, ctx: SchemaOrgGraph, resolver: SchemaOrgNodeDefinition<T>) {
   // allow casting from a primitive to an object
   if (resolver?.cast)
     node = resolver.cast(node, ctx)
@@ -90,7 +90,7 @@ export const resolveNode = <T extends Thing>(node: T, ctx: SchemaOrgGraph, resol
   return node
 }
 
-export const resolveNodeId = <T extends Thing>(node: T, ctx: SchemaOrgGraph, resolver: SchemaOrgNodeDefinition<T>, resolveAsRoot = false) => {
+export function resolveNodeId<T extends Thing>(node: T, ctx: SchemaOrgGraph, resolver: SchemaOrgNodeDefinition<T>, resolveAsRoot = false) {
   const prefix = Array.isArray(resolver.idPrefix) ? resolver.idPrefix[0] : resolver.idPrefix
 
   // may not need an @id
