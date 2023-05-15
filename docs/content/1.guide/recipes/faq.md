@@ -45,7 +45,7 @@ useSchemaOrg([
 
 ```vue [Component API - Props]
 <template>
-  <SchemaOrgWebpage type="FAQPage" />
+  <SchemaOrgWebPage type="FAQPage" />
   <SchemaOrgQuestion 
     name="How long is a piece of string?"
     accepted-answer="The length of a piece of string is the number of characters in the string."
