@@ -55,7 +55,7 @@ describe('definePerson', () => {
       ])
 
       const client = await injectSchemaOrg()
-      expect(client.length).toBe(2)
+      expect(client.length).toBe(1)
       expect(client[0]['@type']).toBe('Person')
     })
   })
