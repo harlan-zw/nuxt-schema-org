@@ -1,27 +1,27 @@
 {
   "name": "@unhead/schema-org-mono",
+  "version": "0.5.0",
   "private": true,
-  "packageManager": "pnpm@7.0.0",
+  "packageManager": "pnpm@8.5.0",
   "description": "Schema.org for Vue. Supports typed and automated Google Rich Results",
-  "license": "MIT",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
+  "license": "MIT",
   "scripts": {
     "build": "pnpm -r --filter=./packages/** run build",
     "stub": "pnpm -r --parallel --filter=./packages/** run stub",
-    "lint": "eslint \"{packages,test}/**/*.{ts,vue,json,yml}\" --fix",
+    "lint": "eslint . --fix",
     "release": "bumpp package.json packages/*/package.json --commit --push --tag",
     "test": "vitest",
     "test:update": "vitest -u"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.4",
+    "@antfu/eslint-config": "^0.39.3",
     "bumpp": "^9.1.0",
-    "eslint": "^8.38.0",
-    "jsdom": "^21.1.1",
+    "eslint": "^8.41.0",
+    "jsdom": "^22.0.0",
     "typescript": "^5.0.4",
-    "unbuild": "^1.2.1",
-    "unhead": "^1.1.26",
-    "vitest": "^0.30.1"
-  },
-  "version": "0.5.0"
+    "unbuild": "^1.1.2",
+    "unhead": "^1.1.27",
+    "vitest": "^0.31.1"
+  }
 }

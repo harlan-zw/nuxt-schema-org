@@ -42,8 +42,7 @@
   "peerDependencies": {
     "unhead": ">=1.1.9"
   },
-  "devDependencies": {
-    "ufo": "^1.1.1",
-    "unhead": "^1.1.26"
+  "dependencies": {
+    "ufo": "^1.1.2"
   }
 }
