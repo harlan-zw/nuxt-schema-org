@@ -44,5 +44,8 @@
   },
   "dependencies": {
     "ufo": "^1.1.2"
+  },
+  "devDependencies": {
+    "unhead": "^1.1.27"
   }
 }
