@@ -20,7 +20,7 @@
     "eslint": "^8.41.0",
     "jsdom": "^22.0.0",
     "typescript": "^5.0.4",
-    "unbuild": "^1.1.2",
+    "unbuild": "1.1.2",
     "unhead": "^1.1.27",
     "vitest": "^0.31.1"
   }
