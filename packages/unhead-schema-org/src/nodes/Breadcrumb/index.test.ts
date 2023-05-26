@@ -67,7 +67,7 @@ describe('defineBreadcrumb', async () => {
         defineBreadcrumb({
           '@id': '#subbreadcrumb',
           'itemListElement': [
-            { name: 'Some other link', item: '/blog/test' },
+            { name: 'Some other link', item: '/blog/foo' },
           ],
         }),
 
@@ -75,7 +75,7 @@ describe('defineBreadcrumb', async () => {
           '@id': '#subbreadcrumb',
           'custom': 'test',
           'itemListElement': [
-            { name: 'Some other link', item: '/blog/test' },
+            { name: 'Some other link', item: '/blog/bar' },
           ],
         }),
       ])
@@ -94,6 +94,23 @@ describe('defineBreadcrumb', async () => {
                 "name": "Some joining page",
                 "position": 3,
               },
+              {
+                "@type": "ListItem",
+                "item": "https://example.com",
+                "name": "Home",
+                "position": 1,
+              },
+              {
+                "@type": "ListItem",
+                "item": "https://example.com/blog",
+                "name": "Blog",
+                "position": 2,
+              },
+              {
+                "@type": "ListItem",
+                "name": "My Article",
+                "position": 4,
+              },
             ],
           },
           {
@@ -103,7 +120,13 @@ describe('defineBreadcrumb', async () => {
             "itemListElement": [
               {
                 "@type": "ListItem",
-                "item": "https://example.com/blog/test",
+                "item": "https://example.com/blog/bar",
+                "name": "Some other link",
+                "position": 1,
+              },
+              {
+                "@type": "ListItem",
+                "item": "https://example.com/blog/foo",
                 "name": "Some other link",
                 "position": 1,
               },

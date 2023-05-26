@@ -1,4 +1,5 @@
 import { hash } from 'ohash'
+import { defu } from 'defu'
 import type { Id, SchemaOrgNode } from '../types'
 import { resolveAsGraphKey } from '../utils'
 
@@ -37,9 +38,11 @@ export function dedupeNodes(nodes: SchemaOrgNode[]) {
       ...(groupedKeys.primitives || []).sort(),
       ...(groupedKeys.relations || []).sort(),
     ]
-    const newNode = {} as SchemaOrgNode
+    let newNode = {} as SchemaOrgNode
     for (const key of keys)
       newNode[key] = n[key]
+    if (dedupedNodes[nodeKey])
+      newNode = defu(newNode, dedupedNodes[nodeKey]) as SchemaOrgNode
     dedupedNodes[nodeKey] = newNode
   }
   return Object.values(dedupedNodes)

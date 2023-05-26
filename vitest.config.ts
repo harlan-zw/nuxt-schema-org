@@ -5,6 +5,10 @@ import { defineConfig } from 'vite'
 
 export default defineConfig({
   test: {
+    include: [
+      'packages/**/src/**/*.test.ts',
+      'test/**/*.test.ts',
+    ],
     env: {
       NODE_ENV: 'development',
     },
