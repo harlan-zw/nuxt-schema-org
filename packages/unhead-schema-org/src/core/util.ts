@@ -18,6 +18,20 @@ function groupBy<T>(array: T[], predicate: (value: T, index: number, array: T[])
  * @param nodes
  */
 export function dedupeNodes(nodes: SchemaOrgNode[]) {
+  // assign based on id to dedupe across context
+  const dedupedNodes: Record<Id, SchemaOrgNode> = {}
+  for (const key of nodes.keys()) {
+    const n = nodes[key]
+    const nodeKey = resolveAsGraphKey(n['@id'] || hash(n)) as Id
+    if (dedupedNodes[nodeKey])
+      dedupedNodes[nodeKey] = defu(nodes[key], dedupedNodes[nodeKey]) as SchemaOrgNode
+    else
+      dedupedNodes[nodeKey] = nodes[key]
+  }
+  return Object.values(dedupedNodes)
+}
+
+export function normaliseNodes(nodes: SchemaOrgNode[]) {
   const sortedNodeKeys = nodes.keys()
 
   // assign based on id to dedupe across context

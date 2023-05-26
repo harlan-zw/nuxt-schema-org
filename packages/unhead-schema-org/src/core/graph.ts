@@ -2,7 +2,7 @@ import type { Arrayable, Id, MetaInput, ResolvedMeta, SchemaOrgNode, Thing } fro
 import { asArray, resolveAsGraphKey } from '../utils'
 import { imageResolver } from '../nodes'
 import { resolveMeta, resolveNode, resolveNodeId, resolveRelation } from './resolve'
-import { dedupeNodes } from './util'
+import { dedupeNodes, normaliseNodes } from './util'
 
 export interface SchemaOrgGraph {
   nodes: SchemaOrgNode[]
@@ -37,6 +37,7 @@ export function createSchemaOrgGraph(): SchemaOrgGraph {
           }
           ctx.nodes[key] = node
         })
+      ctx.nodes = dedupeNodes(ctx.nodes)
 
       ctx.nodes
         .forEach((node) => {
@@ -53,7 +54,7 @@ export function createSchemaOrgGraph(): SchemaOrgGraph {
           delete node._resolver
         })
 
-      return dedupeNodes(ctx.nodes)
+      return normaliseNodes(ctx.nodes)
     },
     nodes: [],
     meta: {} as ResolvedMeta,
