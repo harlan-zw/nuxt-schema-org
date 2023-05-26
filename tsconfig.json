@@ -18,7 +18,7 @@
     "noUnusedLocals": true,
     "paths": {
       "#provider": ["src/runtime/base.ts"],
-      "@unhead/schema-org": ["src/index.ts"],
+      "@unhead/schema-org": ["src/index.ts"]
     }
   }
 }

@@ -28,9 +28,9 @@ This markup should go in your root Schema definition.
 useSchemaOrg([
   defineWebSite({
     potentialAction: [
-     defineSearchAction({
-       target: '/search?q={search_term_string}'
-     })
+      defineSearchAction({
+        target: '/search?q={search_term_string}'
+      })
     ]
   })
 ])
@@ -39,7 +39,7 @@ useSchemaOrg([
 ```vue [Component API]
 <template>
   <SchemaOrgWebsite
-    :potentialAction="[ defineSearchAction({ target: '/search?q={search_term_string}' }) ]"
+    :potential-action="[defineSearchAction({ target: '/search?q={search_term_string}' })]"
   />
 </template>
 ```

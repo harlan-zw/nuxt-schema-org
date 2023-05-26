@@ -24,7 +24,7 @@ export default defineNuxtConfig({
       trailingSlash: false,
       language: 'en',
       titleSeparator: '·',
-    }
+    },
   },
 
   app: {
@@ -57,7 +57,7 @@ export default defineNuxtConfig({
     highlight: {
       theme: {
         dark: 'github-dark',
-        default: 'github-light'
+        default: 'github-light',
       },
     },
   },

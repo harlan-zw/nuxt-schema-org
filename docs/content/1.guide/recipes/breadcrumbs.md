@@ -26,7 +26,7 @@ Note: Google recommends that the markup for the breadcrumbs should exist on the 
 ```vue [Composition API]
 <script setup lang="ts">
 const breadcrumbs = [
-  // item is the url and will be resolved to the absolute url  
+  // item is the url and will be resolved to the absolute url
   { name: 'Home', item: '/' },
   { name: 'Articles', item: '/blog' },
   // item is not required for the last list element
@@ -38,18 +38,19 @@ useSchemaOrg([
   }),
 ])
 </script>
+
 <template>
-<ul>
-  <template v-for="(item, key) in breadcrumbs" :key="key">
-  <li>
-    <template v-if="item.item">
-    <a :href="item.item">{{ item.name }}</a>
-    <span>/</span>
+  <ul>
+    <template v-for="(item, key) in breadcrumbs" :key="key">
+      <li>
+        <template v-if="item.item">
+          <a :href="item.item">{{ item.name }}</a>
+          <span>/</span>
+        </template>
+        <span v-else>{{ item.name }}</span>
+      </li>
     </template>
-    <span v-else>{{ item.name }}</span>
-  </li>
-  </template>
-</ul>
+  </ul>
 </template>
 ```
 
@@ -61,21 +62,22 @@ const breadcrumb = [
   { name: 'Breadcrumbs' }
 ]
 </script>
+
 <template>
-<SchemaOrgBreadcrumb
-  as="ul"
-  :item-list-element="breadcrumb"
->
-  <template v-for="(item, key) in breadcrumb" :key="key">
-  <li>
-    <template v-if="item.item">
-    <a :href="item.item">{{ item.name }}</a>
-    <span>/</span>
+  <SchemaOrgBreadcrumb
+    as="ul"
+    :item-list-element="breadcrumb"
+  >
+    <template v-for="(item, key) in breadcrumb" :key="key">
+      <li>
+        <template v-if="item.item">
+          <a :href="item.item">{{ item.name }}</a>
+          <span>/</span>
+        </template>
+        <span v-else>{{ item.name }}</span>
+      </li>
     </template>
-    <span v-else>{{ item.name }}</span>
-  </li>
-  </template>
-</SchemaOrgBreadcrumb>
+  </SchemaOrgBreadcrumb>
 </template>
 ```
 ::
@@ -93,7 +95,7 @@ useSchemaOrg([
   // primary breadcrumb
   defineBreadcrumb({
     itemListElement: [
-      // item is the url and will be resolved to the absolute url  
+      // item is the url and will be resolved to the absolute url
       { name: 'Home', item: '/' },
       { name: 'Articles', item: '/blog' },
       // item is not required for the last list element
@@ -102,8 +104,8 @@ useSchemaOrg([
   }),
   defineBreadcrumb({
     '@id': '#secondary-breadcrumb',
-    itemListElement: [
-      // item is the url and will be resolved to the absolute url  
+    'itemListElement': [
+      // item is the url and will be resolved to the absolute url
       { name: 'Sub Home', item: '/sub' },
       { name: 'Sub Page', item: '/sub/page' },
       { name: 'Sub Element' },

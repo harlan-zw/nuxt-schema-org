@@ -46,11 +46,11 @@ useSchemaOrg([
 ```vue [Component API - Props]
 <template>
   <SchemaOrgWebPage type="FAQPage" />
-  <SchemaOrgQuestion 
+  <SchemaOrgQuestion
     name="How long is a piece of string?"
     accepted-answer="The length of a piece of string is the number of characters in the string."
   />
-  <SchemaOrgQuestion 
+  <SchemaOrgQuestion
     name="How big is a giraffe?"
     accepted-answer="A giraffe is 12 feet tall"
   />

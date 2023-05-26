@@ -36,11 +36,11 @@ useSchemaOrg([
 
 ```vue [Component API]
 <template>
-  <SchemaOrgArticle 
+  <SchemaOrgArticle
     image="/photos/16x9/photo.jpg"
     :date-published="new Date(2020, 1, 1)"
     :date-modified="new Date(2020, 1, 1)"
-   />
+  />
 </template>
 ```
 ::
@@ -64,9 +64,9 @@ useSchemaOrg([
 
 ```vue [Component API]
 <template>
-  <SchemaOrgArticle 
+  <SchemaOrgArticle
     type="BlogPosting"
-   />
+  />
 </template>
 ```
 
@@ -103,11 +103,11 @@ useSchemaOrg([
 
 ```vue [Component API]
 <template>
-  <SchemaOrgArticle 
+  <SchemaOrgArticle
     headline="My Article"
-   />
+  />
   <SchemaOrgPerson name="John doe" url="https://johndoe.com" />
-  <SchemaOrgPerson name="Jane doe" url="https://janedoe.com" /> 
+  <SchemaOrgPerson name="Jane doe" url="https://janedoe.com" />
 </template>
 ```
 ::
@@ -131,9 +131,9 @@ useSchemaOrg([
 
 ```vue [Component API]
 <template>
-  <SchemaOrgWebPage 
+  <SchemaOrgWebPage
     type="CollectionPage"
-   />
+  />
 </template>
 ```
 ::

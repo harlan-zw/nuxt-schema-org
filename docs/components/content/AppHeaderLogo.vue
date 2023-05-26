@@ -1,7 +1,5 @@
 <script setup lang="ts">
 const docus = useDocus()
-const logo = computed(() => docus.value.header?.logo || false)
-const title = computed(() => docus.value.header?.title || docus.value.title)
 </script>
 
 <template>
@@ -13,7 +11,9 @@ const title = computed(() => docus.value.header?.title || docus.value.title)
         </div>
         <div class="flex flex-col">
           <span class="opacity-60 text-xs">@unhead/</span>
-          <h1 class="font-bold text-xl">Schema.org</h1>
+          <h1 class="font-bold text-xl">
+            Schema.org
+          </h1>
         </div>
       </div>
     </div>
