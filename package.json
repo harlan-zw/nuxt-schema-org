@@ -1,6 +1,6 @@
 {
   "name": "@unhead/schema-org-mono",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "private": true,
   "packageManager": "pnpm@8.5.0",
   "description": "Schema.org for Vue. Supports typed and automated Google Rich Results",
