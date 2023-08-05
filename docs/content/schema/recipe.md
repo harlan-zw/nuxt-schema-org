@@ -129,7 +129,7 @@ export interface RecipeSimple extends Thing {
   /**
    * A string describing the category of the recipe.
    */
-  recipeCategory?: string | 'Appetizer' | 'Breakfast' | 'Brunch' | 'Dessert' | 'Dinner' | 'Drink' | 'Lunch' | 'Main course' | 'Sauce' | 'Side dish' | 'Snack' | 'Starter'
+  recipeCategory?: 'Appetizer' | 'Breakfast' | 'Brunch' | 'Dessert' | 'Dinner' | 'Drink' | 'Lunch' | 'Main course' | 'Sauce' | 'Side dish' | 'Snack' | 'Starter' | (string & Record<never, never>)
   /**
    * A RestrictedDiet node, with a value (or array of values
    */
