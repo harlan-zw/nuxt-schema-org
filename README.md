@@ -10,7 +10,7 @@
 
 
 <p align="center">
-Simple, universal Schema.org for Nuxt.
+The quickest and easiest way to build Schema.org graphs for Nuxt.
 </p>
 
 <p align="center">
