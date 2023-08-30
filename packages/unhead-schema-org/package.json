@@ -5,13 +5,13 @@
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
   "funding": "https://github.com/sponsors/harlan-zw",
-  "homepage": "https://github.com/harlan-zw/@unhead/schema-org#readme",
+  "homepage": "https://github.com/harlan-zw/unhead-schema-org#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/harlan-zw/@unhead/schema-org.git"
+    "url": "git+https://github.com/harlan-zw/unhead-schema-org.git"
   },
   "bugs": {
-    "url": "https://github.com/harlan-zw/@unhead/schema-org/issues"
+    "url": "https://github.com/harlan-zw/unhead-schema-org/issues"
   },
   "keywords": [
     "schema.org",
