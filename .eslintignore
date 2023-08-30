@@ -1,4 +1,5 @@
 dist
 node_modules
+.output
+.nuxt
 playground
-packages/social-tags

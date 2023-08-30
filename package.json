@@ -1,27 +1,64 @@
 {
-  "name": "@unhead/schema-org-mono",
-  "version": "0.6.0",
-  "private": true,
-  "packageManager": "pnpm@8.5.0",
-  "description": "Schema.org for Vue. Supports typed and automated Google Rich Results",
+  "name": "nuxt-schema-org",
+  "type": "module",
+  "version": "2.2.0",
+  "description": "Schema.org for Nuxt",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
+  "funding": "https://github.com/sponsors/harlan-zw",
+  "homepage": "https://github.com/nuxt-schema-org#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nuxt-schema-org.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nuxt-schema-org/issues"
+  },
+  "keywords": [
+    "schema-org",
+    "nuxt",
+    "@nuxt-schema-org",
+    "nuxt-module",
+    "nuxt3"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "pnpm -r --filter=./packages/** run build",
-    "stub": "pnpm -r --parallel --filter=./packages/** run stub",
     "lint": "eslint . --fix",
-    "release": "bumpp package.json packages/*/package.json --commit --push --tag",
-    "test": "vitest",
-    "test:update": "vitest -u"
+    "build": "nuxt-module-build --stub && nuxt-module-build prepare && nuxt-module-build",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "release": "bumpp package.json --commit --push --tag",
+    "test": "vitest"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.7.0",
+    "@unhead/schema-org": "^1.3.9",
+    "nuxt-site-config": "^1.0.11",
+    "nuxt-site-config-kit": "^1.0.11",
+    "pathe": "^1.1.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.39.3",
-    "bumpp": "^9.1.0",
-    "eslint": "^8.41.0",
-    "jsdom": "^22.0.0",
-    "typescript": "^5.0.4",
-    "unbuild": "1.1.2",
-    "unhead": "^1.1.27",
-    "vitest": "^0.31.1"
+    "@antfu/eslint-config": "^0.41.0",
+    "@nuxt/module-builder": "^0.5.0",
+    "@nuxt/schema": "^3.7.0",
+    "@nuxt/test-utils": "^3.7.0",
+    "@nuxtjs/eslint-config-typescript": "^12.1.0",
+    "bumpp": "^9.2.0",
+    "eslint": "8.48.0",
+    "nuxt": "^3.7.0",
+    "nuxt-windicss": "^2.6.1",
+    "vitest": "0.34.3"
   }
 }

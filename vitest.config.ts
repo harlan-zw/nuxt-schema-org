@@ -2,19 +2,13 @@
 /// <reference types="vitest/globals" />
 
 import { defineConfig } from 'vite'
+import { isCI } from 'std-env'
 
 export default defineConfig({
   test: {
-    include: [
-      'packages/**/src/**/*.test.ts',
-      'test/**/*.test.ts',
-    ],
-    env: {
-      NODE_ENV: 'development',
-    },
-    globals: true,
-    environment: 'jsdom',
-    reporters: 'dot',
     isolate: true,
+    threads: isCI, // kills my computer
+    testTimeout: 300000, // 5 minutes
+    hookTimeout: 300000, // 5 minutes,
   },
 })
