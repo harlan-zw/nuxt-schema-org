@@ -65,6 +65,7 @@ export const SchemaOrgDebug = defineComponent({
           overflowY: 'auto',
           boxShadow: '3px 4px 15px rgb(0 0 0 / 10%)',
         },
+        tabindex: 0,
       }, [
         h('pre', { style: { textAlign: 'left' } }, schemaRaw.value),
       ])])
