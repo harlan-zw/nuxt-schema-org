@@ -4,6 +4,7 @@ import {
   createResolver,
   defineNuxtModule, useLogger,
 } from '@nuxt/kit'
+// @ts-expect-error ?
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
 import type { NuxtModule } from '@nuxt/schema'
 import { installNuxtSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
