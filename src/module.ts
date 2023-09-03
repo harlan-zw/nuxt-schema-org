@@ -4,10 +4,12 @@ import {
   createResolver,
   defineNuxtModule, useLogger,
 } from '@nuxt/kit'
-// @ts-expect-error ?
+
+// @ts-expect-error not sure why this is happening
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
 import type { NuxtModule } from '@nuxt/schema'
-import { installNuxtSiteConfig, updateSiteConfig } from 'nuxt-site-config-kit'
+import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
+import type { MetaInput } from '@unhead/schema-org'
 
 export interface ModuleOptions {
   /**
@@ -17,54 +19,31 @@ export interface ModuleOptions {
    */
   enabled: boolean
   /**
+   * Whether the output should be minified.
+   *
+   * @default `process.env.NODE_ENV === 'production'`
+   */
+  minify: boolean
+  /**
+   * Whether the output should be reactive or just use the initial SSR output.
+   *
+   * @default `process.dev || !nuxt.options.ssr`
+   */
+  reactive: boolean
+  /**
    * Enables debug logs.
    *
    * @default false
    */
   debug: boolean
-  // some actually useful options not covered by site config
-  currency?: string
-  image?: string
-  /**
-   * @deprecated Use site config
-   */
-  inLanguage?: string
-  /**
-   * @deprecated Use site config
-   */
-  trailingSlash?: boolean
-  /**
-   * @deprecated Use site config
-   */
-  host?: string
-  /**
-   * @deprecated Use site config
-   */
-  url?: string
-  /**
-   * @deprecated Remove.
-   */
-  path?: string
-  /**
-   * @deprecated Remove.
-   */
-  title?: string
-  /**
-   * @deprecated Remove.
-   */
-  description?: string
-  /**
-   * @deprecated Remove.
-   */
-  datePublished?: Date | string
-  /**
-   * @deprecated Remove.
-   */
-  dateModified?: Date | string
 }
 
 export interface ModuleHooks {
+  'schema-org:meta': (meta: MetaInput) => void | Promise<void>
+}
 
+export interface ModulePublicRuntimeConfig {
+  ['nuxt-schema-org']: MetaInput
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -72,13 +51,17 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'nuxt-schema-org',
     configKey: 'schemaOrg',
     compatibility: {
-      nuxt: '^3.6.1',
+      nuxt: '^3.7.0',
       bridge: false,
     },
   },
-  defaults: {
-    enabled: true,
-    debug: false,
+  defaults(nuxt) {
+    return {
+      enabled: true,
+      debug: false,
+      reactive: nuxt.options.dev || !nuxt.options.ssr,
+      minify: process.env.NODE_ENV === 'production',
+    }
   },
   async setup(config, nuxt) {
     const logger = useLogger('nuxt-schema-org')
@@ -89,14 +72,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
     const { resolve } = createResolver(import.meta.url)
     await installNuxtSiteConfig()
-    if (config.host || config.url) {
-      updateSiteConfig({
-        url: config.host || config.url,
-        trailingSlash: config.trailingSlash,
-        defaultLocale: config.inLanguage,
-        _context: 'nuxt-schema-org',
-      })
-    }
 
     // set the runtime alias so nuxt knows where our types are
     const moduleRuntimeDir = resolve('./runtime')
@@ -110,7 +85,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     addPlugin({
       src: resolve(moduleRuntimeDir, 'plugin'),
-      mode: (nuxt.options.dev || !nuxt.options.ssr) ? 'all' : 'server',
+      mode: config.reactive ? 'all' : 'server',
     })
 
     for (const component of schemaOrgComponents) {

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { definePageMeta, useSchemaOrg, defineWebPage } from '#imports'
+
 definePageMeta({
   title: 'About page',
   description: 'this is the about page',
