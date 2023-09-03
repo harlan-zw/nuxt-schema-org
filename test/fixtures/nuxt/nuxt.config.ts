@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   modules: [
     NuxtSchemaOrg,
   ],
-  schemaOrg: {
-    host: 'https://example.com',
+  site: {
+    url: 'https://example.com',
   },
 })

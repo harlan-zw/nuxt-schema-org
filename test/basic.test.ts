@@ -28,6 +28,7 @@ describe('pages', () => {
           {
             "@id": "https://example.com/#website",
             "@type": "WebSite",
+            "inLanguage": "en",
             "name": "My Website",
             "publisher": {
               "@id": "https://example.com/#identity",
@@ -40,6 +41,7 @@ describe('pages', () => {
             "about": {
               "@id": "https://example.com/#identity",
             },
+            "description": "Schema.org for Nuxt",
             "isPartOf": {
               "@id": "https://example.com/#website",
             },
@@ -73,8 +75,9 @@ describe('pages', () => {
         "description": "Harlan Wilton - Last Name",
         "headline": "Harlan Wilton - Last Name",
         "image": {
-          "@id": "https://example.com/#/schema/image/4c11be9",
+          "@id": "https://example.com/#/schema/image/14b36a",
         },
+        "inLanguage": "en",
         "isPartOf": {
           "@id": "https://example.com/reactivity-computed/#webpage",
         },
