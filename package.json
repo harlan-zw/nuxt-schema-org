@@ -45,7 +45,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.7.0",
-    "@unhead/schema-org": "^1.4.1",
+    "@unhead/schema-org": "^1.5.0",
     "nuxt-site-config": "^1.0.11",
     "nuxt-site-config-kit": "^1.0.11",
     "pathe": "^1.1.1"
