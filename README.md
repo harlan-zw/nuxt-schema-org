@@ -10,7 +10,7 @@
 
 
 <p align="center">
-The quickest and easiest way to build Schema.org graphs for Nuxt.
+The quickest and easiest way to build Schema.org graphs for Nuxt. Powered by [Unhead](https://unhead.unjs.io).
 </p>
 
 <p align="center">
