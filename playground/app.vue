@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useRoute, computed, ref, useSchemaOrg, defineLocalBusiness, defineWebSite, useHead } from '#imports'
+import { computed, defineLocalBusiness, defineWebSite, ref, useHead, useRoute, useSchemaOrg } from '#imports'
 
 const route = useRoute()
 

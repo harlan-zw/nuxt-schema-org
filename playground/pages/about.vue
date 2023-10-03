@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { definePageMeta, useSchemaOrg, defineWebPage } from '#imports'
+import { definePageMeta, defineWebPage, useSchemaOrg } from '#imports'
 
 definePageMeta({
   title: 'About page',

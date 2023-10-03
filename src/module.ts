@@ -2,7 +2,8 @@ import {
   addComponent,
   addPlugin,
   createResolver,
-  defineNuxtModule, useLogger,
+  defineNuxtModule,
+  useLogger,
 } from '@nuxt/kit'
 
 // @ts-expect-error not sure why this is happening

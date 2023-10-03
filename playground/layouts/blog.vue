@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import type { BreadcrumbItem } from '@unhead/schema-org/vue'
-import { useRoute, computed } from '#imports'
+import { computed, useRoute } from '#imports'
 
 const route = useRoute()
 
