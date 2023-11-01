@@ -44,11 +44,15 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.7.4",
-    "@unhead/schema-org": "^1.7.4",
-    "nuxt-site-config": "^1.4.0",
-    "nuxt-site-config-kit": "^1.4.0",
-    "pathe": "^1.1.1"
+    "@nuxt/devtools-kit": "^1.0.0",
+    "@nuxt/devtools-ui-kit": "^1.0.0",
+    "@nuxt/kit": "^3.8.0",
+    "@unhead/schema-org": "^1.8.2",
+    "nuxt-site-config": "^1.5.5",
+    "nuxt-site-config-kit": "^1.5.5",
+    "pathe": "^1.1.1",
+    "shiki-es": "^0.14.0",
+    "sirv": "^2.0.3"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.0.0",

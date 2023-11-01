@@ -11,6 +11,7 @@ import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vu
 import type { NuxtModule } from '@nuxt/schema'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import type { MetaInput } from '@unhead/schema-org'
+import { setupDevToolsUI } from './devtools'
 
 export interface ModuleOptions {
   /**
@@ -101,5 +102,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hooks.hook('imports:sources', (autoImports) => {
       autoImports.unshift(...schemaOrgAutoImports)
     })
+
+    if (config.debug || nuxt.options.dev)
+      setupDevToolsUI(config, resolve)
   },
 }) as NuxtModule<ModuleOptions>
