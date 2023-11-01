@@ -62,7 +62,7 @@ export default defineNuxtModule<ModuleOptions>({
       enabled: true,
       debug: false,
       reactive: nuxt.options.dev || !nuxt.options.ssr,
-      minify: import.meta.env.PROD,
+      minify: !nuxt.options.dev,
     }
   },
   async setup(config, nuxt) {
