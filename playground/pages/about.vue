@@ -1,14 +1,21 @@
 <script setup lang="ts">
-import { definePageMeta, defineWebPage, useSchemaOrg } from '#imports'
+import { definePageMeta, defineWebPage, useHead, useSchemaOrg } from '#imports'
 
 definePageMeta({
   title: 'About page',
   description: 'this is the about page',
 })
 
+useHead({
+  templateParams: {
+    siteDescription: 'hello world',
+  },
+})
+
 useSchemaOrg([
   defineWebPage({
     '@type': 'AboutPage',
+    'description': '%siteDescription',
   }),
 ])
 </script>
