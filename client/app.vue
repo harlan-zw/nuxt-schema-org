@@ -1,19 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { loadShiki } from './composables/shiki'
-import { refreshSources, schemaOrgGraph } from './composables/state'
+import { schemaOrgGraph } from './composables/state'
 
 await loadShiki()
-
-const loading = ref(false)
-
-async function refresh() {
-  loading.value = true
-  await refreshSources()
-  setTimeout(() => {
-    loading.value = false
-  }, 300)
-}
 </script>
 
 <template>
@@ -45,22 +35,12 @@ async function refresh() {
     <div class="flex items-start space-x-5">
       <div>
         <h2 text-lg mb2 flex items-center gap-2>
-          <NIcon icon="carbon:connect-source opacity-50" />
-          Schema.org Graph
+          Graph
         </h2>
         <p text-sm op60 mb3>
-          See the sources used to generate your sitemap.
+          The schema.org graph for the current page. Will update when changing pages.
         </p>
       </div>
-      <NButton
-        size="sm"
-        @click="refresh"
-      >
-        <div v-if="!loading">
-          Refresh
-        </div>
-        <NIcon v-else icon="carbon:progress-bar-round" class="animated animate-spin op50 text-xs" />
-      </NButton>
     </div>
     <div>
       <OCodeBlock :code="schemaOrgGraph" lang="json" />

@@ -1,7 +1,7 @@
 import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
 import { ref } from 'vue'
 import type { NuxtDevtoolsClient } from '@nuxt/devtools-kit/dist/types'
-import { refreshSources, schemaOrgGraph } from './state'
+import { schemaOrgGraph } from './state'
 
 export const devtools = ref<NuxtDevtoolsClient>()
 
@@ -16,5 +16,4 @@ onDevtoolsClientConnected(async (client) => {
     }, 100)
   })
   devtools.value = client.devtools
-  refreshSources()
 })

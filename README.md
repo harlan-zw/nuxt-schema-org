@@ -33,6 +33,7 @@ The quickest and easiest way to build Schema.org graphs for Nuxt. Powered by [Un
 - 🧙 30+ Nodes with automated relations, date, URL resolving and more for best practice Schema.org
 - 💡 Simple global meta provides for minimal boilerplate
 - 🌳 Minimal code, optimised for tree-shaking and SSR
+- Nuxt Dev Tools integration
 
 ## Installation
 
