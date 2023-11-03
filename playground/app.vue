@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, defineLocalBusiness, defineWebSite, ref, useHead, useRoute, useSchemaOrg } from '#imports'
+import { computed, useSchemaOrgCustom, defineLocalBusiness, defineWebSite, ref, useHead, useRoute, useSchemaOrg } from '#imports'
 
 const route = useRoute()
 
@@ -11,6 +11,8 @@ const breadcrumbItems = computed(() => {
 })
 
 const name = ref('Harlan\'s Hamburgers')
+
+useSchemaOrgCustom()
 
 useSchemaOrg([
   defineLocalBusiness({

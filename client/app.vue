@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { loadShiki } from './composables/shiki'
 import { schemaOrgGraph } from './composables/state'
 

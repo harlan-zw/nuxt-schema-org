@@ -2,7 +2,7 @@ import { SchemaOrgUnheadPlugin } from '@unhead/schema-org'
 import { joinURL } from 'ufo'
 import { computed } from 'vue'
 import type { ModuleOptions } from '../module'
-import { defineNuxtPlugin, injectHead, useHead, useRouter, useRuntimeConfig, useSiteConfig } from '#imports'
+import { defineNuxtPlugin, injectHead, useHead, useRoute, useRuntimeConfig, useSiteConfig } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:init',
@@ -10,17 +10,17 @@ export default defineNuxtPlugin({
   setup(nuxtApp) {
     const head = injectHead()
     const config = useRuntimeConfig().public['nuxt-schema-org'] as ModuleOptions
-    const router = useRouter()
+    const route = useRoute()
 
     const siteConfig = useSiteConfig()
     const schemaOrg = computed(() => {
       return {
-        ...router.currentRoute.value.meta,
+        ...route.meta,
         ...siteConfig as Record<string, string>,
-        url: joinURL(siteConfig.url, router.currentRoute.value.path),
+        url: joinURL(siteConfig.url, route.path),
         host: siteConfig.url!,
         inLanguage: siteConfig.currentLocale || siteConfig.defaultLocale,
-        path: router.currentRoute.value.path,
+        path: route.path,
       }
     })
     useHead({
