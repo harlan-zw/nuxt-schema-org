@@ -89,6 +89,9 @@ export default defineNuxtModule<ModuleOptions>({
       src: resolve(moduleRuntimeDir, 'plugin'),
       mode: config.reactive ? 'all' : 'server',
     })
+    if (!config.reactive)
+      // defineRobotMeta is a server-only composable
+      nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = ['useSchemaOrg']
 
     for (const component of schemaOrgComponents) {
       await addComponent({
