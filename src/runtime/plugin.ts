@@ -15,7 +15,7 @@ export default defineNuxtPlugin({
     const siteConfig = useSiteConfig()
     const schemaOrg = computed(() => {
       return {
-        ...route.meta,
+        ...(route.meta?.schemaOrg || {}),
         ...siteConfig as Record<string, string>,
         url: joinURL(siteConfig.url, route.path),
         host: siteConfig.url!,
