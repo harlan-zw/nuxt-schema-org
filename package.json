@@ -36,10 +36,12 @@
   ],
   "scripts": {
     "lint": "eslint . --fix",
-    "build": "pnpm run dev:prepare && nuxt-module-build",
+    "client:build": "nuxi generate client",
+    "client:dev": "nuxi dev client --port 3300",
+    "build": "pnpm run dev:prepare && nuxt-module-build build && npm run client:build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub  && nuxi prepare playground",
     "release": "bumpp package.json --commit --push --tag",
     "test": "vitest"
   },
@@ -63,6 +65,7 @@
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
     "@nuxtjs/i18n": "^8.0.0-rc.5",
     "bumpp": "^9.2.0",
+    "cheerio": "1.0.0-rc.12",
     "eslint": "8.53.0",
     "nuxt": "^3.8.1",
     "nuxt-icon": "^0.6.6",
