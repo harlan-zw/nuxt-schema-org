@@ -93,8 +93,8 @@ export default defineNuxtModule<ModuleOptions>({
       mode: config.reactive ? 'all' : 'server',
     })
     if (!config.reactive)
-      // useSchemaOrg is a server-only composable
-      nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = ['useSchemaOrg']
+      // tree-shake all schema-org functions
+      nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = schemaOrgAutoImports[0].imports
 
     for (const component of schemaOrgComponents) {
       await addComponent({
