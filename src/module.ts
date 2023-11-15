@@ -72,6 +72,9 @@ export default defineNuxtModule<ModuleOptions>({
       logger.debug('The module is disabled, skipping setup.')
       return
     }
+    if (!nuxt.options.ssr && nuxt.options.dev)
+      logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
+
     const { resolve } = createResolver(import.meta.url)
     await installNuxtSiteConfig()
 

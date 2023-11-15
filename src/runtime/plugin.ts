@@ -23,11 +23,7 @@ export default defineNuxtPlugin({
         path: route.path,
       }
     })
-    useHead({
-      templateParams: {
-        schemaOrg,
-      },
-    })
+    head.push({ templateParams: { schemaOrg } })
     head.use(
       SchemaOrgUnheadPlugin({}, async () => {
         const meta = {}
