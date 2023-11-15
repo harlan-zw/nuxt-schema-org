@@ -125,7 +125,14 @@ export default defineNuxtModule<ModuleOptions>({
       autoImports.unshift(...schemaOrgAutoImports)
     })
 
-    if (config.debug || nuxt.options.dev)
+    if (config.debug || nuxt.options.dev) {
+      addServerHandler({
+        route: '/__schema-org__/debug.json',
+        handler: resolve('./runtime/routes/__schema-org__/debug'),
+      })
+    }
+
+    if (nuxt.options.dev)
       setupDevToolsUI(config, resolve)
   },
 }) as NuxtModule<ModuleOptions>
