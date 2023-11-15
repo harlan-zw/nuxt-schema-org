@@ -1,9 +1,19 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { loadShiki } from './composables/shiki'
-import { schemaOrgGraph } from './composables/state'
-import { ref, computed } from 'vue'
+import { refreshSources, schemaOrgGraph } from './composables/state'
 
 await loadShiki()
+
+const loading = ref(false)
+async function refresh() {
+  loading.value = true
+  schemaOrgGraph.value = null
+  await refreshSources()
+  setTimeout(() => {
+    loading.value = false
+  }, 300)
+}
 
 const tab = ref('nodes')
 const nodes = computed(() => JSON.parse(schemaOrgGraph.value)['@graph'])
@@ -67,7 +77,7 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value)['@graph'])
           <div v-if="value === 'raw'" :class="[value === tab ? '' : 'op35']">
             <div class="px-2 py-1">
               <h2 text-lg flex items-center gap-2 mb-1>
-                <NIcon icon="carbon:connect-source opacity-50" />
+                <NIcon icon="carbon:code opacity-50" />
                 Raw Snippet
               </h2>
               <p text-xs op60>
@@ -84,7 +94,17 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value)['@graph'])
           >
         </label>
       </fieldset>
-      <div class="mt-5">
+      <button
+        class="ml-5 hover:shadow-lg text-xs transition items-center gap-2 inline-flex border-green-500/50 border-1 rounded-lg shadow-sm px-3 py-1"
+        @click="refresh"
+      >
+        <div v-if="!loading">
+          Refresh Data
+        </div>
+        <NIcon v-else icon="carbon:progress-bar-round" class="animated animate-spin op50 text-xs" />
+      </button>
+      <NLoading v-if="!schemaOrgGraph || loading" />
+      <div v-else class="mt-5">
         <div v-if="tab === 'nodes'">
           <OSectionBlock v-for="(node, key) in nodes" :key="key">
             <template #text>
