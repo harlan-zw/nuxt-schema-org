@@ -1,20 +1,48 @@
 <script lang="ts" setup>
-import { computed, useSchemaOrgCustom, defineLocalBusiness, defineWebSite, ref, useHead, useRoute, useSchemaOrg } from '#imports'
+import {
+  defineLocalBusiness,
+  defineWebPage,
+  defineWebSite,
+  ref,
+  useHead,
+  useI18n,
+  useSchemaOrg,
+  useSchemaOrgCustom,
+  useSiteConfig,
+} from '#imports'
 
-const route = useRoute()
+// const route = useRoute()
 
-const breadcrumbItems = computed(() => {
-  const nav: any[] = [{ name: 'Home', item: '/' }, { name: 'Articles', item: '/blog' }]
-  if (route.path.startsWith('/blog/') && route.meta.title)
-    nav.push({ name: route.meta.title })
-  return nav
-})
+// const breadcrumbItems = computed(() => {
+//   const nav: any[] = [{ name: 'Home', item: '/' }, { name: 'Articles', item: '/blog' }]
+//   if (route.path.startsWith('/blog/') && route.meta.title)
+//     nav.push({ name: route.meta.title })
+//   return nav
+// })
 
 const name = ref('Harlan\'s Hamburgers')
 
 useSchemaOrgCustom()
 
+const i18n = useI18n()
+
+function setLanguage(code: string) {
+  i18n.setLocale(code)
+}
+
+const locale = useSiteConfig().currentLocale
+
+const languageOptions = [
+  [
+    { label: 'English', click() { setLanguage('en') } },
+    { label: 'French', click() { setLanguage('fr') } },
+  ],
+]
+
 useSchemaOrg([
+  defineWebPage({
+    name: 'Harlan Wilton',
+  }),
   defineLocalBusiness({
     name,
     logo: 'https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png',
@@ -52,53 +80,32 @@ const nav = [
 </script>
 
 <template>
-  <Html>
-    <Head>
-      <SchemaOrgWebSite name="Harlan Wilton" />
-      <SchemaOrgWebPage />
-    </Head>
-    <Body>
-      <div class="bg-blue-50 flex pb-20 flex-col items-center justify-center">
-        <div class="mb-20 mt-5 gap-5 container mx-auto">
-          <h1 class="mb-3 text-xl">
-            Harlan's Hamburgers 🍔
-          </h1>
-          <div class="flex items-center justify-between">
-            <div>
-              <template v-for="(link, key) in nav" :key="key">
-                <NuxtLink :to="link.item" class="underline mr-5">
-                  {{ link.name }}
-                </NuxtLink>
-              </template>
-              <input type="search" class="px-3 py-1 ml-full text-lg shadow border-2 border-grey-300 rounded-lg">
-            </div>
-            <a href="https://github.com/nuxt-schema-org/tree/main/playgrounds/nuxt3" class="ml-5 underline" target="_blank">GitHub Source</a>
+  <div class="flex flex-col min-h-screen">
+    <header class="sticky top-0 z-50 w-full backdrop-blur flex-none border-b">
+      <UContainer class="py-3">
+        <div class="flex items-center justify-between">
+          <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white">
+            🍔
+            Harlan's <span class="text-green-500">Hamburgers</span>
+          </NuxtLink>
+          <div class="space-x-2">
+            <UButton v-for="(link, key) in nav" :key="key" :to="link.item" variant="ghost">
+              {{ link.name }}
+            </UButton>
           </div>
+          <UDropdown :items="languageOptions" :popper="{ placement: 'bottom-start' }">
+            <UButton color="white" :label="locale" trailing-icon="i-heroicons-chevron-down-20-solid" />
+          </UDropdown>
         </div>
-        <div class="container mx-auto flex items-center gap-20">
-          <div />
-          <div class="w-full max-h-900px overflow-y-auto ">
-            <div>
-              <div>
-                <SchemaOrgBreadcrumb
-                  as="ul"
-                  class="flex space-x-4 text-sm opacity-50 list-none"
-                  :item-list-element="breadcrumbItems"
-                >
-                  <template v-for="(item, key) in breadcrumbItems" :key="key">
-                    <li v-if="item.item">
-                      <NuxtLink :to="item.item" class="inline">
-                        {{ item.name }}
-                      </NuxtLink>
-                    </li>
-                  </template>
-                </SchemaOrgBreadcrumb>
-              </div>
-              <NuxtPage />
-            </div>
-          </div>
-        </div>
-      </div>
-    </Body>
-  </Html>
+      </UContainer>
+    </header>
+    <main class="min-h-full h-full flex-grow">
+      <UContainer class="mt-4">
+        <NuxtPage />
+      </UContainer>
+    </main>
+    <footer class="text-sm text-gray-700 flex justify-center items-center py-5">
+      Made by <UAvatar src="https://avatars.githubusercontent.com/u/5326365?v=4" size="xs" class="max-w-5 w-5! h-5 mx-auto" /> Harlan Wilton
+    </footer>
+  </div>
 </template>

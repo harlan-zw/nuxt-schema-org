@@ -1,8 +1,8 @@
-import { SchemaOrgUnheadPlugin } from '@unhead/schema-org'
+import {type MetaInput, SchemaOrgUnheadPlugin} from '@unhead/schema-org'
 import { joinURL } from 'ufo'
 import { computed } from 'vue'
-import type { ModuleOptions } from '../module'
-import { defineNuxtPlugin, injectHead, useHead, useRoute, useRuntimeConfig, useSiteConfig } from '#imports'
+import type { ModuleRuntimeConfig } from './types'
+import { defineNuxtPlugin, injectHead, useRoute, useRuntimeConfig, useSiteConfig } from '#imports'
 
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:init',
@@ -25,7 +25,7 @@ export default defineNuxtPlugin({
     })
     head.push({ templateParams: { schemaOrg } })
     head.use(
-      SchemaOrgUnheadPlugin({}, async () => {
+      SchemaOrgUnheadPlugin({} as MetaInput, async () => {
         const meta = {}
         // call hook
         await nuxtApp.hooks.callHook('schema-org:meta', meta)

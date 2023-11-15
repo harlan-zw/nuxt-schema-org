@@ -8,7 +8,9 @@ import Module from '../src/module'
 export default defineNuxtConfig({
   modules: [
     Module,
-    'nuxt-windicss',
+    '@nuxt/ui',
+    'nuxt-icon',
+    '@nuxtjs/i18n',
     /**
      * Start a sub Nuxt Server for developing the client
      *
@@ -31,6 +33,7 @@ export default defineNuxtConfig({
           },
         )
         subprocess.getProcess().stdout?.on('data', (data) => {
+          // eslint-disable-next-line no-console
           console.log(` sub: ${data.toString()}`)
         })
 
@@ -45,12 +48,13 @@ export default defineNuxtConfig({
   ],
 
   site: {
-    url: 'https://example.com',
+    url: 'https://harlanhamburgers.com',
   },
 
   nitro: {
     prerender: {
       crawlLinks: true,
+      failOnError: false,
     },
   },
 })

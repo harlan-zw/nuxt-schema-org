@@ -1,6 +1,8 @@
 import {
   addComponent,
+  addImports,
   addPlugin,
+  addServerHandler,
   createResolver,
   defineNuxtModule,
   useLogger,
@@ -91,15 +93,10 @@ export default defineNuxtModule<ModuleOptions>({
     else
       nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
-    nuxt.options.runtimeConfig.public['nuxt-schema-org'] = config
-
-    nuxt.options.build.transpile.push(...[
-      moduleRuntimeDir,
-      '@unhead/schema-org',
-    ])
+    nuxt.options.build.transpile.push('@unhead/schema-org')
 
     addPlugin({
-      src: resolve(moduleRuntimeDir, 'plugin'),
+      src: resolve('runtime/plugin'),
       mode: config.reactive ? 'all' : 'server',
     })
     if (!config.reactive)
