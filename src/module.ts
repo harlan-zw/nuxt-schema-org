@@ -11,7 +11,9 @@ import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vu
 import type { NuxtModule } from '@nuxt/schema'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import type { MetaInput } from '@unhead/schema-org'
+import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
+import type { ModuleRuntimeConfig } from './runtime/types'
 
 export interface ModuleOptions {
   /**
@@ -78,8 +80,16 @@ export default defineNuxtModule<ModuleOptions>({
     const { resolve } = createResolver(import.meta.url)
     await installNuxtSiteConfig()
 
-    // set the runtime alias so nuxt knows where our types are
-    const moduleRuntimeDir = resolve('./runtime')
+    const runtimeConfig: ModuleRuntimeConfig = {
+      reactive: config.reactive,
+      minify: config.minify,
+      version,
+    }
+    // avoid polluting client-side bundle if we don't need to
+    if (config.reactive)
+      nuxt.options.runtimeConfig.public['nuxt-schema-org'] = runtimeConfig
+    else
+      nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
     nuxt.options.runtimeConfig.public['nuxt-schema-org'] = config
 
