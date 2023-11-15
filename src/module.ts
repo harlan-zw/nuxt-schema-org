@@ -105,7 +105,13 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
+    addImports({
+      from: resolve('./runtime/useSchemaOrg'),
+      name: 'useSchemaOrg',
+    })
+
     nuxt.hooks.hook('imports:sources', (autoImports) => {
+      schemaOrgAutoImports[0].imports = schemaOrgAutoImports[0].imports.filter(i => i !== 'useSchemaOrg')
       autoImports.unshift(...schemaOrgAutoImports)
     })
 
