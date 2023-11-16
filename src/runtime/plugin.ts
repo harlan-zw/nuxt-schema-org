@@ -1,4 +1,4 @@
-import {type MetaInput, SchemaOrgUnheadPlugin} from '@unhead/schema-org'
+import { type MetaInput, SchemaOrgUnheadPlugin } from '@unhead/schema-org'
 import { joinURL } from 'ufo'
 import { computed } from 'vue'
 import type { ModuleRuntimeConfig } from './types'

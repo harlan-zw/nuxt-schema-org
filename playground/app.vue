@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import {
-  defineLocalBusiness,
+  defineOrganization,
   defineWebPage,
   defineWebSite,
   ref,
@@ -43,7 +43,7 @@ useSchemaOrg([
   defineWebPage({
     name: 'Harlan Wilton',
   }),
-  defineLocalBusiness({
+  defineOrganization({
     name,
     logo: 'https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png',
     address: {
@@ -54,8 +54,6 @@ useSchemaOrg([
       addressCountry: 'US',
     },
     image: 'https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png',
-    telephone: '+1-781-555-1212',
-    priceRange: '$',
   }),
   defineWebSite({
     name: 'Harlan\'s Hamburgers',

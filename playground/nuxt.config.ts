@@ -51,6 +51,15 @@ export default defineNuxtConfig({
     url: 'https://harlanhamburgers.com',
   },
 
+  schemaOrg: {
+    scriptAttributes: {
+      'tagPosition': 'head',
+      'tagPriority': 0,
+      'id': 'schema-org-graph',
+      'data-foo': 'bar',
+    },
+  },
+
   nitro: {
     prerender: {
       crawlLinks: true,

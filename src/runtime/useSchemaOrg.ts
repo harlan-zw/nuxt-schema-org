@@ -1,12 +1,15 @@
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
+import type { ModuleRuntimeConfig } from './types'
 import { useHead, useRuntimeConfig, useServerHead } from '#imports'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]
 export function useSchemaOrg(input: Input) {
+  const config = (useRuntimeConfig()['nuxt-schema-org'] || useRuntimeConfig().public['nuxt-schema-org']) as ModuleRuntimeConfig
   const script = {
     type: 'application/ld+json',
     key: 'schema-org-graph',
     nodes: input,
+    ...config?.scriptAttributes || {},
   }
   if (import.meta.server) {
     // we don't need to use the direct composable as the plugin is already registered
@@ -15,8 +18,7 @@ export function useSchemaOrg(input: Input) {
     })
   }
   else {
-    const runtimeConfig = useRuntimeConfig().public['nuxt-schema-org']
-    if (runtimeConfig?.reactive) {
+    if (config?.reactive) {
       return useHead<{ script: { nodes: Input } }>({
         script: [script],
       })

@@ -13,6 +13,7 @@ import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vu
 import type { NuxtModule } from '@nuxt/schema'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import type { MetaInput } from '@unhead/schema-org'
+import type { TagUserProperties, ScriptBase } from '@unhead/schema'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
 import type { ModuleRuntimeConfig } from './runtime/types'
@@ -36,6 +37,12 @@ export interface ModuleOptions {
    * @default `process.dev || !nuxt.options.ssr`
    */
   reactive: boolean
+  /**
+   * Attributes to apply to the script tag containing the LD+JSON Schema.org snippet.
+   *
+   * By default, will apply an `id` of `schema-org-graph`. Set to `false` to apply no attributes.
+   */
+  scriptAttributes?: (ScriptBase & TagUserProperties) | false
   /**
    * Enables debug logs.
    *
@@ -79,18 +86,27 @@ export default defineNuxtModule<ModuleOptions>({
     if (!nuxt.options.ssr && nuxt.options.dev)
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
 
+    if (typeof config.scriptAttributes === 'undefined') {
+      config.scriptAttributes = {
+        id: 'schema-org-graph',
+      }
+    }
+
     const { resolve } = createResolver(import.meta.url)
     await installNuxtSiteConfig()
 
     const runtimeConfig: ModuleRuntimeConfig = {
       reactive: config.reactive,
       minify: config.minify,
+      scriptAttributes: config.scriptAttributes,
       version,
     }
     // avoid polluting client-side bundle if we don't need to
     if (config.reactive)
+      // @ts-ignore untyped
       nuxt.options.runtimeConfig.public['nuxt-schema-org'] = runtimeConfig
     else
+      // @ts-ignore untyped
       nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
     nuxt.options.build.transpile.push('@unhead/schema-org')
