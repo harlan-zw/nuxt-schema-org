@@ -1,7 +1,7 @@
 {
   "name": "nuxt-schema-org",
   "type": "module",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "packageManager": "pnpm@8.10.5",
   "description": "Schema.org for Nuxt",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
