@@ -13,7 +13,7 @@ import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vu
 import type { NuxtModule } from '@nuxt/schema'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import type { MetaInput } from '@unhead/schema-org'
-import type { TagUserProperties, ScriptBase } from '@unhead/schema'
+import type { ScriptBase, TagUserProperties } from '@unhead/schema'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
 import type { ModuleRuntimeConfig } from './runtime/types'
