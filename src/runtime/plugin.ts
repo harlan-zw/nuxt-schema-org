@@ -2,7 +2,7 @@ import { SchemaOrgUnheadPlugin } from '@unhead/schema-org'
 import type { MetaInput as _MetaInput } from '@unhead/schema-org'
 import { joinURL } from 'ufo'
 import { computed } from 'vue'
-import type { ModuleRuntimeConfig, MetaInput } from './types'
+import type { MetaInput, ModuleRuntimeConfig } from './types'
 import { defineNuxtPlugin, injectHead, useRoute, useRuntimeConfig, useSiteConfig } from '#imports'
 
 export default defineNuxtPlugin({
