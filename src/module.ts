@@ -12,11 +12,11 @@ import {
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
 import type { NuxtModule } from '@nuxt/schema'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
-import type { MetaInput } from '@unhead/schema-org'
 import type { ScriptBase, TagUserProperties } from '@unhead/schema'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
-import type { ModuleRuntimeConfig } from './runtime/types'
+import type { MetaInput, ModuleRuntimeConfig } from './runtime/types'
+import { extendTypes } from './kit'
 
 export interface ModuleOptions {
   /**
@@ -52,7 +52,6 @@ export interface ModuleOptions {
 }
 
 export interface ModuleHooks {
-  'schema-org:meta': (meta: MetaInput) => void | Promise<void>
 }
 
 export interface ModulePublicRuntimeConfig {
@@ -103,10 +102,9 @@ export default defineNuxtModule<ModuleOptions>({
     }
     // avoid polluting client-side bundle if we don't need to
     if (config.reactive)
-      // @ts-ignore untyped
       nuxt.options.runtimeConfig.public['nuxt-schema-org'] = runtimeConfig
     else
-      // @ts-ignore untyped
+      // @ts-expect-error untyped
       nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
     nuxt.options.build.transpile.push('@unhead/schema-org')
@@ -136,6 +134,21 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.hooks.hook('imports:sources', (autoImports) => {
       schemaOrgAutoImports[0].imports = schemaOrgAutoImports[0].imports.filter((i: string) => i !== 'useSchemaOrg')
       autoImports.unshift(...schemaOrgAutoImports)
+    })
+
+    extendTypes('nuxt-schema-org', ({ typesPath }) => {
+      return `
+declare module '@nuxt/schema' {
+  export interface RuntimeNuxtHooks {
+    'schema-org:meta': (meta: import('${typesPath}').MetaInput) => void | Promise<void>
+  }
+}
+declare module '#app' {
+  export interface RuntimeNuxtHooks {
+    'schema-org:meta': (meta: import('${typesPath}').MetaInput) => void | Promise<void>
+  }
+}
+`
     })
 
     if (config.debug || nuxt.options.dev) {
