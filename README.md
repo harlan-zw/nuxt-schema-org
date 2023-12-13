@@ -8,7 +8,6 @@
 <a href="https://github.com/harlan-zw/nuxt-schema-org" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-schema-org?flat&colorA=002438&colorB=28CF8D"></a>
 </p>
 
-
 <p align="center">
 The quickest and easiest way to build Schema.org graphs for Nuxt. Powered by [Unhead](https://unhead.unjs.io).
 </p>
@@ -48,7 +47,6 @@ npm install -D nuxt-schema-org
 pnpm i -D nuxt-schema-org
 ```
 
-
 2. Add it to your `modules` section in your `nuxt.config`:
 
 ```ts
@@ -61,7 +59,6 @@ export default defineNuxtConfig({
 
 [📖 Read the full documentation](https://nuxtseo.com/schema-org) for more information.
 
-
 ### Demos
 
 - [Nuxt Schema.org - StackBlitz](https://stackblitz.com/edit/nuxt-starter-z9np1t?file=package.json)
@@ -73,7 +70,6 @@ export default defineNuxtConfig({
     <img src='https://raw.githubusercontent.com/harlan-zw/static/main/sponsors.svg'/>
   </a>
 </p>
-
 
 ## License
 
