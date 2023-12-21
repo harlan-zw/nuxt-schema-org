@@ -1,5 +1,5 @@
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
-import type { ModuleRuntimeConfig } from './types'
+import type { ModuleRuntimeConfig } from '../../types'
 import { useHead, useRuntimeConfig, useServerHead } from '#imports'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]

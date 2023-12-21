@@ -19,16 +19,9 @@ describe('pages', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://example.com/#identity",
-            "@type": "Person",
-            "jobTitle": "Software Engineer",
-            "name": "Harlan",
-            "url": "https://example.com",
-          },
-          {
             "@id": "https://example.com/#website",
             "@type": "WebSite",
-            "inLanguage": "en",
+            "description": "Schema.org for Nuxt",
             "name": "My Website",
             "publisher": {
               "@id": "https://example.com/#identity",
@@ -52,7 +45,20 @@ describe('pages', () => {
                   "https://example.com",
                 ],
               },
+              {
+                "@type": "ReadAction",
+                "target": [
+                  "https://example.com",
+                ],
+              },
             ],
+            "url": "https://example.com",
+          },
+          {
+            "@id": "https://example.com/#identity",
+            "@type": "Person",
+            "jobTitle": "Software Engineer",
+            "name": "Harlan",
             "url": "https://example.com",
           },
         ],
@@ -75,9 +81,8 @@ describe('pages', () => {
         "description": "Harlan Wilton - Last Name",
         "headline": "Harlan Wilton - Last Name",
         "image": {
-          "@id": "https://example.com/#/schema/image/14b36a",
+          "@id": "https://example.com/#/schema/image/4c11be9",
         },
-        "inLanguage": "en",
         "isPartOf": {
           "@id": "https://example.com/reactivity-computed/#webpage",
         },

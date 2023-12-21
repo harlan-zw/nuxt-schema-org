@@ -13,12 +13,21 @@ import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vu
 import type { NuxtModule } from '@nuxt/schema'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import type { ScriptBase, TagUserProperties } from '@unhead/schema'
+import type { OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
-import type { MetaInput, ModuleRuntimeConfig } from './runtime/types'
+import type { ModuleRuntimeConfig } from './runtime/types'
 import { extendTypes } from './kit'
 
 export interface ModuleOptions {
+  /**
+   * Whether a default WebPage, WebSite and Identity node be created.
+   */
+  defaults?: boolean
+  /**
+   * The identity of the site.
+   */
+  identity?: 'Person' | 'Organization' | OrganizationSimple | PersonSimple
   /**
    * Whether the module should be loaded.
    *
@@ -54,10 +63,6 @@ export interface ModuleOptions {
 export interface ModuleHooks {
 }
 
-export interface ModulePublicRuntimeConfig {
-  ['nuxt-schema-org']: MetaInput
-}
-
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-schema-org',
@@ -71,6 +76,7 @@ export default defineNuxtModule<ModuleOptions>({
     return {
       enabled: true,
       debug: false,
+      defaults: true,
       reactive: nuxt.options.dev || !nuxt.options.ssr,
       minify: !nuxt.options.dev,
     }
@@ -98,6 +104,7 @@ export default defineNuxtModule<ModuleOptions>({
       reactive: config.reactive,
       minify: config.minify,
       scriptAttributes: config.scriptAttributes,
+      identity: config.identity,
       version,
     }
     // avoid polluting client-side bundle if we don't need to
@@ -110,9 +117,16 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.build.transpile.push('@unhead/schema-org')
 
     addPlugin({
-      src: resolve('runtime/plugin'),
+      src: resolve('runtime/nuxt/plugin/init'),
       mode: config.reactive ? 'all' : 'server',
     })
+    if (config.defaults) {
+      addPlugin({
+        src: resolve('./runtime/nuxt/plugin/defaults'),
+        mode: config.reactive ? 'all' : 'server',
+      })
+    }
+
     if (!config.reactive)
       // tree-shake all schema-org functions
       nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = schemaOrgAutoImports[0].imports
@@ -127,7 +141,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     addImports({
-      from: resolve('./runtime/useSchemaOrg'),
+      from: resolve('./runtime/nuxt/imports/useSchemaOrg'),
       name: 'useSchemaOrg',
     })
 
@@ -154,7 +168,7 @@ declare module '#app' {
     if (config.debug || nuxt.options.dev) {
       addServerHandler({
         route: '/__schema-org__/debug.json',
-        handler: resolve('./runtime/routes/__schema-org__/debug'),
+        handler: resolve('./runtime/nitro/routes/__schema-org__/debug'),
       })
     }
 
