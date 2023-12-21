@@ -2,7 +2,7 @@
   "name": "nuxt-schema-org",
   "type": "module",
   "version": "3.2.3",
-  "packageManager": "pnpm@8.12.0",
+  "packageManager": "pnpm@8.12.1",
   "description": "Schema.org for Nuxt",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
@@ -47,31 +47,32 @@
     "test": "vitest"
   },
   "dependencies": {
-    "@nuxt/devtools-kit": "^1.0.5",
-    "@nuxt/devtools-ui-kit": "^1.0.5",
+    "@nuxt/devtools-kit": "^1.0.6",
+    "@nuxt/devtools-ui-kit": "^1.0.6",
     "@nuxt/kit": "^3.8.2",
     "@unhead/schema-org": "^1.8.9",
-    "nuxt-site-config": "^1.6.7",
-    "nuxt-site-config-kit": "^1.6.7",
+    "floating-vue": "2.0.0-beta.24",
+    "nuxt-site-config": "^2.1.2",
+    "nuxt-site-config-kit": "^2.1.2",
     "pathe": "^1.1.1",
     "shiki-es": "^0.14.0",
-    "sirv": "^2.0.3"
+    "sirv": "^2.0.4"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.4.5",
+    "@antfu/eslint-config": "^2.4.6",
     "@nuxt/module-builder": "^0.5.4",
     "@nuxt/schema": "^3.8.2",
-    "@nuxt/test-utils": "^3.8.1",
+    "@nuxt/test-utils": "^3.9.0",
     "@nuxt/ui": "^2.11.1",
     "@nuxtjs/eslint-config-typescript": "^12.1.0",
-    "@nuxtjs/i18n": "^8.0.0-rc.9",
+    "@nuxtjs/i18n": "^8.0.0-rc.11",
     "bumpp": "^9.2.1",
     "cheerio": "1.0.0-rc.12",
-    "eslint": "8.55.0",
+    "eslint": "8.56.0",
     "nuxt": "^3.8.2",
     "nuxt-icon": "^0.6.7",
     "typescript": "^5.3.3",
-    "vitest": "1.0.4"
+    "vitest": "1.1.0"
   },
   "build": {
     "externals": [

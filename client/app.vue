@@ -1,110 +1,143 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { loadShiki } from './composables/shiki'
-import { refreshSources, schemaOrgGraph } from './composables/state'
+import 'floating-vue/dist/style.css'
+import { schemaOrgGraph } from './util/logic'
+import { useHead } from '#imports'
 
-await loadShiki()
+useHead({
+  title: 'Nuxt Schema.org Playground',
+})
 
-const loading = ref(false)
-async function refresh() {
-  loading.value = true
-  schemaOrgGraph.value = null
-  await refreshSources()
-  setTimeout(() => {
-    loading.value = false
-  }, 300)
-}
+const { data } = fetchGlobalDebug()
+
+// async function refresh() {
+//   // loading.value = true
+//   schemaOrgGraph.value = null
+//   await refreshSources()
+//   setTimeout(() => {
+//     // loading.value = false
+//   }, 300)
+// }
 
 const tab = ref('nodes')
-const nodes = computed(() => JSON.parse(schemaOrgGraph.value)['@graph'])
+const nodes = computed(() => JSON.parse(schemaOrgGraph.value || { '@graph': [] })['@graph'])
 </script>
 
 <template>
-  <div class="relative p8 n-bg-base flex flex-col h-screen">
-    <div>
-      <div class="flex justify-between items-center" mb6>
-        <div>
-          <h1 text-xl mb2 flex items-center gap-2>
-            <NIcon icon="carbon:chart-relationship text-blue-300" />
+  <div class="relative n-bg-base flex flex-col">
+    <header class="sticky top-0 z-2 px-4 pt-4">
+      <div class="flex justify-between items-start" mb2>
+        <div class="flex space-x-5">
+          <h1 text-xl flex items-center gap-2>
+            <NIcon icon="carbon:image-search" class="text-blue-300" />
             Nuxt Schema.org <NBadge class="text-sm">
-              {{ data?.runtimeConfig?.version }}
+              {{ data?.runtimeConfig.version }}
             </NBadge>
           </h1>
-          <div class="space-x-3 mt-1 ml-1 opacity-80 text-sm">
-            <NLink href="https://nuxtseo.com/sitemap" target="_blank">
-              <NuxtSeoLogo class="mr-[2px] w-5 h-5 inline" />
-              Documentation
+        </div>
+        <div class="flex items-center space-x-3 text-xl">
+          <fieldset
+            class="n-select-tabs flex flex-inline flex-wrap items-center border n-border-base rounded-lg n-bg-base"
+          >
+            <label
+              v-for="(value, idx) of ['nodes', 'raw', 'debug', 'docs']"
+              :key="idx"
+              class="relative n-border-base hover:n-bg-active cursor-pointer"
+              :class="[
+                idx ? 'border-l n-border-base ml--1px' : '',
+                value === tab ? 'n-bg-active' : '',
+              ]"
+            >
+              <div v-if="value === 'nodes'" :class="[value === tab ? '' : 'op35']">
+                <VTooltip>
+                  <div class="px-5 py-2">
+                    <h2 text-lg flex items-center>
+                      <NIcon icon="carbon:connect-source opacity-50" />
+                    </h2>
+                  </div>
+                  <template #popper>
+                    Nodes
+                  </template>
+                </VTooltip>
+              </div>
+              <div v-if="value === 'raw'" :class="[value === tab ? '' : 'op35']">
+                <VTooltip>
+                  <div class="px-5 py-2">
+                    <h2 text-lg flex items-center>
+                      <NIcon icon="carbon:code opacity-50" />
+                    </h2>
+                  </div>
+                  <template #popper>
+                    Raw
+                  </template>
+                </VTooltip>
+              </div>
+              <div v-else-if="value === 'debug'" :class="[value === tab ? '' : 'op35']">
+                <VTooltip>
+                  <div class="px-5 py-2">
+                    <h2 text-lg flex items-center>
+                      <NIcon icon="carbon:debug opacity-50" />
+                    </h2>
+                  </div>
+                  <template #popper>
+                    Debug
+                  </template>
+                </VTooltip>
+              </div>
+              <div v-else-if="value === 'docs'" :class="[value === tab ? '' : 'op35']">
+                <VTooltip>
+                  <div class="px-5 py-2">
+                    <h2 text-lg flex items-center>
+                      <NIcon icon="carbon:book opacity-50" />
+                    </h2>
+                  </div>
+                  <template #popper>
+                    Documentation
+                  </template>
+                </VTooltip>
+              </div>
+              <input
+                v-model="tab"
+                type="radio"
+                :value="value"
+                :title="value"
+                class="absolute cursor-pointer pointer-events-none inset-0 op-0.1"
+              >
+            </label>
+          </fieldset>
+          <VTooltip>
+            <button text-lg="" type="button" class="n-icon-button n-button n-transition n-disabled:n-disabled" @click="refreshSources">
+              <NIcon icon="carbon:reset" class="group-hover:text-green-500" />
+            </button>
+            <template #popper>
+              Refresh
+            </template>
+          </VTooltip>
+        </div>
+        <div class="items-center space-x-3 hidden lg:flex">
+          <div class="opacity-80 text-sm">
+            <NLink href="https://github.com/sponsors/harlan-zw" target="_blank">
+              <NIcon icon="carbon:favorite" class="mr-[2px]" />
+              Sponsor
             </NLink>
-            <NLink href="https://github.com/harlan-zw/nuxt-simple-sitemap" target="_blank">
+          </div>
+          <div class="opacity-80 text-sm">
+            <NLink href="https://github.com/harlan-zw/nuxt-schema-org" target="_blank">
+              <NIcon icon="logos:github-icon" class="mr-[2px]" />
               Submit an issue
             </NLink>
           </div>
-        </div>
-        <div>
           <a href="https://nuxtseo.com" target="_blank" class="flex items-end gap-1.5 font-semibold text-xl dark:text-white font-title">
             <NuxtSeoLogo />
             <span class="hidden sm:block">Nuxt</span><span class="sm:text-green-500 dark:sm:text-green-400">SEO</span>
           </a>
         </div>
       </div>
-    </div>
-    <div>
-      <fieldset
-        class="n-select-tabs flex flex-inline flex-wrap items-center border n-border-base rounded-lg n-bg-base"
-      >
-        <label
-          v-for="(value, idx) of ['nodes', 'raw']"
-          :key="idx"
-          class="relative n-border-base hover:n-bg-active px-0.5em py-0.1em"
-          :class="[
-            idx ? 'border-l n-border-base ml--1px' : '',
-            value === tab ? 'n-bg-active' : '',
-          ]"
-        >
-          <div v-if="value === 'nodes'" :class="[value === tab ? '' : 'op35']">
-            <div class="px-2 py-1">
-              <h2 text-lg flex items-center gap-2 mb-1>
-                <NIcon icon="carbon:connect-source opacity-50" />
-                Nodes <NBadge class="text-sm">
-                  {{ nodes.length }}
-                </NBadge>
-              </h2>
-              <p text-xs op60>
-                The Schema.org nodes that are generated from your application.
-              </p>
-            </div>
-          </div>
-          <div v-if="value === 'raw'" :class="[value === tab ? '' : 'op35']">
-            <div class="px-2 py-1">
-              <h2 text-lg flex items-center gap-2 mb-1>
-                <NIcon icon="carbon:code opacity-50" />
-                Raw Snippet
-              </h2>
-              <p text-xs op60>
-                The raw JSON-LD snippet that is generated from your application.
-              </p>
-            </div>
-          </div>
-          <input
-            v-model="tab"
-            type="radio"
-            :value="value"
-            :title="value"
-            class="absolute inset-0 op-0.1"
-          >
-        </label>
-      </fieldset>
-      <button
-        class="ml-5 hover:shadow-lg text-xs transition items-center gap-2 inline-flex border-green-500/50 border-1 rounded-lg shadow-sm px-3 py-1"
-        @click="refresh"
-      >
-        <div v-if="!loading">
-          Refresh Data
+    </header>
+    <div class="flex-row flex p4 h-full" style="min-height: calc(100vh - 64px);">
+      <main class="mx-auto flex flex-col w-full bg-white dark:bg-black dark:bg-dark-700 bg-light-200 ">
+        <div v-if="!data">
+          <NLoading />
         </div>
-        <NIcon v-else icon="carbon:progress-bar-round" class="animated animate-spin op50 text-xs" />
-      </button>
-      <NLoading v-if="!schemaOrgGraph || loading" />
-      <div v-else class="mt-5">
         <div v-if="tab === 'nodes'">
           <OSectionBlock v-for="(node, key) in nodes" :key="key">
             <template #text>
@@ -116,11 +149,11 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value)['@graph'])
               <div>{{ node['@id'] }}</div>
             </template>
             <div class="px-3 py-2 space-y-5">
-              <OCodeBlock :code="JSON.stringify(node, null, 4)" lang="json" />
+              <OCodeBlock :code="JSON.stringify(node, null, 2)" lang="json" />
             </div>
           </OSectionBlock>
         </div>
-        <div v-if="tab === 'raw'" class="space-y-5">
+        <div v-else-if="tab === 'raw'" class="space-y-5">
           <div class="space-x-3">
             <NLink to="https://validator.schema.org/" target="_blank">
               <NIcon icon="carbon:launch" class="text-xs mr-1 opacity-50" />Structured Data Test
@@ -131,8 +164,168 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value)['@graph'])
           </div>
           <OCodeBlock :code="schemaOrgGraph" lang="json" />
         </div>
-      </div>
+        <div v-else-if="tab === 'debug'" class="space-y-5">
+          <OSectionBlock>
+            <template #text>
+              <h3 class="opacity-80 text-base mb-1">
+                <NIcon icon="carbon:settings" class="mr-1" />
+                Runtime Config
+              </h3>
+            </template>
+            <div class="px-3 py-2 space-y-5">
+              <pre of-auto h-full text-sm style="white-space: break-spaces;" v-html="highlight(JSON.stringify(data?.runtimeConfig || {}, null, 2), 'json')" />
+            </div>
+          </OSectionBlock>
+        </div>
+        <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
+          <iframe src="https://nuxtseo.com/schema-org" class="w-full h-full border-none" style="min-height: calc(100vh - 100px);" />
+        </div>
+      </main>
     </div>
-    <div class="flex-auto" />
   </div>
 </template>
+
+<style>
+.tab-panels {
+  width: 100%;
+}
+div[role="tabpanel"] {
+  width: 100%;
+  display: flex;
+}
+.splitpanes.default-theme .splitpanes__pane {
+  background-color: transparent !important;
+}
+.dark .splitpanes.default-theme .splitpanes__splitter {
+  background-color: transparent !important;
+  border-left: 1px solid rgba(156, 163, 175, 0.05);
+  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0));
+}
+.dark .splitpanes.default-theme .splitpanes__splitter:before, .splitpanes.default-theme .splitpanes__splitter:after {
+  background-color: rgba(156, 163, 175, 0.3) !important;
+}
+
+header {
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  background-color: #fffc;
+}
+
+.dark header {
+  background-color: #111c;
+}
+
+html {
+  --at-apply: font-sans;
+  overflow-y: scroll;
+  overscroll-behavior: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+body::-webkit-scrollbar {
+  display: none;
+}
+body {
+  /* trap scroll inside iframe */
+  height: calc(100vh + 1px);
+}
+
+html.dark {
+  background: #111;
+  color-scheme: dark;
+}
+
+/* Markdown */
+.n-markdown a {
+  --at-apply: text-primary hover:underline;
+}
+.prose a {
+  --uno: hover:text-primary;
+}
+.prose code::before {
+  content: ""
+}
+.prose code::after {
+  content: ""
+}
+.prose hr {
+  --uno: border-solid border-1 border-b border-base h-1px w-full block my-2 op50;
+}
+
+.dark .shiki {
+  background: var(--shiki-dark-bg, inherit) !important;
+}
+
+.dark .shiki span {
+  color: var(--shiki-dark, inherit) !important;
+}
+
+/* JSON Editor */
+textarea {
+  background: #8881
+}
+
+:root {
+  --jse-theme-color: #fff !important;
+  --jse-text-color-inverse: #777 !important;
+  --jse-theme-color-highlight: #eee !important;
+  --jse-panel-background: #fff !important;
+  --jse-background-color: var(--jse-panel-background) !important;
+  --jse-error-color: #ee534150 !important;
+  --jse-main-border: none !important;
+}
+
+.dark, .jse-theme-dark {
+  --jse-panel-background: #111 !important;
+  --jse-theme-color: #111 !important;
+  --jse-text-color-inverse: #fff !important;
+  --jse-main-border: none !important;
+}
+
+.no-main-menu {
+  border: none !important;
+}
+
+.jse-main {
+  min-height: 1em !important;
+}
+
+.jse-contents {
+  border-width: 0 !important;
+  border-radius: 5px !important;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 6px;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--c-border);
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8881;
+  transition: background 0.2s ease;
+  border-radius: 1px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #8885;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0 !important;
+  height: 0 !important;
+}
+</style>

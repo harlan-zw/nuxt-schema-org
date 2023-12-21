@@ -2,7 +2,7 @@
 import type { Lang } from 'shiki-es'
 import { computed } from 'vue'
 import { useClipboard } from '@vueuse/core'
-import { renderCodeHighlight } from '../composables/shiki'
+import { highlight } from '../composables/shiki'
 
 const props = withDefaults(
   defineProps<{
@@ -27,8 +27,8 @@ function copy() {
 }
 
 const rendered = computed(() => {
-  const code = renderCodeHighlight(props.code, props.lang)
-  return props.transformRendered ? props.transformRendered(code.value || '') : code.value
+  const code = highlight(props.code, props.lang)
+  return props.transformRendered ? props.transformRendered(code || '') : code
 })
 </script>
 
