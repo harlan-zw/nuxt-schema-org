@@ -20,6 +20,4 @@ onDevtoolsClientConnected(async (client) => {
   })
   schemaOrgGraph.value = (await head.resolveTags())
     .filter(t => t.key === 'schema-org-graph')[0]?.innerHTML
-  // unheadInstance.value = head
-  // refreshSources()
 })
