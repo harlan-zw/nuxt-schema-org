@@ -2,6 +2,7 @@
 import 'floating-vue/dist/style.css'
 import { schemaOrgGraph } from './util/logic'
 import { useHead } from '#imports'
+import { useLocalStorage } from '@vueuse/core'
 
 useHead({
   title: 'Nuxt Schema.org Playground',
@@ -29,7 +30,7 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value || { '@graph': [] }
         <div class="flex space-x-5">
           <h1 text-xl flex items-center gap-2>
             <NIcon icon="carbon:image-search" class="text-blue-300" />
-            Nuxt Schema.org <NBadge class="text-sm">
+            Schema.org <NBadge class="text-sm">
               {{ data?.runtimeConfig.version }}
             </NBadge>
           </h1>
@@ -128,7 +129,6 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value || { '@graph': [] }
           </div>
           <a href="https://nuxtseo.com" target="_blank" class="flex items-end gap-1.5 font-semibold text-xl dark:text-white font-title">
             <NuxtSeoLogo />
-            <span class="hidden sm:block">Nuxt</span><span class="sm:text-green-500 dark:sm:text-green-400">SEO</span>
           </a>
         </div>
       </div>
