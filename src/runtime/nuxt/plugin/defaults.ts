@@ -6,9 +6,9 @@ import {
   definePerson,
   defineWebPage,
   defineWebSite,
+  useRuntimeConfig,
   useSchemaOrg,
   useSiteConfig,
-  useRuntimeConfig,
 } from '#imports'
 
 export default defineNuxtPlugin({
@@ -18,13 +18,16 @@ export default defineNuxtPlugin({
     // get the head instance
     const siteConfig = useSiteConfig()
 
+    // we need a name by default
+    if (!siteConfig?.name)
+      return
+
     // init vendors
     useSchemaOrg([
       defineWebSite({
-        name: () => siteConfig?.name || '',
-        // TODO integrate with nuxt/i18n
-        inLanguage: () => siteConfig?.currentLocale || '',
-        description: () => siteConfig?.description || '',
+        name: siteConfig?.name || '',
+        inLanguage: siteConfig?.currentLocale || '',
+        description: siteConfig?.description || '',
       }),
       defineWebPage(),
     ])
