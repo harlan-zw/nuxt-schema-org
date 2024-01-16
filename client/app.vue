@@ -2,7 +2,6 @@
 import 'floating-vue/dist/style.css'
 import { schemaOrgGraph } from './util/logic'
 import { useHead } from '#imports'
-import { useLocalStorage } from '@vueuse/core'
 
 useHead({
   title: 'Nuxt Schema.org Playground',
