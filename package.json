@@ -76,7 +76,8 @@
   },
   "build": {
     "externals": [
-      "@unhead/schema"
+      "@unhead/schema",
+      "@unhead/schema-org/vue"
     ]
   }
 }
