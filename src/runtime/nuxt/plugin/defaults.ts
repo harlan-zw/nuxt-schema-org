@@ -41,6 +41,9 @@ export default defineNuxtPlugin({
       if (typeof identity !== 'string') {
         identityPayload = defu(identity, identityPayload)
         identityType = identity.type
+
+        // Remove type from object to avoid invalid markup
+        delete identity.type;
       }
       else {
         identityType = identity
