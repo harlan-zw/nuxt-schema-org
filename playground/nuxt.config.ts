@@ -49,6 +49,10 @@ export default defineNuxtConfig({
 
   site: {
     url: 'https://harlanhamburgers.com',
+    identity: {
+      type: 'Organization',
+      name: 'Harlan Hamburgers',
+    },
   },
 
   schemaOrg: {

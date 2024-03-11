@@ -41,7 +41,7 @@
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build build --stub  && nuxi prepare playground",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground && nuxi prepare client",
     "release": "pnpm build && bumpp && pnpm -r publish",
     "typecheck": "tsc --noEmit ",
     "test": "vitest"
@@ -50,7 +50,7 @@
     "@nuxt/devtools-kit": "^1.0.8",
     "@nuxt/devtools-ui-kit": "^1.0.8",
     "@nuxt/kit": "^3.10.3",
-    "@unhead/schema-org": "^1.8.12",
+    "@unhead/schema-org": "^1.8.13",
     "floating-vue": "5.2.2",
     "nuxt-site-config": "^2.2.11",
     "nuxt-site-config-kit": "^2.2.11",
