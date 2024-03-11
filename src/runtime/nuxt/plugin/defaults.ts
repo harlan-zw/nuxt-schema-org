@@ -43,7 +43,7 @@ export default defineNuxtPlugin({
         identityType = identity.type
 
         // Remove type from object to avoid invalid markup
-        delete identity.type
+        delete identityPayload.type
       }
       else {
         identityType = identity
