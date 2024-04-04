@@ -39,12 +39,7 @@ The quickest and easiest way to build Schema.org graphs for Nuxt. Powered by [Un
 1. Install `nuxt-schema-org` dependency to your project:
 
 ```bash
-#
-yarn add -D nuxt-schema-org
-#
-npm install -D nuxt-schema-org
-#
-pnpm i -D nuxt-schema-org
+npx nuxi@latest module add schema-org
 ```
 
 2. Add it to your `modules` section in your `nuxt.config`:
