@@ -14,7 +14,8 @@ import {
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:defaults',
   setup() {
-    const runtimeConfig = useRuntimeConfig()['nuxt-schema-org'] || useRuntimeConfig().public['nuxt-schema-org']
+    const _config = useRuntimeConfig()
+    const runtimeConfig = import.meta.client ? _config.public['nuxt-schema-org'] : (_config['nuxt-schema-org'] || _config.public['nuxt-schema-org'])
     // get the head instance
     const siteConfig = useSiteConfig()
 

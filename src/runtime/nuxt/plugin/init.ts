@@ -10,7 +10,8 @@ export default defineNuxtPlugin({
   enforce: 'post',
   setup(nuxtApp) {
     const head = injectHead()
-    const config = (useRuntimeConfig()['nuxt-schema-org'] || useRuntimeConfig().public['nuxt-schema-org']) as ModuleRuntimeConfig
+    const _config = useRuntimeConfig()
+    const config = (import.meta.client ? _config.public['nuxt-schema-org'] : (_config['nuxt-schema-org'] || _config.public['nuxt-schema-org'])) as ModuleRuntimeConfig
     const route = useRoute()
 
     const siteConfig = useSiteConfig()
