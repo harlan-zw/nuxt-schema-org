@@ -18,8 +18,8 @@ importers:
         specifier: ^3.12.1
         version: 3.12.1(magicast@0.3.4)(rollup@4.18.0)
       '@unhead/schema-org':
-        specifier: ^1.9.12
-        version: 1.9.12(@unhead/shared@1.9.12)(unhead@1.9.12)
+        specifier: ^1.9.13
+        version: 1.9.13
       floating-vue:
         specifier: 5.2.2
         version: 5.2.2(@nuxt/kit@3.12.1(magicast@0.3.4)(rollup@4.18.0))(vue@3.4.27(typescript@5.4.5))
@@ -1740,11 +1740,8 @@ packages:
   '@unhead/dom@1.9.12':
     resolution: {integrity: sha512-3MY1TbZmEjGNZapi3wvJW0vWNS2CLKHt7/m57sScDHCNvNBe1mTwrIOhtZFDgAndhml2EVQ68RMa0Vhum/M+cw==}
 
-  '@unhead/schema-org@1.9.12':
-    resolution: {integrity: sha512-vAEl8jJgM//kAJKHnNxwuC9mMV0jFYzdcKdj6Qly/+ARyokl8fqsEB+A6bSGJdqwCdNWmFOS8kIzHAHRiYzA4Q==}
-    peerDependencies:
-      '@unhead/shared': 1.9.12
-      unhead: '>=1.9.11'
+  '@unhead/schema-org@1.9.13':
+    resolution: {integrity: sha512-JCV/Q69nmzz3fhjaDSJJfNPjpoSxOGLvd5hHd41sV41XucoDA/Ir7VwhjldxqhRcT8B+8BbuZ/3gy1urvpCk/g==}
 
   '@unhead/schema@1.9.12':
     resolution: {integrity: sha512-ue2FKyIZKsuZDpWJBMlBGwMm4s+vFeU3NUWsNt8Z+2JkOUIqO/VG43LxNgY1M595bOS71Gdxk+G9VtzfKJ5uEA==}
@@ -1964,7 +1961,7 @@ packages:
   '@vue/server-renderer@3.4.27':
     resolution: {integrity: sha512-dlAMEuvmeA3rJsOMJ2J1kXU7o7pOxgsNHVr9K8hB3ImIkSuBrIdy0vF66h8gf8Tuinf1TK3mPAz2+2sqyf3KzA==}
     peerDependencies:
-      vue: ^3.4.27
+      vue: 3.4.27
 
   '@vue/shared@3.4.27':
     resolution: {integrity: sha512-DL3NmY2OFlqmYYrzp39yi3LDkKxa5vZVwxWdQ3rG0ekuWscHraeIbnI8t+aZK7qhYqEqWKTUdijadunb9pnrgA==}
@@ -8141,11 +8138,9 @@ snapshots:
       '@unhead/schema': 1.9.12
       '@unhead/shared': 1.9.12
 
-  '@unhead/schema-org@1.9.12(@unhead/shared@1.9.12)(unhead@1.9.12)':
+  '@unhead/schema-org@1.9.13':
     dependencies:
-      '@unhead/shared': 1.9.12
       ufo: 1.5.3
-      unhead: 1.9.12
 
   '@unhead/schema@1.9.12':
     dependencies:
