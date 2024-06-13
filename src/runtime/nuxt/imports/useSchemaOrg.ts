@@ -5,7 +5,8 @@ import { useHead, useRuntimeConfig, useServerHead } from '#imports'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]
 export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UnheadAugmentation<T>> | void {
-  const config = (useRuntimeConfig()['nuxt-schema-org'] || useRuntimeConfig().public['nuxt-schema-org']) as ModuleRuntimeConfig
+  const _config = useRuntimeConfig()
+  const config = (import.meta.client ? _config.public['nuxt-schema-org'] : (_config['nuxt-schema-org'] || _config.public['nuxt-schema-org'])) as ModuleRuntimeConfig
   const script = {
     type: 'application/ld+json',
     key: 'schema-org-graph',
