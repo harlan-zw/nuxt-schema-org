@@ -66,7 +66,7 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'nuxt-schema-org',
     configKey: 'schemaOrg',
     compatibility: {
-      nuxt: '^3.7.0',
+      nuxt: '>=3.7.0',
       bridge: false,
     },
   },
