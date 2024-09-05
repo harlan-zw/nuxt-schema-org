@@ -15,9 +15,11 @@ onDevtoolsClientConnected(async (client) => {
   client.host.nuxt.$router.afterEach(() => {
     setTimeout(async () => {
       schemaOrgGraph.value = (await head.resolveTags())
-        .filter(t => t.key === 'schema-org-graph')[0]?.innerHTML
+        .filter(t => t.key === 'schema-org-graph')[0]
+        ?.innerHTML
     }, 100)
   })
   schemaOrgGraph.value = (await head.resolveTags())
-    .filter(t => t.key === 'schema-org-graph')[0]?.innerHTML
+    .filter(t => t.key === 'schema-org-graph')[0]
+    ?.innerHTML
 })

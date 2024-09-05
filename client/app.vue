@@ -171,9 +171,7 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value || { '@graph': [] }
                 Runtime Config
               </h3>
             </template>
-            <div class="px-3 py-2 space-y-5">
-              <pre of-auto h-full text-sm style="white-space: break-spaces;" v-html="highlight(JSON.stringify(data?.runtimeConfig || {}, null, 2), 'json')" />
-            </div>
+            <OCodeBlock :code="JSON.stringify(data?.runtimeConfig || {}, null, 2)" lang="json" />
           </OSectionBlock>
         </div>
         <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
@@ -249,14 +247,6 @@ html.dark {
 }
 .prose hr {
   --uno: border-solid border-1 border-b border-base h-1px w-full block my-2 op50;
-}
-
-.dark .shiki {
-  background: var(--shiki-dark-bg, inherit) !important;
-}
-
-.dark .shiki span {
-  color: var(--shiki-dark, inherit) !important;
 }
 
 /* JSON Editor */
