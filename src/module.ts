@@ -9,8 +9,7 @@ import {
 } from '@nuxt/kit'
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
 import type { NuxtModule } from '@nuxt/schema'
-import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
-import type { ScriptBase, TagUserProperties } from '@unhead/schema'
+import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
@@ -49,7 +48,7 @@ export interface ModuleOptions {
    *
    * By default, will apply an `id` of `schema-org-graph`. Set to `false` to apply no attributes.
    */
-  scriptAttributes?: (ScriptBase & TagUserProperties) | false
+  scriptAttributes?: (ScriptBase & TagUserProperties & DataKeys) | false
   /**
    * Enables debug logs.
    *
