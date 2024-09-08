@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import 'floating-vue/dist/style.css'
-import { schemaOrgGraph } from './util/logic'
 import { useHead } from '#imports'
+import { schemaOrgGraph } from './util/logic'
+import 'floating-vue/dist/style.css'
 
 useHead({
   title: 'Nuxt Schema.org Playground',

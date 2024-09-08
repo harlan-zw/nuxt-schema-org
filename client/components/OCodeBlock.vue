@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { type BundledLanguage, codeToHtml } from 'shiki'
 import { computedAsync } from '@vueuse/core'
+import { type BundledLanguage, codeToHtml } from 'shiki'
 
 const props = withDefaults(
   defineProps<{
