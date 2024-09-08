@@ -1,7 +1,7 @@
 import { resolve } from 'node:path'
-import { defineNuxtConfig } from 'nuxt/config'
-import { defineNuxtModule } from '@nuxt/kit'
 import { startSubprocess } from '@nuxt/devtools-kit'
+import { defineNuxtModule } from '@nuxt/kit'
+import { defineNuxtConfig } from 'nuxt/config'
 import Module from '../src/module'
 
 // https://v3.nuxtjs.org/docs/directory-structure/nuxt.config
