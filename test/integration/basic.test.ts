@@ -1,10 +1,10 @@
 import { fileURLToPath } from 'node:url'
-import { describe, expect, it } from 'vitest'
 import { setup } from '@nuxt/test-utils'
+import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from './utils'
 
 await setup({
-  rootDir: fileURLToPath(new URL('./fixtures/nuxt', import.meta.url)),
+  rootDir: fileURLToPath(new URL('../fixtures/basic', import.meta.url)),
   server: true,
   browser: false,
 })
@@ -19,47 +19,47 @@ describe('pages', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://example.com/#website",
+            "@id": "https://nuxtseo.com/#website",
             "@type": "WebSite",
-            "description": "Schema.org for Nuxt",
+            "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "name": "My Website",
             "publisher": {
-              "@id": "https://example.com/#identity",
+              "@id": "https://nuxtseo.com/#identity",
             },
-            "url": "https://example.com",
+            "url": "https://nuxtseo.com",
           },
           {
-            "@id": "https://example.com/#webpage",
+            "@id": "https://nuxtseo.com/#webpage",
             "@type": "WebPage",
             "about": {
-              "@id": "https://example.com/#identity",
+              "@id": "https://nuxtseo.com/#identity",
             },
-            "description": "Schema.org for Nuxt",
+            "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
-              "@id": "https://example.com/#website",
+              "@id": "https://nuxtseo.com/#website",
             },
             "potentialAction": [
               {
                 "@type": "ReadAction",
                 "target": [
-                  "https://example.com",
+                  "https://nuxtseo.com",
                 ],
               },
               {
                 "@type": "ReadAction",
                 "target": [
-                  "https://example.com",
+                  "https://nuxtseo.com",
                 ],
               },
             ],
-            "url": "https://example.com",
+            "url": "https://nuxtseo.com",
           },
           {
-            "@id": "https://example.com/#identity",
+            "@id": "https://nuxtseo.com/#identity",
             "@type": "Person",
             "jobTitle": "Software Engineer",
             "name": "Harlan",
-            "url": "https://example.com",
+            "url": "https://nuxtseo.com",
           },
         ],
       }
@@ -73,24 +73,24 @@ describe('pages', () => {
     // Snapshot
     expect(articleNode).toMatchInlineSnapshot(`
       {
-        "@id": "https://example.com/reactivity-computed/#article",
+        "@id": "https://nuxtseo.com/reactivity-computed/#article",
         "@type": "Article",
         "author": {
-          "@id": "https://example.com/#identity",
+          "@id": "https://nuxtseo.com/#identity",
         },
         "description": "Harlan Wilton - Last Name",
         "headline": "Harlan Wilton - Last Name",
         "image": {
-          "@id": "https://example.com/#/schema/image/4c11be9",
+          "@id": "https://nuxtseo.com/#/schema/image/4c11be9",
         },
         "isPartOf": {
-          "@id": "https://example.com/reactivity-computed/#webpage",
+          "@id": "https://nuxtseo.com/reactivity-computed/#webpage",
         },
         "mainEntityOfPage": {
-          "@id": "https://example.com/reactivity-computed/#webpage",
+          "@id": "https://nuxtseo.com/reactivity-computed/#webpage",
         },
         "publisher": {
-          "@id": "https://example.com/#identity",
+          "@id": "https://nuxtseo.com/#identity",
         },
         "thumbnailUrl": "https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png",
       }

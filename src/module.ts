@@ -5,16 +5,18 @@ import {
   addServerHandler,
   createResolver,
   defineNuxtModule,
+  hasNuxtModule,
   useLogger,
 } from '@nuxt/kit'
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
+import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
 import type { NuxtModule } from '@nuxt/schema'
 import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
-import type { ModuleRuntimeConfig } from './runtime/types'
 import { extendTypes } from './kit'
+import type { ModuleRuntimeConfig } from './runtime/types'
 
 export interface ModuleOptions {
   /**
@@ -111,15 +113,15 @@ export default defineNuxtModule<ModuleOptions>({
       // @ts-expect-error untyped
       nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
-    nuxt.options.build.transpile.push('@unhead/schema-org')
-
+    // @ts-expect-error untyped
+    const pluginPath = (hasNuxtModule('@nuxtjs/i18n') && nuxt.options.i18n?.locales) ? './runtime/nuxt/plugin/i18n' : './runtime/nuxt/plugin'
     addPlugin({
-      src: resolve('runtime/nuxt/plugin/init'),
+      src: resolve(pluginPath, 'init'),
       mode: config.reactive ? 'all' : 'server',
     })
     if (config.defaults) {
       addPlugin({
-        src: resolve('./runtime/nuxt/plugin/defaults'),
+        src: resolve(pluginPath, 'defaults'),
         mode: config.reactive ? 'all' : 'server',
       })
     }

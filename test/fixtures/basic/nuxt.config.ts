@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     NuxtSchemaOrg,
   ],
   site: {
-    url: 'https://example.com',
+    url: 'https://nuxtseo.com',
+    name: 'Nuxt SEO',
   },
 })
