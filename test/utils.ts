@@ -1,6 +1,6 @@
 import { $fetch, getBrowser, url, useTestContext } from '@nuxt/test-utils'
-import { expect } from 'vitest'
 import { load } from 'cheerio'
+import { expect } from 'vitest'
 
 export async function $fetchSchemaOrg(path: string) {
   const html = await $fetch(path)

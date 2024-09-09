@@ -1,6 +1,6 @@
+import { useNitroOrigin, useRuntimeConfig } from '#imports'
 import { defineEventHandler } from 'h3'
 import type { ModuleRuntimeConfig } from '../../../types'
-import { useNitroOrigin, useRuntimeConfig } from '#imports'
 
 export default defineEventHandler(async (e) => {
   const _config = useRuntimeConfig()
