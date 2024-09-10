@@ -17,6 +17,6 @@
     "@nuxt/kit": "^3.13.1",
     "floating-vue": "5.2.2",
     "nuxt": "latest",
-    "shiki": "^1.16.2"
+    "shiki": "^1.16.3"
   }
 }
