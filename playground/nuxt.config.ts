@@ -10,6 +10,7 @@ export default defineNuxtConfig({
     Module,
     '@nuxt/ui',
     '@nuxtjs/i18n',
+    '@nuxtjs/robots',
     /**
      * Start a sub Nuxt Server for developing the client
      *
@@ -69,4 +70,6 @@ export default defineNuxtConfig({
       failOnError: false,
     },
   },
+
+  compatibilityDate: '2024-09-10',
 })
