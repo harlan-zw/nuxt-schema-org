@@ -10,6 +10,7 @@ import {
   useSchemaOrgCustom,
   useSiteConfig,
 } from '#imports'
+import { defineArticle } from '@unhead/schema-org/vue'
 
 // const route = useRoute()
 
@@ -40,6 +41,10 @@ const languageOptions = [
 ]
 
 useSchemaOrg([
+  defineArticle({
+    datePublished: new Date(Date.UTC(2021, 10, 1, 0, 0, 0)),
+    dateModified: new Date(Date.UTC(2022, 1, 1, 0, 0, 0)),
+  }),
   defineWebPage({
     name: 'Harlan Wilton',
   }),
