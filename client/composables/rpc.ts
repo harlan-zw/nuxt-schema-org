@@ -1,7 +1,7 @@
-import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
-import { ref } from 'vue'
 import type { NuxtDevtoolsClient } from '@nuxt/devtools-kit/dist/types'
 import type { $Fetch } from 'nitropack'
+import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
+import { ref } from 'vue'
 import { schemaOrgGraph } from '../util/logic'
 
 export const devtools = ref<NuxtDevtoolsClient>()

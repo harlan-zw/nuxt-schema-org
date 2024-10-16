@@ -1,7 +1,7 @@
-import { useHead, useRequestEvent, useRuntimeConfig, useServerHead } from '#imports'
 import type { ActiveHeadEntry, DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
 import type { ModuleRuntimeConfig, UnheadAugmentation } from '../../types'
+import { useHead, useRequestEvent, useRuntimeConfig, useServerHead } from '#imports'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]
 export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UnheadAugmentation<T>> | void {

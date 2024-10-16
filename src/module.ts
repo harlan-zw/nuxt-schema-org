@@ -1,3 +1,7 @@
+import type { NuxtModule } from '@nuxt/schema'
+import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
+import type { OrganizationSimple, PersonSimple } from '@unhead/schema-org'
+import type { ModuleRuntimeConfig } from './runtime/types'
 import {
   addComponent,
   addImports,
@@ -10,13 +14,9 @@ import {
 } from '@nuxt/kit'
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
 import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
-import type { NuxtModule } from '@nuxt/schema'
-import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
-import type { OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import { version } from '../package.json'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes } from './kit'
-import type { ModuleRuntimeConfig } from './runtime/types'
 
 export interface ModuleOptions {
   /**

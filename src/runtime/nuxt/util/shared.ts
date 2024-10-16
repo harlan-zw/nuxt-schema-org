@@ -1,3 +1,5 @@
+import type { NuxtApp } from '#app/nuxt'
+import type { MetaInput as _MetaInput, MetaInput, Organization, Person } from '@unhead/schema-org'
 import {
   createSitePathResolver,
   defineOrganization,
@@ -12,8 +14,6 @@ import { SchemaOrgUnheadPlugin } from '@unhead/schema-org'
 import { defu } from 'defu'
 import { withoutTrailingSlash } from 'ufo'
 import { computed } from 'vue'
-import type { NuxtApp } from '#app/nuxt'
-import type { MetaInput as _MetaInput, MetaInput, Organization, Person } from '@unhead/schema-org'
 
 export function initPlugin(nuxtApp: NuxtApp) {
   const head = injectHead()

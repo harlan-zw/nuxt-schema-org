@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { computed, useRoute } from '#imports'
-import type { BreadcrumbItem } from '@unhead/schema-org/vue'
 
 const route = useRoute()
 
 const breadcrumbItems = computed(() => {
-  const nav: BreadcrumbItem[] = [{ name: 'Home', item: '/' }, { name: 'Articles', item: '/blog' }]
+  const nav = [{ name: 'Home', item: '/' }, { name: 'Articles', item: '/blog' }]
   if (route.path.startsWith('/blog/') && route.meta.title)
     nav.push({ name: route.meta.title })
   return nav
