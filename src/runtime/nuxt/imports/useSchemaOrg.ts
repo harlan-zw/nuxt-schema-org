@@ -13,6 +13,12 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UnheadA
     nodes: input,
     ...config?.scriptAttributes || {},
   }
+  // simple usage for dev
+  if (import.meta.dev) {
+    return useHead<UnheadAugmentation<T>>({
+      script: [script],
+    })
+  }
   if (import.meta.server) {
     const event = useRequestEvent()
     // don't bother rendering schema.org if the page is not indexable
@@ -24,11 +30,9 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UnheadA
       script: [script],
     })
   }
-  else {
-    if (config?.reactive) {
-      return useHead<UnheadAugmentation<T>>({
-        script: [script],
-      })
-    }
+  else if (config?.reactive) {
+    return useHead<UnheadAugmentation<T>>({
+      script: [script],
+    })
   }
 }
