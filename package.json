@@ -48,27 +48,27 @@
   },
   "dependencies": {
     "@nuxt/devtools-kit": "^1.6.0",
-    "@nuxt/kit": "^3.13.2",
-    "@unhead/schema-org": "^1.11.10",
-    "nuxt-site-config": "^2.2.18",
-    "nuxt-site-config-kit": "^2.2.18",
+    "@nuxt/kit": "^3.14.159",
+    "@unhead/schema-org": "^1.11.11",
+    "nuxt-site-config": "^2.2.21",
+    "nuxt-site-config-kit": "^2.2.21",
     "pathe": "^1.1.2",
     "sirv": "^3.0.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.7.3",
+    "@antfu/eslint-config": "^3.8.0",
     "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.13.2",
-    "@nuxt/test-utils": "^3.14.3",
-    "@nuxt/ui": "^2.18.7",
-    "@nuxtjs/i18n": "^8.5.5",
-    "@nuxtjs/robots": "^4.1.8",
-    "bumpp": "^9.7.1",
+    "@nuxt/schema": "^3.14.159",
+    "@nuxt/test-utils": "^3.14.4",
+    "@nuxt/ui": "^2.19.2",
+    "@nuxtjs/i18n": "^9.0.0",
+    "@nuxtjs/robots": "^4.1.11",
+    "bumpp": "^9.8.1",
     "cheerio": "1.0.0",
-    "eslint": "^9.12.0",
-    "nuxt": "^3.13.2",
+    "eslint": "^9.14.0",
+    "nuxt": "^3.14.159",
     "typescript": "5.6.3",
-    "vitest": "^2.1.3"
+    "vitest": "^2.1.4"
   },
   "build": {
     "externals": [
