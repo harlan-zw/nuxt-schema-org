@@ -126,6 +126,8 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
+    nuxt.options.alias['#schema-org'] = resolve('./runtime')
+
     if (!config.reactive)
       // tree-shake all schema-org functions
       nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = schemaOrgAutoImports[0].imports
