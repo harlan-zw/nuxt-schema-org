@@ -45,12 +45,6 @@ describe('pages', () => {
                   "https://nuxtseo.com",
                 ],
               },
-              {
-                "@type": "ReadAction",
-                "target": [
-                  "https://nuxtseo.com",
-                ],
-              },
             ],
             "url": "https://nuxtseo.com",
           },
