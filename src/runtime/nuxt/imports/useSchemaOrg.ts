@@ -1,17 +1,17 @@
 import type { ActiveHeadEntry, DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
-import type { ModuleRuntimeConfig, UnheadAugmentation } from '../../types'
-import { useHead, useRequestEvent, useRuntimeConfig, useServerHead } from '#imports'
+import type { UnheadAugmentation } from '../../types'
+import { useHead, useRequestEvent, useServerHead } from '#imports'
+import { useSchemaOrgConfig } from '../util/shared'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]
 export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UnheadAugmentation<T>> | void {
-  const _config = useRuntimeConfig()
-  const config = (import.meta.client ? _config.public['nuxt-schema-org'] : (_config['nuxt-schema-org'] || _config.public['nuxt-schema-org'])) as ModuleRuntimeConfig
+  const config = useSchemaOrgConfig()
   const script: (ScriptBase & TagUserProperties & DataKeys) & UnheadAugmentation<T>['script'] = {
     type: 'application/ld+json',
     key: 'schema-org-graph',
     nodes: input,
-    ...config?.scriptAttributes || {},
+    ...config.scriptAttributes,
   }
   // simple usage for dev
   if (import.meta.dev) {

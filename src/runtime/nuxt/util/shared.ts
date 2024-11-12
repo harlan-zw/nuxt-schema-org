@@ -1,5 +1,6 @@
-import type { NuxtApp } from '#app/nuxt'
 import type { MetaInput as _MetaInput, MetaInput, Organization, Person } from '@unhead/schema-org'
+import type { NuxtApp } from 'nuxt/app'
+import type { ModuleRuntimeConfig } from '../../types'
 import {
   createSitePathResolver,
   defineOrganization,
@@ -15,10 +16,16 @@ import { defu } from 'defu'
 import { withoutTrailingSlash } from 'ufo'
 import { computed } from 'vue'
 
+export function useSchemaOrgConfig() {
+  const runtimeConfig = useRuntimeConfig()
+  return defu(runtimeConfig.public['nuxt-schema-org'], runtimeConfig['nuxt-schema-org'], {
+    scriptAttributes: {},
+  }) as ModuleRuntimeConfig
+}
+
 export function initPlugin(nuxtApp: NuxtApp) {
   const head = injectHead()
-  const _config = useRuntimeConfig()
-  const config = (import.meta.client ? _config.public['nuxt-schema-org'] : (_config['nuxt-schema-org'] || _config.public['nuxt-schema-org'])) as ModuleRuntimeConfig
+  const config = useSchemaOrgConfig()
   const route = useRoute()
 
   const siteConfig = useSiteConfig()
@@ -56,11 +63,10 @@ export function initPlugin(nuxtApp: NuxtApp) {
 }
 
 export function maybeAddIdentitySchemaOrg() {
-  const _config = useRuntimeConfig()
-  const runtimeConfig = import.meta.client ? _config.public['nuxt-schema-org'] : (_config['nuxt-schema-org'] || _config.public['nuxt-schema-org'])
+  const config = useSchemaOrgConfig()
   const siteConfig = useSiteConfig()
-  if (runtimeConfig.identity || siteConfig.identity) {
-    const identity = runtimeConfig.identity || siteConfig.identity
+  if (config.identity || siteConfig.identity) {
+    const identity = config.identity || siteConfig.identity
     let identityPayload: Person | Organization = {
       name: siteConfig.name,
       url: siteConfig.url,
