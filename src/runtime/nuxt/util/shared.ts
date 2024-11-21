@@ -2,12 +2,12 @@ import type { MetaInput as _MetaInput, MetaInput, Organization, Person } from '@
 import type { NuxtApp } from 'nuxt/app'
 import {
   createSitePathResolver,
-  useRoute,
   useSiteConfig,
 } from '#imports'
 import { defineOrganization, definePerson, SchemaOrgUnheadPlugin, useSchemaOrg } from '@unhead/schema-org'
 import { injectHead } from '@unhead/vue'
 import { defu } from 'defu'
+import { useRoute } from 'nuxt/app'
 import { withoutTrailingSlash } from 'ufo'
 import { computed } from 'vue'
 import { useSchemaOrgConfig } from './config'
