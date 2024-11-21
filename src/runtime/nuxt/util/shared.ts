@@ -1,14 +1,11 @@
 import type { MetaInput as _MetaInput, MetaInput, Organization, Person } from '@unhead/schema-org'
-import type { H3Event } from 'h3'
 import type { NuxtApp } from 'nuxt/app'
-import type { ModuleRuntimeConfig } from '../../types'
 import {
   createSitePathResolver,
   defineOrganization,
   definePerson,
   injectHead,
   useRoute,
-  useRuntimeConfig,
   useSchemaOrg,
   useSiteConfig,
 } from '#imports'
@@ -16,13 +13,7 @@ import { SchemaOrgUnheadPlugin } from '@unhead/schema-org'
 import { defu } from 'defu'
 import { withoutTrailingSlash } from 'ufo'
 import { computed } from 'vue'
-
-export function useSchemaOrgConfig(e?: H3Event) {
-  const runtimeConfig = useRuntimeConfig(e)
-  return defu(import.meta.client ? runtimeConfig.public['nuxt-schema-org'] : runtimeConfig['nuxt-schema-org'], {
-    scriptAttributes: {},
-  }) as ModuleRuntimeConfig
-}
+import { useSchemaOrgConfig } from './config'
 
 export function initPlugin(nuxtApp: NuxtApp) {
   const head = injectHead()

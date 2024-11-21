@@ -2,7 +2,7 @@ import type { ActiveHeadEntry, DataKeys, ScriptBase, TagUserProperties } from '@
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
 import type { UnheadAugmentation } from '../../types'
 import { useHead, useRequestEvent, useServerHead } from '#imports'
-import { useSchemaOrgConfig } from '../util/shared'
+import { useSchemaOrgConfig } from '../util/config'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]
 export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UnheadAugmentation<T>> | void {
