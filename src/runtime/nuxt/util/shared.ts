@@ -1,4 +1,5 @@
 import type { MetaInput as _MetaInput, MetaInput, Organization, Person } from '@unhead/schema-org'
+import type { H3Event } from 'h3'
 import type { NuxtApp } from 'nuxt/app'
 import type { ModuleRuntimeConfig } from '../../types'
 import {
@@ -16,9 +17,9 @@ import { defu } from 'defu'
 import { withoutTrailingSlash } from 'ufo'
 import { computed } from 'vue'
 
-export function useSchemaOrgConfig() {
-  const runtimeConfig = useRuntimeConfig()
-  return defu(runtimeConfig.public['nuxt-schema-org'], runtimeConfig['nuxt-schema-org'], {
+export function useSchemaOrgConfig(e?: H3Event) {
+  const runtimeConfig = useRuntimeConfig(e)
+  return defu(import.meta.client ? runtimeConfig.public['nuxt-schema-org'] : runtimeConfig['nuxt-schema-org'], {
     scriptAttributes: {},
   }) as ModuleRuntimeConfig
 }
