@@ -5,7 +5,7 @@ import {
   useSchemaOrg,
   useSiteConfig,
 } from '#imports'
-import { maybeAddIdentitySchemaOrg } from '../util/shared'
+import { maybeAddIdentitySchemaOrg } from '../utils/shared'
 
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:defaults',

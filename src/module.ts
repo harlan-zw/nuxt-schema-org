@@ -114,7 +114,7 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
     // @ts-expect-error untyped
-    const pluginPath = (hasNuxtModule('@nuxtjs/i18n') && nuxt.options.i18n?.locales) ? './runtime/nuxt/plugin/i18n' : './runtime/nuxt/plugin'
+    const pluginPath = (hasNuxtModule('@nuxtjs/i18n') && nuxt.options.i18n?.locales) ? './runtime/app/plugins/i18n' : './runtime/app/plugins'
     addPlugin({
       src: resolve(pluginPath, 'init'),
       mode: config.reactive ? 'all' : 'server',
@@ -142,7 +142,7 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     addImports({
-      from: resolve('./runtime/nuxt/imports/useSchemaOrg'),
+      from: resolve('./runtime/app/composables/useSchemaOrg'),
       name: 'useSchemaOrg',
     })
 
@@ -169,7 +169,7 @@ declare module '#app' {
     if (config.debug || nuxt.options.dev) {
       addServerHandler({
         route: '/__schema-org__/debug.json',
-        handler: resolve('./runtime/nitro/routes/__schema-org__/debug'),
+        handler: resolve('./runtime/server/routes/__schema-org__/debug'),
       })
     }
 

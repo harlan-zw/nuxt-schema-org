@@ -10,7 +10,7 @@ import {
 } from '#imports'
 import { resolveSitePath } from 'site-config-stack/urls'
 import { hasProtocol, withHttps } from 'ufo'
-import { maybeAddIdentitySchemaOrg } from '../../util/shared'
+import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:defaults',

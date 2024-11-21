@@ -1,6 +1,6 @@
 import { useNitroOrigin } from '#imports'
-import { useSchemaOrgConfig } from '#schema-org/nuxt/util/shared'
 import { defineEventHandler } from 'h3'
+import { useSchemaOrgConfig } from '../../utils/config'
 
 export default defineEventHandler(async (e) => {
   const nitroOrigin = useNitroOrigin(e)
