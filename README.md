@@ -1,26 +1,19 @@
-<h1 align='center'>nuxt-schema-org</h1>
+<h1>nuxt-schema-org</h1>
 
-<p align="center">
-<a href='https://github.com/harlan-zw/nuxt-schema-org/actions/workflows/test.yml'>
-</a>
-<a href="https://www.npmjs.com/package/nuxt-schema-org" target="__blank"><img src="https://img.shields.io/npm/v/nuxt-schema-org?style=flat&colorA=002438&colorB=28CF8D" alt="NPM version"></a>
-<a href="https://www.npmjs.com/package/nuxt-schema-org" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/nuxt-schema-org?flat&colorA=002438&colorB=28CF8D"></a>
-<a href="https://github.com/harlan-zw/nuxt-schema-org" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/harlan-zw/nuxt-schema-org?flat&colorA=002438&colorB=28CF8D"></a>
-</p>
+[![npm version][npm-version-src]][npm-version-href]
+[![npm downloads][npm-downloads-src]][npm-downloads-href]
+[![License][license-src]][license-href]
+[![Nuxt][nuxt-src]][nuxt-href]
 
-<p align="center">
-The quickest and easiest way to build Schema.org graphs for Nuxt. Powered by [Unhead](https://unhead.unjs.io).
-</p>
+Nuxt Schema.org lets you generate Schema.org graphs which can help your site appear with rich search results.
+
+New to Schema.org or SEO? Check out the [Schema.org]https://nuxtseo.com/learn/mastering-meta/schema-org) guide to learn more about why you might want to use this module.
 
 <p align="center">
 <table>
 <tbody>
 <td align="center">
-<img width="800" height="0" /><br>
-<i>Status:</i> <a href="https://github.com/harlan-zw/nuxt-schema-org/releases/tag/v3.4.0">v3.4 Released - I18n & Robots Integrations</a></b> <br>
-<sup> Please report any issues 🐛</sup><br>
 <sub>Made possible by my <a href="https://github.com/sponsors/harlan-zw">Sponsor Program 💖</a><br> Follow me <a href="https://twitter.com/harlan_zw">@harlan_zw</a> 🐦 • Join <a href="https://discord.gg/275MBUBvgP">Discord</a> for help</sub><br>
-<img width="800" height="0" />
 </td>
 </tbody>
 </table>
@@ -42,11 +35,13 @@ Install `nuxt-schema-org` dependency to your project:
 npx nuxi@latest module add schema-org
 ```
 
-# Documentation
+💡 Need a complete SEO solution for Nuxt? Check out [Nuxt SEO](https://nuxtseo.com).
+
+## Documentation
 
 [📖 Read the full documentation](https://nuxtseo.com/schema-org) for more information.
 
-### Demos
+## Demos
 
 - [Nuxt Schema.org - StackBlitz](https://stackblitz.com/edit/nuxt-starter-z9np1t?file=package.json)
 
@@ -60,4 +55,17 @@ npx nuxi@latest module add schema-org
 
 ## License
 
-MIT License © 2022-PRESENT [Harlan Wilton](https://github.com/harlan-zw)
+Licensed under the [MIT license](https://github.com/harlan-zw/nuxt-schema-org/blob/main/LICENSE.md).
+
+<!-- Badges -->
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-schema-org/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-href]: https://npmjs.com/package/nuxt-schema-org
+
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-schema-org.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-href]: https://npmjs.com/package/nuxt-schema-org
+
+[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-schema-org.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-href]: https://github.com/harlan-zw/nuxt-schema-org/blob/main/LICENSE.md
+
+[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt.js
+[nuxt-href]: https://nuxt.com
