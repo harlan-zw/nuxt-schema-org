@@ -7,7 +7,7 @@
 
 Nuxt Schema.org lets you generate Schema.org graphs which can help your site appear with rich search results.
 
-New to Schema.org or SEO? Check out the [Schema.org]https://nuxtseo.com/learn/mastering-meta/schema-org) guide to learn more about why you might want to use this module.
+New to Schema.org or SEO? Check out the [Schema.org](https://nuxtseo.com/learn/mastering-meta/schema-org) guide to learn more about why you might want to use this module.
 
 <p align="center">
 <table>
