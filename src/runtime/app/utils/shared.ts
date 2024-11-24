@@ -1,13 +1,14 @@
-import type { MetaInput as _MetaInput, MetaInput, Organization, Person } from '@unhead/schema-org'
+import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org'
 import type { NuxtApp } from 'nuxt/app'
 import {
   createSitePathResolver,
   useSiteConfig,
 } from '#imports'
-import { defineOrganization, definePerson, SchemaOrgUnheadPlugin, useSchemaOrg } from '@unhead/schema-org'
+import { SchemaOrgUnheadPlugin, useSchemaOrg } from '@unhead/schema-org'
 import { injectHead } from '@unhead/vue'
 import { defu } from 'defu'
 import { useRoute } from 'nuxt/app'
+import { camelCase } from 'scule'
 import { withoutTrailingSlash } from 'ufo'
 import { computed } from 'vue'
 import { useSchemaOrgConfig } from './config'
@@ -56,7 +57,7 @@ export function maybeAddIdentitySchemaOrg() {
   const siteConfig = useSiteConfig()
   if (config.identity || siteConfig.identity) {
     const identity = config.identity || siteConfig.identity
-    let identityPayload: Person | Organization = {
+    let identityPayload: Record<string, any> = {
       name: siteConfig.name,
       url: siteConfig.url,
     }
@@ -64,7 +65,6 @@ export function maybeAddIdentitySchemaOrg() {
     if (typeof identity !== 'string') {
       identityPayload = defu(identity, identityPayload)
       identityType = identity.type
-
       // Remove type from object to avoid invalid markup
       delete identityPayload.type
     }
@@ -80,10 +80,7 @@ export function maybeAddIdentitySchemaOrg() {
         `https://twitter.com/${id}`,
       ]
     }
-    useSchemaOrg([
-      identityType === 'Person'
-        ? definePerson(identityPayload)
-        : defineOrganization(identityPayload),
-    ])
+    identityPayload._resolver = identityPayload._resolver || camelCase(identityType)
+    useSchemaOrg([identityPayload])
   }
 }

@@ -1,6 +1,6 @@
 import type { NuxtModule } from '@nuxt/schema'
 import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
-import type { OrganizationSimple, PersonSimple } from '@unhead/schema-org'
+import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import type { ModuleRuntimeConfig } from './runtime/types'
 import {
   addComponent,
@@ -26,7 +26,7 @@ export interface ModuleOptions {
   /**
    * The identity of the site.
    */
-  identity?: 'Person' | 'Organization' | OrganizationSimple | PersonSimple
+  identity?: 'Person' | 'Organization' | 'LocalBusiness' | OrganizationSimple | PersonSimple | LocalBusinessSimple
   /**
    * Whether the module should be loaded.
    *
