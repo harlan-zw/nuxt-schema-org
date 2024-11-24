@@ -7,9 +7,11 @@ import {
   addImports,
   addPlugin,
   addServerHandler,
+  addServerPlugin,
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
+  hasNuxtModuleCompatibility,
   useLogger,
 } from '@nuxt/kit'
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
@@ -127,6 +129,11 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     nuxt.options.alias['#schema-org'] = resolve('./runtime')
+
+    // convert ogImage key to head data
+    if (hasNuxtModule('@nuxt/content') && await hasNuxtModuleCompatibility('@nuxt/content', '^2')) {
+      addServerPlugin(resolve('./runtime/server/plugins/nuxt-content'))
+    }
 
     if (!config.reactive)
       // tree-shake all schema-org functions

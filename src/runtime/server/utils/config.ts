@@ -1,7 +1,7 @@
 import type { ModuleRuntimeConfig } from '#schema-org/types'
 import type { H3Event } from 'h3'
-import { useRuntimeConfig } from '#imports'
 import { defu } from 'defu'
+import { useRuntimeConfig } from 'nitropack/runtime'
 
 export function useSchemaOrgConfig(e?: H3Event) {
   const runtimeConfig = useRuntimeConfig(e)
