@@ -15,8 +15,8 @@ import {
   useLogger,
 } from '@nuxt/kit'
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
-import { installNuxtSiteConfig } from 'nuxt-site-config-kit'
-import { version } from '../package.json'
+import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
+import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes } from './kit'
 
@@ -76,15 +76,17 @@ export default defineNuxtModule<ModuleOptions>({
   defaults(nuxt) {
     return {
       enabled: true,
-      debug: false,
+      debug: nuxt.options.debug || false,
       defaults: true,
       reactive: nuxt.options.dev || !nuxt.options.ssr,
       minify: !nuxt.options.dev,
     }
   },
   async setup(config, nuxt) {
-    const logger = useLogger('nuxt-schema-org')
-    logger.level = (config.debug || nuxt.options.debug) ? 4 : 3
+    const { resolve } = createResolver(import.meta.url)
+    const { name, version } = await readPackageJSON(resolve('../package.json'))
+    const logger = useLogger(name)
+    logger.level = config.debug ? 4 : 3
     if (config.enabled === false) {
       logger.debug('The module is disabled, skipping setup.')
       return
@@ -98,7 +100,6 @@ export default defineNuxtModule<ModuleOptions>({
       }
     }
 
-    const { resolve } = createResolver(import.meta.url)
     await installNuxtSiteConfig()
 
     const runtimeConfig: ModuleRuntimeConfig = {
@@ -106,7 +107,7 @@ export default defineNuxtModule<ModuleOptions>({
       minify: config.minify,
       scriptAttributes: config.scriptAttributes,
       identity: config.identity,
-      version,
+      version: version!,
     }
     // avoid polluting client-side bundle if we don't need to
     if (config.reactive)
