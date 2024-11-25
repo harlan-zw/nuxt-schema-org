@@ -19,7 +19,19 @@ const { data } = fetchGlobalDebug()
 // }
 
 const tab = ref('nodes')
-const nodes = computed(() => JSON.parse(schemaOrgGraph.value || { '@graph': [] })['@graph'])
+const nodes = computed(() => {
+  if (schemaOrgGraph.value) {
+    try {
+      return JSON.parse(schemaOrgGraph.value)['@graph']
+    }
+    catch {}
+  }
+  return []
+})
+
+function copyGraph() {
+  navigator.clipboard.writeText(schemaOrgGraph.value)
+}
 </script>
 
 <template>
@@ -138,7 +150,28 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value || { '@graph': [] }
           <NLoading />
         </div>
         <div v-if="tab === 'nodes'">
-          <OSectionBlock v-for="(node, key) in nodes" :key="key">
+          <div v-if="!nodes?.length">
+            <div class="flex flex-col items-center justify-center mx-auto max-w-135 h-85vh">
+              <div class="">
+                <h2 class="text-2xl font-semibold mb-3">
+                  <NIcon icon="carbon:information" class="text-blue-500" />
+                  Oops! Did you forget <code>useSchemaOrg()</code>?
+                </h2>
+                <p class="text-lg opacity-80 my-3">
+                  Getting started with Nuxt Schema.org is easy, simply add the following code within setup script setup of your file.
+                </p>
+                <div class="px-3 py-2 space-y-5 rounded mb-3" style="background-color: #121212;">
+                  <OCodeBlock :code="`useSchemaOrg([\n  defineWebPage({ title: 'Hello World' })\n])`" lang="javascript" />
+                </div>
+                <p class="text-lg opacity-80">
+                  <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="underline">
+                    Learn more
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <OSectionBlock v-for="(node, key) in nodes" v-else :key="key">
             <template #text>
               <h3 class="opacity-80 text-base mb-1">
                 {{ Array.isArray(node['@type']) ? node['@type'].join(', ') : node['@type'] }}
@@ -160,6 +193,9 @@ const nodes = computed(() => JSON.parse(schemaOrgGraph.value || { '@graph': [] }
             <NLink to="https://search.google.com/test/rich-results" target="_blank">
               <NIcon icon="carbon:launch" class="text-xs mr-1 opacity-50" />Rich Results Test
             </NLink>
+            <NButton @click="copyGraph">
+              Copy
+            </NButton>
           </div>
           <OCodeBlock :code="schemaOrgGraph" lang="json" />
         </div>
