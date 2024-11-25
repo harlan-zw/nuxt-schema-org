@@ -11,10 +11,5 @@ export default defineNuxtConfig({
     name: 'Nuxt SEO',
   },
 
-  schemaOrg: {
-    // identity: 'Organization',
-    defaults: false,
-  },
-
   compatibilityDate: '2024-11-25',
 })
