@@ -80,6 +80,9 @@ export default defineNuxtModule<ModuleOptions>({
       defaults: true,
       reactive: nuxt.options.dev || !nuxt.options.ssr,
       minify: !nuxt.options.dev,
+      scriptAttributes: {
+        'data-nuxt-schema-org': true,
+      },
     }
   },
   async setup(config, nuxt) {
@@ -93,12 +96,6 @@ export default defineNuxtModule<ModuleOptions>({
     }
     if (!nuxt.options.ssr && nuxt.options.dev)
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
-
-    if (typeof config.scriptAttributes === 'undefined') {
-      config.scriptAttributes = {
-        id: 'schema-org-graph',
-      }
-    }
 
     await installNuxtSiteConfig()
 
