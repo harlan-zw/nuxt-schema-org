@@ -54,8 +54,8 @@
   "dependencies": {
     "@nuxt/devtools-kit": "^1.6.1",
     "@nuxt/kit": "^3.14.1592",
-    "@unhead/schema-org": "^1.11.11",
-    "nuxt-site-config": "^3.0.3",
+    "@unhead/schema-org": "^1.11.13",
+    "nuxt-site-config": "^3.0.4",
     "pathe": "^1.1.2",
     "pkg-types": "^1.2.1",
     "sirv": "^3.0.0"

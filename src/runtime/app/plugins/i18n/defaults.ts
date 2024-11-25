@@ -5,11 +5,11 @@ import {
   defineWebSite,
   useLocalePath,
   useRuntimeConfig,
-  useSchemaOrg,
   useSiteConfig,
 } from '#imports'
-import { resolveSitePath } from 'site-config-stack/urls'
+import { resolveSitePath } from 'nuxt-site-config/urls'
 import { hasProtocol, withHttps } from 'ufo'
+import { useSchemaOrg } from '../../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 
 export default defineNuxtPlugin({

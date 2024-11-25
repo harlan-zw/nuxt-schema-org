@@ -2,9 +2,9 @@ import {
   defineNuxtPlugin,
   defineWebPage,
   defineWebSite,
-  useSchemaOrg,
   useSiteConfig,
 } from '#imports'
+import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../utils/shared'
 
 export default defineNuxtPlugin({

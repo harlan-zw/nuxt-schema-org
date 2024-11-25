@@ -4,13 +4,14 @@ import {
   createSitePathResolver,
   useSiteConfig,
 } from '#imports'
-import { SchemaOrgUnheadPlugin, useSchemaOrg } from '@unhead/schema-org'
+import { SchemaOrgUnheadPlugin } from '@unhead/schema-org/vue'
 import { injectHead } from '@unhead/vue'
 import { defu } from 'defu'
 import { useRoute } from 'nuxt/app'
 import { camelCase } from 'scule'
 import { withoutTrailingSlash } from 'ufo'
 import { computed } from 'vue'
+import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
 
 export function initPlugin(nuxtApp: NuxtApp) {

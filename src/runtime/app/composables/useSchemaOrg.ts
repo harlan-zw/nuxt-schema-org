@@ -12,6 +12,7 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UnheadA
     key: 'schema-org-graph',
     nodes: input,
     ...config.scriptAttributes,
+    tagPriority: 'high',
   }
   // simple usage for dev
   if (import.meta.dev) {
