@@ -1,4 +1,4 @@
-import { defineNuxtPlugin } from '#imports'
+import { defineNuxtPlugin } from 'nuxt/app'
 import { initPlugin } from '../../utils/shared'
 
 export default defineNuxtPlugin({

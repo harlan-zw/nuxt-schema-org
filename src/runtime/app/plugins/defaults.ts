@@ -1,9 +1,6 @@
-import {
-  defineNuxtPlugin,
-  defineWebPage,
-  defineWebSite,
-  useSiteConfig,
-} from '#imports'
+import { useSiteConfig } from '#site-config/app/runtime/composables'
+import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
+import { defineNuxtPlugin } from 'nuxt/app'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../utils/shared'
 

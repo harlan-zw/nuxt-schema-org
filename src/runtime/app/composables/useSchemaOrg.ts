@@ -1,7 +1,8 @@
 import type { ActiveHeadEntry, DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
 import type { UnheadAugmentation } from '../../types'
-import { useHead, useRequestEvent, useServerHead } from '#imports'
+import { useHead, useServerHead } from '@unhead/vue'
+import { useRequestEvent } from 'nuxt/app'
 import { useSchemaOrgConfig } from '../utils/config'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]

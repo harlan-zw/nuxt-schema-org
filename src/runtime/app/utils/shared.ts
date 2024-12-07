@@ -1,9 +1,9 @@
 import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org'
 import type { NuxtApp } from 'nuxt/app'
 import {
-  createSitePathResolver,
   useSiteConfig,
-} from '#imports'
+} from '#site-config/app/composables/useSiteConfig'
+import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { SchemaOrgUnheadPlugin } from '@unhead/schema-org/vue'
 import { injectHead } from '@unhead/vue'
 import { defu } from 'defu'
