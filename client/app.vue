@@ -161,7 +161,7 @@ function copyGraph() {
                   Getting started with Nuxt Schema.org is easy, simply add the following code within setup script setup of your file.
                 </p>
                 <div class="px-3 py-2 space-y-5 rounded mb-3" style="background-color: #121212;">
-                  <OCodeBlock :code="`useSchemaOrg([\n  defineWebPage({ title: 'Hello World' })\n])`" lang="javascript" />
+                  <OCodeBlock code="useSchemaOrg([\n  defineWebPage({ title: 'Hello World' })\n])" lang="javascript" />
                 </div>
                 <p class="text-lg opacity-80">
                   <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="underline">
