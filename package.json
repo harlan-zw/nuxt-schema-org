@@ -31,11 +31,23 @@
     "./schema": {
       "types": "./dist/schema.d.ts",
       "import": "./dist/schema.mjs"
+    },
+    "./content": {
+      "types": "./dist/content.d.ts",
+      "import": "./dist/content.mjs"
     }
   },
   "main": "./dist/module.cjs",
   "types": "./dist/types.d.ts",
+  "typesVersions": {
+    "*": {
+      "content": [
+        "dist/content"
+      ]
+    }
+  },
   "files": [
+    "content.d.ts",
     "dist",
     "schema.d.ts"
   ],
@@ -79,11 +91,5 @@
   },
   "resolutions": {
     "typescript": "5.6.3"
-  },
-  "build": {
-    "externals": [
-      "@unhead/schema",
-      "@unhead/schema-org/vue"
-    ]
   }
 }
