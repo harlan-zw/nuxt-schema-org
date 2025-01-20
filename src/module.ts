@@ -1,7 +1,8 @@
 import type { NuxtModule } from '@nuxt/schema'
 import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unhead/schema-org'
-import type { ModuleRuntimeConfig } from './runtime/types'
+import type { UseHeadInput } from 'unhead'
+import type { ModuleRuntimeConfig, UnheadAugmentation } from './runtime/types'
 import {
   addComponent,
   addImports,
@@ -14,7 +15,9 @@ import {
   hasNuxtModuleCompatibility,
   useLogger,
 } from '@nuxt/kit'
+import { defineWebPage } from '@unhead/schema-org'
 import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
+import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
@@ -128,9 +131,47 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.alias['#schema-org'] = resolve('./runtime')
 
-    // convert ogImage key to head data
-    if (hasNuxtModule('@nuxt/content') && await hasNuxtModuleCompatibility('@nuxt/content', '^2')) {
-      addServerPlugin(resolve('./runtime/server/plugins/nuxt-content'))
+    const usingNuxtContent = hasNuxtModule('@nuxt/content')
+    const isNuxtContentV3 = usingNuxtContent && await hasNuxtModuleCompatibility('@nuxt/content', '^3')
+    const isNuxtContentV2 = usingNuxtContent && await hasNuxtModuleCompatibility('@nuxt/content', '^2')
+    if (isNuxtContentV3) {
+      // @ts-expect-error runtime type
+      nuxt.hooks.hook('content:file:afterParse', (ctx) => {
+        if (typeof ctx.content.schemaOrg === 'undefined') {
+          return
+        }
+        const content = ctx.content
+        const nodes = Array.isArray(content.schemaOrg) ? content.schemaOrg : [defineWebPage(content.schemaOrg)]
+
+        // we need to recursively go through all nodes and swap `type` for `@type`
+        const replaceType = (node: any) => {
+          if (node.type) {
+            node['@type'] = node.type
+            delete node.type
+          }
+          Object.entries(node).forEach(([, value]) => {
+            if (typeof value === 'object') {
+              replaceType(value)
+            }
+          })
+          return node
+        }
+
+        const script: (ScriptBase & TagUserProperties & DataKeys) & UnheadAugmentation<any>['script'] = {
+          type: 'application/ld+json',
+          key: 'schema-org-graph',
+          nodes: nodes.map(replaceType),
+          ...config.scriptAttributes,
+        }
+
+        content.head = defu(<UseHeadInput<any>> {
+          script: [script],
+        }, content.head)
+        ctx.content = content
+      })
+    }
+    else if (isNuxtContentV2) {
+      addServerPlugin(resolve('./runtime/server/plugins/nuxt-content-v2'))
     }
 
     if (!config.reactive)
