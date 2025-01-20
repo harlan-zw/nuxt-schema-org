@@ -11,7 +11,7 @@ await setup({
     app: {
       baseURL: '/prefix/',
     },
-  }
+  },
 })
 
 describe('base', () => {
