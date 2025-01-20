@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from './utils'
 
 await setup({
-  rootDir: fileURLToPath(new URL('../fixtures/content', import.meta.url)),
+  rootDir: fileURLToPath(new URL('../fixtures/content-v3', import.meta.url)),
   server: true,
   browser: false,
 })
@@ -103,6 +103,7 @@ describe('content', () => {
             "url": "https://nuxtseo.com/posts/bar",
           },
           {
+            "@id": "https://nuxtseo.com/posts/bar/#/schema/blog-posting/346f916",
             "@type": "BlogPosting",
             "author": {
               "@type": "Person",
