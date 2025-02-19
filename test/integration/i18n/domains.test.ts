@@ -17,15 +17,15 @@ describe('pages', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://nuxtseo.com/#website",
+            "@id": "http://en.nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "inLanguage": "en-US",
             "name": "nuxt-schema-org",
             "publisher": {
-              "@id": "https://nuxtseo.com/#identity",
+              "@id": "http://en.nuxtseo.com/#identity",
             },
-            "url": "https://nuxtseo.com/",
+            "url": "http://en.nuxtseo.com/",
             "workTranslation": [
               {
                 "@id": "http://jp.nuxtseo.com:3000/#website",
@@ -36,31 +36,31 @@ describe('pages', () => {
             ],
           },
           {
-            "@id": "https://nuxtseo.com/#webpage",
+            "@id": "http://en.nuxtseo.com/#webpage",
             "@type": "WebPage",
             "about": {
-              "@id": "https://nuxtseo.com/#identity",
+              "@id": "http://en.nuxtseo.com/#identity",
             },
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
-              "@id": "https://nuxtseo.com/#website",
+              "@id": "http://en.nuxtseo.com/#website",
             },
             "name": "Welcome",
             "potentialAction": [
               {
                 "@type": "ReadAction",
                 "target": [
-                  "https://nuxtseo.com",
+                  "http://en.nuxtseo.com",
                 ],
               },
             ],
-            "url": "https://nuxtseo.com",
+            "url": "http://en.nuxtseo.com",
           },
           {
-            "@id": "https://nuxtseo.com/#identity",
+            "@id": "http://en.nuxtseo.com/#identity",
             "@type": "Organization",
             "name": "nuxt-schema-org",
-            "url": "https://nuxtseo.com",
+            "url": "http://en.nuxtseo.com",
           },
         ],
       }

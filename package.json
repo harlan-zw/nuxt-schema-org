@@ -93,5 +93,12 @@
   },
   "resolutions": {
     "typescript": "5.6.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@parcel/watcher",
+      "better-sqlite3",
+      "esbuild"
+    ]
   }
 }
