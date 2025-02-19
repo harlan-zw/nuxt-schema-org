@@ -1,37 +1,45 @@
 <script setup lang="ts">
-import { computedAsync } from '@vueuse/core'
-import { type BundledLanguage, codeToHtml } from 'shiki'
+import { computed } from 'vue'
+import { renderCodeHighlight } from '../composables/shiki'
 
 const props = withDefaults(
   defineProps<{
     code: string
-    lang?: BundledLanguage
+    lang: 'javascript' | 'json'
     lines?: boolean
     transformRendered?: (code: string) => string
   }>(),
   {
-    lines: false,
+    lines: true,
   },
 )
-const rendered = computedAsync(async () => {
-  const colorMode = devtools.value?.colorMode || 'light'
-  return await codeToHtml(props.code, {
-    lang: props.lang,
-    theme: colorMode === 'dark' ? 'vitesse-dark' : 'vitesse-light',
-  }) || ''
+const rendered = computed(() => {
+  const code = renderCodeHighlight(props.code, props.lang)
+  return props.transformRendered ? props.transformRendered(code.value || '') : code.value
 })
 </script>
 
 <template>
   <pre
-    class="n-code-block"
+    class="n-code-block w-full"
     :class="lines ? 'n-code-block-lines' : ''"
     v-html="rendered"
   />
 </template>
 
 <style>
+.n-code-block-lines .shiki code {
+  counter-reset: step;
+  counter-increment: step calc(var(--start, 1) - 1);
+}
 .n-code-block-lines .shiki code .line::before {
-  display: none;
+  content: counter(step);
+  counter-increment: step;
+  width: 2rem;
+  padding-right: 0.5rem;
+  margin-right: 0.5rem;
+  display: inline-block;
+  text-align: right;
+  --at-apply: text-truegray:50;
 }
 </style>

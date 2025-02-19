@@ -7,6 +7,8 @@ useHead({
   title: 'Nuxt Schema.org Playground',
 })
 
+await loadShiki()
+
 const { data } = fetchGlobalDebug()
 
 // async function refresh() {
