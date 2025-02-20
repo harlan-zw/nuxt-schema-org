@@ -81,7 +81,7 @@ describe('pages', () => {
               "@id": "https://nuxtseo.com/#identity",
             },
             "translationOfWork": {
-              "@id": "https://nuxtseo.com/ja#website",
+              "@id": "https://nuxtseo.com/en#website",
             },
             "url": "https://nuxtseo.com/ja",
           },

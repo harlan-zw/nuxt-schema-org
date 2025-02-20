@@ -53,7 +53,7 @@ export default defineNuxtPlugin({
       if (siteConfig.currentLocale && siteConfig.currentLocale !== siteConfig.defaultLocale) {
         website.translationOfWork = {
           '@type': 'WebSite',
-          '@id': `${resolveIdForLocale({ code: siteConfig.currentLocale })}#website`,
+          '@id': `${resolveIdForLocale({ code: siteConfig.defaultLocale })}#website`,
         }
       }
       else {
