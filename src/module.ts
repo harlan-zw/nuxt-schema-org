@@ -1,8 +1,7 @@
 import type { NuxtModule } from '@nuxt/schema'
-import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unhead/schema-org'
-import type { UseHeadInput } from 'unhead'
-import type { ModuleRuntimeConfig, UnheadAugmentation } from './runtime/types'
+import type { Script, UseHeadInput } from '@unhead/vue/types'
+import type { ModuleRuntimeConfig } from './runtime/types'
 import {
   addComponent,
   addImports,
@@ -55,7 +54,7 @@ export interface ModuleOptions {
    *
    * By default, will apply an `id` of `schema-org-graph`. Set to `false` to apply no attributes.
    */
-  scriptAttributes?: (ScriptBase & TagUserProperties & DataKeys) | false
+  scriptAttributes?: Script | false
   /**
    * Enables debug logs.
    *
@@ -72,14 +71,13 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'nuxt-schema-org',
     configKey: 'schemaOrg',
     compatibility: {
-      nuxt: '>=3.7.0',
+      nuxt: '>=3.16.0',
       bridge: false,
     },
   },
   defaults(nuxt) {
     return {
       enabled: true,
-      debug: nuxt.options.debug || false,
       defaults: true,
       reactive: nuxt.options.dev || !nuxt.options.ssr,
       minify: !nuxt.options.dev,
@@ -157,11 +155,11 @@ export default defineNuxtModule<ModuleOptions>({
           return node
         }
 
-        const script: (ScriptBase & TagUserProperties & DataKeys) & UnheadAugmentation<any>['script'] = {
+        const script: Script & { nodes: any } = {
           type: 'application/ld+json',
           key: 'schema-org-graph',
-          nodes: nodes.map(replaceType),
           ...config.scriptAttributes,
+          nodes: nodes.map(replaceType),
         }
 
         content.head = defu(<UseHeadInput<any>> {

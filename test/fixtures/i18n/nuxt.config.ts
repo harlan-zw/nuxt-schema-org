@@ -1,9 +1,4 @@
-import { resolve } from 'pathe'
 import NuxtSchemaOrg from '../../../src/module'
-
-function r(s: string) {
-  return resolve(__dirname, s)
-}
 
 // https://v3.nuxtjs.org/api/configuration/nuxt.config
 export default defineNuxtConfig({
@@ -18,7 +13,7 @@ export default defineNuxtConfig({
     url: 'https://nuxtseo.com',
   },
   i18n: {
-    langDir: r('./locales'),
+    langDir: './locales',
     baseUrl: 'https://nuxtseo.com',
     detectBrowserLanguage: false,
     defaultLocale: 'en',
@@ -27,17 +22,17 @@ export default defineNuxtConfig({
       {
         code: 'en',
         language: 'en-US',
-        file: r('./locales/en'),
+        file: 'en.ts',
       },
       {
         code: 'ja',
         language: 'ja',
-        file: r('./locales/ja'),
+        file: 'ja.ts',
       },
       {
         code: 'zh',
         language: 'zh',
-        file: r('./locales/zh'),
+        file: 'zh.ts',
       },
     ],
   },

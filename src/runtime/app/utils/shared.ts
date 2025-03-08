@@ -1,11 +1,11 @@
 import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org'
 import type { NuxtApp } from 'nuxt/app'
+import { injectHead } from '#imports'
 import {
   useSiteConfig,
 } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { SchemaOrgUnheadPlugin } from '@unhead/schema-org/vue'
-import { injectHead } from '@unhead/vue'
 import { defu } from 'defu'
 import { useRoute } from 'nuxt/app'
 import { camelCase } from 'scule'
@@ -42,7 +42,7 @@ export function initPlugin(nuxtApp: NuxtApp) {
   head.push({ templateParams: { schemaOrg } })
   head.use(
     SchemaOrgUnheadPlugin({} as _MetaInput, async () => {
-      const meta: MetaInput = {}
+      const meta = {} as MetaInput
       // call hook
       await nuxtApp.hooks.callHook('schema-org:meta', meta)
       return meta as _MetaInput

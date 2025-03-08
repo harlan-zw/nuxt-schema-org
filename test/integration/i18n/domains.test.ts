@@ -23,7 +23,7 @@ describe('pages', () => {
             "inLanguage": "en-US",
             "name": "nuxt-schema-org",
             "publisher": {
-              "@id": "http://en.nuxtseo.com/#identity",
+              "@id": "http://en.nuxtseo.com#identity",
             },
             "url": "http://en.nuxtseo.com/",
             "workTranslation": [
@@ -36,10 +36,10 @@ describe('pages', () => {
             ],
           },
           {
-            "@id": "http://en.nuxtseo.com/#webpage",
+            "@id": "http://en.nuxtseo.com#webpage",
             "@type": "WebPage",
             "about": {
-              "@id": "http://en.nuxtseo.com/#identity",
+              "@id": "http://en.nuxtseo.com#identity",
             },
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
@@ -57,7 +57,7 @@ describe('pages', () => {
             "url": "http://en.nuxtseo.com",
           },
           {
-            "@id": "http://en.nuxtseo.com/#identity",
+            "@id": "http://en.nuxtseo.com#identity",
             "@type": "Organization",
             "name": "nuxt-schema-org",
             "url": "http://en.nuxtseo.com",

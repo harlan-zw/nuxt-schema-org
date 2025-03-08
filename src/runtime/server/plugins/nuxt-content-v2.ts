@@ -1,6 +1,6 @@
 import type { ParsedContent } from '@nuxt/content'
 import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
-import type { UseHeadInput } from 'unhead'
+import type { UseHeadInput } from '@unhead/vue/types'
 import type { UnheadAugmentation } from '../../types'
 import { defineWebPage } from '@unhead/schema-org'
 import { defu } from 'defu'

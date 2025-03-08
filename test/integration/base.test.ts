@@ -24,24 +24,24 @@ describe('base', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://nuxtseo.com/#website",
+            "@id": "https://nuxtseo.com#website",
             "@type": "WebSite",
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "name": "My Website",
             "publisher": {
-              "@id": "https://nuxtseo.com/#identity",
+              "@id": "https://nuxtseo.com#identity",
             },
             "url": "https://nuxtseo.com",
           },
           {
-            "@id": "https://nuxtseo.com/prefix/#webpage",
+            "@id": "https://nuxtseo.com/prefix#webpage",
             "@type": "WebPage",
             "about": {
-              "@id": "https://nuxtseo.com/#identity",
+              "@id": "https://nuxtseo.com#identity",
             },
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
-              "@id": "https://nuxtseo.com/#website",
+              "@id": "https://nuxtseo.com#website",
             },
             "potentialAction": [
               {
@@ -54,7 +54,7 @@ describe('base', () => {
             "url": "https://nuxtseo.com/prefix",
           },
           {
-            "@id": "https://nuxtseo.com/#identity",
+            "@id": "https://nuxtseo.com#identity",
             "@type": "Person",
             "jobTitle": "Software Engineer",
             "name": "Harlan",
@@ -72,24 +72,24 @@ describe('base', () => {
     // Snapshot
     expect(articleNode).toMatchInlineSnapshot(`
       {
-        "@id": "https://nuxtseo.com/prefix/reactivity-computed/#article",
+        "@id": "https://nuxtseo.com/prefix/reactivity-computed#article",
         "@type": "Article",
         "author": {
-          "@id": "https://nuxtseo.com/#identity",
+          "@id": "https://nuxtseo.com#identity",
         },
         "description": "Harlan Wilton - Last Name",
         "headline": "Harlan Wilton - Last Name",
         "image": {
-          "@id": "https://nuxtseo.com/#/schema/image/4c11be9",
+          "@id": "https://nuxtseo.com#/schema/image/4c11be9",
         },
         "isPartOf": {
-          "@id": "https://nuxtseo.com/prefix/reactivity-computed/#webpage",
+          "@id": "https://nuxtseo.com/prefix/reactivity-computed#webpage",
         },
         "mainEntityOfPage": {
-          "@id": "https://nuxtseo.com/prefix/reactivity-computed/#webpage",
+          "@id": "https://nuxtseo.com/prefix/reactivity-computed#webpage",
         },
         "publisher": {
-          "@id": "https://nuxtseo.com/#identity",
+          "@id": "https://nuxtseo.com#identity",
         },
         "thumbnailUrl": "https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png",
       }
