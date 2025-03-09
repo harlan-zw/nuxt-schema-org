@@ -1,6 +1,6 @@
 import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org'
 import type { NuxtApp } from 'nuxt/app'
-import { injectHead } from '#imports'
+import { injectHead, useHead } from '#imports'
 import {
   useSiteConfig,
 } from '#site-config/app/composables/useSiteConfig'
@@ -39,7 +39,9 @@ export function initPlugin(nuxtApp: NuxtApp) {
       path: resolvePath(route.path),
     }
   })
-  head.push({ templateParams: { schemaOrg } })
+  useHead({
+    templateParams: { schemaOrg }
+  })
   head.use(
     SchemaOrgUnheadPlugin({} as _MetaInput, async () => {
       const meta = {} as MetaInput
