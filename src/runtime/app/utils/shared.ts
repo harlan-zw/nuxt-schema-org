@@ -34,8 +34,8 @@ export function initPlugin(nuxtApp: NuxtApp) {
       ...(route.meta?.schemaOrg || {}),
       ...siteConfig as Record<string, string>,
       url: resolveUrl(route.path),
-      host: withoutTrailingSlash(siteConfig.url),
-      inLanguage: siteConfig.currentLocale || siteConfig.defaultLocale,
+      host: withTrailingSlash(siteConfig.url),
+      inLanguage: toValue(siteConfig.currentLocale) || toValue(siteConfig.defaultLocale),
       path: resolvePath(route.path),
     }
   })
