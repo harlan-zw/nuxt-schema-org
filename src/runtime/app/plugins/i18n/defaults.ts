@@ -7,6 +7,7 @@ import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
 import { defineNuxtPlugin, useRuntimeConfig } from 'nuxt/app'
 import { hasProtocol, withHttps } from 'ufo'
+import { toValue } from 'vue'
 import { useSchemaOrg } from '../../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 
@@ -16,7 +17,9 @@ export default defineNuxtPlugin({
     'nuxt-schema-org:init',
   ],
   setup(nuxtApp) {
-    const siteConfig = useSiteConfig()
+    const siteConfig = useSiteConfig({
+      resolveRefs: true,
+    })
     const pathResolver = createSitePathResolver({
       canonical: true,
       absolute: true,
@@ -33,8 +36,8 @@ export default defineNuxtPlugin({
     const website = defineWebSite({
       '@id': websiteId,
       'url': siteUrl,
-      'name': siteConfig?.name || '',
-      'inLanguage': nuxtApp.$i18n.localeProperties.value.language || '',
+      'name': siteConfig.name || '',
+      'inLanguage': toValue(nuxtApp.$i18n.localeProperties.value.language) || '',
       'description': siteConfig.description || '',
     })
     const nuxtBase = useRuntimeConfig().app.baseURL || '/'

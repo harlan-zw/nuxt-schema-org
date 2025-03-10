@@ -9,17 +9,19 @@ import { SchemaOrgUnheadPlugin } from '@unhead/schema-org/vue'
 import { defu } from 'defu'
 import { useRoute } from 'nuxt/app'
 import { camelCase } from 'scule'
+import { withTrailingSlash } from 'ufo'
 import { computed, toValue } from 'vue'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
-import { withTrailingSlash } from 'ufo'
 
 export function initPlugin(nuxtApp: NuxtApp) {
   const head = injectHead()
   const config = useSchemaOrgConfig()
   const route = useRoute()
 
-  const siteConfig = useSiteConfig()
+  const siteConfig = useSiteConfig({
+    resolveRefs: true,
+  })
   const resolvePath = createSitePathResolver({
     absolute: false,
     withBase: true,
@@ -40,7 +42,7 @@ export function initPlugin(nuxtApp: NuxtApp) {
     }
   })
   useHead({
-    templateParams: { schemaOrg }
+    templateParams: { schemaOrg },
   })
   head.use(
     SchemaOrgUnheadPlugin({} as _MetaInput, async () => {
@@ -57,7 +59,9 @@ export function initPlugin(nuxtApp: NuxtApp) {
 
 export function maybeAddIdentitySchemaOrg() {
   const config = useSchemaOrgConfig()
-  const siteConfig = useSiteConfig()
+  const siteConfig = useSiteConfig({
+    resolveRefs: true,
+  })
   if (config.identity || siteConfig.identity) {
     const identity = config.identity || siteConfig.identity
     let identityPayload: Record<string, any> = {
