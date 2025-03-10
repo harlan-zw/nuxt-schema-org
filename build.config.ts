@@ -16,6 +16,7 @@ export default defineBuildConfig({
     'consola',
     '@nuxt/content',
     'zod',
+    '@unhead/vue',
     '@unhead/schema',
     '@unhead/schema-org/vue',
   ],

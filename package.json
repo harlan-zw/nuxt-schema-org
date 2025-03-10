@@ -66,10 +66,6 @@
     "typecheck": "tsc --noEmit ",
     "test": "nuxi prepare test/fixtures/i18n && nuxi prepare test/fixtures/i18n-domains && vitest"
   },
-  "peerDependencies": {
-    "@unhead/vue": "^2.0.0-rc.1",
-    "nuxt": "^3.16.0"
-  },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
     "@unhead/schema-org": "^2.0.0-rc.9",
