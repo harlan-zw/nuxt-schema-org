@@ -23,7 +23,7 @@ describe('pages', () => {
             "inLanguage": "en-US",
             "name": "nuxt-schema-org",
             "publisher": {
-              "@id": "https://nuxtseo.com#identity",
+              "@id": "https://nuxtseo.com/#identity",
             },
             "url": "https://nuxtseo.com/en",
             "workTranslation": [
@@ -39,7 +39,7 @@ describe('pages', () => {
             "@id": "https://nuxtseo.com/en#webpage",
             "@type": "WebPage",
             "about": {
-              "@id": "https://nuxtseo.com#identity",
+              "@id": "https://nuxtseo.com/#identity",
             },
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
@@ -57,7 +57,7 @@ describe('pages', () => {
             "url": "https://nuxtseo.com/en",
           },
           {
-            "@id": "https://nuxtseo.com#identity",
+            "@id": "https://nuxtseo.com/#identity",
             "@type": "Organization",
             "name": "nuxt-schema-org",
             "url": "https://nuxtseo.com",
@@ -78,7 +78,7 @@ describe('pages', () => {
             "inLanguage": "ja",
             "name": "nuxt-schema-org",
             "publisher": {
-              "@id": "https://nuxtseo.com#identity",
+              "@id": "https://nuxtseo.com/#identity",
             },
             "translationOfWork": {
               "@id": "https://nuxtseo.com/en#website",
@@ -89,7 +89,7 @@ describe('pages', () => {
             "@id": "https://nuxtseo.com/ja#webpage",
             "@type": "WebPage",
             "about": {
-              "@id": "https://nuxtseo.com#identity",
+              "@id": "https://nuxtseo.com/#identity",
             },
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
@@ -107,7 +107,7 @@ describe('pages', () => {
             "url": "https://nuxtseo.com/ja",
           },
           {
-            "@id": "https://nuxtseo.com#identity",
+            "@id": "https://nuxtseo.com/#identity",
             "@type": "Organization",
             "name": "nuxt-schema-org",
             "url": "https://nuxtseo.com",

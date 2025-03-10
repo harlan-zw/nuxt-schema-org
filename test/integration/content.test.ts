@@ -19,11 +19,11 @@ describe('content', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://nuxtseo.com#website",
+            "@id": "https://nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "name": "nuxt-schema-org",
-            "url": "https://nuxtseo.com",
+            "url": "https://nuxtseo.com/",
           },
           {
             "@id": "https://nuxtseo.com/question-answer#webpage",
@@ -33,7 +33,7 @@ describe('content', () => {
             ],
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
-              "@id": "https://nuxtseo.com#website",
+              "@id": "https://nuxtseo.com/#website",
             },
             "mainEntity": [
               {
@@ -78,18 +78,18 @@ describe('content', () => {
         "@context": "https://schema.org",
         "@graph": [
           {
-            "@id": "https://nuxtseo.com#website",
+            "@id": "https://nuxtseo.com/#website",
             "@type": "WebSite",
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "name": "nuxt-schema-org",
-            "url": "https://nuxtseo.com",
+            "url": "https://nuxtseo.com/",
           },
           {
             "@id": "https://nuxtseo.com/posts/bar#webpage",
             "@type": "WebPage",
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
-              "@id": "https://nuxtseo.com#website",
+              "@id": "https://nuxtseo.com/#website",
             },
             "name": "bar",
             "potentialAction": [
