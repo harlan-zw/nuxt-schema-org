@@ -9,10 +9,10 @@ import { SchemaOrgUnheadPlugin } from '@unhead/schema-org/vue'
 import { defu } from 'defu'
 import { useRoute } from 'nuxt/app'
 import { camelCase } from 'scule'
-import { withoutTrailingSlash } from 'ufo'
-import { computed } from 'vue'
+import { computed, toValue } from 'vue'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
+import { withTrailingSlash } from 'ufo'
 
 export function initPlugin(nuxtApp: NuxtApp) {
   const head = injectHead()
