@@ -4,7 +4,7 @@ import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
-import { defineNuxtPlugin, useRuntimeConfig } from 'nuxt/app'
+import { defineNuxtPlugin, useError, useRuntimeConfig } from 'nuxt/app'
 import { hasProtocol, withHttps } from 'ufo'
 import { toValue } from 'vue'
 import { useSchemaOrg } from '../../composables/useSchemaOrg'
@@ -16,9 +16,11 @@ export default defineNuxtPlugin({
     'nuxt-schema-org:init',
   ],
   setup(nuxtApp) {
-    const siteConfig = useSiteConfig({
-      resolveRefs: true,
-    })
+    const error = useError()
+    if (error.value?.error) {
+      return
+    }
+    const siteConfig = useSiteConfig()
     const pathResolver = createSitePathResolver({
       canonical: true,
       absolute: true,

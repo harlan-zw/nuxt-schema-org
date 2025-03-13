@@ -1,6 +1,6 @@
 import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
-import { defineNuxtPlugin } from 'nuxt/app'
+import { defineNuxtPlugin, useError } from 'nuxt/app'
 import { toValue } from 'vue'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../utils/shared'
@@ -11,6 +11,10 @@ export default defineNuxtPlugin({
     'nuxt-schema-org:init',
   ],
   setup() {
+    const error = useError()
+    if (error.value?.error) {
+      return
+    }
     // get the head instance
     const siteConfig = useSiteConfig({
       resolveRefs: true,
