@@ -1,4 +1,4 @@
-import { defineWebPage, defineWebSite, useSchemaOrg } from '#imports'
+import { defineWebPage, defineWebSite, useSchemaOrg } from '@unhead/schema-org/vue'
 
 export function useSchemaOrgCustom() {
   useSchemaOrg([

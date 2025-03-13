@@ -6,13 +6,13 @@ export default defineNuxtConfig({
     NuxtSchemaOrg,
     '@nuxtjs/i18n',
   ],
+  // @ts-expect-error untyped
   schemaOrg: {
     identity: 'Organization',
   },
   site: {
     url: 'https://nuxtseo.com',
   },
-  // @ts-expect-error untyped
   i18n: {
     langDir: './locales',
     strategy: 'no_prefix',

@@ -70,7 +70,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
-    "@unhead/schema-org": "^2.0.0-rc.12",
+    "@unhead/schema-org": "^2.0.0-rc.13",
     "defu": "^6.1.4",
     "nuxt-site-config": "^3.1.5",
     "pathe": "^2.0.3",
@@ -103,6 +103,8 @@
     ]
   },
   "resolutions": {
-    "typescript": "5.6.3"
+    "@unhead/vue": "^2.0.0-rc.13",
+    "typescript": "5.6.3",
+    "unhead": "^2.0.0-rc.13"
   }
 }

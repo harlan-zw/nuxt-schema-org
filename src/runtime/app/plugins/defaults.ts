@@ -8,6 +8,7 @@ import { maybeAddIdentitySchemaOrg } from '../utils/shared'
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:defaults',
   dependsOn: [
+    // @ts-expect-error untyped
     'nuxt-schema-org:init',
   ],
   setup() {
@@ -16,15 +17,13 @@ export default defineNuxtPlugin({
       return
     }
     // get the head instance
-    const siteConfig = useSiteConfig({
-      resolveRefs: true,
-    })
+    const siteConfig = useSiteConfig()
     // init vendors
     useSchemaOrg([
       defineWebSite({
-        name: toValue(siteConfig.name) || '',
-        inLanguage: toValue(siteConfig.currentLocale) || '',
-        description: toValue(siteConfig.description) || '',
+        name: () => toValue(siteConfig.name) || '',
+        inLanguage: () => toValue(siteConfig.currentLocale) || '',
+        description: () => toValue(siteConfig.description) || '',
       }),
       defineWebPage(),
     ])

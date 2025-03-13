@@ -2,7 +2,7 @@
 import type { ParsedContent } from '@nuxt/content'
 import type { Script, UseHeadInput } from '@unhead/vue/types'
 import type { UnheadAugmentation } from '../../types'
-import { defineWebPage } from '@unhead/schema-org'
+import { defineWebPage } from '@unhead/schema-org/vue'
 import { defu } from 'defu'
 import { defineNitroPlugin } from 'nitropack/runtime'
 import { useSchemaOrgConfig } from '../utils/config'

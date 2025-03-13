@@ -13,6 +13,7 @@ import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:defaults',
   dependsOn: [
+    // @ts-expect-error untyped
     'nuxt-schema-org:init',
   ],
   setup(nuxtApp) {
@@ -33,15 +34,15 @@ export default defineNuxtPlugin({
     // @ts-expect-error untyped
     const locales = nuxtApp.$i18n?.locales.value || []
     // init vendors
-    const siteUrl = pathResolver(localePath('index')).value
-    const websiteId = `${siteUrl}#website`
+    const siteUrl = () => pathResolver(localePath('index')).value
+    const websiteId = () => `${siteUrl()}#website`
     const website = defineWebSite({
       '@id': websiteId,
       'url': siteUrl,
-      'name': siteConfig.name || '',
+      'name': () => toValue(siteConfig.name) || '',
       // @ts-expect-error untyped
-      'inLanguage': toValue(nuxtApp.$i18n.localeProperties.value.language) || '',
-      'description': siteConfig.description || '',
+      'inLanguage': () => toValue(nuxtApp.$i18n.localeProperties.value.language) || '',
+      'description': () => toValue(siteConfig.description) || '',
     })
     const nuxtBase = useRuntimeConfig().app.baseURL || '/'
     const resolveIdForLocale = (locale: { code: string, domain?: string }) => {
@@ -59,7 +60,7 @@ export default defineNuxtPlugin({
       if (siteConfig.currentLocale && siteConfig.currentLocale !== siteConfig.defaultLocale) {
         website.translationOfWork = {
           '@type': 'WebSite',
-          '@id': `${resolveIdForLocale({ code: siteConfig.defaultLocale })}#website`,
+          '@id': () => `${resolveIdForLocale({ code: toValue(siteConfig.defaultLocale) })}#website`,
         }
       }
       else {
@@ -70,7 +71,7 @@ export default defineNuxtPlugin({
           .map((locale) => {
             return {
               '@type': 'WebSite',
-              '@id': `${resolveIdForLocale(locale)}#website`,
+              '@id': () => `${resolveIdForLocale(locale)}#website`,
             }
           })
       }
@@ -79,7 +80,7 @@ export default defineNuxtPlugin({
       website,
       defineWebPage({
         isPartOf: {
-          '@id': websiteId,
+          '@id': websiteId(),
         },
       }),
     ])

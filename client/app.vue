@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
+import { refresh } from './composables/rpc'
 import { schemaOrgGraph } from './util/logic'
 import 'floating-vue/dist/style.css'
 
@@ -11,15 +12,6 @@ await loadShiki()
 
 const { data } = fetchGlobalDebug()
 
-// async function refresh() {
-//   // loading.value = true
-//   schemaOrgGraph.value = null
-//   await refreshSources()
-//   setTimeout(() => {
-//     // loading.value = false
-//   }, 300)
-// }
-
 const tab = ref('nodes')
 const nodes = computed(() => {
   if (schemaOrgGraph.value) {
@@ -28,11 +20,74 @@ const nodes = computed(() => {
     }
     catch {}
   }
-  return []
+  return false
 })
 
 function copyGraph() {
   navigator.clipboard.writeText(schemaOrgGraph.value)
+}
+
+const schemaOrgExample = `useSchemaOrg([
+  defineWebPage({ title: 'Hello World' })
+])`
+
+const googleStructedDataLinks = {
+  // Google Search Gallery to Schema.org mapping
+  'article': ['Article', 'NewsArticle', 'BlogPosting'],
+  'book': ['Book'],
+  'breadcrumb': ['BreadcrumbList'],
+  'carousel': ['ItemList'],
+  'course-info': ['Course'],
+  'course': ['Course'],
+  'dataset': ['Dataset'],
+  'discussion-forum': ['DiscussionForumPosting'],
+  'education-qa': ['Question', 'Answer'],
+  'employer-rating': ['EmployerAggregateRating'],
+  'estimated-salary': ['OccupationalExperienceRequirements'],
+  'event': ['Event'],
+  'factcheck': ['ClaimReview'],
+  'faqpage': ['FAQPage'],
+  'image-license-metadata': ['ImageObject'],
+  'job-posting': ['JobPosting'],
+  'learning-video': ['LearningResource', 'VideoObject'],
+  'local-business': ['LocalBusiness'],
+  'math-solvers': ['MathSolver'],
+  'movie': ['Movie'],
+  'organization': ['Organization'],
+  'practice-problems': ['Quiz', 'Question'],
+  'product': ['Product'],
+  'product-snippet': ['Product'],
+  'merchant-listing': ['Product', 'Offer'],
+  'product-variants': ['Product'],
+  'profile-page': ['ProfilePage', 'Person'],
+  'qapage': ['QAPage'],
+  'recipe': ['Recipe'],
+  'review-snippet': ['Review'],
+  'software-app': ['SoftwareApplication'],
+  'speakable': ['SpeakableSpecification'],
+  'special-announcements': ['SpecialAnnouncement'],
+  'paywalled-content': ['CreativeWork'],
+  'vacation-rental': ['Accommodation', 'LodgingBusiness'],
+  'vehicle-listing': ['Vehicle'],
+  'video': ['VideoObject'],
+}
+
+function asArray(value: any) {
+  return Array.isArray(value) ? value : [value]
+}
+
+function nodeToSchemaOrgLink(type: string) {
+  // convert to array
+  // turn into links pointing to schema.org documentation for node
+  const simpleType = type.replace('https://schema.org/', '')
+  // Find Google page that uses this schema type
+  const googlePage = Object.entries(googleStructedDataLinks)
+    .find(([_, types]) => types.includes(simpleType))?.[0]
+  return {
+    type: simpleType,
+    schemaOrg: `https://schema.org/${simpleType}`,
+    googlePage: googlePage ? `https://developers.google.com/search/docs/appearance/structured-data/${googlePage}` : null,
+  }
 }
 </script>
 
@@ -119,7 +174,7 @@ function copyGraph() {
             </label>
           </fieldset>
           <VTooltip>
-            <button text-lg="" type="button" class="n-icon-button n-button n-transition n-disabled:n-disabled" @click="refreshSources">
+            <button text-lg="" type="button" class="n-icon-button n-button n-transition n-disabled:n-disabled" @click="refresh">
               <NIcon icon="carbon:reset" class="group-hover:text-green-500" />
             </button>
             <template #popper>
@@ -148,10 +203,8 @@ function copyGraph() {
     </header>
     <div class="flex-row flex p4 h-full" style="min-height: calc(100vh - 64px);">
       <main class="mx-auto flex flex-col w-full bg-white dark:bg-black dark:bg-dark-700 bg-light-200 ">
-        <div v-if="!data">
-          <NLoading />
-        </div>
-        <div v-if="tab === 'nodes'">
+        <NLoading v-if="!schemaOrgGraph || schemaOrgGraph === 'loading'" />
+        <div v-else-if="tab === 'nodes'">
           <div v-if="!nodes?.length">
             <div class="flex flex-col items-center justify-center mx-auto max-w-135 h-85vh">
               <div class="">
@@ -162,8 +215,8 @@ function copyGraph() {
                 <p class="text-lg opacity-80 my-3">
                   Getting started with Nuxt Schema.org is easy, simply add the following code within setup script setup of your file.
                 </p>
-                <div class="px-3 py-2 space-y-5 rounded mb-3" style="background-color: #121212;">
-                  <OCodeBlock code="useSchemaOrg([\n  defineWebPage({ title: 'Hello World' })\n])" lang="javascript" />
+                <div class="px-3 py-2 space-y-5 rounded mb-3 border">
+                  <OCodeBlock :code="schemaOrgExample" lang="javascript" />
                 </div>
                 <p class="text-lg opacity-80">
                   <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="underline">
@@ -175,8 +228,25 @@ function copyGraph() {
           </div>
           <OSectionBlock v-for="(node, key) in nodes" v-else :key="key">
             <template #text>
-              <h3 class="opacity-80 text-base mb-1">
-                {{ Array.isArray(node['@type']) ? node['@type'].join(', ') : node['@type'] }}
+              <h3 v-for="t in asArray(node['@type']).map(nodeToSchemaOrgLink)" :key="t.type" class="opacity-80 text-base space-x-2">
+                <span>{{ t.type }}</span>
+                <NuxtLink
+                  :to="t.schemaOrg"
+                  target="_blank"
+                  class="dark:text-blue-300 hover:underline"
+                >
+                  Schema.org
+                  <NIcon icon="carbon:launch" class="text-xs ml-[2px] opacity-50" />
+                </NuxtLink>
+                <NuxtLink
+                  v-if="t.googlePage"
+                  :to="t.googlePage"
+                  target="_blank"
+                  class="dark:text-blue-300 hover:underline"
+                >
+                  Rich Results
+                  <NIcon icon="carbon:launch" class="text-xs ml-[2px] opacity-50" />
+                </NuxtLink>
               </h3>
             </template>
             <template #description>
