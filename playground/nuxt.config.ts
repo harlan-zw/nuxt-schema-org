@@ -54,7 +54,6 @@ export default defineNuxtConfig({
     },
   },
 
-  // @ts-expect-error untyped
   schemaOrg: {
     scriptAttributes: {
       'tagPosition': 'head',

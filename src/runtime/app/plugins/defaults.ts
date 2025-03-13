@@ -8,7 +8,6 @@ import { maybeAddIdentitySchemaOrg } from '../utils/shared'
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:defaults',
   dependsOn: [
-    // @ts-expect-error untyped
     'nuxt-schema-org:init',
   ],
   setup() {
