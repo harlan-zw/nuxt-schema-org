@@ -111,6 +111,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (config.reactive)
       nuxt.options.runtimeConfig.public['nuxt-schema-org'] = runtimeConfig
     // for devtools debugging
+    // @ts-ignore
     nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
     // @ts-expect-error untyped
