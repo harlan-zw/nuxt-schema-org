@@ -110,9 +110,11 @@ export default defineNuxtModule<ModuleOptions>({
     // avoid polluting client-side bundle if we don't need to
     if (config.reactive)
       nuxt.options.runtimeConfig.public['nuxt-schema-org'] = runtimeConfig
-    else
+    // for devtools debugging
+    if (nuxt.options.dev) {
       // @ts-expect-error untyped
       nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
+    }
 
     // @ts-expect-error untyped
     const pluginPath = (hasNuxtModule('@nuxtjs/i18n') && nuxt.options.i18n?.locales) ? './runtime/app/plugins/i18n' : './runtime/app/plugins'
