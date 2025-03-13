@@ -10,7 +10,7 @@ const props = withDefaults(
     transformRendered?: (code: string) => string
   }>(),
   {
-    lines: true,
+    lines: false,
   },
 )
 const rendered = computed(() => {
