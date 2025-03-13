@@ -1,23 +1,18 @@
 name: Test
 
+permissions: {contents: read}
+
 on:
   push:
     branches:
       - main
-  pull_request:
+  pull_request_target:
     branches:
       - main
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-
-    strategy:
-      matrix:
-        node-version: [22.x]
-        # os: [ubuntu-latest, windows-latest, macos-latest]
-        os: [ubuntu-latest]
-      fail-fast: false
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -25,10 +20,10 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 22.x
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22.x
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
@@ -36,6 +31,9 @@ jobs:
 
       - name: Build
         run: pnpm run build
+
+      - name: Typecheck
+        run: pnpm run typecheck && pnpm test:attw
 
       - name: Test
         run: pnpm run test

@@ -12,6 +12,7 @@ export default defineNuxtConfig({
   site: {
     url: 'https://nuxtseo.com',
   },
+  // @ts-expect-error untyped
   i18n: {
     langDir: './locales',
     baseUrl: 'https://nuxtseo.com',

@@ -28,6 +28,9 @@ describe('pages', () => {
             "url": "https://nuxtseo.com/en",
             "workTranslation": [
               {
+                "@id": "https://nuxtseo.com/en#website",
+              },
+              {
                 "@id": "https://nuxtseo.com/ja#website",
               },
               {
@@ -81,7 +84,7 @@ describe('pages', () => {
               "@id": "https://nuxtseo.com/#identity",
             },
             "translationOfWork": {
-              "@id": "https://nuxtseo.com/en#website",
+              "@id": "https://nuxtseo.com/#website",
             },
             "url": "https://nuxtseo.com/ja",
           },

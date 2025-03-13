@@ -68,6 +68,7 @@ describe('base', () => {
   it('render computed post', async () => {
     const schema = await $fetchSchemaOrg('/prefix/reactivity-computed')
 
+    // @ts-expect-error untyped
     const articleNode = schema['@graph'].filter(n => n['@type'] === 'Article')[0]
     // Snapshot
     expect(articleNode).toMatchInlineSnapshot(`

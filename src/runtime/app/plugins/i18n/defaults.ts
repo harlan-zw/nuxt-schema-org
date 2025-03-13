@@ -1,7 +1,6 @@
+// @ts-expect-error untyped
 import { useLocalePath } from '#i18n'
-import {
-  useSiteConfig,
-} from '#site-config/app/composables/useSiteConfig'
+import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
@@ -29,6 +28,7 @@ export default defineNuxtPlugin({
     if (!nuxtApp.$i18n)
       return
     const localePath = useLocalePath()
+    // @ts-expect-error untyped
     const locales = nuxtApp.$i18n?.locales.value || []
     // init vendors
     const siteUrl = pathResolver(localePath('index')).value
@@ -37,6 +37,7 @@ export default defineNuxtPlugin({
       '@id': websiteId,
       'url': siteUrl,
       'name': siteConfig.name || '',
+      // @ts-expect-error untyped
       'inLanguage': toValue(nuxtApp.$i18n.localeProperties.value.language) || '',
       'description': siteConfig.description || '',
     })
@@ -61,7 +62,9 @@ export default defineNuxtPlugin({
       }
       else {
         website.workTranslation = locales
+          // @ts-expect-error untyped
           .filter(locale => locale.code !== siteConfig.defaultLocale)
+          // @ts-expect-error untyped
           .map((locale) => {
             return {
               '@type': 'WebSite',

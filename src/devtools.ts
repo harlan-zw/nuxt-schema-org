@@ -5,7 +5,7 @@ import { existsSync } from 'node:fs'
 import { useNuxt } from '@nuxt/kit'
 
 const DEVTOOLS_UI_ROUTE = '/__nuxt-schema-org'
-const DEVTOOLS_UI_LOCAL_PORT = 3030
+export const DEVTOOLS_UI_LOCAL_PORT = 3030
 
 export function setupDevToolsUI(options: ModuleOptions, resolve: Resolver['resolve'], nuxt: Nuxt = useNuxt()) {
   const clientPath = resolve('./client')

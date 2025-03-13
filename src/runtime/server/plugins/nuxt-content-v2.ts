@@ -1,3 +1,4 @@
+// @ts-expect-error untyped
 import type { ParsedContent } from '@nuxt/content'
 import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
 import type { UseHeadInput } from '@unhead/vue/types'
@@ -9,6 +10,7 @@ import { useSchemaOrgConfig } from '../utils/config'
 
 export default defineNitroPlugin((nitroApp) => {
   const config = useSchemaOrgConfig()
+  // @ts-expect-error untyped
   nitroApp.hooks.hook('content:file:afterParse', async (content: ParsedContent) => {
     if (content._draft || content._extension !== 'md' || content._partial || content.indexable === false || content.index === false)
       return
