@@ -1,7 +1,6 @@
 // @ts-expect-error untyped
 import type { ParsedContent } from '@nuxt/content'
-import type { DataKeys, ScriptBase, TagUserProperties } from '@unhead/schema'
-import type { UseHeadInput } from '@unhead/vue/types'
+import type { Script, UseHeadInput } from '@unhead/vue/types'
 import type { UnheadAugmentation } from '../../types'
 import { defineWebPage } from '@unhead/schema-org'
 import { defu } from 'defu'
@@ -34,7 +33,7 @@ export default defineNitroPlugin((nitroApp) => {
       return node
     }
 
-    const script: (ScriptBase & TagUserProperties & DataKeys) & UnheadAugmentation<any>['script'] = {
+    const script: Script & UnheadAugmentation<any>['script'] = {
       type: 'application/ld+json',
       key: 'schema-org-graph',
       nodes: nodes.map(replaceType),
