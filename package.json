@@ -2,7 +2,7 @@
   "name": "nuxt-schema-org",
   "type": "module",
   "version": "5.0.4",
-  "packageManager": "pnpm@10.6.2",
+  "packageManager": "pnpm@10.8.0",
   "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
@@ -70,29 +70,29 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.16.0",
-    "@unhead/schema-org": "^2.0.0-rc.13",
+    "@unhead/schema-org": "^2.0.5",
     "defu": "^6.1.4",
-    "nuxt-site-config": "^3.1.5",
+    "nuxt-site-config": "^3.1.9",
     "pathe": "^2.0.3",
     "pkg-types": "^2.1.0",
     "sirv": "^3.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.10.1",
+    "@antfu/eslint-config": "^4.12.0",
     "@arethetypeswrong/cli": "0.17.4",
-    "@nuxt/content": "^3.3.0",
+    "@nuxt/content": "^3.4.0",
     "@nuxt/module-builder": "^0.8.4",
     "@nuxt/schema": "^3.16.0",
     "@nuxt/test-utils": "^3.17.2",
-    "@nuxt/ui": "^3.0.0",
-    "@nuxtjs/i18n": "^9.3.1",
-    "@nuxtjs/robots": "^5.2.7",
+    "@nuxt/ui": "^3.0.2",
+    "@nuxtjs/i18n": "^9.5.3",
+    "@nuxtjs/robots": "^5.2.9",
     "bumpp": "^10.1.0",
     "cheerio": "^1.0.0",
-    "eslint": "^9.22.0",
+    "eslint": "^9.24.0",
     "nuxt": "^3.16.0",
-    "typescript": "5.6.3",
-    "vitest": "^3.0.8"
+    "typescript": "5.8.3",
+    "vitest": "^3.1.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -103,8 +103,8 @@
     ]
   },
   "resolutions": {
-    "@unhead/vue": "^2.0.0-rc.13",
-    "typescript": "5.6.3",
-    "unhead": "^2.0.0-rc.13"
+    "@unhead/vue": "^2.0.5",
+    "typescript": "5.8.3",
+    "unhead": "^2.0.5"
   }
 }
