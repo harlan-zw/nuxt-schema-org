@@ -2,7 +2,7 @@
   "name": "nuxt-schema-org",
   "type": "module",
   "version": "5.0.4",
-  "packageManager": "pnpm@10.6.2",
+  "packageManager": "pnpm@10.8.1",
   "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
@@ -25,35 +25,27 @@
   "exports": {
     ".": {
       "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs",
-      "require": "./dist/module.cjs"
+      "import": "./dist/module.mjs"
     },
-    "./schema": {
-      "types": "./dist/schema.d.ts",
-      "import": "./dist/schema.mjs"
-    },
-    "./content": {
-      "types": "./dist/content.d.ts",
-      "import": "./dist/content.mjs"
-    }
+    "./schema": "./dist/schema.mjs",
+    "./content": "./dist/content.mjs"
   },
-  "main": "./dist/module.cjs",
-  "module": "./dist/module.mjs",
-  "types": "./dist/types.d.ts",
+  "main": "./dist/module.mjs",
   "typesVersions": {
     "*": {
+      ".": [
+        "./dist/types.d.mts"
+      ],
       "content": [
-        "dist/content"
+        "./dist/content.d.mts"
       ],
       "schema": [
-        "dist/schema"
+        "./dist/schema.d.mts"
       ]
     }
   },
   "files": [
-    "content.d.ts",
-    "dist",
-    "schema.d.ts"
+    "dist"
   ],
   "scripts": {
     "lint": "eslint . --fix",
@@ -68,31 +60,39 @@
     "test": "nuxi prepare test/fixtures/i18n && nuxi prepare test/fixtures/i18n-domains && vitest",
     "test:attw": "attw --pack"
   },
+  "peerDependencies": {
+    "@unhead/vue": "^2.0.7"
+  },
+  "peerDependenciesMeta": {
+    "@unhead/vue": {
+      "optional": true
+    }
+  },
   "dependencies": {
-    "@nuxt/kit": "^3.16.0",
-    "@unhead/schema-org": "^2.0.0-rc.13",
+    "@nuxt/kit": "^3.16.2",
+    "@unhead/schema-org": "^2.0.7",
     "defu": "^6.1.4",
-    "nuxt-site-config": "^3.1.5",
+    "nuxt-site-config": "^3.1.9",
     "pathe": "^2.0.3",
     "pkg-types": "^2.1.0",
     "sirv": "^3.0.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.10.1",
-    "@arethetypeswrong/cli": "0.17.4",
-    "@nuxt/content": "^3.3.0",
-    "@nuxt/module-builder": "^0.8.4",
-    "@nuxt/schema": "^3.16.0",
+    "@antfu/eslint-config": "^4.12.0",
+    "@arethetypeswrong/cli": "^0.17.4",
+    "@nuxt/content": "^3.4.0",
+    "@nuxt/module-builder": "^1.0.1",
+    "@nuxt/schema": "^3.16.2",
     "@nuxt/test-utils": "^3.17.2",
-    "@nuxt/ui": "^3.0.0",
-    "@nuxtjs/i18n": "^9.3.1",
-    "@nuxtjs/robots": "^5.2.7",
+    "@nuxt/ui": "^3.0.2",
+    "@nuxtjs/i18n": "^9.5.3",
+    "@nuxtjs/robots": "^5.2.10",
     "bumpp": "^10.1.0",
     "cheerio": "^1.0.0",
-    "eslint": "^9.22.0",
-    "nuxt": "^3.16.0",
-    "typescript": "5.6.3",
-    "vitest": "^3.0.8"
+    "eslint": "^9.24.0",
+    "nuxt": "^3.16.2",
+    "typescript": "^5.8.3",
+    "vitest": "^3.1.1"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -101,10 +101,5 @@
       "esbuild",
       "vue-demi"
     ]
-  },
-  "resolutions": {
-    "@unhead/vue": "^2.0.0-rc.13",
-    "typescript": "5.6.3",
-    "unhead": "^2.0.0-rc.13"
   }
 }
