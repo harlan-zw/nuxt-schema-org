@@ -3,7 +3,7 @@ import type { VueHeadClient } from '@unhead/vue/types'
 import type { $Fetch } from 'nitropack'
 import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
 import { useDebounceFn } from '@vueuse/core'
-import { ref, watch } from 'vue'
+import { ref } from 'vue'
 import { schemaOrgGraph } from '../util/logic'
 
 export const hostHead = ref<VueHeadClient>()
