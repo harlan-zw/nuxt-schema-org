@@ -4,8 +4,10 @@ import { z } from '@nuxt/content'
 
 const SchemaOrgNode = z.record(z.string(), z.any())
 
+export const schemaOrgSchema =  z.union([SchemaOrgNode, z.array(SchemaOrgNode).optional()]).optional()
+
 export const schema = z.object({
-  schemaOrg: z.union([SchemaOrgNode, z.array(SchemaOrgNode).optional()]).optional(),
+  schemaOrg: schemaOrgSchema
 })
 
 const headSchema = z.object({
@@ -17,7 +19,11 @@ const headSchema = z.object({
 
 export type SchemaOrgSchema = TypeOf<typeof schema>
 
-export function asSchemaOrgCollection<T extends ZodRawShape>(collection: Collection<T>): Collection<T> {
+type ExtendedSchema<T extends ZodRawShape> = T & {
+  schemaOrg: typeof schemaOrgSchema
+}
+
+export function asSchemaOrgCollection<T extends ZodRawShape>(collection: Collection<T>): Collection<ExtendedSchema<T>> {
   if (collection.type === 'page') {
     // @ts-expect-error untyped
     collection.schema = collection.schema ? schema.extend(collection.schema.shape) : schema
@@ -26,5 +32,5 @@ export function asSchemaOrgCollection<T extends ZodRawShape>(collection: Collect
       collection.schema = headSchema.extend(collection.schema!.shape)
     }
   }
-  return collection
+  return collection as Collection<ExtendedSchema<T>>
 }
