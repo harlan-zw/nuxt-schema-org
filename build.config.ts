@@ -19,5 +19,6 @@ export default defineBuildConfig({
     '@unhead/vue',
     '@unhead/schema',
     '@unhead/schema-org/vue',
+    '@unhead/vue/types',
   ],
 })

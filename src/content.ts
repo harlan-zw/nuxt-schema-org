@@ -21,7 +21,9 @@ export function asSchemaOrgCollection<T>(collection: Collection<T>): Collection<
     // @ts-expect-error untyped
     collection.schema = collection.schema ? schema.extend(collection.schema.shape) : schema
     // check if the schema has a 'head' entry, if not we'll add it
+    // @ts-expect-error untyped
     if (!('head' in collection.schema!.shape)) {
+      // @ts-expect-error untyped
       collection.schema = headSchema.extend(collection.schema!.shape)
     }
   }

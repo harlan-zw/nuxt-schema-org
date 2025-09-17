@@ -11,11 +11,11 @@
     "generate": "nuxi generate"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "^1.2.10",
-    "@nuxt/devtools-ui-kit": "^2.5.0",
-    "@nuxt/kit": "^3.17.5",
+    "@iconify-json/carbon": "^1.2.13",
+    "@nuxt/devtools-ui-kit": "^2.6.3",
+    "@nuxt/kit": "^4.1.2",
     "floating-vue": "^5.2.2",
-    "nuxt": "^3.17.5",
-    "shiki": "^3.7.0"
+    "nuxt": "^4.1.2",
+    "shiki": "^3.12.2"
   }
 }

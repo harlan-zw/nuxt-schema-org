@@ -72,7 +72,6 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'schemaOrg',
     compatibility: {
       nuxt: '>=3.16.0',
-      bridge: false,
     },
     moduleDependencies: {
       '@nuxtjs/i18n': {
@@ -191,7 +190,7 @@ export default defineNuxtModule<ModuleOptions>({
 
     if (!config.reactive)
       // tree-shake all schema-org functions
-      nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = schemaOrgAutoImports[0].imports
+      nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = schemaOrgAutoImports[0]!.imports
 
     for (const component of schemaOrgComponents) {
       await addComponent({
@@ -208,7 +207,7 @@ export default defineNuxtModule<ModuleOptions>({
     })
 
     nuxt.hooks.hook('imports:sources', (autoImports) => {
-      schemaOrgAutoImports[0].imports = schemaOrgAutoImports[0].imports.filter((i: string) => i !== 'useSchemaOrg')
+      schemaOrgAutoImports[0]!.imports = schemaOrgAutoImports[0]!.imports.filter((i: string) => i !== 'useSchemaOrg')
       autoImports.unshift(...schemaOrgAutoImports)
     })
 
