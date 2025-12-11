@@ -1,5 +1,5 @@
-import type { MaybeRef } from '@vueuse/core'
 import type { HighlighterCore } from 'shiki'
+import type { MaybeRef } from 'vue'
 import { createHighlighterCore } from 'shiki/core'
 import { createJavaScriptRegexEngine } from 'shiki/engine/javascript'
 import { computed, ref, toValue } from 'vue'
