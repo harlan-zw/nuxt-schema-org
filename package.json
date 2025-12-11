@@ -63,13 +63,17 @@
   },
   "peerDependencies": {
     "@unhead/vue": "^2.0.7",
-    "unhead": "^2.0.7"
+    "unhead": "^2.0.7",
+    "zod": ">=3"
   },
   "peerDependenciesMeta": {
     "@unhead/vue": {
       "optional": true
     },
     "unhead": {
+      "optional": true
+    },
+    "zod": {
       "optional": true
     }
   },

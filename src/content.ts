@@ -1,5 +1,5 @@
 import type { Collection } from '@nuxt/content'
-import { z } from '@nuxt/content'
+import { z } from 'zod'
 
 const SchemaOrgNode = z.record(z.string(), z.any())
 
