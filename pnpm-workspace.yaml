@@ -1,2 +1,11 @@
+catalogMode: prefer
+shellEmulator: true
+trustPolicy: no-downgrade
+
 packages:
   - client
+onlyBuiltDependencies:
+  - '@parcel/watcher'
+  - better-sqlite3
+  - esbuild
+  - vue-demi
