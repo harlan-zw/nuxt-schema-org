@@ -1,4 +1,5 @@
-import { defineCollection, defineContentConfig, z } from '@nuxt/content'
+import { defineCollection, defineContentConfig } from '@nuxt/content'
+import { z } from 'zod'
 import { asSchemaOrgCollection } from '../../../src/content'
 
 export default defineContentConfig({
