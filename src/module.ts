@@ -127,7 +127,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (config.reactive)
       nuxt.options.runtimeConfig.public['nuxt-schema-org'] = runtimeConfig
     // for devtools debugging
-    // @ts-ignore
+    // @ts-expect-error untyped
     nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
     // @ts-expect-error untyped
@@ -149,13 +149,13 @@ export default defineNuxtModule<ModuleOptions>({
     const isNuxtContentV3 = usingNuxtContent && await hasNuxtModuleCompatibility('@nuxt/content', '^3')
     const isNuxtContentV2 = usingNuxtContent && await hasNuxtModuleCompatibility('@nuxt/content', '^2')
     if (isNuxtContentV3) {
-      // @ts-ignore inconsistent content error
+      // @ts-expect-error inconsistent content error
       nuxt.hooks.hook('content:file:afterParse', (ctx) => {
         if (typeof ctx.content.schemaOrg === 'undefined') {
           return
         }
         const content = ctx.content
-        // @ts-ignore inconsistent content error
+        // @ts-expect-error inconsistent content error
         const nodes = Array.isArray(content.schemaOrg) ? content.schemaOrg : [defineWebPage(content.schemaOrg)]
 
         // we need to recursively go through all nodes and swap `type` for `@type`
@@ -179,7 +179,7 @@ export default defineNuxtModule<ModuleOptions>({
           nodes: nodes.map(replaceType),
         }
 
-        // @ts-ignore inconsistent content error
+        // @ts-expect-error inconsistent content error
         content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
         ctx.content = content
       })

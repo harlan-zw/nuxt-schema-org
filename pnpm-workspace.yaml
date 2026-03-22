@@ -1,10 +1,40 @@
 catalogMode: prefer
+
 shellEmulator: true
+
+trustPolicy: no-downgrade
 
 packages:
   - client
+catalog:
+  '@antfu/eslint-config': ^7.7.3
+  '@arethetypeswrong/cli': ^0.18.2
+  '@nuxt/content': ^3.12.0
+  '@nuxt/devtools-ui-kit': 4.0.0-alpha.1
+  '@nuxt/kit': ^4.4.2
+  '@nuxt/module-builder': ^1.0.2
+  '@nuxt/schema': ^4.4.2
+  '@nuxt/test-utils': ^4.0.0
+  '@nuxt/ui': ^4.5.1
+  '@nuxtjs/i18n': ^10.2.3
+  '@nuxtjs/robots': ^5.7.1
+  '@unhead/schema-org': ^2.1.12
+  better-sqlite3: ^12.8.0
+  bumpp: ^11.0.1
+  cheerio: ^1.2.0
+  defu: ^6.1.4
+  eslint: ^10.1.0
+  eslint-plugin-harlanzw: ^0.10.2
+  nuxt: ^4.4.2
+  nuxt-site-config: ^3.2.21
+  pathe: ^2.0.3
+  pkg-types: ^2.3.0
+  sirv: ^3.0.2
+  typescript: ^5.9.3
+  vitest: ^4.1.0
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - better-sqlite3
   - esbuild
   - vue-demi
+trustPolicyIgnoreAfter: 262800

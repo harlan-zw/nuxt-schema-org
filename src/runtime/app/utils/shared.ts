@@ -33,9 +33,6 @@ export function initPlugin(nuxtApp: NuxtApp) {
   const siteConfig = useSiteConfig()
 
   // on the server, resolve paths directly without creating computed refs to avoid leaking reactive scopes
-  const resolvePath = import.meta.server
-    ? (path: string) => resolvePathDirect(siteConfig, path, { absolute: false, withBase: true })
-    : createSitePathResolver({ absolute: false, withBase: true })
   const resolveUrl = import.meta.server
     ? (path: string) => resolvePathDirect(siteConfig, path, { canonical: true, absolute: true, withBase: true })
     : createSitePathResolver({ canonical: true, absolute: true, withBase: true })

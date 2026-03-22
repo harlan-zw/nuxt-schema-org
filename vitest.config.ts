@@ -3,6 +3,8 @@ import { defineConfig, defineProject } from 'vitest/config'
 
 export default defineConfig({
   test: {
+    globals: true,
+    reporters: 'dot',
     projects: [
       // utils folders as *.test.ts in either test/unit or in src/**/*.test.ts
       defineProject({
@@ -10,20 +12,20 @@ export default defineConfig({
           name: 'unit',
           environment: 'node',
           include: [
-            './**/*.test.ts',
+            './test/unit/**/*.test.ts',
+            './src/**/*.test.ts',
           ],
           exclude: [
-            './test/e2e/**/*.test.ts',
             '**/node_modules/**',
           ],
         },
       }),
-      // e2e tests in test/e2e
+      // e2e tests in test/integration
       defineVitestProject({
         test: {
           name: 'e2e',
           include: [
-            './test/e2e/**/*.test.ts',
+            './test/integration/**/*.test.ts',
           ],
           exclude: [
             '**/node_modules/**',
