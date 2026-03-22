@@ -58,9 +58,9 @@ export function initPlugin(nuxtApp: NuxtApp) {
       ...(route.meta?.schemaOrg || {}),
       ...siteConfigResolved as Record<string, string>,
       url: toValue(resolveUrl(route.path)),
-      host: withTrailingSlash(siteConfigResolved.url),
+      host: withTrailingSlash(toValue(resolveUrl('/'))),
       inLanguage: toValue(siteConfigResolved.currentLocale) || toValue(siteConfigResolved.defaultLocale),
-      path: toValue(resolvePath(route.path)),
+      path: route.path,
     } satisfies MetaInput
   }
   const templateParamEntry = useHead({
