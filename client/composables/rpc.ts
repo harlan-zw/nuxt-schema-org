@@ -3,7 +3,7 @@ import type { VueHeadClient } from '@unhead/vue/types'
 import type { $Fetch } from 'nitropack'
 import { onDevtoolsClientConnected } from '@nuxt/devtools-kit/iframe-client'
 import { useDebounceFn } from '@vueuse/core'
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import { schemaOrgGraph } from '../util/logic'
 
 export const hostHead = ref<VueHeadClient>()
@@ -11,6 +11,8 @@ export const hostHead = ref<VueHeadClient>()
 export const devtools = ref<NuxtDevtoolsClient>()
 
 export const appFetch = ref<$Fetch>()
+
+export const colorMode = ref<'dark' | 'light'>('dark')
 
 const debounceRefresh = useDebounceFn(async () => {
   schemaOrgGraph.value = (await hostHead.value!.resolveTags())
@@ -28,6 +30,9 @@ onDevtoolsClientConnected(async (client) => {
   appFetch.value = client.host.app.$fetch
   devtools.value = client.devtools
   hostHead.value = client.host.nuxt.vueApp._context.provides.usehead
+  watchEffect(() => {
+    colorMode.value = client.host.app.colorMode.value
+  })
   ;(client.host.nuxt as any).$router.afterEach(() => {
     setTimeout(refresh, 100)
   })

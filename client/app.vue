@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useHead } from '#imports'
-import { refresh } from './composables/rpc'
+import { computed, useHead } from '#imports'
+import { colorMode, refresh } from './composables/rpc'
+import { loadShiki } from './composables/shiki'
 import { schemaOrgGraph } from './util/logic'
-import 'floating-vue/dist/style.css'
 
 useHead({
   title: 'Nuxt Schema.org Playground',
@@ -12,7 +12,7 @@ await loadShiki()
 
 const { data } = fetchGlobalDebug()
 
-const tab = ref('nodes')
+const tab = ref('validate')
 const nodes = computed(() => {
   if (schemaOrgGraph.value) {
     try {
@@ -27,12 +27,18 @@ function copyGraph() {
   navigator.clipboard.writeText(schemaOrgGraph.value)
 }
 
+const isDark = computed(() => colorMode.value === 'dark')
+useHead({
+  htmlAttrs: {
+    class: () => isDark.value ? 'dark' : '',
+  },
+})
+
 const schemaOrgExample = `useSchemaOrg([
   defineWebPage({ title: 'Hello World' })
 ])`
 
-const googleStructedDataLinks = {
-  // Google Search Gallery to Schema.org mapping
+const googleStructedDataLinks: Record<string, string[]> = {
   'article': ['Article', 'NewsArticle', 'BlogPosting'],
   'book': ['Book'],
   'breadcrumb': ['BreadcrumbList'],
@@ -77,10 +83,7 @@ function asArray(value: any) {
 }
 
 function nodeToSchemaOrgLink(type: string) {
-  // convert to array
-  // turn into links pointing to schema.org documentation for node
   const simpleType = type.replace('https://schema.org/', '')
-  // Find Google page that uses this schema type
   const googlePage = Object.entries(googleStructedDataLinks)
     .find(([_, types]) => types.includes(simpleType))?.[0]
   return {
@@ -89,340 +92,368 @@ function nodeToSchemaOrgLink(type: string) {
     googlePage: googlePage ? `https://developers.google.com/search/docs/appearance/structured-data/${googlePage}` : null,
   }
 }
+
+const navItems = [
+  { value: 'validate', icon: 'carbon:checkmark-outline', label: 'Validate' },
+  { value: 'nodes', icon: 'carbon:connect-source', label: 'Nodes' },
+  { value: 'raw', icon: 'carbon:code', label: 'Raw' },
+  { value: 'debug', icon: 'carbon:debug', label: 'Debug' },
+  { value: 'docs', icon: 'carbon:book', label: 'Docs' },
+]
+
+const runtimeVersion = computed(() => {
+  return data.value?.runtimeConfig?.version || 'unknown'
+})
 </script>
 
 <template>
-  <div class="relative n-bg-base flex flex-col">
-    <header class="sticky top-0 z-2 px-4 pt-4">
-      <div class="flex justify-between items-start" mb2>
-        <div class="flex space-x-5">
-          <h1 text-xl flex items-center gap-2>
-            <NIcon icon="carbon:image-search" class="text-blue-300" />
-            Schema.org <NBadge class="text-sm">
-              {{ data?.runtimeConfig.version }}
-            </NBadge>
-          </h1>
-        </div>
-        <div class="flex items-center space-x-3 text-xl">
-          <fieldset
-            class="n-select-tabs flex flex-inline flex-wrap items-center border n-border-base rounded-lg n-bg-base"
-          >
-            <label
-              v-for="(value, idx) of ['nodes', 'raw', 'debug', 'docs']"
-              :key="idx"
-              class="relative n-border-base hover:n-bg-active cursor-pointer"
-              :class="[
-                idx ? 'border-l n-border-base ml--1px' : '',
-                value === tab ? 'n-bg-active' : '',
-              ]"
+  <UApp>
+    <div class="relative bg-base flex flex-col min-h-screen">
+      <div class="gradient-bg" />
+
+      <!-- Header -->
+      <header class="header glass sticky top-0 z-50">
+        <div class="header-content">
+          <!-- Logo & Brand -->
+          <div class="flex items-center gap-3 sm:gap-4">
+            <a
+              href="https://nuxtseo.com"
+              target="_blank"
+              class="flex items-center opacity-90 hover:opacity-100 transition-opacity"
             >
-              <div v-if="value === 'nodes'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:connect-source opacity-50" />
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Nodes
-                  </template>
-                </VTooltip>
+              <NuxtSeoLogo class="h-6 sm:h-7" />
+            </a>
+
+            <div class="divider" />
+
+            <div class="flex items-center gap-2">
+              <div class="brand-icon">
+                <UIcon name="carbon:image-search" class="text-base sm:text-lg" />
               </div>
-              <div v-if="value === 'raw'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:code opacity-50" />
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Raw
-                  </template>
-                </VTooltip>
-              </div>
-              <div v-else-if="value === 'debug'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:debug opacity-50" />
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Debug
-                  </template>
-                </VTooltip>
-              </div>
-              <div v-else-if="value === 'docs'" :class="[value === tab ? '' : 'op35']">
-                <VTooltip>
-                  <div class="px-5 py-2">
-                    <h2 text-lg flex items-center>
-                      <NIcon icon="carbon:book opacity-50" />
-                    </h2>
-                  </div>
-                  <template #popper>
-                    Documentation
-                  </template>
-                </VTooltip>
-              </div>
-              <input
-                v-model="tab"
-                type="radio"
-                :value="value"
-                :title="value"
-                class="absolute cursor-pointer pointer-events-none inset-0 op-0.1"
+              <h1 class="text-sm sm:text-base font-semibold tracking-tight text-[var(--color-text)]">
+                Schema.org
+              </h1>
+              <UBadge
+                color="neutral"
+                variant="subtle"
+                size="xs"
+                class="font-mono text-[10px] sm:text-xs hidden sm:inline-flex"
               >
-            </label>
-          </fieldset>
-          <VTooltip>
-            <button text-lg="" type="button" class="n-icon-button n-button n-transition n-disabled:n-disabled" @click="refresh">
-              <NIcon icon="carbon:reset" class="group-hover:text-green-500" />
-            </button>
-            <template #popper>
-              Refresh
-            </template>
-          </VTooltip>
-        </div>
-        <div class="items-center space-x-3 hidden lg:flex">
-          <div class="opacity-80 text-sm">
-            <NLink href="https://github.com/sponsors/harlan-zw" target="_blank">
-              <NIcon icon="carbon:favorite" class="mr-[2px]" />
-              Sponsor
-            </NLink>
+                {{ runtimeVersion }}
+              </UBadge>
+            </div>
           </div>
-          <div class="opacity-80 text-sm">
-            <NLink href="https://github.com/harlan-zw/nuxt-schema-org" target="_blank">
-              <NIcon icon="logos:github-icon" class="mr-[2px]" />
-              Submit an issue
-            </NLink>
-          </div>
-          <a href="https://nuxtseo.com" target="_blank" class="flex items-end gap-1.5 font-semibold text-xl dark:text-white font-title">
-            <NuxtSeoLogo />
-          </a>
+
+          <!-- Navigation -->
+          <nav class="flex items-center gap-1 sm:gap-2">
+            <!-- Nav Tabs -->
+            <div class="nav-tabs">
+              <button
+                v-for="item of navItems"
+                :key="item.value"
+                type="button"
+                class="nav-tab"
+                :class="[tab === item.value ? 'active' : '']"
+                @click="tab = item.value"
+              >
+                <UTooltip :text="item.label" :delay-duration="300">
+                  <div class="nav-tab-inner">
+                    <UIcon
+                      :name="item.icon"
+                      class="text-base sm:text-lg"
+                      :class="tab === item.value ? 'text-[var(--seo-green)]' : ''"
+                    />
+                    <span class="nav-label">{{ item.label }}</span>
+                  </div>
+                </UTooltip>
+              </button>
+            </div>
+
+            <!-- Actions -->
+            <div class="flex items-center gap-1">
+              <UTooltip text="Refresh" :delay-duration="300">
+                <UButton
+                  variant="ghost"
+                  color="neutral"
+                  size="sm"
+                  icon="carbon:reset"
+                  class="nav-action"
+                  @click="refresh"
+                />
+              </UTooltip>
+
+              <UTooltip text="GitHub" :delay-duration="300">
+                <UButton
+                  variant="ghost"
+                  color="neutral"
+                  size="sm"
+                  icon="carbon:logo-github"
+                  to="https://github.com/harlan-zw/nuxt-schema-org"
+                  target="_blank"
+                  class="nav-action hidden sm:flex"
+                />
+              </UTooltip>
+            </div>
+          </nav>
         </div>
-      </div>
-    </header>
-    <div class="flex-row flex p4 h-full" style="min-height: calc(100vh - 64px);">
-      <main class="mx-auto flex flex-col w-full bg-white dark:bg-black dark:bg-dark-700 bg-light-200 ">
-        <NLoading v-if="!schemaOrgGraph || schemaOrgGraph === 'loading'" />
-        <div v-else-if="tab === 'nodes'">
-          <div v-if="!nodes?.length">
-            <div class="flex flex-col items-center justify-center mx-auto max-w-135 h-85vh">
-              <div class="">
-                <h2 class="text-2xl font-semibold mb-3">
-                  <NIcon icon="carbon:information" class="text-blue-500" />
-                  Oops! Did you forget <code>useSchemaOrg()</code>?
-                </h2>
-                <p class="text-lg opacity-80 my-3">
-                  Getting started with Nuxt Schema.org is easy, simply add the following code within setup script setup of your file.
-                </p>
-                <div class="px-3 py-2 space-y-5 rounded mb-3 border">
+      </header>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <main class="mx-auto flex flex-col w-full max-w-7xl">
+          <div v-if="!schemaOrgGraph || schemaOrgGraph === 'loading'" class="flex items-center justify-center py-20">
+            <UIcon name="carbon:circle-dash" class="text-2xl animate-spin text-[var(--color-text-muted)]" />
+          </div>
+
+          <div v-else-if="tab === 'validate'">
+            <SchemaValidator :graph="schemaOrgGraph" />
+          </div>
+
+          <div v-else-if="tab === 'nodes'" class="space-y-3 stagger-children">
+            <div v-if="!nodes?.length">
+              <div class="flex flex-col items-center justify-center mx-auto max-w-xl py-20">
+                <div class="card p-8 text-center">
+                  <UIcon name="carbon:information" class="text-3xl text-blue-500 mb-4" />
+                  <h2 class="text-xl font-semibold mb-3">
+                    Oops! Did you forget <code class="text-sm bg-[var(--color-surface-sunken)] px-2 py-0.5 rounded">useSchemaOrg()</code>?
+                  </h2>
+                  <p class="text-sm text-[var(--color-text-muted)] mb-4">
+                    Getting started with Nuxt Schema.org is easy, simply add the following code within your setup script.
+                  </p>
                   <OCodeBlock :code="schemaOrgExample" lang="javascript" />
+                  <p class="text-sm text-[var(--color-text-muted)] mt-4">
+                    <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="text-[var(--seo-green)] hover:underline">
+                      Learn more
+                    </a>
+                  </p>
                 </div>
-                <p class="text-lg opacity-80">
-                  <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="underline">
-                    Learn more
-                  </a>
-                </p>
               </div>
             </div>
-          </div>
-          <OSectionBlock v-for="(node, key) in nodes" v-else :key="key">
-            <template #text>
-              <h3 v-for="t in asArray(node['@type']).map(nodeToSchemaOrgLink)" :key="t.type" class="opacity-80 text-base space-x-2">
-                <span>{{ t.type }}</span>
-                <NuxtLink
-                  :to="t.schemaOrg"
-                  target="_blank"
-                  class="dark:text-blue-300 hover:underline"
-                >
-                  Schema.org
-                  <NIcon icon="carbon:launch" class="text-xs ml-[2px] opacity-50" />
-                </NuxtLink>
-                <NuxtLink
-                  v-if="t.googlePage"
-                  :to="t.googlePage"
-                  target="_blank"
-                  class="dark:text-blue-300 hover:underline"
-                >
-                  Rich Results
-                  <NIcon icon="carbon:launch" class="text-xs ml-[2px] opacity-50" />
-                </NuxtLink>
-              </h3>
-            </template>
-            <template #description>
-              <div>{{ node['@id'] }}</div>
-            </template>
-            <div class="px-3 py-2 space-y-5">
+            <OSectionBlock v-for="(node, key) in nodes" v-else :key="key">
+              <template #text>
+                <h3 v-for="t in asArray(node['@type']).map(nodeToSchemaOrgLink)" :key="t.type" class="text-sm space-x-2">
+                  <span class="font-semibold">{{ t.type }}</span>
+                  <a
+                    :href="t.schemaOrg"
+                    target="_blank"
+                    class="text-[var(--seo-green)] hover:underline text-xs"
+                  >
+                    Schema.org
+                    <UIcon name="carbon:launch" class="text-[10px] ml-0.5 opacity-50" />
+                  </a>
+                  <a
+                    v-if="t.googlePage"
+                    :href="t.googlePage"
+                    target="_blank"
+                    class="text-[var(--seo-green)] hover:underline text-xs"
+                  >
+                    Rich Results
+                    <UIcon name="carbon:launch" class="text-[10px] ml-0.5 opacity-50" />
+                  </a>
+                </h3>
+              </template>
+              <template #description>
+                <div>{{ node['@id'] }}</div>
+              </template>
               <OCodeBlock :code="JSON.stringify(node, null, 2)" lang="json" />
-            </div>
-          </OSectionBlock>
-        </div>
-        <div v-else-if="tab === 'raw'" class="space-y-5">
-          <div class="space-x-3">
-            <NLink to="https://validator.schema.org/" target="_blank">
-              <NIcon icon="carbon:launch" class="text-xs mr-1 opacity-50" />Structured Data Test
-            </NLink>
-            <NLink to="https://search.google.com/test/rich-results" target="_blank">
-              <NIcon icon="carbon:launch" class="text-xs mr-1 opacity-50" />Rich Results Test
-            </NLink>
-            <NButton @click="copyGraph">
-              Copy
-            </NButton>
+            </OSectionBlock>
           </div>
-          <OCodeBlock :code="schemaOrgGraph" lang="json" />
-        </div>
-        <div v-else-if="tab === 'debug'" class="space-y-5">
-          <OSectionBlock>
-            <template #text>
-              <h3 class="opacity-80 text-base mb-1">
-                <NIcon icon="carbon:settings" class="mr-1" />
+
+          <div v-else-if="tab === 'raw'" class="space-y-4">
+            <div class="flex items-center gap-3">
+              <UButton
+                variant="ghost"
+                color="neutral"
+                size="sm"
+                icon="carbon:launch"
+                to="https://validator.schema.org/"
+                target="_blank"
+              >
+                Structured Data Test
+              </UButton>
+              <UButton
+                variant="ghost"
+                color="neutral"
+                size="sm"
+                icon="carbon:launch"
+                to="https://search.google.com/test/rich-results"
+                target="_blank"
+              >
+                Rich Results Test
+              </UButton>
+              <UButton
+                variant="soft"
+                color="neutral"
+                size="sm"
+                icon="carbon:copy"
+                @click="copyGraph"
+              >
+                Copy
+              </UButton>
+            </div>
+            <OCodeBlock :code="schemaOrgGraph" lang="json" />
+          </div>
+
+          <div v-else-if="tab === 'debug'" class="space-y-4">
+            <OSectionBlock icon="carbon:settings">
+              <template #text>
                 Runtime Config
-              </h3>
-            </template>
-            <OCodeBlock :code="JSON.stringify(data?.runtimeConfig || {}, null, 2)" lang="json" />
-          </OSectionBlock>
-        </div>
-        <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
-          <iframe src="https://nuxtseo.com/schema-org" class="w-full h-full border-none" style="min-height: calc(100vh - 100px);" />
-        </div>
-      </main>
+              </template>
+              <OCodeBlock :code="JSON.stringify(data?.runtimeConfig || {}, null, 2)" lang="json" />
+            </OSectionBlock>
+          </div>
+
+          <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
+            <iframe src="https://nuxtseo.com/schema-org" class="w-full border-none rounded-lg" style="min-height: calc(100vh - 100px);" />
+          </div>
+        </main>
+      </div>
     </div>
-  </div>
+  </UApp>
 </template>
 
 <style>
-.tab-panels {
-  width: 100%;
+/* Header */
+.header {
+  border-bottom: 1px solid var(--color-border);
 }
-div[role="tabpanel"] {
-  width: 100%;
+
+.header-content {
   display: flex;
-}
-.splitpanes.default-theme .splitpanes__pane {
-  background-color: transparent !important;
-}
-.dark .splitpanes.default-theme .splitpanes__splitter {
-  background-color: transparent !important;
-  border-left: 1px solid rgba(156, 163, 175, 0.05);
-  background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.05) 50%, rgba(0, 0, 0, 0));
-}
-.dark .splitpanes.default-theme .splitpanes__splitter:before, .splitpanes.default-theme .splitpanes__splitter:after {
-  background-color: rgba(156, 163, 175, 0.3) !important;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.625rem 1rem;
+  max-width: 80rem;
+  margin: 0 auto;
+  width: 100%;
 }
 
-header {
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-  background-color: #fffc;
+@media (min-width: 640px) {
+  .header-content {
+    padding: 0.75rem 1.25rem;
+  }
 }
 
-.dark header {
-  background-color: #111c;
+.divider {
+  width: 1px;
+  height: 1.25rem;
+  background: var(--color-border);
 }
 
-html {
-  --at-apply: font-sans;
-  overflow-y: scroll;
-  overscroll-behavior: none;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+.brand-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-sm);
+  background: oklch(65% 0.2 145 / 0.12);
+  color: var(--seo-green);
 }
-body::-webkit-scrollbar {
+
+/* Navigation tabs */
+.nav-tabs {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-sunken);
+  border: 1px solid var(--color-border-subtle);
+}
+
+.nav-tab {
+  position: relative;
+  border-radius: var(--radius-sm);
+  transition: background 150ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nav-tab-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.5rem;
+  color: var(--color-text-muted);
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+@media (min-width: 640px) {
+  .nav-tab-inner {
+    padding: 0.375rem 0.75rem;
+  }
+}
+
+.nav-tab:hover .nav-tab-inner {
+  color: var(--color-text);
+}
+
+.nav-tab.active {
+  background: var(--color-surface-elevated);
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.08);
+}
+
+.dark .nav-tab.active {
+  box-shadow: 0 1px 3px oklch(0% 0 0 / 0.3);
+}
+
+.nav-tab.active .nav-tab-inner {
+  color: var(--color-text);
+}
+
+.nav-label {
   display: none;
 }
+
+@media (min-width: 640px) {
+  .nav-label {
+    display: inline;
+  }
+}
+
+.nav-action {
+  color: var(--color-text-muted) !important;
+}
+
+.nav-action:hover {
+  color: var(--color-text) !important;
+  background: var(--color-surface-sunken) !important;
+}
+
+/* Main content wrapper */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0.75rem;
+  min-height: calc(100vh - 60px);
+}
+
+@media (min-width: 640px) {
+  .main-content {
+    padding: 1rem;
+  }
+}
+
+@media (max-height: 600px) {
+  .main-content {
+    padding: 0;
+    min-height: 0;
+  }
+}
+
+/* Base HTML */
+html {
+  font-family: var(--font-sans);
+  overflow-y: scroll;
+  overscroll-behavior: none;
+}
+
 body {
-  /* trap scroll inside iframe */
-  height: calc(100vh + 1px);
+  min-height: 100vh;
 }
 
 html.dark {
-  background: #111;
   color-scheme: dark;
-}
-
-/* Markdown */
-.n-markdown a {
-  --at-apply: text-primary hover:underline;
-}
-.prose a {
-  --uno: hover:text-primary;
-}
-.prose code::before {
-  content: ""
-}
-.prose code::after {
-  content: ""
-}
-.prose hr {
-  --uno: border-solid border-1 border-b border-base h-1px w-full block my-2 op50;
-}
-
-/* JSON Editor */
-textarea {
-  background: #8881
-}
-
-:root {
-  --jse-theme-color: #fff !important;
-  --jse-text-color-inverse: #777 !important;
-  --jse-theme-color-highlight: #eee !important;
-  --jse-panel-background: #fff !important;
-  --jse-background-color: var(--jse-panel-background) !important;
-  --jse-error-color: #ee534150 !important;
-  --jse-main-border: none !important;
-}
-
-.dark, .jse-theme-dark {
-  --jse-panel-background: #111 !important;
-  --jse-theme-color: #111 !important;
-  --jse-text-color-inverse: #fff !important;
-  --jse-main-border: none !important;
-}
-
-.no-main-menu {
-  border: none !important;
-}
-
-.jse-main {
-  min-height: 1em !important;
-}
-
-.jse-contents {
-  border-width: 0 !important;
-  border-radius: 5px !important;
-}
-
-/* Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar:horizontal {
-  height: 6px;
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--c-border);
-  border-radius: 1px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #8881;
-  transition: background 0.2s ease;
-  border-radius: 1px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #8885;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-  width: 0 !important;
-  height: 0 !important;
 }
 </style>

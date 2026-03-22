@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { renderCodeHighlight } from '../composables/shiki'
+import { useRenderCodeHighlight } from '../composables/shiki'
 
 const props = withDefaults(
   defineProps<{
@@ -14,32 +14,15 @@ const props = withDefaults(
   },
 )
 const rendered = computed(() => {
-  const code = renderCodeHighlight(props.code, props.lang)
+  const code = useRenderCodeHighlight(props.code, props.lang)
   return props.transformRendered ? props.transformRendered(code.value || '') : code.value
 })
 </script>
 
 <template>
   <pre
-    class="n-code-block w-full"
-    :class="lines ? 'n-code-block-lines' : ''"
+    class="code-block p-5"
+    :class="lines ? 'code-block-lines' : ''"
     v-html="rendered"
   />
 </template>
-
-<style>
-.n-code-block-lines .shiki code {
-  counter-reset: step;
-  counter-increment: step calc(var(--start, 1) - 1);
-}
-.n-code-block-lines .shiki code .line::before {
-  content: counter(step);
-  counter-increment: step;
-  width: 2rem;
-  padding-right: 0.5rem;
-  margin-right: 0.5rem;
-  display: inline-block;
-  text-align: right;
-  --at-apply: text-truegray:50;
-}
-</style>

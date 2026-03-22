@@ -1,5 +1,6 @@
 import { useAsyncData } from '#imports'
 import { globalRefreshTime } from '../util/logic'
+import { appFetch } from './rpc'
 
 export function fetchGlobalDebug() {
   return useAsyncData<{

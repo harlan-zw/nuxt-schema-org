@@ -1,14 +1,21 @@
-import DevtoolsUIKit from '@nuxt/devtools-ui-kit'
-import { createResolver } from '@nuxt/kit'
-
-const resolver = createResolver(import.meta.url)
+import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
   ssr: false,
 
   modules: [
-    DevtoolsUIKit,
+    '@nuxt/fonts',
+    '@nuxt/ui',
   ],
+
+  css: ['~/assets/css/global.css'],
+
+  // @ts-expect-error @nuxt/fonts module config
+  fonts: {
+    families: [
+      { name: 'Hubot Sans' },
+    ],
+  },
 
   devtools: {
     enabled: false,
@@ -16,7 +23,7 @@ export default defineNuxtConfig({
 
   nitro: {
     output: {
-      publicDir: resolver.resolve('../dist/client'),
+      publicDir: resolve(__dirname, '../dist/client'),
     },
   },
 
