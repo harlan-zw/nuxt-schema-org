@@ -1,6 +1,5 @@
 import { startSubprocess } from '@nuxt/devtools-kit'
 import { createResolver, defineNuxtModule } from '@nuxt/kit'
-import { DEVTOOLS_UI_LOCAL_PORT } from '../src/devtools'
 
 const resolver = createResolver(import.meta.url)
 
@@ -11,7 +10,7 @@ export default defineNuxtModule((_, nuxt) => {
   startSubprocess(
     {
       command: 'npx',
-      args: ['nuxi', 'dev', '--port', DEVTOOLS_UI_LOCAL_PORT.toString()],
+      args: ['nuxi', 'dev', '--port', '3030'],
       cwd: resolver.resolve('.'),
     },
     {

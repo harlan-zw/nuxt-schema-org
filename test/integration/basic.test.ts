@@ -86,7 +86,7 @@ describe('pages', () => {
         "description": "Harlan Wilton - Last Name",
         "headline": "Harlan Wilton - Last Name",
         "image": {
-          "@id": "https://nuxtseo.com/#/schema/image/4c11be9",
+          "@id": "https://nuxtseo.com/#/schema/image/1",
         },
         "isPartOf": {
           "@id": "https://nuxtseo.com/reactivity-computed#webpage",

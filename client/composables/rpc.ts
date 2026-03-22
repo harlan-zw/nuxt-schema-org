@@ -28,7 +28,7 @@ onDevtoolsClientConnected(async (client) => {
   appFetch.value = client.host.app.$fetch
   devtools.value = client.devtools
   hostHead.value = client.host.nuxt.vueApp._context.provides.usehead
-  client.host.nuxt.$router.afterEach(() => {
+  ;(client.host.nuxt as any).$router.afterEach(() => {
     setTimeout(refresh, 100)
   })
   refresh()
