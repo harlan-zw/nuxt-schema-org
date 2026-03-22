@@ -101,6 +101,7 @@
     "cheerio": "catalog:",
     "eslint": "catalog:",
     "eslint-plugin-harlanzw": "catalog:",
+    "happy-dom": "catalog:",
     "nuxt": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

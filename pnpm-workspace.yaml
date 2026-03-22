@@ -25,6 +25,7 @@ catalog:
   defu: ^6.1.4
   eslint: ^10.1.0
   eslint-plugin-harlanzw: ^0.10.2
+  happy-dom: ^20.8.4
   nuxt: ^4.4.2
   nuxt-site-config: ^3.2.21
   pathe: ^2.0.3
