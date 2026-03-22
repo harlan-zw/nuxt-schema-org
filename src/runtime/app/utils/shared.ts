@@ -6,12 +6,24 @@ import {
 } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { SchemaOrgUnheadPlugin } from '@unhead/schema-org/vue'
-import { useRoute } from 'nuxt/app'
+import { resolveSitePath } from 'nuxt-site-config/urls'
+import { useRoute, useRuntimeConfig } from 'nuxt/app'
 import { camelCase } from 'scule'
 import { withTrailingSlash } from 'ufo'
-import { computed, toValue, watch } from 'vue'
+import { toValue, watch } from 'vue'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
+
+function resolvePathDirect(siteConfig: Record<string, any>, path: string, options: { absolute?: boolean, withBase?: boolean, canonical?: boolean }) {
+  const nuxtBase = useRuntimeConfig().app.baseURL || '/'
+  return resolveSitePath(path, {
+    absolute: options.absolute,
+    withBase: options.withBase,
+    siteUrl: options.canonical !== false ? siteConfig.url : siteConfig.url,
+    trailingSlash: siteConfig.trailingSlash,
+    base: nuxtBase,
+  })
+}
 
 export function initPlugin(nuxtApp: NuxtApp) {
   const head = injectHead()
@@ -19,16 +31,16 @@ export function initPlugin(nuxtApp: NuxtApp) {
   const route = useRoute()
 
   const siteConfig = useSiteConfig()
-  const resolvePath = createSitePathResolver({
-    absolute: false,
-    withBase: true,
-  })
-  const resolveUrl = createSitePathResolver({
-    canonical: true,
-    absolute: true,
-    withBase: true,
-  })
-  const schemaOrg = computed(() => {
+
+  // on the server, resolve paths directly without creating computed refs to avoid leaking reactive scopes
+  const resolvePath = import.meta.server
+    ? (path: string) => resolvePathDirect(siteConfig, path, { absolute: false, withBase: true })
+    : createSitePathResolver({ absolute: false, withBase: true })
+  const resolveUrl = import.meta.server
+    ? (path: string) => resolvePathDirect(siteConfig, path, { canonical: true, absolute: true, withBase: true })
+    : createSitePathResolver({ canonical: true, absolute: true, withBase: true })
+
+  function resolveSchemaOrg() {
     const siteConfigResolved: Record<string, any> = {}
     for (const key in siteConfig) {
       if (key.startsWith('_')) {
@@ -50,15 +62,18 @@ export function initPlugin(nuxtApp: NuxtApp) {
       inLanguage: toValue(siteConfigResolved.currentLocale) || toValue(siteConfigResolved.defaultLocale),
       path: toValue(resolvePath(route.path)),
     } satisfies MetaInput
-  })
+  }
   const templateParamEntry = useHead({
-    templateParams: { schemaOrg: schemaOrg.value },
+    templateParams: { schemaOrg: resolveSchemaOrg() },
   })
-  watch(() => siteConfig, () => {
-    templateParamEntry!.patch({
-      templateParams: { schemaOrg: schemaOrg.value },
-    })
-  }, { deep: true })
+  // only watch for siteConfig changes on the client to avoid leaking reactive scopes during SSR
+  if (import.meta.client) {
+    watch(() => siteConfig, () => {
+      templateParamEntry!.patch({
+        templateParams: { schemaOrg: resolveSchemaOrg() },
+      })
+    }, { deep: true })
+  }
   head.use(
     SchemaOrgUnheadPlugin({} as _MetaInput, async () => {
       const meta = {} as MetaInput
