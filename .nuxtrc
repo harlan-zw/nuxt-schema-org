@@ -1,3 +1,4 @@
 imports.autoImport=false
 typescript.includeWorkspace=true
-modules[]=nuxt-site-config
+modules.0="nuxt-site-config"
+setups.@nuxt/test-utils="4.0.0"
