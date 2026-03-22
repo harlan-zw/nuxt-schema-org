@@ -19,8 +19,8 @@ function resolvePathDirect(siteConfig: Record<string, any>, path: string, option
   return resolveSitePath(path, {
     absolute: options.absolute,
     withBase: options.withBase,
-    siteUrl: options.canonical !== false ? siteConfig.url : siteConfig.url,
-    trailingSlash: siteConfig.trailingSlash,
+    siteUrl: toValue(siteConfig.url),
+    trailingSlash: toValue(siteConfig.trailingSlash),
     base: nuxtBase,
   })
 }
