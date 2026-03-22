@@ -96,6 +96,7 @@
     "@nuxt/ui": "catalog:",
     "@nuxtjs/i18n": "catalog:",
     "@nuxtjs/robots": "catalog:",
+    "@vue/test-utils": "catalog:",
     "better-sqlite3": "catalog:",
     "bumpp": "catalog:",
     "cheerio": "catalog:",

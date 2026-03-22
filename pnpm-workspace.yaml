@@ -1,9 +1,7 @@
 catalogMode: prefer
-
 shellEmulator: true
 
 trustPolicy: no-downgrade
-
 packages:
   - client
 catalog:
@@ -19,12 +17,13 @@ catalog:
   '@nuxtjs/i18n': ^10.2.3
   '@nuxtjs/robots': ^5.7.1
   '@unhead/schema-org': ^2.1.12
+  '@vue/test-utils': ^2.4.6
   better-sqlite3: ^12.8.0
   bumpp: ^11.0.1
   cheerio: ^1.2.0
   defu: ^6.1.4
   eslint: ^10.1.0
-  eslint-plugin-harlanzw: ^0.10.2
+  eslint-plugin-harlanzw: ^0.10.3
   happy-dom: ^20.8.4
   nuxt: ^4.4.2
   nuxt-site-config: ^3.2.21
@@ -38,4 +37,5 @@ onlyBuiltDependencies:
   - better-sqlite3
   - esbuild
   - vue-demi
+
 trustPolicyIgnoreAfter: 262800
