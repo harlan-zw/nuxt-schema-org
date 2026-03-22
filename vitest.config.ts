@@ -20,7 +20,7 @@ export default defineConfig({
         },
       }),
       // e2e tests in test/integration
-      defineVitestProject({
+      defineProject({
         test: {
           name: 'e2e',
           include: [
