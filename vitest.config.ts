@@ -21,9 +21,10 @@ export default defineConfig({
         },
       }),
       // e2e tests in test/integration
-      defineVitestProject({
+      defineProject({
         test: {
           name: 'e2e',
+          environment: 'node',
           include: [
             './test/integration/**/*.test.ts',
           ],
@@ -31,6 +32,18 @@ export default defineConfig({
             '**/node_modules/**',
           ],
         },
+        plugins: [
+          // https://github.com/nuxt/test-utils/issues/1490
+          {
+            name: 'ignore-bun-test',
+            enforce: 'pre',
+            resolveId(id) {
+              if (id === 'bun:test') {
+                return { id: 'bun:test', external: true }
+              }
+            },
+          },
+        ],
       }),
     ],
   },

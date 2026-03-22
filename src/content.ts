@@ -1,13 +1,21 @@
 import type { Collection } from '@nuxt/content'
+import { createContentSchemaFactory } from 'nuxtseo-shared/content'
 import { z } from 'zod'
 
-const SchemaOrgNode = z.record(z.string(), z.any())
+const { defineSchema: defineSchemaOrgSchema, schema } = createContentSchemaFactory({
+  fieldName: 'schemaOrg',
+  label: 'schema-org',
+  docsUrl: 'https://nuxtseo.com/schema-org/guides/content',
+  buildSchema: (_z) => {
+    const node = _z.record(_z.string(), _z.any())
+    return _z.union([node, _z.array(node).optional()]).optional()
+  },
+}, z)
 
-export const schemaOrgSchema = z.union([SchemaOrgNode, z.array(SchemaOrgNode).optional()]).optional()
+export { defineSchemaOrgSchema, schema }
 
-export const schema = z.object({
-  schemaOrg: schemaOrgSchema,
-})
+// Legacy exports
+export const schemaOrgSchema = schema.shape.schemaOrg
 
 const headSchema = z.object({
   head: z.object({
@@ -16,7 +24,9 @@ const headSchema = z.object({
   }).optional(),
 })
 
+/** @deprecated Use `defineSchemaOrgSchema()` in your collection schema instead. See https://nuxtseo.com/schema-org/guides/content */
 export function asSchemaOrgCollection<T>(collection: Collection<T>): Collection<T> {
+  console.warn('[schema-org] `asSchemaOrgCollection()` is deprecated. Use `defineSchemaOrgSchema()` in your collection schema instead. See https://nuxtseo.com/schema-org/guides/content')
   if (collection.type === 'page') {
     // @ts-expect-error untyped
     collection.schema = collection.schema ? schema.extend(collection.schema.shape) : schema

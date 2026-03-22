@@ -1,10 +1,10 @@
-import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 import { setup } from '@nuxt/test-utils'
 import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from './utils'
 
 await setup({
-  rootDir: fileURLToPath(new URL('../fixtures/content-v3', import.meta.url)),
+  rootDir: resolve(import.meta.dirname, '../fixtures/content-v3'),
   server: true,
   browser: false,
 })

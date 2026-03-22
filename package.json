@@ -82,9 +82,8 @@
     "@unhead/schema-org": "catalog:",
     "defu": "catalog:",
     "nuxt-site-config": "catalog:",
-    "pathe": "catalog:",
-    "pkg-types": "catalog:",
-    "sirv": "catalog:"
+    "nuxtseo-shared": "catalog:",
+    "pkg-types": "catalog:"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
