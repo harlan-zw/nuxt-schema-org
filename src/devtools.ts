@@ -34,7 +34,7 @@ export function setupDevToolsUI(options: ModuleOptions, resolve: Resolver['resol
     })
   }
 
-  nuxt.hook('devtools:customTabs', (tabs) => {
+  nuxt.hook('devtools:customTabs' as any, (tabs: any[]) => {
     tabs.push({
       // unique identifier
       name: 'nuxt-schema-org',

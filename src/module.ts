@@ -155,7 +155,6 @@ export default defineNuxtModule<ModuleOptions>({
           return
         }
         const content = ctx.content
-        // @ts-expect-error inconsistent content error
         const nodes = Array.isArray(content.schemaOrg) ? content.schemaOrg : [defineWebPage(content.schemaOrg)]
 
         // we need to recursively go through all nodes and swap `type` for `@type`
@@ -179,7 +178,6 @@ export default defineNuxtModule<ModuleOptions>({
           nodes: nodes.map(replaceType),
         }
 
-        // @ts-expect-error inconsistent content error
         content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
         ctx.content = content
       })

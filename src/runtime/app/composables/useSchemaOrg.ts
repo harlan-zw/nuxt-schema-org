@@ -1,12 +1,12 @@
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
-import type { ActiveHeadEntry, ResolvableHead, Script } from '@unhead/vue'
+import type { ActiveHeadEntry, Script, UseHeadInput } from '@unhead/vue'
 import { useHead } from '#imports'
 import { useNuxtApp } from 'nuxt/app'
 import { computed, isRef } from 'vue'
 import { useSchemaOrgConfig } from '../utils/config'
 
 type Input = Parameters<typeof _useSchemaOrg>[0]
-export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<ResolvableHead> | undefined {
+export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHeadInput> | undefined {
   const config = useSchemaOrgConfig()
   const nuxtApp = useNuxtApp()
   // When input is a ref (e.g. a computed), wrap it so the Nuxt async context

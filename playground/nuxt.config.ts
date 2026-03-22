@@ -32,7 +32,7 @@ export default defineNuxtConfig({
             name: 'Nuxt Simple Sitemap Client Dev',
           },
         )
-        subprocess.getProcess().stdout?.on('data', (data) => {
+        subprocess.getProcess()?.stdout?.on('data', (data) => {
           console.log(` sub: ${data.toString()}`)
         })
 
