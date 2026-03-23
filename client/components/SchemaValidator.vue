@@ -262,7 +262,7 @@ const hasOnlyFoundationSchemas = computed(() => {
             View all properties ({{ Object.keys(node).length }})
           </summary>
           <div class="mt-2">
-            <OCodeBlock :code="JSON.stringify(node, null, 2)" lang="json" />
+            <DevtoolsSnippet :code="JSON.stringify(node, null, 2)" lang="json" />
           </div>
         </details>
       </div>

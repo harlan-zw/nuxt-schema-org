@@ -19,10 +19,6 @@ const nodes = computed(() => {
   return false
 })
 
-function copyGraph() {
-  navigator.clipboard.writeText(schemaOrgGraph.value)
-}
-
 const schemaOrgExample = `useSchemaOrg([
   defineWebPage({ title: 'Hello World' })
 ])`
@@ -111,26 +107,20 @@ const runtimeVersion = computed(() => {
     </div>
 
     <div v-else-if="tab === 'nodes'" class="space-y-3 stagger-children">
-      <div v-if="!nodes?.length">
-        <div class="flex flex-col items-center justify-center mx-auto max-w-xl py-20">
-          <div class="card p-8 text-center">
-            <UIcon name="carbon:information" class="text-3xl text-blue-500 mb-4" />
-            <h2 class="text-xl font-semibold mb-3">
-              Oops! Did you forget <code class="text-sm bg-[var(--color-surface-sunken)] px-2 py-0.5 rounded">useSchemaOrg()</code>?
-            </h2>
-            <p class="text-sm text-[var(--color-text-muted)] mb-4">
-              Getting started with Nuxt Schema.org is easy, simply add the following code within your setup script.
-            </p>
-            <OCodeBlock :code="schemaOrgExample" lang="javascript" />
-            <p class="text-sm text-[var(--color-text-muted)] mt-4">
-              <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="text-[var(--seo-green)] hover:underline">
-                Learn more
-              </a>
-            </p>
-          </div>
-        </div>
-      </div>
-      <OSectionBlock v-for="(node, key) in nodes" v-else :key="key">
+      <DevtoolsEmptyState
+        v-if="!nodes?.length"
+        title="Oops! Did you forget useSchemaOrg()?"
+        description="Getting started with Nuxt Schema.org is easy, simply add the following code within your setup script."
+        icon="carbon:information"
+      >
+        <DevtoolsSnippet :code="schemaOrgExample" lang="js" />
+        <p class="text-sm text-[var(--color-text-muted)] mt-4">
+          <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="text-[var(--seo-green)] hover:underline">
+            Learn more
+          </a>
+        </p>
+      </DevtoolsEmptyState>
+      <DevtoolsSection v-for="(node, key) in nodes" v-else :key="key">
         <template #text>
           <h3 v-for="t in asArray(node['@type']).map(nodeToSchemaOrgLink)" :key="t.type" class="text-sm space-x-2">
             <span class="font-semibold">{{ t.type }}</span>
@@ -156,8 +146,8 @@ const runtimeVersion = computed(() => {
         <template #description>
           <div>{{ node['@id'] }}</div>
         </template>
-        <OCodeBlock :code="JSON.stringify(node, null, 2)" lang="json" />
-      </OSectionBlock>
+        <DevtoolsSnippet :code="JSON.stringify(node, null, 2)" lang="json" :label="asArray(node['@type']).map(t => t.replace('https://schema.org/', '')).join(', ')" />
+      </DevtoolsSection>
     </div>
 
     <div v-else-if="tab === 'raw'" class="space-y-4">
@@ -182,26 +172,17 @@ const runtimeVersion = computed(() => {
         >
           Rich Results Test
         </UButton>
-        <UButton
-          variant="soft"
-          color="neutral"
-          size="sm"
-          icon="carbon:copy"
-          @click="copyGraph"
-        >
-          Copy
-        </UButton>
       </div>
-      <OCodeBlock :code="schemaOrgGraph" lang="json" />
+      <DevtoolsSnippet :code="schemaOrgGraph" lang="json" label="schema.json" />
     </div>
 
     <div v-else-if="tab === 'debug'" class="space-y-4">
-      <OSectionBlock icon="carbon:settings">
+      <DevtoolsSection icon="carbon:settings">
         <template #text>
           Runtime Config
         </template>
-        <OCodeBlock :code="JSON.stringify(data?.runtimeConfig || {}, null, 2)" lang="json" />
-      </OSectionBlock>
+        <DevtoolsSnippet :code="JSON.stringify(data?.runtimeConfig || {}, null, 2)" lang="json" label="runtimeConfig" />
+      </DevtoolsSection>
     </div>
 
     <div v-else-if="tab === 'docs'" class="h-full max-h-full overflow-hidden">
