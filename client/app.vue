@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useHead } from '#imports'
+import { computed, ref, watch } from 'vue'
 import { refresh } from './composables/rpc'
-import { schemaOrgGraph } from './util/logic'
-import 'floating-vue/dist/style.css'
+import { hasProductionUrl, isProductionMode, previewSource, productionUrl, schemaOrgGraph } from './util/logic'
 
 useHead({
   title: 'Nuxt Schema.org Playground',
@@ -11,6 +11,12 @@ useHead({
 await loadShiki()
 
 const { data } = fetchGlobalDebug()
+
+// Sync production URL from debug data
+watch(data, (val) => {
+  if (val?.siteConfig?.url)
+    productionUrl.value = val.siteConfig.url
+}, { immediate: true })
 
 const tab = ref('nodes')
 const nodes = computed(() => {
@@ -89,6 +95,34 @@ function nodeToSchemaOrgLink(type: string) {
     googlePage: googlePage ? `https://developers.google.com/search/docs/appearance/structured-data/${googlePage}` : null,
   }
 }
+
+const allTabs = [
+  { value: 'nodes', devOnly: true },
+  { value: 'raw', devOnly: true },
+  { value: 'debug', devOnly: true },
+  { value: 'docs', devOnly: false },
+]
+
+const visibleTabs = computed(() =>
+  isProductionMode.value
+    ? allTabs.filter(t => !t.devOnly).map(t => t.value)
+    : allTabs.map(t => t.value),
+)
+
+const productionHostname = computed(() => {
+  try {
+    return new URL(productionUrl.value).hostname
+  }
+  catch {
+    return productionUrl.value
+  }
+})
+
+// Reset to docs tab when switching to production mode from a dev-only tab
+watch(isProductionMode, (isProd) => {
+  if (isProd && ['nodes', 'raw', 'debug'].includes(tab.value))
+    tab.value = 'docs'
+})
 </script>
 
 <template>
@@ -108,7 +142,7 @@ function nodeToSchemaOrgLink(type: string) {
             class="n-select-tabs flex flex-inline flex-wrap items-center border n-border-base rounded-lg n-bg-base"
           >
             <label
-              v-for="(value, idx) of ['nodes', 'raw', 'debug', 'docs']"
+              v-for="(value, idx) of visibleTabs"
               :key="idx"
               class="relative n-border-base hover:n-bg-active cursor-pointer"
               :class="[
@@ -173,6 +207,38 @@ function nodeToSchemaOrgLink(type: string) {
               >
             </label>
           </fieldset>
+
+          <!-- Preview source toggle -->
+          <div v-if="hasProductionUrl" class="preview-source-toggle">
+            <button
+              class="preview-source-btn"
+              :class="{ active: previewSource === 'local' }"
+              @click="previewSource = 'local'"
+            >
+              <NIcon icon="carbon:laptop" class="w-3.5 h-3.5" />
+              <span class="hidden sm:inline">Local</span>
+            </button>
+            <button
+              class="preview-source-btn"
+              :class="{ active: previewSource === 'production' }"
+              @click="previewSource = 'production'"
+            >
+              <NIcon icon="carbon:cloud" class="w-3.5 h-3.5" />
+              <span class="hidden sm:inline">Production</span>
+            </button>
+          </div>
+
+          <!-- Production URL indicator -->
+          <VTooltip v-if="isProductionMode">
+            <span class="production-url-badge">
+              <span class="production-url-dot" />
+              <span class="hidden sm:inline text-xs">{{ productionHostname }}</span>
+            </span>
+            <template #popper>
+              {{ productionUrl }}
+            </template>
+          </VTooltip>
+
           <VTooltip>
             <button text-lg="" type="button" class="n-icon-button n-button n-transition n-disabled:n-disabled" @click="refresh">
               <NIcon icon="carbon:reset" class="group-hover:text-green-500" />
@@ -216,7 +282,7 @@ function nodeToSchemaOrgLink(type: string) {
                   Getting started with Nuxt Schema.org is easy, simply add the following code within setup script setup of your file.
                 </p>
                 <div class="px-3 py-2 space-y-5 rounded mb-3 border">
-                  <OCodeBlock :code="schemaOrgExample" lang="javascript" />
+                  <OCodeBlock :code="schemaOrgExample" lang="js" />
                 </div>
                 <p class="text-lg opacity-80">
                   <a href="https://nuxtseo.com/docs/schema-org/getting-started/introduction" target="_blank" class="underline">
@@ -318,6 +384,88 @@ header {
 
 .dark header {
   background-color: #111c;
+}
+
+/* Preview source toggle */
+.preview-source-toggle {
+  display: flex;
+  gap: 1px;
+  background: var(--color-border, #e5e7eb);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.preview-source-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: var(--color-text-muted, #6b7280);
+  background: var(--color-surface-sunken, #f3f4f6);
+  border: none;
+  cursor: pointer;
+  transition: color 150ms, background 150ms;
+  white-space: nowrap;
+}
+
+.preview-source-btn:hover {
+  color: var(--color-text, #111);
+  background: var(--color-surface-elevated, #fff);
+}
+
+.preview-source-btn.active {
+  color: var(--color-text, #111);
+  background: var(--color-surface-elevated, #fff);
+  box-shadow: 0 1px 2px oklch(0% 0 0 / 0.06);
+}
+
+.dark .preview-source-btn {
+  color: #9ca3af;
+  background: #1a1a1a;
+}
+
+.dark .preview-source-btn:hover {
+  color: #e5e7eb;
+  background: #222;
+}
+
+.dark .preview-source-btn.active {
+  color: #e5e7eb;
+  background: #222;
+  box-shadow: 0 1px 2px oklch(0% 0 0 / 0.2);
+}
+
+/* Production URL badge */
+.production-url-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  background: oklch(85% 0.12 145 / 0.12);
+  color: oklch(45% 0.15 145);
+  font-weight: 500;
+  font-family: ui-monospace, monospace;
+}
+
+.dark .production-url-badge {
+  background: oklch(35% 0.08 145 / 0.2);
+  color: oklch(75% 0.12 145);
+}
+
+.production-url-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: oklch(65% 0.2 145);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
 }
 
 html {

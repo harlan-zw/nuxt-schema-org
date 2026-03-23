@@ -1,14 +1,15 @@
 import { useAsyncData } from '#imports'
-import { globalRefreshTime } from '../util/logic'
+import { refreshTime } from '../util/logic'
 
 export function fetchGlobalDebug() {
   return useAsyncData<{
     nitroOrigin: string
     runtimeConfig: any
+    siteConfig?: { url?: string }
   }>(() => {
     // @ts-expect-error untyped
     return appFetch.value('/__schema-org__/debug.json')
   }, {
-    watch: [globalRefreshTime],
+    watch: [refreshTime],
   })
 }
