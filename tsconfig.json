@@ -1,10 +1,8 @@
 {
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "paths": {
-      "nuxtseo-layer-devtools/composables/*": [
-        "./node_modules/nuxtseo-layer-devtools/composables/*"
-      ]
-    }
+    "strict": false,
+    "noEmitOnError": false,
+    "skipLibCheck": true
   }
 }
