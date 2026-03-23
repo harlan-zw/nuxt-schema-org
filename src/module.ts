@@ -11,7 +11,6 @@ import {
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
-  hasNuxtModuleCompatibility,
   useLogger,
 } from '@nuxt/kit'
 import { defineWebPage } from '@unhead/schema-org'
@@ -20,7 +19,7 @@ import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
-import { extendTypes } from './kit'
+import { extendTypes, resolveNuxtContentVersion } from './kit'
 
 export interface ModuleOptions {
   /**
@@ -145,9 +144,9 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.alias['#schema-org'] = resolve('./runtime')
 
-    const usingNuxtContent = hasNuxtModule('@nuxt/content')
-    const isNuxtContentV3 = usingNuxtContent && await hasNuxtModuleCompatibility('@nuxt/content', '^3')
-    const isNuxtContentV2 = usingNuxtContent && await hasNuxtModuleCompatibility('@nuxt/content', '^2')
+    const contentVersion = await resolveNuxtContentVersion()
+    const isNuxtContentV3 = contentVersion && contentVersion.version === 3
+    const isNuxtContentV2 = contentVersion && contentVersion.version === 2
     if (isNuxtContentV3) {
       // @ts-expect-error inconsistent content error
       nuxt.hooks.hook('content:file:afterParse', (ctx) => {

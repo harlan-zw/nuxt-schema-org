@@ -1,1 +1,1 @@
-export { extendTypes } from 'nuxtseo-shared/kit'
+export { extendTypes, resolveNuxtContentVersion } from 'nuxtseo-shared/kit'

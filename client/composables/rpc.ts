@@ -1,6 +1,7 @@
 import type { VueHeadClient } from '@unhead/vue/types'
 import { useDebounceFn } from '@vueuse/core'
 import { ref } from 'vue'
+import { useDevtoolsConnection } from 'nuxtseo-layer-devtools/composables/rpc'
 import { schemaOrgGraph } from '../util/logic'
 
 export const hostHead = ref<VueHeadClient>()
