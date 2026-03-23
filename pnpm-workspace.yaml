@@ -11,10 +11,7 @@ overrides:
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
-  '@iconify-json/carbon': ^1.2.19
   '@nuxt/content': ^3.12.0
-  '@nuxt/devtools-kit': ^2.6.4
-  '@nuxt/fonts': ^0.14.0
   '@nuxt/kit': ^4.4.2
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.4.2
@@ -24,7 +21,6 @@ catalog:
   '@nuxtjs/robots': ^5.7.1
   '@unhead/schema-org': ^2.1.12
   '@vue/test-utils': ^2.4.6
-  '@vueuse/core': ^14.2.1
   better-sqlite3: ^12.8.0
   bumpp: ^11.0.1
   cheerio: ^1.2.0
@@ -38,8 +34,6 @@ catalog:
   pkg-types: ^2.3.0
   typescript: ^5.9.3
   vitest: ^4.1.0
-  vue: ^3.5.30
-  vue-router: ^5.0.4
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - better-sqlite3
