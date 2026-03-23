@@ -82,6 +82,7 @@
     "@unhead/schema-org": "catalog:",
     "defu": "catalog:",
     "nuxt-site-config": "catalog:",
+    "nuxtseo-layer-devtools": "catalog:",
     "nuxtseo-shared": "catalog:",
     "pkg-types": "catalog:"
   },

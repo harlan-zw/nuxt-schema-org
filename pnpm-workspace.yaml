@@ -30,6 +30,7 @@ catalog:
   happy-dom: ^20.8.4
   nuxt: ^4.4.2
   nuxt-site-config: ^3.2.21
+  nuxtseo-layer-devtools: ^0.1.0
   nuxtseo-shared: ^0.1.9
   pkg-types: ^2.3.0
   typescript: ^5.9.3
