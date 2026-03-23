@@ -1,14 +1,14 @@
-import { createResolver } from '@nuxt/kit'
-
-const { resolve } = createResolver(import.meta.url)
+import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
   extends: ['nuxtseo-shared/layer-devtools'],
+
   nitro: {
     output: {
-      publicDir: resolve('../dist/client'),
+      publicDir: resolve(__dirname, '../dist/client'),
     },
   },
+
   app: {
     baseURL: '/__nuxt-schema-org',
   },

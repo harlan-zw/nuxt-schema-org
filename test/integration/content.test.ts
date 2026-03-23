@@ -103,7 +103,7 @@ describe('content', () => {
             "url": "https://nuxtseo.com/posts/bar",
           },
           {
-            "@id": "https://nuxtseo.com/posts/bar#/schema/blog-posting/346f916",
+            "@id": "https://nuxtseo.com/posts/bar#/schema/blog-posting/1",
             "@type": "BlogPosting",
             "author": {
               "@type": "Person",

@@ -17,11 +17,11 @@ export async function refresh() {
 }
 
 useDevtoolsConnection({
-  onConnected(client) {
+  onConnected: (client) => {
     hostHead.value = client.host.nuxt.vueApp._context.provides.usehead
     refresh()
   },
-  onRouteChange() {
+  onRouteChange: () => {
     setTimeout(refresh, 100)
   },
 })
