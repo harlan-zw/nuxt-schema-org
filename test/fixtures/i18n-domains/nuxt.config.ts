@@ -11,6 +11,8 @@ export default defineNuxtConfig({
   },
   site: {
     url: 'https://nuxtseo.com',
+    name: 'nuxt-schema-org',
+    description: 'The quickest and easiest way to build Schema.org graphs for Nuxt.',
   },
   // @ts-expect-error untyped
   i18n: {

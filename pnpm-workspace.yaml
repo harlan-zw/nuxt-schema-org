@@ -2,6 +2,7 @@ catalogMode: prefer
 shellEmulator: true
 
 trustPolicy: no-downgrade
+
 packages:
   - devtools
 overrides:
@@ -29,8 +30,8 @@ catalog:
   happy-dom: ^20.8.7
   nuxt: ^4.4.2
   nuxt-site-config: ^4.0.0
-  nuxtseo-layer-devtools: ^0.2.7
-  nuxtseo-shared: ^0.6.0
+  nuxtseo-layer-devtools: ^0.3.0
+  nuxtseo-shared: ^0.7.0
   pkg-types: ^2.3.0
   shiki: ^4.0.2
   typescript: ^6.0.2
@@ -41,5 +42,4 @@ onlyBuiltDependencies:
   - better-sqlite3
   - esbuild
   - vue-demi
-
 trustPolicyIgnoreAfter: 262800
