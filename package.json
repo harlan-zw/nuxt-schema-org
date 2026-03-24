@@ -49,16 +49,16 @@
   ],
   "scripts": {
     "lint": "eslint . --fix",
-    "client:build": "nuxi generate devtools",
-    "devtools": "nuxi dev devtools --port 3030",
+    "client:build": "nuxt generate devtools",
+    "devtools": "nuxt dev devtools --port 3030",
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build",
-    "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
+    "dev": "nuxt dev playground",
+    "dev:build": "nuxt build playground",
     "prepack": "pnpm run build",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground && nuxi prepare client",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && nuxt prepare client",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "typecheck": "tsc --noEmit ",
-    "test": "nuxi prepare test/fixtures/i18n && nuxi prepare test/fixtures/i18n-domains && vitest",
+    "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest",
     "test:attw": "attw --pack"
   },
   "peerDependencies": {

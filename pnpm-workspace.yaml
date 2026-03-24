@@ -18,7 +18,7 @@ catalog:
   '@nuxt/test-utils': ^4.0.0
   '@nuxt/ui': ^4.6.0
   '@nuxtjs/i18n': ^10.2.4
-  '@nuxtjs/robots': ^6.0.0
+  '@nuxtjs/robots': ^6.0.1
   '@unhead/schema-org': ^2.1.12
   '@vue/test-utils': ^2.4.6
   better-sqlite3: ^12.8.0
