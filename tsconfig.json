@@ -4,5 +4,8 @@
     "strict": false,
     "noEmitOnError": false,
     "skipLibCheck": true
-  }
+  },
+  "exclude": [
+    "devtools"
+  ]
 }

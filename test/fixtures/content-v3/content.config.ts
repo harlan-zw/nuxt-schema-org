@@ -10,6 +10,10 @@ export default defineContentConfig({
       schema: z.object({
         date: z.string().optional(),
         schemaOrg: defineSchemaOrgSchema(),
+        head: z.object({
+          meta: z.array(z.record(z.string(), z.any())).optional(),
+          script: z.array(z.record(z.string(), z.any())).optional(),
+        }).optional(),
       }),
     }),
   },
