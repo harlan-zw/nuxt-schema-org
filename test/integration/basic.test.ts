@@ -1,10 +1,10 @@
-import { fileURLToPath } from 'node:url'
+import { resolve } from 'node:path'
 import { setup } from '@nuxt/test-utils'
 import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from './utils'
 
 await setup({
-  rootDir: fileURLToPath(new URL('../fixtures/basic', import.meta.url)),
+  rootDir: resolve(import.meta.dirname, '../fixtures/basic'),
   server: true,
   browser: false,
 })
@@ -63,7 +63,6 @@ describe('pages', () => {
   it('render computed ref with Nuxt composable context', async () => {
     const schema = await $fetchSchemaOrg('/computed-nuxt-context')
 
-    // @ts-expect-error untyped
     const articleNode = schema['@graph'].find(n => n['@type'] === 'Article')
     expect(articleNode).toBeTruthy()
     expect(articleNode.headline).toContain('Computed context test')
@@ -73,7 +72,6 @@ describe('pages', () => {
   it('render computed post', async () => {
     const schema = await $fetchSchemaOrg('/reactivity-computed')
 
-    // @ts-expect-error untyped
     const articleNode = schema['@graph'].filter(n => n['@type'] === 'Article')[0]
     // Snapshot
     expect(articleNode).toMatchInlineSnapshot(`

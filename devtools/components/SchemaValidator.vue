@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import {
   analyzeNodeProperties,
-  extractSchemaNodes,
   formatPropertyValue,
   getNestedProperty,
   getNodeDescription,
@@ -40,7 +38,7 @@ const overallStatus = computed(() => {
 
   if (summary.totalNodes === 0) {
     return {
-      type: 'warning' as const,
+      variant: 'warning' as const,
       icon: 'carbon:warning',
       message: 'No structured data nodes detected on this page.',
     }
@@ -48,7 +46,7 @@ const overallStatus = computed(() => {
 
   if (summary.totalErrors > 0) {
     return {
-      type: 'error' as const,
+      variant: 'error' as const,
       icon: 'carbon:close-filled',
       message: `Found ${summary.totalErrors} missing required property${summary.totalErrors > 1 ? 'ies' : 'y'} across ${summary.totalNodes} node${summary.totalNodes > 1 ? 's' : ''}`,
     }
@@ -56,37 +54,24 @@ const overallStatus = computed(() => {
 
   if (summary.totalWarnings > 0) {
     return {
-      type: 'warning' as const,
+      variant: 'warning' as const,
       icon: 'carbon:warning',
       message: `${summary.totalWarnings} missing recommended property${summary.totalWarnings > 1 ? 'ies' : 'y'}, but all required fields present`,
     }
   }
 
   return {
-    type: 'success' as const,
+    variant: 'success' as const,
     icon: 'carbon:checkmark-filled',
     message: `All ${summary.totalNodes} node${summary.totalNodes > 1 ? 's' : ''} validated successfully.`,
   }
 })
 
-// Track which nodes have their details expanded
-const expandedRaw = ref<Set<number>>(new Set())
-function toggleRaw(index: number) {
-  if (expandedRaw.value.has(index)) {
-    expandedRaw.value.delete(index)
-  }
-  else {
-    expandedRaw.value.add(index)
-  }
-}
-
-// Filter out foundation-only nodes for display
 const displayNodes = computed(() => {
   if (!validation.value)
     return []
   return validation.value.nodes.filter((node) => {
-    const type = getNodeType(node)
-    return type !== 'Unknown'
+    return getNodeType(node) !== 'Unknown'
   })
 })
 
@@ -111,37 +96,31 @@ const hasOnlyFoundationSchemas = computed(() => {
 <template>
   <div class="space-y-4 stagger-children">
     <!-- Overall Status -->
-    <div
+    <DevtoolsAlert
       v-if="overallStatus"
-      class="status-banner"
-      :class="{
-        'status-success': overallStatus.type === 'success',
-        'status-warning': overallStatus.type === 'warning',
-        'status-error': overallStatus.type === 'error',
-      }"
+      :variant="overallStatus.variant"
+      :icon="overallStatus.icon"
     >
-      <UIcon :name="overallStatus.icon" class="text-lg flex-shrink-0" />
-      <span class="text-sm font-medium">{{ overallStatus.message }}</span>
-      <div v-if="validation" class="ml-auto flex items-center gap-2">
-        <UBadge color="neutral" variant="subtle" size="xs">
-          {{ validation.summary.totalNodes }} nodes
-        </UBadge>
-        <UBadge v-if="validation.summary.richResultNodes > 0" color="primary" variant="subtle" size="xs">
-          {{ validation.summary.richResultNodes }} rich result eligible
-        </UBadge>
-      </div>
-    </div>
+      <span class="font-medium">{{ overallStatus.message }}</span>
+      <template v-if="validation" #action>
+        <div class="flex items-center gap-2">
+          <UBadge>
+            {{ validation.summary.totalNodes }} nodes
+          </UBadge>
+          <UBadge v-if="validation.summary.richResultNodes > 0" color="primary">
+            {{ validation.summary.richResultNodes }} rich result eligible
+          </UBadge>
+        </div>
+      </template>
+    </DevtoolsAlert>
 
     <!-- Foundation-only message -->
-    <div v-if="hasOnlyFoundationSchemas" class="text-center py-6">
-      <UIcon name="carbon:information" class="text-2xl text-[var(--color-text-muted)] mb-2" />
-      <p class="text-sm text-[var(--color-text-muted)]">
-        Only foundation schemas detected (WebSite, WebPage, ImageObject)
-      </p>
-      <p class="text-xs text-[var(--color-text-subtle)] mt-1">
-        Consider adding rich result schemas for better search visibility
-      </p>
-    </div>
+    <DevtoolsEmptyState
+      v-if="hasOnlyFoundationSchemas"
+      title="Only foundation schemas detected"
+      description="Only WebSite, WebPage, and ImageObject found. Consider adding rich result schemas for better search visibility."
+      icon="carbon:information"
+    />
 
     <!-- Node Cards -->
     <div v-for="(node, index) in displayNodes" :key="index" class="node-card" :class="nodeCardClass(node)">
@@ -153,12 +132,7 @@ const hasOnlyFoundationSchemas = computed(() => {
             :class="isRichResultType(getNodeType(node)) ? 'text-[var(--seo-green)]' : 'text-[var(--color-text-muted)]'"
           />
           <span class="font-semibold text-sm">{{ getNodeType(node) }}</span>
-          <UBadge
-            v-if="isRichResultType(getNodeType(node))"
-            color="primary"
-            variant="subtle"
-            size="xs"
-          >
+          <UBadge v-if="isRichResultType(getNodeType(node))" color="primary">
             Rich Result
           </UBadge>
         </div>
@@ -178,41 +152,36 @@ const hasOnlyFoundationSchemas = computed(() => {
       </p>
 
       <!-- Validation Status -->
-      <div v-if="analyzeNodeProperties(node).missingRequired.length > 0" class="validation-alert validation-error mb-3">
-        <UIcon name="carbon:warning" class="mt-0.5 flex-shrink-0" />
-        <div class="text-xs">
-          <span class="font-medium">Missing required:</span>
-          <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRequired.join(', ') }}</span>
-        </div>
-      </div>
+      <DevtoolsAlert v-if="analyzeNodeProperties(node).missingRequired.length > 0" variant="error" class="mb-3">
+        <span class="font-medium">Missing required:</span>
+        <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRequired.join(', ') }}</span>
+      </DevtoolsAlert>
 
-      <div
+      <DevtoolsAlert
         v-else-if="googleRichResultsRequirements[getNodeType(node)]?.recommended?.length > 0 && analyzeNodeProperties(node).missingRecommended.length === 0"
-        class="validation-alert validation-success mb-3"
+        variant="success"
+        class="mb-3"
       >
-        <UIcon name="carbon:checkmark-filled" class="mt-0.5 flex-shrink-0" />
-        <div class="text-xs">
-          <span class="font-medium">Excellent!</span>
-          <span class="ml-1 opacity-80">All recommended properties present</span>
-        </div>
-      </div>
+        <span class="font-medium">Excellent!</span>
+        <span class="ml-1 opacity-80">All recommended properties present</span>
+      </DevtoolsAlert>
 
-      <div
+      <DevtoolsAlert
         v-else-if="analyzeNodeProperties(node).missingRecommended.length > 0 && analyzeNodeProperties(node).missingRecommended.length <= 5"
-        class="validation-alert validation-warning mb-3"
+        variant="warning"
+        class="mb-3"
       >
-        <UIcon name="carbon:information" class="mt-0.5 flex-shrink-0" />
-        <div class="text-xs">
-          <span class="font-medium">Missing recommended:</span>
-          <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRecommended.slice(0, 5).join(', ') }}</span>
-        </div>
-      </div>
+        <span class="font-medium">Missing recommended:</span>
+        <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRecommended.slice(0, 5).join(', ') }}</span>
+      </DevtoolsAlert>
 
       <!-- Property Checklists -->
       <div class="space-y-3">
         <!-- Required Properties -->
         <div v-if="googleRichResultsRequirements[getNodeType(node)]?.required?.length > 0">
-          <h5 class="text-xs font-medium mb-2">Required Properties</h5>
+          <h5 class="text-xs font-medium mb-2">
+            Required Properties
+          </h5>
           <div class="space-y-1.5">
             <div
               v-for="prop in googleRichResultsRequirements[getNodeType(node)].required"
@@ -233,11 +202,12 @@ const hasOnlyFoundationSchemas = computed(() => {
         </div>
 
         <!-- Recommended Properties -->
-        <details v-if="googleRichResultsRequirements[getNodeType(node)]?.recommended?.length > 0" class="group">
-          <summary class="cursor-pointer text-xs font-medium hover:text-[var(--seo-green)] transition-colors">
-            Recommended Properties ({{ Object.keys(analyzeNodeProperties(node).presentProperties).filter(p => googleRichResultsRequirements[getNodeType(node)]?.recommended.includes(p)).length }}/{{ googleRichResultsRequirements[getNodeType(node)]?.recommended.length }})
-          </summary>
-          <div class="space-y-1.5 mt-2">
+        <DevtoolsSection
+          v-if="googleRichResultsRequirements[getNodeType(node)]?.recommended?.length > 0"
+          :text="`Recommended Properties (${Object.keys(analyzeNodeProperties(node).presentProperties).filter(p => googleRichResultsRequirements[getNodeType(node)]?.recommended.includes(p)).length}/${googleRichResultsRequirements[getNodeType(node)]?.recommended.length})`"
+          :open="false"
+        >
+          <div class="space-y-1.5">
             <div
               v-for="prop in googleRichResultsRequirements[getNodeType(node)].recommended"
               :key="prop"
@@ -254,59 +224,21 @@ const hasOnlyFoundationSchemas = computed(() => {
               <span v-else class="text-[var(--color-text-subtle)] opacity-50">not set</span>
             </div>
           </div>
-        </details>
+        </DevtoolsSection>
 
         <!-- View all properties -->
-        <details class="group">
-          <summary class="cursor-pointer text-xs text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">
-            View all properties ({{ Object.keys(node).length }})
-          </summary>
-          <div class="mt-2">
-            <OCodeBlock :code="JSON.stringify(node, null, 2)" lang="json" />
-          </div>
-        </details>
+        <DevtoolsSection
+          :text="`View all properties (${Object.keys(node).length})`"
+          :open="false"
+        >
+          <DevtoolsSnippet :code="JSON.stringify(node, null, 2)" lang="json" />
+        </DevtoolsSection>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-.status-banner {
-  display: flex;
-  align-items: center;
-  gap: 0.625rem;
-  padding: 0.75rem 1rem;
-  border-radius: var(--radius-md);
-  border: 1px solid;
-}
-
-.status-success {
-  background: oklch(65% 0.2 145 / 0.08);
-  border-color: oklch(65% 0.2 145 / 0.2);
-  color: oklch(55% 0.2 145);
-}
-.dark .status-success {
-  color: oklch(75% 0.15 145);
-}
-
-.status-warning {
-  background: oklch(75% 0.15 85 / 0.08);
-  border-color: oklch(75% 0.15 85 / 0.2);
-  color: oklch(60% 0.15 85);
-}
-.dark .status-warning {
-  color: oklch(80% 0.12 85);
-}
-
-.status-error {
-  background: oklch(60% 0.2 25 / 0.08);
-  border-color: oklch(60% 0.2 25 / 0.2);
-  color: oklch(55% 0.2 25);
-}
-.dark .status-error {
-  color: oklch(75% 0.15 25);
-}
-
 .node-card {
   background: var(--color-surface-elevated);
   border: 1px solid var(--color-border);
@@ -331,51 +263,5 @@ const hasOnlyFoundationSchemas = computed(() => {
 
 .node-card-active {
   border-color: oklch(65% 0.15 250 / 0.2);
-}
-
-.validation-alert {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.5rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid;
-}
-
-.validation-error {
-  background: oklch(60% 0.2 25 / 0.06);
-  border-color: oklch(60% 0.2 25 / 0.2);
-  color: oklch(55% 0.2 25);
-}
-.dark .validation-error {
-  color: oklch(75% 0.15 25);
-}
-
-.validation-success {
-  background: oklch(65% 0.2 145 / 0.06);
-  border-color: oklch(65% 0.2 145 / 0.2);
-  color: oklch(55% 0.2 145);
-}
-.dark .validation-success {
-  color: oklch(75% 0.15 145);
-}
-
-.validation-warning {
-  background: oklch(75% 0.15 85 / 0.06);
-  border-color: oklch(75% 0.15 85 / 0.2);
-  color: oklch(60% 0.15 85);
-}
-.dark .validation-warning {
-  color: oklch(80% 0.12 85);
-}
-
-details summary::-webkit-details-marker {
-  display: none;
-}
-details summary {
-  list-style: none;
-}
-details[open] > summary {
-  color: var(--color-text);
 }
 </style>

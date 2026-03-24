@@ -2,24 +2,17 @@
   "name": "nuxt-schema-org-devtools",
   "type": "module",
   "private": true,
-  "exports": {
-    ".": "./bootstrap.ts"
-  },
   "scripts": {
     "dev": "nuxi dev",
     "build": "nuxi build",
     "generate": "nuxi generate"
   },
   "devDependencies": {
-    "@iconify-json/carbon": "catalog:",
-    "@nuxt/devtools-kit": "catalog:",
-    "@nuxt/fonts": "catalog:",
     "@nuxt/kit": "catalog:",
-    "@nuxt/ui": "catalog:",
-    "@vueuse/core": "catalog:",
     "nuxt": "catalog:",
+    "nuxtseo-layer-devtools": "catalog:",
+    "nuxtseo-shared": "catalog:",
     "shiki": "catalog:",
-    "vue": "catalog:",
-    "vue-router": "catalog:"
+    "vue": "catalog:"
   }
 }

@@ -1,3 +1,11 @@
 {
-  "extends": "./.nuxt/tsconfig.json"
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "strict": false,
+    "noEmitOnError": false,
+    "skipLibCheck": true
+  },
+  "exclude": [
+    "devtools"
+  ]
 }

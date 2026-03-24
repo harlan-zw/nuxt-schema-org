@@ -64,9 +64,7 @@ export default defineNuxtPlugin({
       }
       else {
         website.workTranslation = locales
-          // @ts-expect-error untyped
           .filter(locale => locale.code !== siteConfig.defaultLocale)
-          // @ts-expect-error untyped
           .map((locale) => {
             return {
               '@type': 'WebSite',

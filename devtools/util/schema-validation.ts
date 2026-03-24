@@ -372,6 +372,62 @@ export interface ValidationSummary {
   totalWarnings: number
 }
 
+// Google structured data page slugs mapped to schema types
+export const googleStructuredDataLinks: Record<string, string[]> = {
+  'article': ['Article', 'NewsArticle', 'BlogPosting'],
+  'book': ['Book'],
+  'breadcrumb': ['BreadcrumbList'],
+  'carousel': ['ItemList'],
+  'course-info': ['Course'],
+  'course': ['Course'],
+  'dataset': ['Dataset'],
+  'discussion-forum': ['DiscussionForumPosting'],
+  'education-qa': ['Question', 'Answer'],
+  'employer-rating': ['EmployerAggregateRating'],
+  'estimated-salary': ['OccupationalExperienceRequirements'],
+  'event': ['Event'],
+  'factcheck': ['ClaimReview'],
+  'faqpage': ['FAQPage'],
+  'image-license-metadata': ['ImageObject'],
+  'job-posting': ['JobPosting'],
+  'learning-video': ['LearningResource', 'VideoObject'],
+  'local-business': ['LocalBusiness'],
+  'math-solvers': ['MathSolver'],
+  'movie': ['Movie'],
+  'organization': ['Organization'],
+  'practice-problems': ['Quiz', 'Question'],
+  'product': ['Product'],
+  'product-snippet': ['Product'],
+  'merchant-listing': ['Product', 'Offer'],
+  'product-variants': ['Product'],
+  'profile-page': ['ProfilePage', 'Person'],
+  'qapage': ['QAPage'],
+  'recipe': ['Recipe'],
+  'review-snippet': ['Review'],
+  'software-app': ['SoftwareApplication'],
+  'speakable': ['SpeakableSpecification'],
+  'special-announcements': ['SpecialAnnouncement'],
+  'paywalled-content': ['CreativeWork'],
+  'vacation-rental': ['Accommodation', 'LodgingBusiness'],
+  'vehicle-listing': ['Vehicle'],
+  'video': ['VideoObject'],
+}
+
+export function nodeToSchemaOrgLink(type: string) {
+  const simpleType = type.replace('https://schema.org/', '')
+  const googlePage = Object.entries(googleStructuredDataLinks)
+    .find(([_, types]) => types.includes(simpleType))?.[0]
+  return {
+    type: simpleType,
+    schemaOrg: `https://schema.org/${simpleType}`,
+    googlePage: googlePage ? `https://developers.google.com/search/docs/appearance/structured-data/${googlePage}` : null,
+  }
+}
+
+export function asArray<T>(value: T | T[]): T[] {
+  return Array.isArray(value) ? value : [value]
+}
+
 export function validateGraph(data: any): { nodes: any[], summary: ValidationSummary } {
   const nodes = extractSchemaNodes(data)
 

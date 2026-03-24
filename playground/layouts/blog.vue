@@ -13,24 +13,20 @@ const breadcrumbItems = computed(() => {
 
 <template>
   <div>
-    <NuxtLayout name="default">
-      <div>
-        <SchemaOrgBreadcrumb class="gap-5 flex mb-5" :items="breadcrumbItems">
-          <template #item="{ name, item }">
-            <NuxtLink v-if="item" :to="item" class="underline">
-              {{ name }}
-            </NuxtLink>
-            <span v-else>
-              {{ name }}
-            </span>
-          </template>
-        </SchemaOrgBreadcrumb>
-        <div class="bg-yellow-50">
-          <div class="p-10">
-            <slot />
-          </div>
-        </div>
+    <SchemaOrgBreadcrumb class="gap-5 flex mb-5" :items="breadcrumbItems">
+      <template #item="{ name, item }">
+        <NuxtLink v-if="item" :to="item" class="underline">
+          {{ name }}
+        </NuxtLink>
+        <span v-else>
+          {{ name }}
+        </span>
+      </template>
+    </SchemaOrgBreadcrumb>
+    <div class="bg-yellow-50">
+      <div class="p-10">
+        <slot />
       </div>
-    </NuxtLayout>
+    </div>
   </div>
 </template>

@@ -1,6 +1,4 @@
-import { useAsyncData } from '#imports'
-import { globalRefreshTime } from '../util/logic'
-import { appFetch } from './rpc'
+import { refreshTime, useAsyncData } from '#imports'
 
 export function fetchGlobalDebug() {
   return useAsyncData<{
@@ -10,6 +8,6 @@ export function fetchGlobalDebug() {
     // @ts-expect-error untyped
     return appFetch.value('/__schema-org__/debug.json')
   }, {
-    watch: [globalRefreshTime],
+    watch: [refreshTime],
   })
 }

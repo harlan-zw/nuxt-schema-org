@@ -52,8 +52,8 @@ export function initPlugin(nuxtApp: NuxtApp) {
       }
     }
     return {
-      ...(route.meta?.schemaOrg || {}),
-      ...siteConfigResolved as Record<string, string>,
+      ...((route.meta?.schemaOrg as Record<string, any>) || {}),
+      ...(siteConfigResolved as Record<string, string>),
       url: toValue(resolveUrl(route.path)),
       host: withTrailingSlash(toValue(resolveUrl('/'))),
       inLanguage: toValue(siteConfigResolved.currentLocale) || toValue(siteConfigResolved.defaultLocale),
