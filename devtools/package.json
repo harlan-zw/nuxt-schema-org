@@ -8,7 +8,6 @@
     "generate": "nuxi generate"
   },
   "devDependencies": {
-    "@nuxt/devtools-kit": "catalog:",
     "@nuxt/kit": "catalog:",
     "nuxt": "catalog:",
     "nuxtseo-layer-devtools": "catalog:",

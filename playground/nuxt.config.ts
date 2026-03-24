@@ -1,6 +1,3 @@
-import { resolve } from 'node:path'
-import { startSubprocess } from '@nuxt/devtools-kit'
-import { defineNuxtModule } from '@nuxt/kit'
 import { defineNuxtConfig } from 'nuxt/config'
 import Module from '../src/module'
 
@@ -11,39 +8,6 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@nuxtjs/i18n',
     '@nuxtjs/robots',
-    /**
-     * Start a sub Nuxt Server for developing the client
-     *
-     * The terminal output can be found in the Terminals tab of the devtools.
-     */
-    defineNuxtModule({
-      setup(_, nuxt) {
-        if (!nuxt.options.dev)
-          return
-
-        const subprocess = startSubprocess(
-          {
-            command: 'npx',
-            args: ['nuxi', 'dev', '--port', '3030'],
-            cwd: resolve(__dirname, '../client'),
-          },
-          {
-            id: 'nuxt-simple-sitemap:client',
-            name: 'Nuxt Simple Sitemap Client Dev',
-          },
-        )
-        subprocess.getProcess()?.stdout?.on('data', (data) => {
-          console.log(` sub: ${data.toString()}`)
-        })
-
-        process.on('exit', () => {
-          subprocess.terminate()
-        })
-
-        // process.getProcess().stdout?.pipe(process.stdout)
-        // process.getProcess().stderr?.pipe(process.stderr)
-      },
-    }),
   ],
 
   site: {

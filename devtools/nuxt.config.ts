@@ -1,24 +1,18 @@
-import { createResolver } from '@nuxt/kit'
-
-const { resolve } = createResolver(import.meta.url)
+import { resolve } from 'pathe'
 
 export default defineNuxtConfig({
   extends: ['nuxtseo-layer-devtools'],
 
-  schemaOrg: false,
+  imports: {
+    autoImport: true,
+  },
 
   nitro: {
     prerender: {
-      routes: [
-        '/',
-        '/nodes',
-        '/raw',
-        '/debug',
-        '/docs',
-      ],
+      routes: ['/', '/nodes', '/raw', '/debug', '/docs'],
     },
     output: {
-      publicDir: resolve('../dist/devtools'),
+      publicDir: resolve(__dirname, '../dist/devtools'),
     },
   },
 

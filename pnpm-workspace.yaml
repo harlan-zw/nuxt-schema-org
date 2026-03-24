@@ -2,24 +2,22 @@ catalogMode: prefer
 shellEmulator: true
 
 trustPolicy: no-downgrade
-
 packages:
   - devtools
-
 overrides:
   vite: npm:vite@8.0.1
 catalog:
   '@antfu/eslint-config': ^7.7.3
   '@arethetypeswrong/cli': ^0.18.2
+  '@iconify-json/lucide': ^1.2.98
   '@nuxt/content': ^3.12.0
-  '@nuxt/devtools-kit': ^3.2.4
   '@nuxt/kit': ^4.4.2
   '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^4.4.2
   '@nuxt/test-utils': ^4.0.0
   '@nuxt/ui': ^4.6.0
   '@nuxtjs/i18n': ^10.2.4
-  '@nuxtjs/robots': ^5.7.1
+  '@nuxtjs/robots': ^6.0.0
   '@unhead/schema-org': ^2.1.12
   '@vue/test-utils': ^2.4.6
   better-sqlite3: ^12.8.0
@@ -31,7 +29,7 @@ catalog:
   happy-dom: ^20.8.7
   nuxt: ^4.4.2
   nuxt-site-config: ^4.0.0
-  nuxtseo-layer-devtools: ^0.2.6
+  nuxtseo-layer-devtools: ^0.2.7
   nuxtseo-shared: ^0.6.0
   pkg-types: ^2.3.0
   shiki: ^4.0.2
@@ -43,4 +41,5 @@ onlyBuiltDependencies:
   - better-sqlite3
   - esbuild
   - vue-demi
+
 trustPolicyIgnoreAfter: 262800

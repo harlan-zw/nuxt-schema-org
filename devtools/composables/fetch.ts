@@ -1,3 +1,5 @@
+import { refreshTime, useAsyncData } from '#imports'
+
 export function fetchGlobalDebug() {
   return useAsyncData<{
     nitroOrigin: string

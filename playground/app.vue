@@ -12,15 +12,6 @@ import {
 } from '#imports'
 import { defineArticle } from '@unhead/schema-org/vue'
 
-// const route = useRoute()
-
-// const breadcrumbItems = computed(() => {
-//   const nav: any[] = [{ name: 'Home', item: '/' }, { name: 'Articles', item: '/blog' }]
-//   if (route.path.startsWith('/blog/') && route.meta.title)
-//     nav.push({ name: route.meta.title })
-//   return nav
-// })
-
 const name = ref('Harlan\'s Hamburgers')
 
 useSchemaOrgCustom()
@@ -35,8 +26,8 @@ const locale = useSiteConfig().currentLocale
 
 const languageOptions = [
   [
-    { label: 'English', click() { setLanguage('en') } },
-    { label: 'French', click() { setLanguage('fr') } },
+    { label: 'English', onSelect() { setLanguage('en') } },
+    { label: 'French', onSelect() { setLanguage('fr') } },
   ],
 ]
 
@@ -83,32 +74,36 @@ const nav = [
 </script>
 
 <template>
-  <div class="flex flex-col min-h-screen">
-    <header class="sticky top-0 z-50 w-full backdrop-blur flex-none border-b">
-      <UContainer class="py-3">
-        <div class="flex items-center justify-between">
-          <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-gray-900 dark:text-white">
-            🍔
-            Harlan's <span class="text-green-500">Hamburgers</span>
-          </NuxtLink>
-          <div class="space-x-2">
-            <UButton v-for="(link, key) in nav" :key="key" :to="link.item" variant="ghost">
-              {{ link.name }}
-            </UButton>
+  <UApp>
+    <div class="flex flex-col min-h-screen">
+      <header class="sticky top-0 z-50 w-full backdrop-blur flex-none border-b">
+        <div class="max-w-screen-xl mx-auto px-4 py-3">
+          <div class="flex items-center justify-between">
+            <NuxtLink to="/" class="flex items-end gap-1.5 font-bold text-xl text-[var(--ui-text)]">
+              🍔
+              Harlan's <span class="text-green-500">Hamburgers</span>
+            </NuxtLink>
+            <div class="space-x-2">
+              <UButton v-for="(link, key) in nav" :key="key" :to="link.item" variant="ghost" color="neutral">
+                {{ link.name }}
+              </UButton>
+            </div>
+            <UDropdownMenu :items="languageOptions">
+              <UButton color="neutral" variant="outline" :label="locale" trailing-icon="i-lucide-chevron-down" />
+            </UDropdownMenu>
           </div>
-          <UDropdown :items="languageOptions" :popper="{ placement: 'bottom-start' }">
-            <UButton color="white" :label="locale" trailing-icon="i-heroicons-chevron-down-20-solid" />
-          </UDropdown>
         </div>
-      </UContainer>
-    </header>
-    <main class="min-h-full h-full flex-grow">
-      <UContainer class="mt-4">
-        <NuxtPage />
-      </UContainer>
-    </main>
-    <footer class="text-sm text-gray-700 flex justify-center items-center py-5">
-      Made by <UAvatar src="https://avatars.githubusercontent.com/u/5326365?v=4" size="xs" class="max-w-5 w-5! h-5 mx-auto" /> Harlan Wilton
-    </footer>
-  </div>
+      </header>
+      <main class="min-h-full h-full flex-grow">
+        <div class="max-w-screen-xl mx-auto px-4 mt-4">
+          <NuxtLayout>
+            <NuxtPage />
+          </NuxtLayout>
+        </div>
+      </main>
+      <footer class="text-sm text-[var(--ui-text-muted)] flex justify-center items-center gap-1.5 py-5">
+        Made by <UAvatar src="https://avatars.githubusercontent.com/u/5326365?v=4" size="xs" /> Harlan Wilton
+      </footer>
+    </div>
+  </UApp>
 </template>
