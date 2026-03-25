@@ -42,6 +42,7 @@ watch(isProductionMode, (isProd) => {
 <template>
   <DevtoolsLayout
     v-model:active-tab="currentTab"
+    module-name="nuxt-schema-org"
     title="Schema.org"
     icon="carbon:image-search"
     :version="runtimeVersion"
