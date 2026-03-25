@@ -1,6 +1,54 @@
 # Changelog
 
 
+## v5.0.10...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v5.0.10...main)
+
+### 🚀 Enhancements
+
+- **content:** Add `defineSchemaOrgSchema()` composable ([#110](https://github.com/harlan-zw/nuxt-schema-org/pull/110))
+
+### 🩹 Fixes
+
+- **docs:** Fix broken code-block in setup-identity guide ([#99](https://github.com/harlan-zw/nuxt-schema-org/pull/99))
+- Dispose reactive scopes after SSR to prevent memory leak ([#107](https://github.com/harlan-zw/nuxt-schema-org/pull/107))
+- **useSchemaOrg:** Preserve Nuxt context when resolving computed refs ([#109](https://github.com/harlan-zw/nuxt-schema-org/pull/109))
+- Ensure all defineXYZ helpers respect app.baseUrl for @id ([#108](https://github.com/harlan-zw/nuxt-schema-org/pull/108))
+- **devtools:** Clean up UI ([dede404](https://github.com/harlan-zw/nuxt-schema-org/commit/dede404))
+
+### 💅 Refactors
+
+- Migrate to nuxtseo-shared ([#111](https://github.com/harlan-zw/nuxt-schema-org/pull/111))
+
+### 📖 Documentation
+
+- Fix wrong descriptions and add schema validator links ([#97](https://github.com/harlan-zw/nuxt-schema-org/pull/97))
+- Improve content quality from audit ([#98](https://github.com/harlan-zw/nuxt-schema-org/pull/98))
+- Fix internal links to use correct paths ([#100](https://github.com/harlan-zw/nuxt-schema-org/pull/100))
+- Add skilld agent skill snippet ([#101](https://github.com/harlan-zw/nuxt-schema-org/pull/101))
+- Add skilld snippet to installation docs ([#102](https://github.com/harlan-zw/nuxt-schema-org/pull/102))
+- Add i18n guide for per-locale schema descriptions ([#106](https://github.com/harlan-zw/nuxt-schema-org/pull/106))
+- Fix broken Unhead links and incorrect hook type ([#93](https://github.com/harlan-zw/nuxt-schema-org/pull/93))
+
+### 🏡 Chore
+
+- Sync ([f8759ed](https://github.com/harlan-zw/nuxt-schema-org/commit/f8759ed))
+- Build err ([b37114c](https://github.com/harlan-zw/nuxt-schema-org/commit/b37114c))
+- Build err ([da80b70](https://github.com/harlan-zw/nuxt-schema-org/commit/da80b70))
+- Build err ([fb2190d](https://github.com/harlan-zw/nuxt-schema-org/commit/fb2190d))
+- Build err ([a28263d](https://github.com/harlan-zw/nuxt-schema-org/commit/a28263d))
+- Build err ([573541d](https://github.com/harlan-zw/nuxt-schema-org/commit/573541d))
+- Build err ([3e6419a](https://github.com/harlan-zw/nuxt-schema-org/commit/3e6419a))
+- Build err ([ded79e4](https://github.com/harlan-zw/nuxt-schema-org/commit/ded79e4))
+- Build err ([ee0bdff](https://github.com/harlan-zw/nuxt-schema-org/commit/ee0bdff))
+- Build err ([e8ec269](https://github.com/harlan-zw/nuxt-schema-org/commit/e8ec269))
+- Sync ([9034c33](https://github.com/harlan-zw/nuxt-schema-org/commit/9034c33))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v5.0.9...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v5.0.9...main)

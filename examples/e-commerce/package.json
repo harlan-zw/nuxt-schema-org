@@ -1,0 +1,10 @@
+{
+  "name": "nuxt-schema-org-e-commerce-example",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "nuxt": "^4.4.2",
+    "nuxt-schema-org": "latest",
+    "vue": "^3.5.31"
+  }
+}
