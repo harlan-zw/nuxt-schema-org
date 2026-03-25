@@ -51,7 +51,7 @@ export interface ModuleOptions {
   /**
    * Attributes to apply to the script tag containing the LD+JSON Schema.org snippet.
    *
-   * By default, will apply an `id` of `schema-org-graph`. Set to `false` to apply no attributes.
+   * By default, will apply a `data-nuxt-schema-org` attribute. Set to `false` to apply no attributes.
    */
   scriptAttributes?: Script | false
   /**
