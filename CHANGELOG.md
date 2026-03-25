@@ -1,6 +1,24 @@
 # Changelog
 
 
+## v6.0.0...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.0...main)
+
+### 🩹 Fixes
+
+- **devtools:** Label module ([3dc1f67](https://github.com/harlan-zw/nuxt-schema-org/commit/3dc1f67))
+
+### 🏡 Chore
+
+- Examples ([ed7b1e5](https://github.com/harlan-zw/nuxt-schema-org/commit/ed7b1e5))
+- Lint ([af01a20](https://github.com/harlan-zw/nuxt-schema-org/commit/af01a20))
+- Lint ([909610b](https://github.com/harlan-zw/nuxt-schema-org/commit/909610b))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v5.0.10...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v5.0.10...main)
