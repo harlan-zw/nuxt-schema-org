@@ -8,6 +8,7 @@ import {
   getSchemaIcon,
   googleRichResultsRequirements,
   isRichResultType,
+  nodeToSchemaOrgLink,
   validateGraph,
 } from '../util/schema-validation'
 
@@ -75,6 +76,13 @@ const displayNodes = computed(() => {
   })
 })
 
+// Per-card view mode: 'validate' or 'json'
+const cardViewModes = reactive(new Map<number, 'validate' | 'json'>())
+
+function getCardView(index: number): 'validate' | 'json' {
+  return cardViewModes.get(index) ?? 'validate'
+}
+
 function nodeCardClass(node: any) {
   const type = getNodeType(node)
   const requirements = googleRichResultsRequirements[type]
@@ -126,114 +134,165 @@ const hasOnlyFoundationSchemas = computed(() => {
     <div v-for="(node, index) in displayNodes" :key="index" class="node-card" :class="nodeCardClass(node)">
       <!-- Header -->
       <div class="flex items-start justify-between mb-3">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 min-w-0">
           <UIcon
             :name="getSchemaIcon(getNodeType(node))"
             :class="isRichResultType(getNodeType(node)) ? 'text-[var(--seo-green)]' : 'text-[var(--color-text-muted)]'"
+            class="shrink-0"
           />
           <span class="font-semibold text-sm">{{ getNodeType(node) }}</span>
           <UBadge v-if="isRichResultType(getNodeType(node))" color="primary">
             Rich Result
           </UBadge>
         </div>
-        <a
-          v-if="googleRichResultsRequirements[getNodeType(node)]"
-          :href="googleRichResultsRequirements[getNodeType(node)].documentationUrl"
-          target="_blank"
-          class="text-xs text-[var(--color-text-muted)] hover:text-[var(--seo-green)] transition-colors flex items-center gap-1"
-        >
-          <UIcon name="carbon:launch" class="text-[10px]" /> Docs
-        </a>
+        <div class="flex items-center shrink-0">
+          <!-- View mode toggle -->
+          <UButton
+            icon="carbon:checkmark-outline"
+            size="xs"
+            :variant="getCardView(index) === 'validate' ? 'subtle' : 'ghost'"
+            :color="getCardView(index) === 'validate' ? 'primary' : 'neutral'"
+            title="Validation view"
+            @click="cardViewModes.set(index, 'validate')"
+          />
+          <UButton
+            icon="carbon:code"
+            size="xs"
+            :variant="getCardView(index) === 'json' ? 'subtle' : 'ghost'"
+            :color="getCardView(index) === 'json' ? 'primary' : 'neutral'"
+            title="JSON view"
+            @click="cardViewModes.set(index, 'json')"
+          />
+          <!-- Docs link -->
+          <UButton
+            v-if="googleRichResultsRequirements[getNodeType(node)]"
+            icon="carbon:launch"
+            size="xs"
+            variant="ghost"
+            color="neutral"
+            :to="googleRichResultsRequirements[getNodeType(node)].documentationUrl"
+            target="_blank"
+            title="Google Rich Results docs"
+          />
+        </div>
       </div>
 
-      <!-- Description -->
+      <!-- Description / ID -->
       <p v-if="getNodeDescription(node)" class="text-xs text-[var(--color-text-muted)] mb-3 truncate">
         {{ getNodeDescription(node) }}
       </p>
 
-      <!-- Validation Status -->
-      <DevtoolsAlert v-if="analyzeNodeProperties(node).missingRequired.length > 0" variant="error" class="mb-3">
-        <span class="font-medium">Missing required:</span>
-        <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRequired.join(', ') }}</span>
-      </DevtoolsAlert>
+      <!-- ===== Validate View ===== -->
+      <template v-if="getCardView(index) === 'validate'">
+        <!-- Validation Status -->
+        <DevtoolsAlert v-if="analyzeNodeProperties(node).missingRequired.length > 0" variant="error" class="mb-3">
+          <span class="font-medium">Missing required:</span>
+          <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRequired.join(', ') }}</span>
+        </DevtoolsAlert>
 
-      <DevtoolsAlert
-        v-else-if="googleRichResultsRequirements[getNodeType(node)]?.recommended?.length > 0 && analyzeNodeProperties(node).missingRecommended.length === 0"
-        variant="success"
-        class="mb-3"
-      >
-        <span class="font-medium">Excellent!</span>
-        <span class="ml-1 opacity-80">All recommended properties present</span>
-      </DevtoolsAlert>
+        <DevtoolsAlert
+          v-else-if="googleRichResultsRequirements[getNodeType(node)]?.recommended?.length > 0 && analyzeNodeProperties(node).missingRecommended.length === 0"
+          variant="success"
+          class="mb-3"
+        >
+          <span class="font-medium">Excellent!</span>
+          <span class="ml-1 opacity-80">All recommended properties present</span>
+        </DevtoolsAlert>
 
-      <DevtoolsAlert
-        v-else-if="analyzeNodeProperties(node).missingRecommended.length > 0 && analyzeNodeProperties(node).missingRecommended.length <= 5"
-        variant="warning"
-        class="mb-3"
-      >
-        <span class="font-medium">Missing recommended:</span>
-        <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRecommended.slice(0, 5).join(', ') }}</span>
-      </DevtoolsAlert>
+        <DevtoolsAlert
+          v-else-if="analyzeNodeProperties(node).missingRecommended.length > 0 && analyzeNodeProperties(node).missingRecommended.length <= 5"
+          variant="warning"
+          class="mb-3"
+        >
+          <span class="font-medium">Missing recommended:</span>
+          <span class="ml-1 opacity-80">{{ analyzeNodeProperties(node).missingRecommended.slice(0, 5).join(', ') }}</span>
+        </DevtoolsAlert>
 
-      <!-- Property Checklists -->
-      <div class="space-y-3">
-        <!-- Required Properties -->
-        <div v-if="googleRichResultsRequirements[getNodeType(node)]?.required?.length > 0">
-          <h5 class="text-xs font-medium mb-2">
-            Required Properties
-          </h5>
-          <div class="space-y-1.5">
-            <div
-              v-for="prop in googleRichResultsRequirements[getNodeType(node)].required"
-              :key="prop"
-              class="flex items-center gap-2 text-xs"
-            >
-              <UIcon
-                :name="getNestedProperty(node, prop) ? 'carbon:checkmark-filled' : 'carbon:close-filled'"
-                :class="getNestedProperty(node, prop) ? 'text-green-500' : 'text-red-500'"
-              />
-              <span class="font-mono text-[var(--seo-green)]">{{ prop }}:</span>
-              <span v-if="getNestedProperty(node, prop)" class="text-[var(--color-text-subtle)] truncate">
-                {{ formatPropertyValue(getNestedProperty(node, prop)) }}
-              </span>
-              <span v-else class="text-red-500">missing</span>
+        <!-- Property Checklists -->
+        <div class="space-y-3">
+          <!-- Required Properties -->
+          <div v-if="googleRichResultsRequirements[getNodeType(node)]?.required?.length > 0">
+            <h5 class="text-xs font-medium mb-2">
+              Required Properties
+            </h5>
+            <div class="space-y-1.5">
+              <div
+                v-for="prop in googleRichResultsRequirements[getNodeType(node)].required"
+                :key="prop"
+                class="flex items-center gap-2 text-xs"
+              >
+                <UIcon
+                  :name="getNestedProperty(node, prop) ? 'carbon:checkmark-filled' : 'carbon:close-filled'"
+                  :class="getNestedProperty(node, prop) ? 'text-green-500' : 'text-red-500'"
+                />
+                <span class="font-mono text-[var(--seo-green)]">{{ prop }}:</span>
+                <span v-if="getNestedProperty(node, prop)" class="text-[var(--color-text-subtle)] truncate">
+                  {{ formatPropertyValue(getNestedProperty(node, prop)) }}
+                </span>
+                <span v-else class="text-red-500">missing</span>
+              </div>
             </div>
+          </div>
+
+          <!-- Recommended Properties -->
+          <DevtoolsSection
+            v-if="googleRichResultsRequirements[getNodeType(node)]?.recommended?.length > 0"
+            :text="`Recommended Properties (${Object.keys(analyzeNodeProperties(node).presentProperties).filter(p => googleRichResultsRequirements[getNodeType(node)]?.recommended.includes(p)).length}/${googleRichResultsRequirements[getNodeType(node)]?.recommended.length})`"
+            :open="false"
+          >
+            <div class="space-y-1.5">
+              <div
+                v-for="prop in googleRichResultsRequirements[getNodeType(node)].recommended"
+                :key="prop"
+                class="flex items-center gap-2 text-xs"
+              >
+                <UIcon
+                  :name="getNestedProperty(node, prop) ? 'carbon:checkmark' : 'carbon:subtract'"
+                  :class="getNestedProperty(node, prop) ? 'text-green-500' : 'text-[var(--color-text-subtle)]'"
+                />
+                <span class="font-mono text-[var(--seo-green)] opacity-70">{{ prop }}:</span>
+                <span v-if="getNestedProperty(node, prop)" class="text-[var(--color-text-subtle)] truncate">
+                  {{ formatPropertyValue(getNestedProperty(node, prop)) }}
+                </span>
+                <span v-else class="text-[var(--color-text-subtle)] opacity-50">not set</span>
+              </div>
+            </div>
+          </DevtoolsSection>
+        </div>
+      </template>
+
+      <!-- ===== JSON View ===== -->
+      <template v-else>
+        <div class="json-view">
+          <DevtoolsSnippet
+            :code="JSON.stringify(node, null, 2)"
+            lang="json"
+            :label="getNodeType(node)"
+          />
+          <!-- Schema.org / Rich Results links -->
+          <div class="flex items-center gap-1 mt-2">
+            <UButton
+              :to="nodeToSchemaOrgLink(getNodeType(node)).schemaOrg"
+              target="_blank"
+              size="xs"
+              variant="ghost"
+              color="neutral"
+              trailing-icon="carbon:launch"
+              label="Schema.org"
+            />
+            <UButton
+              v-if="nodeToSchemaOrgLink(getNodeType(node)).googlePage"
+              :to="nodeToSchemaOrgLink(getNodeType(node)).googlePage!"
+              target="_blank"
+              size="xs"
+              variant="ghost"
+              color="neutral"
+              trailing-icon="carbon:launch"
+              label="Rich Results"
+            />
           </div>
         </div>
-
-        <!-- Recommended Properties -->
-        <DevtoolsSection
-          v-if="googleRichResultsRequirements[getNodeType(node)]?.recommended?.length > 0"
-          :text="`Recommended Properties (${Object.keys(analyzeNodeProperties(node).presentProperties).filter(p => googleRichResultsRequirements[getNodeType(node)]?.recommended.includes(p)).length}/${googleRichResultsRequirements[getNodeType(node)]?.recommended.length})`"
-          :open="false"
-        >
-          <div class="space-y-1.5">
-            <div
-              v-for="prop in googleRichResultsRequirements[getNodeType(node)].recommended"
-              :key="prop"
-              class="flex items-center gap-2 text-xs"
-            >
-              <UIcon
-                :name="getNestedProperty(node, prop) ? 'carbon:checkmark' : 'carbon:subtract'"
-                :class="getNestedProperty(node, prop) ? 'text-green-500' : 'text-[var(--color-text-subtle)]'"
-              />
-              <span class="font-mono text-[var(--seo-green)] opacity-70">{{ prop }}:</span>
-              <span v-if="getNestedProperty(node, prop)" class="text-[var(--color-text-subtle)] truncate">
-                {{ formatPropertyValue(getNestedProperty(node, prop)) }}
-              </span>
-              <span v-else class="text-[var(--color-text-subtle)] opacity-50">not set</span>
-            </div>
-          </div>
-        </DevtoolsSection>
-
-        <!-- View all properties -->
-        <DevtoolsSection
-          :text="`View all properties (${Object.keys(node).length})`"
-          :open="false"
-        >
-          <DevtoolsSnippet :code="JSON.stringify(node, null, 2)" lang="json" />
-        </DevtoolsSection>
-      </div>
+      </template>
     </div>
   </div>
 </template>

@@ -228,7 +228,20 @@ export function extractSchemaNodes(data: any): any[] {
     extractNestedTypes(data, nodes, seen)
   }
 
-  return nodes
+  // Deduplicate nodes that appear multiple times due to @id reference resolution
+  const uniqueNodes: any[] = []
+  const seenIds = new Set<string>()
+  for (const node of nodes) {
+    const id = node['@id']
+    if (id) {
+      if (seenIds.has(id))
+        continue
+      seenIds.add(id)
+    }
+    uniqueNodes.push(node)
+  }
+
+  return uniqueNodes
 }
 
 export function getNodeType(node: any): string {

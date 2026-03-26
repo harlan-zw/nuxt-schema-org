@@ -10,8 +10,6 @@ const { data } = fetchGlobalDebug()
 const route = useRoute()
 const currentTab = computed(() => {
   const path = route.path
-  if (path.startsWith('/nodes'))
-    return 'nodes'
   if (path.startsWith('/raw'))
     return 'raw'
   if (path.startsWith('/debug'))
@@ -22,8 +20,7 @@ const currentTab = computed(() => {
 })
 
 const navItems = [
-  { value: 'validate', to: '/', icon: 'carbon:checkmark-outline', label: 'Validate', devOnly: false },
-  { value: 'nodes', to: '/nodes', icon: 'carbon:connect-source', label: 'Nodes', devOnly: true },
+  { value: 'validate', to: '/', icon: 'carbon:connect-source', label: 'Nodes', devOnly: false },
   { value: 'raw', to: '/raw', icon: 'carbon:code', label: 'Raw', devOnly: true },
   { value: 'debug', to: '/debug', icon: 'carbon:debug', label: 'Debug', devOnly: true },
   { value: 'docs', to: '/docs', icon: 'carbon:book', label: 'Docs', devOnly: false },
@@ -34,7 +31,7 @@ const runtimeVersion = computed(() => {
 })
 
 watch(isProductionMode, (isProd) => {
-  if (isProd && ['nodes', 'raw', 'debug'].includes(currentTab.value))
+  if (isProd && ['raw', 'debug'].includes(currentTab.value))
     return navigateTo('/')
 })
 </script>

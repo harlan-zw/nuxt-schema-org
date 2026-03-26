@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v6.0.2...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.2...main)
+
+### 🏡 Chore
+
+- Bump ([de281ac](https://github.com/harlan-zw/nuxt-schema-org/commit/de281ac))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.0.1...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.1...main)
