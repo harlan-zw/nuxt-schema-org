@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v6.0.3...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.3...main)
+
+### 🩹 Fixes
+
+- **devtools:** Refine ([774c874](https://github.com/harlan-zw/nuxt-schema-org/commit/774c874))
+
+### 🏡 Chore
+
+- Bump deps ([49fbd38](https://github.com/harlan-zw/nuxt-schema-org/commit/49fbd38))
+- Bump deps ([ecfaf85](https://github.com/harlan-zw/nuxt-schema-org/commit/ecfaf85))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.0.2...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.2...main)
