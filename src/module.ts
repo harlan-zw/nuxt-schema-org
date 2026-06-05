@@ -21,6 +21,8 @@ import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, resolveNuxtContentVersion } from './kit'
 
+type SchemaOrgScriptAttributes = Partial<Script> & Record<string, unknown>
+
 export interface ModuleOptions {
   /**
    * Whether a default WebPage, WebSite and Identity node be created.
@@ -53,7 +55,7 @@ export interface ModuleOptions {
    *
    * By default, will apply a `data-nuxt-schema-org` attribute. Set to `false` to apply no attributes.
    */
-  scriptAttributes?: Partial<Script> | false
+  scriptAttributes?: SchemaOrgScriptAttributes | false
   /**
    * Enables debug logs.
    *
@@ -148,7 +150,7 @@ export default defineNuxtModule<ModuleOptions>({
     const isNuxtContentV3 = contentVersion && contentVersion.version === 3
     const isNuxtContentV2 = contentVersion && contentVersion.version === 2
     if (isNuxtContentV3) {
-      nuxt.hooks.hook('content:file:afterParse', (ctx: any) => {
+      nuxt.hooks.hook('content:file:afterParse', (ctx) => {
         if (typeof ctx.content.schemaOrg === 'undefined') {
           return
         }
@@ -172,9 +174,9 @@ export default defineNuxtModule<ModuleOptions>({
         const script = {
           type: 'application/ld+json',
           key: 'schema-org-graph',
-          ...config.scriptAttributes,
           nodes: nodes.map(replaceType),
-        } as Partial<Script> & { nodes: any }
+          ...(config.scriptAttributes || {}),
+        } as Script & { nodes: any }
 
         content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
         ctx.content = content

@@ -2,7 +2,7 @@
   "name": "nuxt-schema-org",
   "type": "module",
   "version": "6.0.4",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.5.2",
   "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
@@ -84,7 +84,8 @@
     "defu": "catalog:",
     "nuxt-site-config": "catalog:",
     "nuxtseo-shared": "catalog:",
-    "pkg-types": "catalog:"
+    "pkg-types": "catalog:",
+    "ufo": "catalog:"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
@@ -108,6 +109,7 @@
     "nuxt": "catalog:",
     "nuxtseo-layer-devtools": "catalog:",
     "typescript": "catalog:",
+    "unbuild": "catalog:",
     "vitest": "catalog:"
   },
   "build": {

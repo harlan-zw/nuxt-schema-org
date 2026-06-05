@@ -37,8 +37,8 @@ export default defineNitroPlugin((nitroApp) => {
       type: 'application/ld+json',
       key: 'schema-org-graph',
       nodes: nodes.map(replaceType),
-      ...config.scriptAttributes,
-    } as Partial<Script> & UnheadAugmentation<any>['script']
+      ...(config.scriptAttributes || {}),
+    } as Script & UnheadAugmentation<any>['script']
 
     content.head = defu(<UseHeadInput<any>> {
       script: [script],
