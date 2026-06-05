@@ -53,7 +53,7 @@ export interface ModuleOptions {
    *
    * By default, will apply a `data-nuxt-schema-org` attribute. Set to `false` to apply no attributes.
    */
-  scriptAttributes?: Script | false
+  scriptAttributes?: Partial<Script> | false
   /**
    * Enables debug logs.
    *
@@ -148,8 +148,7 @@ export default defineNuxtModule<ModuleOptions>({
     const isNuxtContentV3 = contentVersion && contentVersion.version === 3
     const isNuxtContentV2 = contentVersion && contentVersion.version === 2
     if (isNuxtContentV3) {
-      // @ts-expect-error inconsistent content error
-      nuxt.hooks.hook('content:file:afterParse', (ctx) => {
+      nuxt.hooks.hook('content:file:afterParse', (ctx: any) => {
         if (typeof ctx.content.schemaOrg === 'undefined') {
           return
         }
@@ -170,12 +169,12 @@ export default defineNuxtModule<ModuleOptions>({
           return node
         }
 
-        const script: Script & { nodes: any } = {
+        const script = {
           type: 'application/ld+json',
           key: 'schema-org-graph',
           ...config.scriptAttributes,
           nodes: nodes.map(replaceType),
-        }
+        } as Partial<Script> & { nodes: any }
 
         content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
         ctx.content = content
