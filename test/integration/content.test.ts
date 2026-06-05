@@ -27,10 +27,7 @@ describe('content', () => {
           },
           {
             "@id": "https://nuxtseo.com/question-answer#webpage",
-            "@type": [
-              "WebPage",
-              "FaqPage",
-            ],
+            "@type": "FaqPage",
             "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
             "isPartOf": {
               "@id": "https://nuxtseo.com/#website",

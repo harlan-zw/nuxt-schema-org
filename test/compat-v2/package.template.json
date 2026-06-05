@@ -1,0 +1,22 @@
+{
+  "name": "compat-v2",
+  "private": true,
+  "type": "module",
+  "description": "Isolated install pinning the Unhead v2 stack (Nuxt 4.2 / @unhead/vue@2 / @unhead/schema-org@2) to guard cross-major support. Copied to package.json by the `test:compat-v2` script and installed with npm, so it stays out of the pnpm workspace + catalog.",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "nuxt-schema-org": "file:module.tgz",
+    "nuxt": "~4.2.0",
+    "@unhead/vue": "^2.0.7",
+    "unhead": "^2.0.7",
+    "@unhead/schema-org": "^2.1.13"
+  },
+  "devDependencies": {
+    "@nuxt/test-utils": "^4.0.3",
+    "cheerio": "^1.2.0",
+    "happy-dom": "^20.10.1",
+    "vitest": "^4.1.8"
+  }
+}

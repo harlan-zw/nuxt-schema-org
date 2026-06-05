@@ -33,12 +33,12 @@ export default defineNitroPlugin((nitroApp) => {
       return node
     }
 
-    const script: Script & UnheadAugmentation<any>['script'] = {
+    const script = {
       type: 'application/ld+json',
       key: 'schema-org-graph',
       nodes: nodes.map(replaceType),
-      ...config.scriptAttributes,
-    }
+      ...(config.scriptAttributes || {}),
+    } as Script & UnheadAugmentation<any>['script']
 
     content.head = defu(<UseHeadInput<any>> {
       script: [script],

@@ -1,16 +1,19 @@
 import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org/vue'
 import type { NuxtApp } from 'nuxt/app'
+// namespace import so the plugin export can be feature-detected across majors:
+// unhead-schema-org v2 exports `SchemaOrgUnheadPlugin`, v3 renamed it to
+// `UnheadSchemaOrg` (same signature). A static named import of either name
+// would fail to link against the other major.
+import * as schemaOrgVue from '@unhead/schema-org/vue'
+import { resolveSitePath } from 'nuxt-site-config/urls'
+import { useRoute, useRuntimeConfig } from 'nuxt/app'
+import { withTrailingSlash } from 'ufo'
+import { toValue, watch } from 'vue'
 import { injectHead, useHead } from '#imports'
 import {
   useSiteConfig,
 } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
-import { SchemaOrgUnheadPlugin } from '@unhead/schema-org/vue'
-import { resolveSitePath } from 'nuxt-site-config/urls'
-import { useRoute, useRuntimeConfig } from 'nuxt/app'
-import { camelCase } from 'scule'
-import { withTrailingSlash } from 'ufo'
-import { toValue, watch } from 'vue'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
 
@@ -71,8 +74,9 @@ export function initPlugin(nuxtApp: NuxtApp) {
       })
     }, { deep: true })
   }
+  const SchemaOrgPlugin = schemaOrgVue.UnheadSchemaOrg ?? (schemaOrgVue as any).SchemaOrgUnheadPlugin
   head.use(
-    SchemaOrgUnheadPlugin({} as _MetaInput, async () => {
+    SchemaOrgPlugin({} as _MetaInput, async () => {
       const meta = {} as MetaInput
       // call hook
       await nuxtApp.hooks.callHook('schema-org:meta', meta)
@@ -117,7 +121,16 @@ export function maybeAddIdentitySchemaOrg() {
         `https://twitter.com/${id}`,
       ]
     }
-    identityPayload._resolver = identityPayload._resolver || camelCase(identityType)
-    useSchemaOrg([identityPayload])
+    // map the identity type to its schema.org resolver; defineX sets the
+    // `#identity` @id so WebSite/WebPage etc. can reference it as publisher/about.
+    // defineX works across majors: it abstracts the v2 string vs v3 function
+    // `_resolver` difference internally.
+    const identityDefines: Record<string, (input: any) => any> = {
+      organization: schemaOrgVue.defineOrganization,
+      person: schemaOrgVue.definePerson,
+      localbusiness: schemaOrgVue.defineLocalBusiness,
+    }
+    const defineIdentity = identityDefines[identityType?.toLowerCase()] || schemaOrgVue.defineOrganization
+    useSchemaOrg([defineIdentity(identityPayload)])
   }
 }

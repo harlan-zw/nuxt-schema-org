@@ -2,7 +2,7 @@
   "name": "nuxt-schema-org",
   "type": "module",
   "version": "6.0.4",
-  "packageManager": "pnpm@10.33.0",
+  "packageManager": "pnpm@11.5.2",
   "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
@@ -59,11 +59,13 @@
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "typecheck": "tsc --noEmit ",
     "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest",
+    "test:compat-v2": "node test/compat-v2/run.mjs",
     "test:attw": "attw --pack"
   },
   "peerDependencies": {
-    "@unhead/vue": "^2.0.7",
-    "unhead": "^2.0.7",
+    "@unhead/schema-org": "^2.0.7 || ^3.0.0",
+    "@unhead/vue": "^2.0.7 || ^3.0.0",
+    "unhead": "^2.0.7 || ^3.0.0",
     "zod": ">=3"
   },
   "peerDependenciesMeta": {
@@ -79,11 +81,11 @@
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",
-    "@unhead/schema-org": "catalog:",
     "defu": "catalog:",
     "nuxt-site-config": "catalog:",
     "nuxtseo-shared": "catalog:",
-    "pkg-types": "catalog:"
+    "pkg-types": "catalog:",
+    "ufo": "catalog:"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:",
@@ -96,6 +98,7 @@
     "@nuxt/ui": "catalog:",
     "@nuxtjs/i18n": "catalog:",
     "@nuxtjs/robots": "catalog:",
+    "@unhead/schema-org": "catalog:",
     "@vue/test-utils": "catalog:",
     "better-sqlite3": "catalog:",
     "bumpp": "catalog:",
@@ -106,6 +109,7 @@
     "nuxt": "catalog:",
     "nuxtseo-layer-devtools": "catalog:",
     "typescript": "catalog:",
+    "unbuild": "catalog:",
     "vitest": "catalog:"
   },
   "build": {
