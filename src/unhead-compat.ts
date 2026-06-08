@@ -14,6 +14,9 @@ export type UnheadMajor = 2 | 3
  *
  * Returns the major of the unhead the host app renders with, falling back to the
  * module's primary major (3) when it can't be resolved.
+ *
+ * TODO: once nuxtseo-shared ships `resolveHostUnheadMajor` (nuxt-seo#561), import
+ * it from `nuxtseo-shared/kit` and delete this local copy.
  */
 export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMajor> {
   const url = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
