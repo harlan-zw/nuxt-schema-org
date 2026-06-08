@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v6.0.4...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.4...main)
+
+### 🚀 Enhancements
+
+- Support Unhead Vue v3 ([#113](https://github.com/harlan-zw/nuxt-schema-org/pull/113))
+
+### 🩹 Fixes
+
+- Move devtools-only deps to devDependencies ([db42719](https://github.com/harlan-zw/nuxt-schema-org/commit/db42719))
+
+### 🏡 Chore
+
+- Sync ([fb21238](https://github.com/harlan-zw/nuxt-schema-org/commit/fb21238))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.0.3...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.3...main)
