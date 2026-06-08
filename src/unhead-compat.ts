@@ -1,6 +1,15 @@
+import { dirname } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 
 export type UnheadMajor = 2 | 3
+
+function normalizePackageUrl(rootDir: string): string {
+  const url = rootDir.startsWith('file:')
+    ? rootDir
+    : pathToFileURL(rootDir.endsWith('/') ? rootDir : `${rootDir}/`).href
+  return url.endsWith('/') ? url : `${url}/`
+}
 
 /**
  * `@unhead/schema-org` attaches an object `_resolver` to every graph node. Unhead
@@ -19,20 +28,21 @@ export type UnheadMajor = 2 | 3
  * it from `nuxtseo-shared/kit` and delete this local copy.
  */
 export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMajor> {
-  const rootUrl = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
-  // Search roots for the host's unhead. Under pnpm's strict (non-hoisted) layout
-  // `@unhead/vue`/`unhead` are transitive deps of `nuxt` and are NOT resolvable
-  // from the project root, so detection would always miss and fall back to the
-  // default major (#114). Also search from `nuxt`'s install location, where the
-  // host's unhead is always reachable.
-  const searchUrls = [rootUrl]
-  const nuxtJson = await resolvePackageJSON('nuxt', { url: rootUrl }).catch(() => {
-    // a missing `nuxt` is an expected miss (e.g. a non-standard layout); we just
-    // keep searching from the project root only.
-    return undefined
-  })
-  if (nuxtJson)
-    searchUrls.push(nuxtJson.replace(/[^/\\]+$/, ''))
+  const rootUrl = normalizePackageUrl(rootDir)
+  // Search from the packages that own SSR before the app root. A host can have
+  // @unhead/vue v3 installed at the project root while Nuxt/Nitro renders with
+  // nested @unhead/vue v2; matching the root copy would still crash SSR (#114).
+  const searchUrls = []
+  for (const id of ['@nuxt/nitro-server', 'nuxt']) {
+    const pkgJson = await resolvePackageJSON(id, { url: rootUrl }).catch(() => {
+      // A missing package is an expected miss in non-standard layouts; keep
+      // searching from the remaining candidates.
+      return undefined
+    })
+    if (pkgJson)
+      searchUrls.push(`${dirname(pkgJson)}/`)
+  }
+  searchUrls.push(rootUrl)
   // `@unhead/vue` is what schema-org actually peer-depends on; fall back to the
   // core `unhead` package when it isn't directly resolvable.
   for (const id of ['@unhead/vue', 'unhead']) {
