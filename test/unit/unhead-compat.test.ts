@@ -6,8 +6,7 @@ import { describe, expect, it } from 'vitest'
 import { resolveHostUnheadMajor, resolveSerializableIdentityConfig } from '../../src/unhead-compat'
 
 function writePackage(root: string, id: string, version: string) {
-  const parts = id.split('/')
-  const packageDir = join(root, 'node_modules', ...parts)
+  const packageDir = join(root, 'node_modules', ...id.split('/'))
   mkdirSync(packageDir, { recursive: true })
   writeFileSync(join(packageDir, 'index.js'), '')
   writeFileSync(join(packageDir, 'package.json'), JSON.stringify({ name: id, version, main: './index.js' }))

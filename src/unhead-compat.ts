@@ -50,6 +50,13 @@ export function resolveSerializableIdentityConfig<T>(identity: T): T {
   return cloned as T
 }
 
+function normalizePackageUrl(rootDir: string): string {
+  const url = rootDir.startsWith('file:')
+    ? rootDir
+    : pathToFileURL(rootDir.endsWith('/') ? rootDir : `${rootDir}/`).href
+  return url.endsWith('/') ? url : `${url}/`
+}
+
 /**
  * `@unhead/schema-org` attaches an object `_resolver` to every graph node. Unhead
  * v3's `walkResolver` skips that key, but v2's walks into it and invokes the
@@ -67,7 +74,7 @@ export function resolveSerializableIdentityConfig<T>(identity: T): T {
  * it from `nuxtseo-shared/kit` and delete this local copy.
  */
 export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMajor> {
-  const rootUrl = pathToFileURL(rootDir.endsWith('/') ? rootDir : `${rootDir}/`).href
+  const rootUrl = normalizePackageUrl(rootDir)
   // Search from the packages that own SSR before the app root. A host can have
   // @unhead/vue v3 installed at the project root while Nuxt/Nitro renders with
   // nested @unhead/vue v2; matching the root copy would still crash SSR (#114).
