@@ -1,12 +1,12 @@
-// @ts-expect-error untyped
-import { useLocalePath } from '#i18n'
-import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
-import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
 import { defineNuxtPlugin, useError, useRuntimeConfig } from 'nuxt/app'
 import { hasProtocol, withHttps } from 'ufo'
 import { toValue } from 'vue'
+// @ts-expect-error untyped
+import { useLocalePath } from '#i18n'
+import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
+import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 

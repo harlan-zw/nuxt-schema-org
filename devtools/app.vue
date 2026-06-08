@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { fetchGlobalDebug, isProductionMode, loadShiki, navigateTo, refreshSources, useRoute } from '#imports'
 import { computed, watch } from 'vue'
+import { fetchGlobalDebug, isProductionMode, loadShiki, navigateTo, refreshSources, useRoute } from '#imports'
 import { schemaOrgGraph } from './composables/rpc'
 
 await loadShiki()
