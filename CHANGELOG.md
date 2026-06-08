@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v6.1.0...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.1.0...main)
+
+### 🩹 Fixes
+
+- Align @unhead/schema-org major with host unhead ([#114](https://github.com/harlan-zw/nuxt-schema-org/pull/114), [#115](https://github.com/harlan-zw/nuxt-schema-org/pull/115))
+
+### 🏡 Chore
+
+- Bump ([fadf156](https://github.com/harlan-zw/nuxt-schema-org/commit/fadf156))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.0.4...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.0.4...main)
