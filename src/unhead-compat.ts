@@ -1,4 +1,4 @@
-import { readPackageJSON } from 'pkg-types'
+import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 
 export type UnheadMajor = 2 | 3
 
@@ -19,20 +19,36 @@ export type UnheadMajor = 2 | 3
  * it from `nuxtseo-shared/kit` and delete this local copy.
  */
 export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMajor> {
-  const url = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
+  const rootUrl = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
+  // Search roots for the host's unhead. Under pnpm's strict (non-hoisted) layout
+  // `@unhead/vue`/`unhead` are transitive deps of `nuxt` and are NOT resolvable
+  // from the project root, so detection would always miss and fall back to the
+  // default major (#114). Also search from `nuxt`'s install location, where the
+  // host's unhead is always reachable.
+  const searchUrls = [rootUrl]
+  const nuxtJson = await resolvePackageJSON('nuxt', { url: rootUrl }).catch(() => {
+    // a missing `nuxt` is an expected miss (e.g. a non-standard layout); we just
+    // keep searching from the project root only.
+    return undefined
+  })
+  if (nuxtJson)
+    searchUrls.push(nuxtJson.replace(/[^/\\]+$/, ''))
   // `@unhead/vue` is what schema-org actually peer-depends on; fall back to the
   // core `unhead` package when it isn't directly resolvable.
   for (const id of ['@unhead/vue', 'unhead']) {
-    const version = await readPackageJSON(id, { url }).then(pkg => pkg.version).catch(() => {
-      // an unresolvable package is an expected miss (it just isn't installed under
-      // this id); fall through to the next candidate, then the default major.
-      return undefined
-    })
-    const major = version ? Number.parseInt(version, 10) : Number.NaN
-    if (major === 2)
-      return 2
-    if (Number.isFinite(major) && major >= 3)
-      return 3
+    for (const url of searchUrls) {
+      const version = await readPackageJSON(id, { url }).then(pkg => pkg.version).catch(() => {
+        // an unresolvable package is an expected miss (not installed under this id
+        // at this search root); fall through to the next candidate/root, then the
+        // default major.
+        return undefined
+      })
+      const major = version ? Number.parseInt(version, 10) : Number.NaN
+      if (major === 2)
+        return 2
+      if (Number.isFinite(major) && major >= 3)
+        return 3
+    }
   }
   return 3
 }
