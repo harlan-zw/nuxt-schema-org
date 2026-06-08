@@ -3,10 +3,13 @@ import { $fetch, setup } from '@nuxt/test-utils'
 import { load } from 'cheerio'
 import { describe, expect, it } from 'vitest'
 
-// Guards Unhead v2 compatibility: this fixture installs a coherent v2 stack
-// (Nuxt 4.2 / @unhead/vue@2 / @unhead/schema-org@2). It verifies the module's
-// cross-major code paths (feature-detected plugin, defineX identity, and the
-// computed-ref node handling) all resolve correctly against unhead v2 core.
+// Guards Unhead v2 compatibility AND regression #114: this fixture installs a v2
+// host (Nuxt 4.2 / @unhead/vue@2 / unhead@2) but does NOT pin @unhead/schema-org,
+// so the module's own (hoisted v3) copy is present. Without the major-aligning
+// alias, head resolution crashes with "Cannot read properties of undefined
+// (reading 'potentialAction')" and the route 500s. A successful graph render
+// proves the alias forced the v2 schema-org copy, and exercises the module's
+// cross-major paths (feature-detected plugin, defineX identity, computed-ref).
 await setup({
   rootDir: resolve(import.meta.dirname),
   server: true,

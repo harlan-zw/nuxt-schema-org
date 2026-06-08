@@ -13,13 +13,12 @@ import {
   hasNuxtModule,
   useLogger,
 } from '@nuxt/kit'
-import { defineWebPage } from '@unhead/schema-org'
-import { schemaOrgAutoImports, schemaOrgComponents } from '@unhead/schema-org/vue'
 import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, resolveNuxtContentVersion } from './kit'
+import { resolveHostUnheadMajor, schemaOrgVendor } from './unhead-compat'
 
 type SchemaOrgScriptAttributes = Partial<Script> & Record<string, unknown>
 
@@ -114,6 +113,24 @@ export default defineNuxtModule<ModuleOptions>({
     }
     if (!nuxt.options.ssr && nuxt.options.dev)
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
+
+    // Pin `@unhead/schema-org` to the major matching the host's unhead. Pairing
+    // schema-org v3 with unhead v2 (e.g. current Nuxt) crashes during head
+    // resolution; we vendor both majors and alias to the compatible one. See #114.
+    const unheadMajor = await resolveHostUnheadMajor(nuxt.options.rootDir)
+    const vendor = schemaOrgVendor(unheadMajor)
+    const { defineWebPage } = await import(vendor.main) as typeof import('@unhead/schema-org')
+    const { schemaOrgAutoImports, schemaOrgComponents } = await import(vendor.vue) as typeof import('@unhead/schema-org/vue')
+    if (vendor.main !== '@unhead/schema-org') {
+      // redirect every `@unhead/schema-org` import (bundler + nitro) to the
+      // aliased v2 copy; substring replacement keeps subpaths like `/vue` intact.
+      logger.debug(`Detected unhead v${unheadMajor}, aliasing @unhead/schema-org -> ${vendor.main}`)
+      nuxt.options.alias['@unhead/schema-org'] = vendor.main
+      nuxt.hooks.hook('nitro:config', (nitroConfig) => {
+        nitroConfig.alias = nitroConfig.alias || {}
+        nitroConfig.alias['@unhead/schema-org'] = vendor.main
+      })
+    }
 
     await installNuxtSiteConfig()
 

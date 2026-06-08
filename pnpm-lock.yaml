@@ -42,6 +42,9 @@ catalogs:
     '@unhead/schema-org':
       specifier: ^3.1.3
       version: 3.1.3
+    '@unhead/schema-org-v2':
+      specifier: npm:@unhead/schema-org@^2.1.15
+      version: 2.1.15
     '@vue/test-utils':
       specifier: ^2.4.11
       version: 2.4.11
@@ -112,6 +115,12 @@ importers:
       '@nuxt/kit':
         specifier: 'catalog:'
         version: 4.4.7(magicast@0.5.2)
+      '@unhead/schema-org':
+        specifier: 'catalog:'
+        version: 3.1.3(@unhead/vue@3.1.3(esbuild@0.28.0)(lightningcss@1.32.0)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(typescript@6.0.3)(vite@8.0.1)(vue@3.5.35(typescript@6.0.3)))(vite@8.0.1)
+      '@unhead/schema-org-v2':
+        specifier: 'catalog:'
+        version: '@unhead/schema-org@2.1.15(@unhead/vue@3.1.3(esbuild@0.28.0)(lightningcss@1.32.0)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(typescript@6.0.3)(vite@8.0.1)(vue@3.5.35(typescript@6.0.3)))(vite@8.0.1)'
       '@unhead/vue':
         specifier: ^3.1.3
         version: 3.1.3(esbuild@0.28.0)(lightningcss@1.32.0)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(typescript@6.0.3)(vite@8.0.1)(vue@3.5.35(typescript@6.0.3))
@@ -167,9 +176,6 @@ importers:
       '@nuxtjs/robots':
         specifier: 'catalog:'
         version: 6.0.9(@nuxt/schema@4.4.7)(magicast@0.5.2)(nuxt@4.4.7(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.0))(@babel/plugin-syntax-typescript@7.28.6(@babel/core@7.29.0))(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0)(@parcel/watcher@2.5.6)(@types/node@25.5.0)(@vitejs/devtools@0.1.3)(@vue/compiler-sfc@3.5.35)(better-sqlite3@12.10.0)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.10.0))(esbuild@0.28.0)(eslint@10.4.1(jiti@2.7.0))(ioredis@5.10.1)(lightningcss@1.32.0)(magicast@0.5.2)(optionator@0.9.4)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(rollup-plugin-visualizer@7.0.1(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(rollup@4.61.1))(rollup@4.61.1)(terser@5.46.1)(typescript@6.0.3)(vite@8.0.1)(yaml@2.9.0))(vite@8.0.1)(vue@3.5.35(typescript@6.0.3))(zod@4.3.6)
-      '@unhead/schema-org':
-        specifier: 'catalog:'
-        version: 3.1.3(@unhead/vue@3.1.3(esbuild@0.28.0)(lightningcss@1.32.0)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(typescript@6.0.3)(vite@8.0.1)(vue@3.5.35(typescript@6.0.3)))(vite@8.0.1)
       '@vue/test-utils':
         specifier: 'catalog:'
         version: 2.4.11(@vue/compiler-dom@3.5.35)(@vue/server-renderer@3.5.35(vue@3.5.35(typescript@6.0.3)))(vue@3.5.35(typescript@6.0.3))
@@ -4056,6 +4062,23 @@ packages:
       vite:
         optional: true
       webpack:
+        optional: true
+
+  '@unhead/schema-org@2.1.15':
+    resolution: {integrity: sha512-6nfg+9CH69YHjzmjNsPjMbGylq00AAN4cYIESMy78KPhMgM35DqQHxHn5S7mNQozTfwU95V5IwHYG8i827h0xA==}
+    peerDependencies:
+      '@unhead/react': ^2.1.15
+      '@unhead/solid-js': ^2.1.15
+      '@unhead/svelte': ^2.1.15
+      '@unhead/vue': ^3.1.3
+    peerDependenciesMeta:
+      '@unhead/react':
+        optional: true
+      '@unhead/solid-js':
+        optional: true
+      '@unhead/svelte':
+        optional: true
+      '@unhead/vue':
         optional: true
 
   '@unhead/schema-org@3.1.3':
@@ -13298,6 +13321,15 @@ snapshots:
       - crossws
       - typescript
       - utf-8-validate
+
+  '@unhead/schema-org@2.1.15(@unhead/vue@3.1.3(esbuild@0.28.0)(lightningcss@1.32.0)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(typescript@6.0.3)(vite@8.0.1)(vue@3.5.35(typescript@6.0.3)))(vite@8.0.1)':
+    dependencies:
+      ufo: 1.6.4
+      unhead: 3.1.3(vite@8.0.1)
+    optionalDependencies:
+      '@unhead/vue': 3.1.3(esbuild@0.28.0)(lightningcss@1.32.0)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(typescript@6.0.3)(vite@8.0.1)(vue@3.5.35(typescript@6.0.3))
+    transitivePeerDependencies:
+      - vite
 
   '@unhead/schema-org@3.1.3(@unhead/vue@3.1.3(esbuild@0.28.0)(lightningcss@1.32.0)(rolldown@1.0.0-rc.10(@emnapi/core@1.10.0)(@emnapi/runtime@1.10.0))(typescript@6.0.3)(vite@8.0.1)(vue@3.5.35(typescript@6.0.3)))(vite@8.0.1)':
     dependencies:
