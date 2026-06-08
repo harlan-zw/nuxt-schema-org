@@ -16,3 +16,19 @@ permissions:
 jobs:
   ci:
     uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@main
+
+  # Regression guard for #114: the module ships both @unhead/schema-org majors and
+  # must alias to the one matching the host's unhead. The main suite runs on the
+  # unhead v3 stack, so it can't catch a v3-schema-org / v2-unhead skew. This job
+  # builds + packs the module and installs it into an isolated unhead v2 host.
+  compat-v2:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm test:compat-v2

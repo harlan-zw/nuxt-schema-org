@@ -6,10 +6,14 @@ guards the **v2** stack, which can't coexist in the same workspace because the
 unhead major is global.
 
 It is a standalone npm project (excluded from the pnpm workspace) that installs a
-coherent v2 stack — Nuxt 4.2, `@unhead/vue@2`, `unhead@2`, `@unhead/schema-org@2` —
-and links the local module via `file:../..`. The test asserts the module's
-cross-major code paths resolve correctly on unhead v2 core: the feature-detected
-plugin export, the `defineX` identity resolver, and the computed-ref node handling.
+v2 host — Nuxt 4.2, `@unhead/vue@2`, `unhead@2` — and links the local module via
+`file:../..`. It deliberately does **not** pin `@unhead/schema-org`: the module
+ships both majors, and on a v2 host its own (hoisted v3) copy would crash head
+resolution (#114) unless the module aliases `@unhead/schema-org` to the v2 copy.
+
+A successful render proves the alias works, and asserts the module's cross-major
+code paths resolve on unhead v2 core: the feature-detected plugin export, the
+`defineX` identity resolver, and the computed-ref node handling.
 
 ## Run
 

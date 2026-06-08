@@ -2,7 +2,7 @@
   "name": "compat-v2",
   "private": true,
   "type": "module",
-  "description": "Isolated install pinning the Unhead v2 stack (Nuxt 4.2 / @unhead/vue@2 / @unhead/schema-org@2) to guard cross-major support. Copied to package.json by the `test:compat-v2` script and installed with npm, so it stays out of the pnpm workspace + catalog.",
+  "description": "Isolated install on the Unhead v2 stack (Nuxt 4.2 / @unhead/vue@2 / unhead@2). It deliberately does NOT pin @unhead/schema-org: the module ships both majors and must alias to the v2 copy on a v2 host, otherwise its hoisted v3 copy crashes head resolution (#114). Copied to package.json by the `test:compat-v2` script and installed with npm, so it stays out of the pnpm workspace + catalog.",
   "scripts": {
     "test": "vitest run"
   },
@@ -10,8 +10,7 @@
     "nuxt-schema-org": "file:module.tgz",
     "nuxt": "~4.2.0",
     "@unhead/vue": "^2.0.7",
-    "unhead": "^2.0.7",
-    "@unhead/schema-org": "^2.1.13"
+    "unhead": "^2.0.7"
   },
   "devDependencies": {
     "@nuxt/test-utils": "^4.0.3",
