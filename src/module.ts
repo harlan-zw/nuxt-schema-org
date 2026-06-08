@@ -18,7 +18,7 @@ import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, resolveNuxtContentVersion } from './kit'
-import { resolveHostUnheadMajor, schemaOrgVendor } from './unhead-compat'
+import { resolveHostUnheadMajor, resolveSerializableIdentityConfig, schemaOrgVendor } from './unhead-compat'
 
 type SchemaOrgScriptAttributes = Partial<Script> & Record<string, unknown>
 
@@ -138,7 +138,7 @@ export default defineNuxtModule<ModuleOptions>({
       reactive: config.reactive,
       minify: config.minify,
       scriptAttributes: config.scriptAttributes,
-      identity: config.identity,
+      identity: resolveSerializableIdentityConfig(config.identity),
       version: version!,
     }
     // avoid polluting client-side bundle if we don't need to

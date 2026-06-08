@@ -1,6 +1,6 @@
 import type { VueHeadClient } from '@unhead/vue/types'
-import { refreshSources, useDevtoolsConnection } from '#imports'
 import { ref } from 'vue'
+import { refreshSources, useDevtoolsConnection } from '#imports'
 
 export const hostHead = ref<VueHeadClient>()
 export const schemaOrgGraph = ref<any>(null)

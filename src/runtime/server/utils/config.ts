@@ -1,5 +1,5 @@
-import type { ModuleRuntimeConfig } from '#schema-org/types'
 import type { H3Event } from 'h3'
+import type { ModuleRuntimeConfig } from '#schema-org/types'
 import { defu } from 'defu'
 import { useRuntimeConfig } from 'nitropack/runtime'
 

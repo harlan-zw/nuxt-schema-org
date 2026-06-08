@@ -1,6 +1,54 @@
+import { dirname } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
 
 export type UnheadMajor = 2 | 3
+
+function isPlainObject(value: unknown): value is Record<string, any> {
+  return !!value && typeof value === 'object' && !Array.isArray(value)
+}
+
+function cloneSerializableIdentityValue(value: unknown): unknown {
+  if (typeof value === 'function')
+    return undefined
+  if (Array.isArray(value))
+    return value.map(cloneSerializableIdentityValue).filter(value => typeof value !== 'undefined')
+  if (!isPlainObject(value))
+    return value
+
+  const result: Record<string, any> = {}
+  for (const [key, child] of Object.entries(value)) {
+    if (key === '_resolver')
+      continue
+    const cloned = cloneSerializableIdentityValue(child)
+    if (typeof cloned !== 'undefined')
+      result[key] = cloned
+  }
+  return result
+}
+
+/**
+ * Nuxt validates runtime config serializability during prepare. `definePerson`,
+ * `defineOrganization`, etc. attach private `_resolver` methods to nodes, so
+ * config.identity must be reduced to public serializable data before it is
+ * copied into runtime config (#118).
+ */
+export function resolveSerializableIdentityConfig<T>(identity: T): T {
+  if (!isPlainObject(identity))
+    return identity
+
+  const identityNode = identity as Record<string, any>
+  const cloned = cloneSerializableIdentityValue(identityNode) as Record<string, any>
+  const resolverDefaults = isPlainObject(identityNode._resolver?.defaults) ? identityNode._resolver.defaults : {}
+  const resolvedType = Array.isArray(resolverDefaults['@type'])
+    ? resolverDefaults['@type'].at(-1)
+    : resolverDefaults['@type']
+
+  if (resolvedType && !cloned.type && !cloned['@type'])
+    cloned.type = resolvedType
+
+  return cloned as T
+}
 
 /**
  * `@unhead/schema-org` attaches an object `_resolver` to every graph node. Unhead
@@ -19,20 +67,21 @@ export type UnheadMajor = 2 | 3
  * it from `nuxtseo-shared/kit` and delete this local copy.
  */
 export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMajor> {
-  const rootUrl = rootDir.endsWith('/') ? rootDir : `${rootDir}/`
-  // Search roots for the host's unhead. Under pnpm's strict (non-hoisted) layout
-  // `@unhead/vue`/`unhead` are transitive deps of `nuxt` and are NOT resolvable
-  // from the project root, so detection would always miss and fall back to the
-  // default major (#114). Also search from `nuxt`'s install location, where the
-  // host's unhead is always reachable.
-  const searchUrls = [rootUrl]
-  const nuxtJson = await resolvePackageJSON('nuxt', { url: rootUrl }).catch(() => {
-    // a missing `nuxt` is an expected miss (e.g. a non-standard layout); we just
-    // keep searching from the project root only.
-    return undefined
-  })
-  if (nuxtJson)
-    searchUrls.push(nuxtJson.replace(/[^/\\]+$/, ''))
+  const rootUrl = pathToFileURL(rootDir.endsWith('/') ? rootDir : `${rootDir}/`).href
+  // Search from the packages that own SSR before the app root. A host can have
+  // @unhead/vue v3 installed at the project root while Nuxt/Nitro renders with
+  // nested @unhead/vue v2; matching the root copy would still crash SSR (#114).
+  const searchUrls = []
+  for (const id of ['@nuxt/nitro-server', 'nuxt']) {
+    const pkgJson = await resolvePackageJSON(id, { url: rootUrl }).catch(() => {
+      // A missing package is an expected miss in non-standard layouts; keep
+      // searching from the remaining candidates.
+      return undefined
+    })
+    if (pkgJson)
+      searchUrls.push(`${dirname(pkgJson)}/`)
+  }
+  searchUrls.push(rootUrl)
   // `@unhead/vue` is what schema-org actually peer-depends on; fall back to the
   // core `unhead` package when it isn't directly resolvable.
   for (const id of ['@unhead/vue', 'unhead']) {

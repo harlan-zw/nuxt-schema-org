@@ -1,7 +1,7 @@
-import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { defineNuxtPlugin, useError } from 'nuxt/app'
 import { toValue } from 'vue'
+import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../utils/shared'
 
