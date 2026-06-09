@@ -126,9 +126,21 @@ export default defineNuxtModule<ModuleOptions>({
       // aliased v2 copy; substring replacement keeps subpaths like `/vue` intact.
       logger.debug(`Detected unhead v${unheadMajor}, aliasing @unhead/schema-org -> ${vendor.main}`)
       nuxt.options.alias['@unhead/schema-org'] = vendor.main
+      // `@unhead/schema-org-v2` is an npm alias (`npm:@unhead/schema-org@2`) whose
+      // installed package.json still carries `"name": "@unhead/schema-org"`. Left
+      // external, nitro's dependency trace collapses the alias dir onto the real
+      // package name, so the standalone `.output/server` never gets a
+      // `@unhead/schema-org-v2` dir and SSR crashes with ERR_MODULE_NOT_FOUND in
+      // slim images (works locally only via the project-root node_modules). See #116.
+      // Inline the v2 copy into both the client bundle and the nitro server bundle so
+      // no bare alias specifier survives to be resolved at runtime.
+      nuxt.options.build.transpile.push(vendor.main)
       nuxt.hooks.hook('nitro:config', (nitroConfig) => {
         nitroConfig.alias = nitroConfig.alias || {}
         nitroConfig.alias['@unhead/schema-org'] = vendor.main
+        nitroConfig.externals = nitroConfig.externals || {}
+        nitroConfig.externals.inline = nitroConfig.externals.inline || []
+        nitroConfig.externals.inline.push(vendor.main)
       })
     }
 

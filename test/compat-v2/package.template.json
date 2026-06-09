@@ -4,7 +4,8 @@
   "type": "module",
   "description": "Isolated install on the Unhead v2 stack (Nuxt 4.2 / @unhead/vue@2 / unhead@2). It deliberately does NOT pin @unhead/schema-org: the module ships both majors and must alias to the v2 copy on a v2 host, otherwise its hoisted v3 copy crashes head resolution (#114). Copied to package.json by the `test:compat-v2` script and installed with npm, so it stays out of the pnpm workspace + catalog.",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "build": "nuxi build"
   },
   "dependencies": {
     "nuxt-schema-org": "file:module.tgz",
