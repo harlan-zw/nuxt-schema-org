@@ -6,7 +6,7 @@
 // into Nuxt/nitro module resolution and breaks the v2 build. Copying the fixture
 // to a temp dir with its own isolated install avoids that.
 import { execFileSync } from 'node:child_process'
-import { cpSync, mkdtempSync, readdirSync, renameSync } from 'node:fs'
+import { cpSync, existsSync, mkdtempSync, readdirSync, readFileSync, renameSync, statSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -33,3 +33,45 @@ run('npm', ['install', '--legacy-peer-deps', '--no-package-lock'], workDir)
 
 console.log('[compat-v2] running tests')
 run('npm', ['test'], workDir)
+
+// Regression #116: the render test above runs against the dev server, where the
+// node_modules fallback masks the bug. On a v2 host the module aliases
+// @unhead/schema-org to the npm-aliased @unhead/schema-org-v2, whose installed
+// package.json still carries `"name": "@unhead/schema-org"`. Left external, nitro's
+// dependency trace resolves the alias dir to its real package name and emits it
+// under @unhead/schema-org in the output node_modules, while the import statements
+// still reference @unhead/schema-org-v2. A slim production `.output/server` (no
+// project-root node_modules, e.g. a Docker image, especially under pnpm's symlinked
+// alias layout) then crashes with ERR_MODULE_NOT_FOUND. Run a real production build
+// and assert the v2 copy was inlined, so no bare alias specifier survives at all.
+//
+// NOTE: this harness installs with npm (flat node_modules), so the trace keeps the
+// @unhead/schema-org-v2 dir name and a no-fix build would still *run* here. The
+// assertion therefore checks the import was eliminated, not that the server boots.
+console.log('[compat-v2] building production output')
+run('npm', ['run', 'build'], workDir)
+
+const serverDir = join(workDir, '.output', 'server')
+if (!existsSync(serverDir))
+  throw new Error(`[compat-v2] ${serverDir} not found — production build did not emit a server bundle`)
+
+// matches the bare specifier and any subpath, e.g. `@unhead/schema-org-v2/vue`
+const externalImport = /(?:from|import|require)\s*(?:\(\s*)?['"]@unhead\/schema-org-v2(?:\/[^'"]*)?['"]/
+const offenders = []
+function walk(dir) {
+  for (const entry of readdirSync(dir)) {
+    const full = join(dir, entry)
+    if (statSync(full).isDirectory())
+      walk(full)
+    else if (/\.[mc]?js$/.test(entry) && externalImport.test(readFileSync(full, 'utf8')))
+      offenders.push(full.slice(serverDir.length + 1))
+  }
+}
+walk(serverDir)
+
+if (offenders.length) {
+  throw new Error(
+    `[compat-v2] server chunks import @unhead/schema-org-v2 as an external (regression #116): ${offenders.join(', ')}`,
+  )
+}
+console.log('[compat-v2] ✓ @unhead/schema-org-v2 inlined into the server bundle')
