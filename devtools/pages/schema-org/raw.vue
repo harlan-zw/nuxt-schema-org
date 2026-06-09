@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { schemaOrgGraph } from '../composables/rpc'
+import { schemaOrgGraph } from '../../lib/schema-org/rpc'
 </script>
 
 <template>

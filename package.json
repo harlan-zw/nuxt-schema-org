@@ -49,8 +49,7 @@
   ],
   "scripts": {
     "lint": "eslint . --fix",
-    "client:build": "nuxt generate devtools",
-    "devtools": "nuxt dev devtools --port 3030",
+    "client:build": "node -e \"require('fs').cpSync('devtools','dist/devtools',{recursive:true})\"",
     "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build",
     "dev": "nuxt dev playground",
     "dev:build": "nuxt build playground",
