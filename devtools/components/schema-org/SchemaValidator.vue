@@ -10,7 +10,7 @@ import {
   isRichResultType,
   nodeToSchemaOrgLink,
   validateGraph,
-} from '../util/schema-validation'
+} from '../../lib/schema-org/util/schema-validation'
 
 const { graph } = defineProps<{
   graph: string
