@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v6.1.2...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.1.2...main)
+
+### 🩹 Fixes
+
+- Prefer nitro unhead for schema-org vendor ([#121](https://github.com/harlan-zw/nuxt-schema-org/pull/121))
+- Serialize schema org identity config ([#120](https://github.com/harlan-zw/nuxt-schema-org/pull/120))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.1.0...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.1.0...main)
