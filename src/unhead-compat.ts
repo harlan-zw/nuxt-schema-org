@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { readPackageJSON, resolvePackageJSON } from 'pkg-types'
@@ -109,11 +110,27 @@ export async function resolveHostUnheadMajor(rootDir: string): Promise<UnheadMaj
   return 3
 }
 
+export type SchemaOrgVendor
+  = | { vendored: true, dir: string, main: string, vue: string }
+    | { vendored: false, main: string, vue: string }
+
 /**
- * Package specifiers for the vendored schema-org major matching the host unhead.
- * The aliased `@unhead/schema-org-v2` resolves to `@unhead/schema-org@2`.
+ * Module specifiers for the schema-org major matching the host unhead.
+ *
+ * Published builds carry both majors' dist files under `dist/vendor/` and no
+ * `@unhead/schema-org*` dependency: the npm-aliased `@unhead/schema-org-v2`
+ * dep 404s on registries/buildpacks without `npm:` alias support, and the v3
+ * copy's optional peer on `@unhead/vue@^3` marks Nuxt's unhead v2 tree invalid
+ * (#125). Vendored entries are absolute file paths.
+ *
+ * In this repo's dev/stub mode `dist/vendor` doesn't exist, so fall back to
+ * the bare packages from the workspace devDependencies (`@unhead/schema-org-v2`
+ * resolves to `@unhead/schema-org@2` via npm alias).
  */
-export function schemaOrgVendor(major: UnheadMajor): { main: string, vue: string } {
+export function schemaOrgVendor(major: UnheadMajor, resolve: (...path: string[]) => string): SchemaOrgVendor {
+  const dir = resolve(`./vendor/schema-org-v${major}`)
+  if (existsSync(dir))
+    return { vendored: true, dir, main: `${dir}/index.mjs`, vue: `${dir}/vue.mjs` }
   const pkg = major === 2 ? '@unhead/schema-org-v2' : '@unhead/schema-org'
-  return { main: pkg, vue: `${pkg}/vue` }
+  return { vendored: false, main: pkg, vue: `${pkg}/vue` }
 }
