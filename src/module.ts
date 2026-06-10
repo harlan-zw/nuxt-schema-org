@@ -2,6 +2,7 @@ import type { NuxtModule } from '@nuxt/schema'
 import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import type { Script, UseHeadInput } from '@unhead/vue/types'
 import type { ModuleRuntimeConfig } from './runtime/types'
+import { pathToFileURL } from 'node:url'
 import {
   addComponent,
   addImports,
@@ -118,22 +119,39 @@ export default defineNuxtModule<ModuleOptions>({
     // schema-org v3 with unhead v2 (e.g. current Nuxt) crashes during head
     // resolution; we vendor both majors and alias to the compatible one. See #114.
     const unheadMajor = await resolveHostUnheadMajor(nuxt.options.rootDir)
-    const vendor = schemaOrgVendor(unheadMajor)
-    const { defineWebPage } = await import(vendor.main) as typeof import('@unhead/schema-org')
-    const { schemaOrgAutoImports, schemaOrgComponents } = await import(vendor.vue) as typeof import('@unhead/schema-org/vue')
-    if (vendor.main !== '@unhead/schema-org') {
-      // redirect every `@unhead/schema-org` import (bundler + nitro) to the
-      // aliased v2 copy; substring replacement keeps subpaths like `/vue` intact.
+    const vendor = schemaOrgVendor(unheadMajor, resolve)
+    const { defineWebPage } = await import(vendor.vendored ? pathToFileURL(vendor.main).href : vendor.main) as typeof import('@unhead/schema-org')
+    const { schemaOrgAutoImports, schemaOrgComponents } = await import(vendor.vendored ? pathToFileURL(vendor.vue).href : vendor.vue) as typeof import('@unhead/schema-org/vue')
+    if (vendor.vendored) {
+      // Redirect every `@unhead/schema-org` import (bundler + nitro + tsconfig
+      // paths) onto the vendored copy. The `/vue` entry must precede the bare
+      // one: aliases prefix-match in insertion order, and the bare entry would
+      // rewrite the subpath onto index.mjs.
+      logger.debug(`Detected unhead v${unheadMajor}, aliasing @unhead/schema-org -> ${vendor.dir}`)
+      nuxt.options.alias['@unhead/schema-org/vue'] = vendor.vue
+      nuxt.options.alias['@unhead/schema-org'] = vendor.main
+      // Inline the vendored files into both the client bundle and the nitro
+      // server bundle: nitro's dependency trace can't map files living inside
+      // another package's dist back to a resolvable specifier, so anything left
+      // external crashes slim `.output/server` images with ERR_MODULE_NOT_FOUND
+      // (#116). Their own imports (unhead, @unhead/vue, ufo, vue) stay external
+      // and resolve from the host app.
+      nuxt.options.build.transpile.push(vendor.dir)
+      nuxt.hooks.hook('nitro:config', (nitroConfig) => {
+        nitroConfig.alias = nitroConfig.alias || {}
+        nitroConfig.alias['@unhead/schema-org/vue'] = vendor.vue
+        nitroConfig.alias['@unhead/schema-org'] = vendor.main
+        nitroConfig.externals = nitroConfig.externals || {}
+        nitroConfig.externals.inline = nitroConfig.externals.inline || []
+        nitroConfig.externals.inline.push(vendor.dir)
+      })
+    }
+    else if (vendor.main !== '@unhead/schema-org') {
+      // repo dev/stub fallback on an unhead v2 host: alias to the npm-aliased
+      // v2 package from the workspace devDependencies; substring replacement
+      // keeps subpaths like `/vue` intact.
       logger.debug(`Detected unhead v${unheadMajor}, aliasing @unhead/schema-org -> ${vendor.main}`)
       nuxt.options.alias['@unhead/schema-org'] = vendor.main
-      // `@unhead/schema-org-v2` is an npm alias (`npm:@unhead/schema-org@2`) whose
-      // installed package.json still carries `"name": "@unhead/schema-org"`. Left
-      // external, nitro's dependency trace collapses the alias dir onto the real
-      // package name, so the standalone `.output/server` never gets a
-      // `@unhead/schema-org-v2` dir and SSR crashes with ERR_MODULE_NOT_FOUND in
-      // slim images (works locally only via the project-root node_modules). See #116.
-      // Inline the v2 copy into both the client bundle and the nitro server bundle so
-      // no bare alias specifier survives to be resolved at runtime.
       nuxt.options.build.transpile.push(vendor.main)
       nuxt.hooks.hook('nitro:config', (nitroConfig) => {
         nitroConfig.alias = nitroConfig.alias || {}

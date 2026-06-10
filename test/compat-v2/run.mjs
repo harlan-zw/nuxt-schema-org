@@ -55,8 +55,10 @@ const serverDir = join(workDir, '.output', 'server')
 if (!existsSync(serverDir))
   throw new Error(`[compat-v2] ${serverDir} not found — production build did not emit a server bundle`)
 
-// matches the bare specifier and any subpath, e.g. `@unhead/schema-org-v2/vue`
-const externalImport = /(?:from|import|require)\s*(?:\(\s*)?['"]@unhead\/schema-org-v2(?:\/[^'"]*)?['"]/
+// matches the bare alias specifier and any subpath (e.g. `@unhead/schema-org-v2/vue`),
+// plus any path into the module's vendored copy (#125), which only exists inside
+// the project-root node_modules and is gone in slim images.
+const externalImport = /(?:from|import|require)\s*(?:\(\s*)?['"](?:@unhead\/schema-org-v2(?:\/[^'"]*)?|[^'"]*dist\/vendor\/schema-org-v[^'"]*)['"]/
 const offenders = []
 function walk(dir) {
   for (const entry of readdirSync(dir)) {
