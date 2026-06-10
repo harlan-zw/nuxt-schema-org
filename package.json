@@ -55,7 +55,7 @@
     "dev": "nuxt dev playground",
     "dev:build": "nuxt build playground",
     "prepack": "pnpm run build",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && nuxt prepare client && pnpm run client:build",
+    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && nuxt prepare client",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "typecheck": "tsc --noEmit ",
     "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest",
