@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { definePageMeta } from '#imports'
+
 definePageMeta({
   title: 'FAQ page',
   description: 'this is the faq page',

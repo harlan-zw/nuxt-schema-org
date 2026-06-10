@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { definePageMeta, defineProduct, useSchemaOrg } from '#imports'
+
 definePageMeta({
   title: 'The Classic',
   description: 'A bun, beef batty, pickles and some cheese.',

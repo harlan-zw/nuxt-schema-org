@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { definePageMeta, defineWebPage, useSchemaOrg } from '#imports'
+
 definePageMeta({
   layout: 'shop',
   title: 'Shop',
