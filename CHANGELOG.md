@@ -1,6 +1,30 @@
 # Changelog
 
 
+## v6.1.3...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.1.3...main)
+
+### 🚀 Enhancements
+
+- **devtools:** Ship devtools as a layer ([#123](https://github.com/harlan-zw/nuxt-schema-org/pull/123))
+
+### 🩹 Fixes
+
+- Inline v2 schema-org copy to survive prod dependency trace ([#122](https://github.com/harlan-zw/nuxt-schema-org/pull/122))
+- Vendor `@unhead/schema-org` majors, drop npm-alias dep ([#126](https://github.com/harlan-zw/nuxt-schema-org/pull/126))
+
+### 🏡 Chore
+
+- Bump ([0130f70](https://github.com/harlan-zw/nuxt-schema-org/commit/0130f70))
+- **devtools:** Crash ([75e0881](https://github.com/harlan-zw/nuxt-schema-org/commit/75e0881))
+- Bump ([db6ddae](https://github.com/harlan-zw/nuxt-schema-org/commit/db6ddae))
+- Bump ([38c0d65](https://github.com/harlan-zw/nuxt-schema-org/commit/38c0d65))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.1.2...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.1.2...main)
