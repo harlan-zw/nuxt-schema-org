@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { loadShiki } from 'nuxtseo-layer-devtools/composables/shiki'
+import { isProductionMode, refreshSources } from 'nuxtseo-layer-devtools/composables/state'
 import { computed, watch } from 'vue'
-import { isProductionMode, loadShiki, navigateTo, refreshSources, useRoute } from '#imports'
-import { fetchGlobalDebug } from '../lib/schema-org/fetch'
+import { navigateTo, useRoute } from '#imports'
 import { schemaOrgGraph } from '../lib/schema-org/rpc'
+import { fetchGlobalDebug } from '../lib/schema-org/state'
 
 await loadShiki()
 

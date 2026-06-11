@@ -1,4 +1,6 @@
-import { refreshTime, useAsyncData } from '#imports'
+import { appFetch } from 'nuxtseo-layer-devtools/composables/rpc'
+import { refreshTime } from 'nuxtseo-layer-devtools/composables/state'
+import { useAsyncData } from '#imports'
 
 export function fetchGlobalDebug() {
   return useAsyncData<{
