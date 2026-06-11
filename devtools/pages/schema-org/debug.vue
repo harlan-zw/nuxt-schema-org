@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { fetchGlobalDebug } from '../../lib/schema-org/fetch'
+import { fetchGlobalDebug } from '../../lib/schema-org/state'
 
 const { data } = fetchGlobalDebug()
 </script>

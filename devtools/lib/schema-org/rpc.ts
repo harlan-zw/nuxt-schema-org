@@ -1,6 +1,7 @@
 import { onDevtoolsClientConnected, useDevtoolsClient } from '@nuxt/devtools-kit/iframe-client'
+import { useDevtoolsConnection } from 'nuxtseo-layer-devtools/composables/rpc'
+import { refreshTime } from 'nuxtseo-layer-devtools/composables/state'
 import { ref, watch } from 'vue'
-import { refreshTime, useDevtoolsConnection } from '#imports'
 
 // Mirror the layer's workaround: initialize the devtools client ref before any
 // onDevtoolsClientConnected call, or the devtools-kit alpha getter on
