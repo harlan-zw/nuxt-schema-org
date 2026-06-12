@@ -82,7 +82,6 @@
     "@nuxt/kit": "catalog:",
     "defu": "catalog:",
     "nuxt-site-config": "catalog:",
-    "nuxtseo-layer-devtools": "catalog:",
     "nuxtseo-shared": "catalog:",
     "pkg-types": "catalog:",
     "ufo": "catalog:"
@@ -108,6 +107,7 @@
     "eslint-plugin-harlanzw": "catalog:",
     "happy-dom": "catalog:",
     "nuxt": "catalog:",
+    "nuxtseo-layer-devtools": "catalog:",
     "typescript": "catalog:",
     "unbuild": "catalog:",
     "vitest": "catalog:"
