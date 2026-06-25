@@ -40,6 +40,11 @@ describe('unhead v2 compatibility', () => {
     const article = graph.find(n => n['@type'] === 'Article')
     expect(article?.headline).toBe('Hello v2')
 
+    // regression #129: v2 auto-imports advertise defineDataset and other v3-era
+    // helpers, so the vendored v2 /vue entry must export and resolve them.
+    const dataset = graph.find(n => n['@type'] === 'Dataset')
+    expect(dataset?.name).toBe('Compat dataset')
+
     // no junk/unresolved nodes leaked into the graph
     expect(graph.some(n => String(n['@id']).includes('#/schema//'))).toBe(false)
   })
