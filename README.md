@@ -41,7 +41,7 @@ npx nuxi@latest module add schema-org
 > npx skilld add nuxt-schema-org
 > ```
 
-💡 Need a complete SEO solution for Nuxt? Check out [Nuxt SEO](https://nuxtseo.com).
+💡 Added Schema.org? Validate your structured data against Google's rules with the free [Schema Validator](https://nuxtseo.com/tools/schema-validator), or track rich-result eligibility across your site with [Nuxt SEO Pro](https://nuxtseo.com/pro).
 
 ## Documentation
 
