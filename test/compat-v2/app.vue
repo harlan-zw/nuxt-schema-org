@@ -8,6 +8,9 @@ useSchemaOrg(computed(() => [
     headline: 'Hello v2',
     description: 'computed-ref article on the unhead v2 stack',
   }),
+  defineDataset({
+    name: 'Compat dataset',
+  }),
 ]))
 </script>
 
