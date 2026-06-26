@@ -1,6 +1,33 @@
 # Changelog
 
 
+## v6.2.1...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.1...main)
+
+### 🔥 Performance
+
+- **devtools:** Move nuxtseo-layer-devtools to dev dep ([#128](https://github.com/harlan-zw/nuxt-schema-org/pull/128))
+
+### 🩹 Fixes
+
+- Export schema-org v2 vue helpers ([#130](https://github.com/harlan-zw/nuxt-schema-org/pull/130))
+
+### 🏡 Chore
+
+- Bump deps ([07ec035](https://github.com/harlan-zw/nuxt-schema-org/commit/07ec035))
+- Bump ([c938ea0](https://github.com/harlan-zw/nuxt-schema-org/commit/c938ea0))
+- Bump deps ([8b90c61](https://github.com/harlan-zw/nuxt-schema-org/commit/8b90c61))
+- Bump ([342ab34](https://github.com/harlan-zw/nuxt-schema-org/commit/342ab34))
+
+### 🤖 CI
+
+- Bump pnpm/action-setup to v6 (Node 24 runtime) ([198a2f0](https://github.com/harlan-zw/nuxt-schema-org/commit/198a2f0))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.1.3...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.1.3...main)
