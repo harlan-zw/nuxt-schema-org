@@ -1,3 +1,4 @@
+import type { MaybeRefOrGetter } from 'vue'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
 import { defineNuxtPlugin, useError, useRuntimeConfig } from 'nuxt/app'
@@ -29,9 +30,28 @@ export default defineNuxtPlugin({
     // we need a name by default
     if (!nuxtApp.$i18n)
       return
+    interface SchemaOrgI18nLocale {
+      code: string
+      domain?: string
+      language?: string
+      iso?: string
+    }
+    interface SchemaOrgI18n {
+      defaultLocale?: MaybeRefOrGetter<string>
+      locales: { value: SchemaOrgI18nLocale[] }
+      localeProperties: { value: { language?: string } }
+    }
+
     const localePath = useLocalePath()
-    // @ts-expect-error untyped
-    const locales = nuxtApp.$i18n?.locales.value || []
+    const i18n = nuxtApp.$i18n as SchemaOrgI18n
+    const locales = i18n.locales.value || []
+    const resolveDefaultLocale = (): SchemaOrgI18nLocale | undefined => {
+      const defaultLocaleCode = toValue(i18n.defaultLocale)
+      const defaultSiteLocale = toValue(siteConfig.defaultLocale)
+      return locales.find(locale => locale.code === defaultLocaleCode)
+        || locales.find(locale => locale.code === defaultSiteLocale || locale.language === defaultSiteLocale || locale.iso === defaultSiteLocale)
+        || (defaultLocaleCode || defaultSiteLocale ? { code: defaultLocaleCode || defaultSiteLocale } : undefined)
+    }
     // init vendors
     const siteUrl = () => pathResolver(localePath('index')).value
     const websiteId = () => `${siteUrl()}#website`
@@ -39,8 +59,7 @@ export default defineNuxtPlugin({
       '@id': websiteId,
       'url': siteUrl,
       'name': () => toValue(siteConfig.name) || '',
-      // @ts-expect-error untyped
-      'inLanguage': () => toValue(nuxtApp.$i18n.localeProperties.value.language) || '',
+      'inLanguage': () => toValue(i18n.localeProperties.value.language) || '',
       'description': () => toValue(siteConfig.description) || '',
     })
     const nuxtBase = useRuntimeConfig().app.baseURL || '/'
@@ -55,16 +74,16 @@ export default defineNuxtPlugin({
       }
       return pathResolver(localePath('index', locale.code)).value
     }
-    if (siteConfig.defaultLocale) {
-      if (siteConfig.currentLocale && siteConfig.currentLocale !== siteConfig.defaultLocale) {
+    if (toValue(siteConfig.defaultLocale)) {
+      if (toValue(siteConfig.currentLocale) && toValue(siteConfig.currentLocale) !== toValue(siteConfig.defaultLocale)) {
         website.translationOfWork = {
           '@type': 'WebSite',
-          '@id': () => `${resolveIdForLocale({ code: toValue(siteConfig.defaultLocale) })}#website`,
+          '@id': () => `${resolveIdForLocale(resolveDefaultLocale()!)}#website`,
         }
       }
       else {
         website.workTranslation = locales
-          .filter(locale => locale.code !== siteConfig.defaultLocale)
+          .filter(locale => locale.code !== resolveDefaultLocale()?.code)
           .map((locale) => {
             return {
               '@type': 'WebSite',
