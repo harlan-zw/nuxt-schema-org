@@ -14,7 +14,8 @@ import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:defaults',
   dependsOn: [
-    'nuxt-schema-org:init',
+    // @ts-expect-error generated only when the i18n integration is enabled
+    'nuxt-schema-org:meta',
   ],
   setup(nuxtApp) {
     const error = useError()
@@ -95,6 +96,7 @@ export default defineNuxtPlugin({
     useSchemaOrg([
       website,
       defineWebPage({
+        description: () => toValue(siteConfig.description) || '',
         isPartOf: {
           '@id': websiteId(),
         },

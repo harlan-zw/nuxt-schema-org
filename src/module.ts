@@ -179,11 +179,18 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
     // @ts-expect-error untyped
-    const pluginPath = (hasNuxtModule('@nuxtjs/i18n') && nuxt.options.i18n?.locales) ? './runtime/app/plugins/i18n' : './runtime/app/plugins'
+    const hasI18n = hasNuxtModule('@nuxtjs/i18n') && nuxt.options.i18n?.locales
+    const pluginPath = hasI18n ? './runtime/app/plugins/i18n' : './runtime/app/plugins'
     addPlugin({
       src: resolve(pluginPath, 'init'),
       mode: config.reactive ? 'all' : 'server',
     })
+    if (hasI18n) {
+      addPlugin({
+        src: resolve(pluginPath, 'meta'),
+        mode: config.reactive ? 'all' : 'server',
+      })
+    }
     if (config.defaults) {
       addPlugin({
         src: resolve(pluginPath, 'defaults'),

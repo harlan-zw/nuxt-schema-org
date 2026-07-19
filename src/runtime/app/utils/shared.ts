@@ -29,10 +29,12 @@ function resolvePathDirect(siteConfig: Record<string, any>, path: string, option
 }
 
 export function initPlugin(nuxtApp: NuxtApp) {
-  const head = injectHead()
-  const config = useSchemaOrgConfig()
-  const route = useRoute()
+  initSchemaOrgMeta()
+  initSchemaOrgHead(nuxtApp)
+}
 
+export function initSchemaOrgMeta() {
+  const route = useRoute()
   const siteConfig = useSiteConfig()
 
   // on the server, resolve paths directly without creating computed refs to avoid leaking reactive scopes
@@ -74,6 +76,12 @@ export function initPlugin(nuxtApp: NuxtApp) {
       })
     }, { deep: true })
   }
+}
+
+export function initSchemaOrgHead(nuxtApp: NuxtApp) {
+  const head = injectHead()
+  const config = useSchemaOrgConfig()
+  const siteConfig = useSiteConfig()
   const SchemaOrgPlugin = schemaOrgVue.UnheadSchemaOrg ?? (schemaOrgVue as any).SchemaOrgUnheadPlugin
   head.use(
     SchemaOrgPlugin({} as _MetaInput, async () => {

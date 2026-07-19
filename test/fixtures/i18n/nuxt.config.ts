@@ -4,6 +4,8 @@ import NuxtSchemaOrg from '../../../src/module'
 export default defineNuxtConfig({
   modules: [
     NuxtSchemaOrg,
+    // Regression: Schema.org must initialise before nuxt-seo-utils head plugins.
+    'nuxt-seo-utils',
     '@nuxtjs/i18n',
   ],
   schemaOrg: {
