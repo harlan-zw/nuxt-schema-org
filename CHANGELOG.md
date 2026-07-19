@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v6.2.2...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.2...main)
+
+### 🩹 Fixes
+
+- **i18n:** Resolve default locale ids from code ([#132](https://github.com/harlan-zw/nuxt-schema-org/pull/132))
+
+### 🏡 Chore
+
+- Bump ([c458dbd](https://github.com/harlan-zw/nuxt-schema-org/commit/c458dbd))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.2.1...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.1...main)
