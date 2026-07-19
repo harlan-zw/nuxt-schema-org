@@ -26,6 +26,7 @@ minimumReleaseAgeExclude:
   - '@nuxt/schema@4.5.0'
   - '@nuxt/vite-builder@4.5.0'
   - nuxt@4.5.0
+  - nuxt-seo-utils@8.3.2
 shellEmulator: true
 
 trustPolicy: no-downgrade
@@ -61,6 +62,7 @@ catalog:
   eslint-plugin-harlanzw: ^0.17.0
   happy-dom: ^20.10.6
   nuxt: ^4.5.0
+  nuxt-seo-utils: ^8.3.2
   nuxt-site-config: ^4.1.1
   nuxtseo-layer-devtools: ^5.3.2
   nuxtseo-shared: ^5.3.2

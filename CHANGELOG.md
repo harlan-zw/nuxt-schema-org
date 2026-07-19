@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v6.2.5...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.5...main)
+
+### 🩹 Fixes
+
+- Broken bundle ([821272c](https://github.com/harlan-zw/nuxt-schema-org/commit/821272c))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.2.4...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.4...main)
