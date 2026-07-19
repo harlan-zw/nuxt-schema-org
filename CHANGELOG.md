@@ -1,6 +1,36 @@
 # Changelog
 
 
+## v6.2.4...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.4...main)
+
+### 🏡 Chore
+
+- Bump deps ([53e596b](https://github.com/harlan-zw/nuxt-schema-org/commit/53e596b))
+- Type ([7e2f207](https://github.com/harlan-zw/nuxt-schema-org/commit/7e2f207))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
+## v6.2.3...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.3...main)
+
+### 📖 Documentation
+
+- Content audit sweep (grammar, links, structure) ([#133](https://github.com/harlan-zw/nuxt-schema-org/pull/133))
+
+### 🏡 Chore
+
+- Bumpo deps ([6877a5e](https://github.com/harlan-zw/nuxt-schema-org/commit/6877a5e))
+- Bumpo deps ([7355028](https://github.com/harlan-zw/nuxt-schema-org/commit/7355028))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.2.2...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.2...main)
