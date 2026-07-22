@@ -33,19 +33,9 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHead
     tagPriority: 'high',
     ...config.scriptAttributes,
   }
-  // simple usage for dev
-  if (import.meta.dev) {
-    return useHead({
-      script: [script],
-    })
-  }
-  if (import.meta.server) {
-    // we don't need to use the direct composable as the plugin is already registered
-    return useHead({
-      script: [script],
-    })
-  }
-  else if (config?.reactive) {
+  // dev always needs it for the overlay; server doesn't need the direct
+  // composable as the plugin is already registered; client only when reactive
+  if (import.meta.dev || import.meta.server || config?.reactive) {
     return useHead({
       script: [script],
     })

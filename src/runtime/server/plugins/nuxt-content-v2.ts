@@ -5,6 +5,7 @@ import type { UnheadAugmentation } from '../../types'
 import { defineWebPage } from '@unhead/schema-org/vue'
 import { defu } from 'defu'
 import { defineNitroPlugin } from 'nitropack/runtime'
+import { buildSchemaOrgContentScript } from '../../utils/content'
 import { useSchemaOrgConfig } from '../utils/config'
 
 export default defineNitroPlugin((nitroApp) => {
@@ -17,28 +18,7 @@ export default defineNitroPlugin((nitroApp) => {
     if (!content.schemaOrg) {
       return
     }
-    const nodes = Array.isArray(content.schemaOrg) ? content.schemaOrg : [defineWebPage(content.schemaOrg)]
-
-    // we need to recursively go through all nodes and swap `type` for `@type`
-    const replaceType = (node: any) => {
-      if (node.type) {
-        node['@type'] = node.type
-        delete node.type
-      }
-      Object.entries(node).forEach(([, value]) => {
-        if (typeof value === 'object') {
-          replaceType(value)
-        }
-      })
-      return node
-    }
-
-    const script = {
-      type: 'application/ld+json',
-      key: 'schema-org-graph',
-      nodes: nodes.map(replaceType),
-      ...(config.scriptAttributes || {}),
-    } as Script & UnheadAugmentation<any>['script']
+    const script = buildSchemaOrgContentScript(content.schemaOrg, defineWebPage, config.scriptAttributes) as Script & UnheadAugmentation<any>['script']
 
     content.head = defu(<UseHeadInput<any>> {
       script: [script],

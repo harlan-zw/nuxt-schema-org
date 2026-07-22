@@ -18,8 +18,9 @@ import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
-import { extendTypes, resolveNuxtContentVersion } from './kit'
-import { resolveHostUnheadMajor, resolveSerializableIdentityConfig, schemaOrgVendor } from './unhead-compat'
+import { extendTypes, resolveHostUnheadMajor, resolveNuxtContentVersion } from './kit'
+import { buildSchemaOrgContentScript } from './runtime/utils/content'
+import { resolveSerializableIdentityConfig, schemaOrgVendor } from './unhead-compat'
 
 type SchemaOrgScriptAttributes = Partial<Script> & Record<string, unknown>
 
@@ -209,28 +210,7 @@ export default defineNuxtModule<ModuleOptions>({
           return
         }
         const content = ctx.content
-        const nodes = Array.isArray(content.schemaOrg) ? content.schemaOrg : [defineWebPage(content.schemaOrg)]
-
-        // we need to recursively go through all nodes and swap `type` for `@type`
-        const replaceType = (node: any) => {
-          if (node.type) {
-            node['@type'] = node.type
-            delete node.type
-          }
-          Object.entries(node).forEach(([, value]) => {
-            if (typeof value === 'object') {
-              replaceType(value)
-            }
-          })
-          return node
-        }
-
-        const script = {
-          type: 'application/ld+json',
-          key: 'schema-org-graph',
-          nodes: nodes.map(replaceType),
-          ...(config.scriptAttributes || {}),
-        } as Script & { nodes: any }
+        const script = buildSchemaOrgContentScript(content.schemaOrg, defineWebPage, config.scriptAttributes) as Script & { nodes: any }
 
         content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
         ctx.content = content
