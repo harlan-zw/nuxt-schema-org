@@ -3,7 +3,8 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { defineLocalBusiness, definePerson } from '@unhead/schema-org'
 import { describe, expect, it } from 'vitest'
-import { resolveHostUnheadMajor, resolveSerializableIdentityConfig } from '../../src/unhead-compat'
+import { resolveHostUnheadMajor } from '../../src/kit'
+import { resolveSerializableIdentityConfig } from '../../src/unhead-compat'
 
 function writePackage(root: string, id: string, version: string) {
   const packageDir = join(root, 'node_modules', ...id.split('/'))
