@@ -12,10 +12,10 @@ import {
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
-  useLogger,
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
+import { useModuleLogger } from 'nuxtseo-shared/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, resolveHostUnheadMajor, resolveNuxtContentVersion } from './kit'
@@ -107,8 +107,7 @@ export default defineNuxtModule<ModuleOptions>({
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
     const { name, version } = await readPackageJSON(resolve('../package.json'))
-    const logger = useLogger(name)
-    logger.level = config.debug ? 4 : 3
+    const logger = useModuleLogger(name, config, nuxt)
     if (config.enabled === false) {
       logger.debug('The module is disabled, skipping setup.')
       return
