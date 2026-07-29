@@ -1,9 +1,5 @@
 import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org/vue'
 import type { NuxtApp } from 'nuxt/app'
-// namespace import so the plugin export can be feature-detected across majors:
-// unhead-schema-org v2 exports `SchemaOrgUnheadPlugin`, v3 renamed it to
-// `UnheadSchemaOrg` (same signature). A static named import of either name
-// would fail to link against the other major.
 import * as schemaOrgVue from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
 import { useRoute, useRuntimeConfig } from 'nuxt/app'
@@ -16,6 +12,12 @@ import {
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
+
+type SchemaOrgPlugin = (
+  config: _MetaInput,
+  resolveMeta: () => Promise<_MetaInput>,
+  options: NonNullable<Parameters<typeof schemaOrgVue.UnheadSchemaOrg>[2]>,
+) => ReturnType<typeof schemaOrgVue.UnheadSchemaOrg>
 
 function resolvePathDirect(siteConfig: Record<string, any>, path: string, options: { absolute?: boolean, withBase?: boolean, canonical?: boolean }) {
   const nuxtBase = useRuntimeConfig().app.baseURL || '/'
@@ -82,9 +84,9 @@ export function initSchemaOrgHead(nuxtApp: NuxtApp) {
   const head = injectHead()
   const config = useSchemaOrgConfig()
   const siteConfig = useSiteConfig()
-  const SchemaOrgPlugin = schemaOrgVue.UnheadSchemaOrg ?? (schemaOrgVue as any).SchemaOrgUnheadPlugin
+  const schemaOrgPlugin = schemaOrgVue.UnheadSchemaOrg as SchemaOrgPlugin
   head.use(
-    SchemaOrgPlugin({} as _MetaInput, async () => {
+    schemaOrgPlugin({} as _MetaInput, async () => {
       const meta = {} as MetaInput
       // call hook
       await nuxtApp.hooks.callHook('schema-org:meta', meta)
