@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v6.2.6...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.6...main)
+
+### 🩹 Fixes
+
+- Broken plugin order ([9cb81aa](https://github.com/harlan-zw/nuxt-schema-org/commit/9cb81aa))
+
+### 🏡 Chore
+
+- Bump deps ([da5188d](https://github.com/harlan-zw/nuxt-schema-org/commit/da5188d))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.2.5...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.5...main)
