@@ -32,8 +32,8 @@ const DIST_ENTRIES = [
 ]
 
 const VENDORS = [
-  { pkg: '@unhead/schema-org', out: 'schema-org-v3' },
-  { pkg: '@unhead/schema-org-v2', out: 'schema-org-v2' },
+  { pkg: '@unhead/schema-org', out: 'schema-org-v3', major: 3 },
+  { pkg: '@unhead/schema-org-v2', out: 'schema-org-v2', major: 2 },
 ]
 
 const V2_VUE_EXTRA_RESOLVERS = [
@@ -185,9 +185,11 @@ function validateRelativeRuntimeImports(outDir) {
 
 rmSync(vendorRoot, { recursive: true, force: true })
 
-for (const { pkg, out } of VENDORS) {
+for (const { pkg, out, major } of VENDORS) {
   const pkgJsonPath = await resolvePackageJSON(pkg, { url: repoRoot })
   const { version } = await readPackageJSON(pkgJsonPath)
+  if (Number.parseInt(version, 10) !== major)
+    throw new Error(`${pkg} must resolve to schema-org v${major}, received v${version}`)
   const pkgDir = dirname(pkgJsonPath)
   const outDir = join(vendorRoot, out)
   mkdirSync(outDir, { recursive: true })
