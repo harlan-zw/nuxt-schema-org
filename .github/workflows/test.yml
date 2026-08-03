@@ -16,6 +16,8 @@ permissions:
 jobs:
   ci:
     uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@main
+    with:
+      test-command: pnpm test:run
 
   # Regression guard for #114: the module ships both @unhead/schema-org majors and
   # must alias to the one matching the host's unhead. The main suite runs on the

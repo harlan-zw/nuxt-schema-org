@@ -15,7 +15,7 @@ import {
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
-import { useModuleLogger } from 'nuxtseo-shared/kit'
+import { setupNitroRuntimeCompatibility, useModuleLogger } from 'nuxtseo-shared/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, resolveHostUnheadMajor, resolveNuxtContentVersion } from './kit'
@@ -112,6 +112,7 @@ export default defineNuxtModule<ModuleOptions>({
       logger.debug('The module is disabled, skipping setup.')
       return
     }
+    setupNitroRuntimeCompatibility(nuxt)
     if (!nuxt.options.ssr && nuxt.options.dev)
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
 

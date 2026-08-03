@@ -1,4 +1,4 @@
-import { defineEventHandler } from 'h3'
+import { defineEventHandler } from '#nuxtseo/h3'
 import { getNitroOrigin } from '#site-config/server/composables/getNitroOrigin'
 import { getSiteConfig } from '#site-config/server/composables/getSiteConfig'
 import { useSchemaOrgConfig } from '../../utils/config'

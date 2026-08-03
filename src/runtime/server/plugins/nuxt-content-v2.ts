@@ -4,7 +4,7 @@ import type { Script, UseHeadInput } from '@unhead/vue/types'
 import type { UnheadAugmentation } from '../../types'
 import { defineWebPage } from '@unhead/schema-org/vue'
 import { defu } from 'defu'
-import { defineNitroPlugin } from 'nitropack/runtime'
+import { defineNitroPlugin } from '#nuxtseo/nitro'
 import { buildSchemaOrgContentScript } from '../../utils/content'
 import { useSchemaOrgConfig } from '../utils/config'
 
