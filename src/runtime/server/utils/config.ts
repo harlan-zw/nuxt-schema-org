@@ -1,7 +1,7 @@
-import type { H3Event } from 'h3'
+import type { H3Event } from '#nuxtseo/h3'
 import type { ModuleRuntimeConfig } from '#schema-org/types'
 import { defu } from 'defu'
-import { useRuntimeConfig } from 'nitropack/runtime'
+import { useRuntimeConfig } from '#nuxtseo/nitro'
 
 export function useSchemaOrgConfig(e?: H3Event) {
   const runtimeConfig = useRuntimeConfig(e)

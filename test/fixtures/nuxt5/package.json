@@ -1,0 +1,22 @@
+{
+  "name": "nuxt-schema-org-nuxt5-fixture",
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.17.0",
+  "scripts": {
+    "test": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.server.json && nuxt build && node test.mjs"
+  },
+  "dependencies": {
+    "nitro": "catalog:",
+    "nuxt": "catalog:",
+    "nuxt-schema-org": "file:./nuxt-schema-org-6.2.8.tgz",
+    "nuxt-site-config": "catalog:",
+    "nuxtseo-shared": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

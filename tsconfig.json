@@ -8,6 +8,7 @@
   "exclude": [
     "devtools",
     "dist",
-    "examples"
+    "examples",
+    "test/fixtures/nuxt5"
   ]
 }
