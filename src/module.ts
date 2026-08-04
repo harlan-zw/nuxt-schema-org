@@ -12,6 +12,7 @@ import {
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
+  resolveModule,
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
@@ -113,6 +114,7 @@ export default defineNuxtModule<ModuleOptions>({
       return
     }
     setupNitroRuntimeCompatibility(nuxt)
+    nuxt.options.nitro.alias!.ofetch ||= resolveModule('ofetch', { url: new URL(import.meta.url) })
     if (!nuxt.options.ssr && nuxt.options.dev)
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
 
