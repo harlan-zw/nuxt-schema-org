@@ -116,4 +116,10 @@ describe('pages', () => {
       }
     `)
   })
+  it.each(['/en/', '/ja/'])('links the identity from locale homepage %s', async (path) => {
+    const schemaOrg = await $fetchSchemaOrg(path)
+    const webPage = schemaOrg['@graph'].find(node => node['@type'] === 'WebPage')
+
+    expect(webPage.about).toEqual({ '@id': 'https://nuxtseo.com/#identity' })
+  })
 })
