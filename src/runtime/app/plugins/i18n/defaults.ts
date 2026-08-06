@@ -3,7 +3,7 @@ import type { MaybeRefOrGetter } from 'vue'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
 import { defineNuxtPlugin, useError, useRoute, useRuntimeConfig } from 'nuxt/app'
-import { hasProtocol, withHttps, withTrailingSlash } from 'ufo'
+import { hasProtocol, withHttps, withoutTrailingSlash, withTrailingSlash } from 'ufo'
 import { computed, toValue } from 'vue'
 // @ts-expect-error untyped
 import { useLocalePath } from '#i18n'
@@ -11,7 +11,6 @@ import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from '../../utils/config'
-import { resolveLocaleIdentityRelation } from '../../utils/i18n'
 import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 
 export default defineNuxtPlugin({
@@ -107,11 +106,10 @@ export default defineNuxtPlugin({
     useSchemaOrg([
       website,
       defineWebPage(computed(() => ({
-        about: resolveLocaleIdentityRelation({
-          currentPath: route.path,
-          homePath: localePath('index'),
-          identityId: (schemaOrgConfig.identity || toValue(siteConfig.identity)) ? identityId() : undefined,
-        }),
+        about: (schemaOrgConfig.identity || toValue(siteConfig.identity))
+          && withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
+          ? { '@id': identityId() }
+          : undefined,
         description: toValue(siteConfig.description) || '',
         isPartOf: {
           '@id': websiteId(),
