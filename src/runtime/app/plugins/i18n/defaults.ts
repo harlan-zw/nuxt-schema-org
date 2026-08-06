@@ -1,14 +1,16 @@
+import type { Id } from '@unhead/schema-org'
 import type { MaybeRefOrGetter } from 'vue'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
-import { defineNuxtPlugin, useError, useRuntimeConfig } from 'nuxt/app'
-import { hasProtocol, withHttps } from 'ufo'
-import { toValue } from 'vue'
+import { defineNuxtPlugin, useError, useRoute, useRuntimeConfig } from 'nuxt/app'
+import { hasProtocol, withHttps, withoutTrailingSlash, withTrailingSlash } from 'ufo'
+import { computed, toValue } from 'vue'
 // @ts-expect-error untyped
 import { useLocalePath } from '#i18n'
 import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../../composables/useSchemaOrg'
+import { useSchemaOrgConfig } from '../../utils/config'
 import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 
 export default defineNuxtPlugin({
@@ -23,9 +25,16 @@ export default defineNuxtPlugin({
       return
     }
     const siteConfig = useSiteConfig()
+    const schemaOrgConfig = useSchemaOrgConfig()
+    const route = useRoute()
     const pathResolver = createSitePathResolver({
       canonical: true,
       absolute: true,
+    })
+    const identityPathResolver = createSitePathResolver({
+      canonical: true,
+      absolute: true,
+      withBase: true,
     })
 
     // we need a name by default
@@ -55,6 +64,7 @@ export default defineNuxtPlugin({
     }
     // init vendors
     const siteUrl = () => pathResolver(localePath('index')).value
+    const identityId = () => `${withTrailingSlash(identityPathResolver('/').value)}#identity` as Id
     const websiteId = () => `${siteUrl()}#website`
     const website = defineWebSite({
       '@id': websiteId,
@@ -95,12 +105,17 @@ export default defineNuxtPlugin({
     }
     useSchemaOrg([
       website,
-      defineWebPage({
-        description: () => toValue(siteConfig.description) || '',
+      defineWebPage(computed(() => ({
+        // null blocks identity resolver defaults and is stripped from the graph
+        about: (schemaOrgConfig.identity || toValue(siteConfig.identity))
+          && withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
+          ? { '@id': identityId() }
+          : null,
+        description: toValue(siteConfig.description) || '',
         isPartOf: {
           '@id': websiteId(),
         },
-      }),
+      }))),
     ])
     maybeAddIdentitySchemaOrg()
   },

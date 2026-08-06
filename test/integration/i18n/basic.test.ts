@@ -116,4 +116,20 @@ describe('pages', () => {
       }
     `)
   })
+  it.each(['/en/', '/ja/'])('links the identity from locale homepage %s', async (path) => {
+    const schemaOrg = await $fetchSchemaOrg(path)
+    const webPage = schemaOrg['@graph'].find(node => node['@type'] === 'WebPage')
+
+    expect(webPage.about).toEqual({ '@id': 'https://nuxtseo.com/#identity' })
+  })
+  it('does not link the identity from nested locale pages', async () => {
+    const schemaOrg = await $fetchSchemaOrg('/ja/about')
+    const webPage = schemaOrg['@graph'].find((node) => {
+      const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']]
+      return types.includes('WebPage')
+    })
+
+    expect(webPage).toBeDefined()
+    expect(webPage).not.toHaveProperty('about')
+  })
 })
