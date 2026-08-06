@@ -106,10 +106,11 @@ export default defineNuxtPlugin({
     useSchemaOrg([
       website,
       defineWebPage(computed(() => ({
+        // null blocks identity resolver defaults and is stripped from the graph
         about: (schemaOrgConfig.identity || toValue(siteConfig.identity))
           && withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
           ? { '@id': identityId() }
-          : undefined,
+          : null,
         description: toValue(siteConfig.description) || '',
         isPartOf: {
           '@id': websiteId(),
