@@ -65,7 +65,7 @@ catalog:
   nuxt-seo-utils: ^8.3.2
   nuxt-site-config: ^4.1.4
   nuxtseo-layer-devtools: ^5.3.6
-  nuxtseo-shared: ^5.3.9
+  nuxtseo-shared: ^5.3.11
   pkg-types: ^2.3.1
   typescript: 6.0.3
   ufo: ^1.6.4
