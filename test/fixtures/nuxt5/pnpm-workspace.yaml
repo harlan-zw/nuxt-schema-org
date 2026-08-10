@@ -2,8 +2,8 @@ blockExoticSubdeps: false
 catalog:
   nitro: 3.0.260610-beta
   nuxt: npm:nuxt-nightly@5.0.0-29762711.192612c7
-  nuxt-site-config: https://pkg.pr.new/nuxt-site-config@108
-  nuxtseo-shared: https://pkg.pr.new/nuxtseo-shared@613
+  nuxt-site-config: https://pkg.pr.new/nuxt-site-config@3e35397
+  nuxtseo-shared: ^5.3.12
   typescript: 6.0.3
   vue: ^3.5.40
   vue-router: ^5.2.0
@@ -20,6 +20,7 @@ minimumReleaseAgeExclude:
   - nuxtseo-shared@5.3.8
   - nuxtseo-shared@5.3.9
   - nuxtseo-shared@5.3.11
+  - nuxtseo-shared@5.3.12
 overrides:
   '@unhead/vue': ^3.3.1
   unhead: ^3.3.1
