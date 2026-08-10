@@ -1,16 +1,19 @@
 catalog:
   nitro: 3.0.260610-beta
   nuxt: npm:nuxt-nightly@5.0.0-29762711.192612c7
-  nuxt-site-config: ^4.1.4
-  nuxtseo-shared: ^5.3.9
+  nuxt-site-config: ^4.2.1
+  nuxtseo-shared: ^5.3.12
   typescript: 6.0.3
   vue: ^3.5.40
   vue-router: ^5.2.0
   vue-tsc: ^3.3.7
 minimumReleaseAgeExclude:
   - nuxt-site-config@4.1.4
+  - nuxt-site-config@4.2.1
   - nuxt-site-config-kit@4.1.4
+  - nuxt-site-config-kit@4.2.1
   - site-config-stack@4.1.4
+  - site-config-stack@4.2.1
   - '@nuxt/kit-nightly@5.0.0-29762711.192612c7'
   - '@nuxt/nitro-server-nightly@5.0.0-29762711.192612c7'
   - '@nuxt/schema-nightly@5.0.0-29762711.192612c7'
@@ -18,6 +21,8 @@ minimumReleaseAgeExclude:
   - nuxt-nightly@5.0.0-29762711.192612c7
   - nuxtseo-shared@5.3.8
   - nuxtseo-shared@5.3.9
+  - nuxtseo-shared@5.3.11
+  - nuxtseo-shared@5.3.12
 overrides:
   '@unhead/vue': ^3.3.1
   unhead: ^3.3.1

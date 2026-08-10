@@ -19,8 +19,11 @@ minimumReleaseAgeExclude:
   - '@vue/shared@3.5.38'
   - vue@3.5.38
   - nuxt-site-config-kit@4.1.4
+  - nuxt-site-config-kit@4.2.1
   - nuxt-site-config@4.1.4
+  - nuxt-site-config@4.2.1
   - site-config-stack@4.1.4
+  - site-config-stack@4.2.1
   - '@nuxt/kit@4.5.0'
   - '@nuxt/nitro-server@4.5.0'
   - '@nuxt/schema@4.5.0'
@@ -63,9 +66,9 @@ catalog:
   happy-dom: ^20.11.2
   nuxt: ^4.5.2
   nuxt-seo-utils: ^8.3.3
-  nuxt-site-config: ^4.2.0
+  nuxt-site-config: ^4.2.1
   nuxtseo-layer-devtools: ^5.3.11
-  nuxtseo-shared: ^5.3.11
+  nuxtseo-shared: ^5.3.12
   pkg-types: ^2.3.1
   typescript: 6.0.3
   ufo: ^1.6.4
