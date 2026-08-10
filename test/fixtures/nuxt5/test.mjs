@@ -5,6 +5,7 @@ import { readFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
 
 async function main() {
+  const rootPackage = JSON.parse(await readFile(new URL('../../../package.json', import.meta.url), 'utf8'))
   const portServer = createServer()
   portServer.listen(0, '127.0.0.1')
   await once(portServer, 'listening')
@@ -49,7 +50,7 @@ async function main() {
     const response = await waitForServer()
     const body = await response.json()
     assert.equal(body.siteConfig.url, 'https://schema-org.example.com')
-    assert.equal(body.runtimeConfig.version, '6.2.8')
+    assert.equal(body.runtimeConfig.version, rootPackage.version)
   }
   finally {
     server.kill()

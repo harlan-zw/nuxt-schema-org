@@ -60,7 +60,7 @@
     "typecheck": "tsc --noEmit ",
     "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest",
     "test:run": "pnpm test -- --run && pnpm test:nuxt5",
-    "test:nuxt5": "pnpm pack --pack-destination test/fixtures/nuxt5 && pnpm install --dir test/fixtures/nuxt5 --no-frozen-lockfile --update-checksums && pnpm --dir test/fixtures/nuxt5 test",
+    "test:nuxt5": "pnpm pack --out test/fixtures/nuxt5/nuxt-schema-org.tgz && pnpm install --dir test/fixtures/nuxt5 --no-frozen-lockfile --update-checksums && pnpm --dir test/fixtures/nuxt5 test",
     "test:compat-v2": "node test/compat-v2/run.mjs",
     "test:attw": "attw --pack"
   },

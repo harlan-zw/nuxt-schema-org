@@ -1,6 +1,31 @@
 # Changelog
 
 
+## v6.2.8...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.8...main)
+
+### 🚀 Enhancements
+
+- **ci:** Add package size reporting ([#144](https://github.com/harlan-zw/nuxt-schema-org/pull/144))
+
+### 🩹 Fixes
+
+- Support Nitro 3 runtime imports ([#143](https://github.com/harlan-zw/nuxt-schema-org/pull/143))
+- Use shared Nitro fetch alias ([#145](https://github.com/harlan-zw/nuxt-schema-org/pull/145))
+- **i18n:** Preserve identity links on locale homepages ([#146](https://github.com/harlan-zw/nuxt-schema-org/pull/146))
+- Accept computed schema arrays ([#148](https://github.com/harlan-zw/nuxt-schema-org/pull/148))
+
+### 🏡 Chore
+
+- Bump deps ([368a0ef](https://github.com/harlan-zw/nuxt-schema-org/commit/368a0ef))
+- Restore canonical i18n domain URLs ([#147](https://github.com/harlan-zw/nuxt-schema-org/pull/147))
+- Bump deps ([2c5a5ac](https://github.com/harlan-zw/nuxt-schema-org/commit/2c5a5ac))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.2.7...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.7...main)

@@ -46,8 +46,8 @@ importers:
         specifier: 'catalog:'
         version: nuxt-nightly@5.0.0-29762711.192612c7(@oxc-project/types@0.142.0)(@vitejs/devtools-kit@0.4.10(cac@7.0.0)(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0))(@vitejs/devtools@0.4.10)(@vue/compiler-sfc@3.5.40)(cac@7.0.0)(crossws@0.4.10(srvx@0.11.22))(db0@0.3.4)(devframe@0.7.16(cac@7.0.0)(srvx@0.11.22)(typescript@6.0.3))(dotenv@17.4.2)(giget@3.3.1)(jiti@2.7.0)(lightningcss@1.33.0)(magicast@0.5.4)(mlly@1.8.2)(nuxt-nightly@5.0.0-29762711.192612c7)(oxc-parser@0.140.0)(rolldown@1.2.1)(srvx@0.11.22)(typescript@6.0.3)(valibot@1.4.2(typescript@6.0.3))(vite@8.2.0)(vue-tsc@3.3.9(typescript@6.0.3))(yaml@2.9.0)
       nuxt-schema-org:
-        specifier: file:./nuxt-schema-org-6.2.8.tgz
-        version: file:nuxt-schema-org-6.2.8.tgz(@nuxt/schema@4.5.1)(@unhead/vue@3.3.1(@oxc-project/types@0.142.0)(@vitejs/devtools-kit@0.4.10(cac@7.0.0)(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0))(lightningcss@1.33.0)(oxc-parser@0.140.0)(rolldown@1.2.1)(vite@8.2.0)(vue@3.5.40(typescript@6.0.3)))(magic-string@1.1.0)(magicast@0.5.4)(nuxt-nightly@5.0.0-29762711.192612c7)(oxc-parser@0.140.0)(rolldown@1.2.1)(unhead@3.3.1(rolldown@1.2.1)(vite@8.2.0))(unplugin@3.3.0(rolldown@1.2.1)(vite@8.2.0))(vite@8.2.0)(vue@3.5.40(typescript@6.0.3))(zod@4.4.3)
+        specifier: file:./nuxt-schema-org.tgz
+        version: file:nuxt-schema-org.tgz(@nuxt/schema@4.5.1)(@unhead/vue@3.3.1(@oxc-project/types@0.142.0)(@vitejs/devtools-kit@0.4.10(cac@7.0.0)(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0))(lightningcss@1.33.0)(oxc-parser@0.140.0)(rolldown@1.2.1)(vite@8.2.0)(vue@3.5.40(typescript@6.0.3)))(magic-string@1.1.0)(magicast@0.5.4)(nuxt-nightly@5.0.0-29762711.192612c7)(oxc-parser@0.140.0)(rolldown@1.2.1)(unhead@3.3.1(rolldown@1.2.1)(vite@8.2.0))(unplugin@3.3.0(rolldown@1.2.1)(vite@8.2.0))(vite@8.2.0)(vue@3.5.40(typescript@6.0.3))(zod@4.4.3)
       nuxt-site-config:
         specifier: 'catalog:'
         version: 4.2.1(@nuxt/schema@4.5.1)(magic-string@1.1.0)(magicast@0.5.4)(nuxt-nightly@5.0.0-29762711.192612c7)(oxc-parser@0.140.0)(rolldown@1.2.1)(unplugin@3.3.0(rolldown@1.2.1)(vite@8.2.0))(vite@8.2.0)(vue@3.5.40(typescript@6.0.3))(zod@4.4.3)
@@ -713,6 +713,11 @@ packages:
 
   '@volar/typescript@2.4.28':
     resolution: {integrity: sha512-Ja6yvWrbis2QtN4ClAKreeUZPVYMARDYZl9LMEv1iQ1QdepB6wn0jTRxA9MftYmYa4DQ4k/DaSZpFPUfxl8giw==}
+    peerDependencies:
+      typescript: '*'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
 
   '@vue-macros/common@3.1.4':
     resolution: {integrity: sha512-/5Fv+6DgIcM9ajY05ZmKBv+LMX1M9A0X+IUwDRVdt67ciw8OV9bvG2r34p3RiEadlsQybjhKPRKNXDC8Bp23cw==}
@@ -1305,9 +1310,9 @@ packages:
       jiti:
         optional: true
 
-  nuxt-schema-org@file:nuxt-schema-org-6.2.8.tgz:
-    resolution: {integrity: sha512-/yloZ71KKhivU7c+IR6LZcTDcki0zywlHCDE2tmbru29oWxAJJer3X7B67ic/FWFn0HLPmQncMq4bmmCWcOggQ==, tarball: file:nuxt-schema-org-6.2.8.tgz}
-    version: 6.2.8
+  nuxt-schema-org@file:nuxt-schema-org.tgz:
+    resolution: {integrity: sha512-nIs/HwdEnvO5cNptk/0SePrkzDNxctHw3Ivu9qS8+pq1fXte3id31HGG7SemmMZOo+aZ06d6+LBK4ONZ4Tk8hw==, tarball: file:nuxt-schema-org.tgz}
+    version: 6.2.9
     peerDependencies:
       '@unhead/vue': ^3.3.1
       unhead: ^3.3.1
@@ -2810,11 +2815,13 @@ snapshots:
 
   '@volar/source-map@2.4.28': {}
 
-  '@volar/typescript@2.4.28':
+  '@volar/typescript@2.4.28(typescript@6.0.3)':
     dependencies:
       '@volar/language-core': 2.4.28
       path-browserify: 1.0.1
       vscode-uri: 3.1.0
+    optionalDependencies:
+      typescript: 6.0.3
 
   '@vue-macros/common@3.1.4(vue@3.5.40(typescript@6.0.3))':
     dependencies:
@@ -3503,7 +3510,7 @@ snapshots:
       - yaml
       - zephyr-agent
 
-  nuxt-schema-org@file:nuxt-schema-org-6.2.8.tgz(@nuxt/schema@4.5.1)(@unhead/vue@3.3.1(@oxc-project/types@0.142.0)(@vitejs/devtools-kit@0.4.10(cac@7.0.0)(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0))(lightningcss@1.33.0)(oxc-parser@0.140.0)(rolldown@1.2.1)(vite@8.2.0)(vue@3.5.40(typescript@6.0.3)))(magic-string@1.1.0)(magicast@0.5.4)(nuxt-nightly@5.0.0-29762711.192612c7)(oxc-parser@0.140.0)(rolldown@1.2.1)(unhead@3.3.1(rolldown@1.2.1)(vite@8.2.0))(unplugin@3.3.0(rolldown@1.2.1)(vite@8.2.0))(vite@8.2.0)(vue@3.5.40(typescript@6.0.3))(zod@4.4.3):
+  nuxt-schema-org@file:nuxt-schema-org.tgz(@nuxt/schema@4.5.1)(@unhead/vue@3.3.1(@oxc-project/types@0.142.0)(@vitejs/devtools-kit@0.4.10(cac@7.0.0)(srvx@0.11.22)(typescript@6.0.3)(vite@8.2.0))(lightningcss@1.33.0)(oxc-parser@0.140.0)(rolldown@1.2.1)(vite@8.2.0)(vue@3.5.40(typescript@6.0.3)))(magic-string@1.1.0)(magicast@0.5.4)(nuxt-nightly@5.0.0-29762711.192612c7)(oxc-parser@0.140.0)(rolldown@1.2.1)(unhead@3.3.1(rolldown@1.2.1)(vite@8.2.0))(unplugin@3.3.0(rolldown@1.2.1)(vite@8.2.0))(vite@8.2.0)(vue@3.5.40(typescript@6.0.3))(zod@4.4.3):
     dependencies:
       '@nuxt/kit': 4.5.2(magic-string@1.1.0)(magicast@0.5.4)(oxc-parser@0.140.0)(rolldown@1.2.1)(unplugin@3.3.0(rolldown@1.2.1)(vite@8.2.0))
       defu: 6.1.7
@@ -4048,7 +4055,7 @@ snapshots:
 
   vue-tsc@3.3.9(typescript@6.0.3):
     dependencies:
-      '@volar/typescript': 2.4.28
+      '@volar/typescript': 2.4.28(typescript@6.0.3)
       '@vue/language-core': 3.3.9
       typescript: 6.0.3
 

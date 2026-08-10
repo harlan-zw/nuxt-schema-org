@@ -17,6 +17,7 @@ jobs:
   ci:
     uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@main
     with:
+      playwright: false
       test-command: pnpm test:run
 
   # Regression guard for #114: the module ships both @unhead/schema-org majors and
