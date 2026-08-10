@@ -79,8 +79,8 @@ catalogs:
       specifier: ^4.2.1
       version: 4.2.1
     nuxtseo-layer-devtools:
-      specifier: ^5.3.11
-      version: 5.3.11
+      specifier: ^5.3.12
+      version: 5.3.12
     nuxtseo-shared:
       specifier: ^5.3.12
       version: 5.3.12
@@ -203,7 +203,7 @@ importers:
         version: 8.3.3(bbad3f8ecdfad3444f81466862621645)
       nuxtseo-layer-devtools:
         specifier: 'catalog:'
-        version: 5.3.11(66a38a39e3fe966a432eae42c4e8eeb4)
+        version: 5.3.12(66a38a39e3fe966a432eae42c4e8eeb4)
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -5936,22 +5936,8 @@ packages:
       '@types/node':
         optional: true
 
-  nuxtseo-layer-devtools@5.3.11:
-    resolution: {integrity: sha512-F1BzjfNv7NIqOul3NZd2SUZ4yYFoZQw7i75Hk028DegdYVslHbM7829tfhRMzy3SEsjKhJWY98eF86LOqfaqyw==}
-
-  nuxtseo-shared@5.3.11:
-    resolution: {integrity: sha512-+VItCvUnnohJAAXK4sM6RN6Mz1DQBcm3N+snrT1Og2phierTj+RIRCQ3kOWegbZxsLhXaWEXuQw/LLbzFr/wDg==}
-    peerDependencies:
-      '@nuxt/schema': ^3.16.0 || ^4.0.0 || ^5.0.0
-      nuxt: ^3.16.0 || ^4.0.0 || ^5.0.0
-      nuxt-site-config: ^3.2.0 || ^4.0.0
-      vue: ^3.5.41
-      zod: ^3.23.0 || ^4.0.0
-    peerDependenciesMeta:
-      nuxt-site-config:
-        optional: true
-      zod:
-        optional: true
+  nuxtseo-layer-devtools@5.3.12:
+    resolution: {integrity: sha512-NMc0oQnHlMHpuzhaZeTM30rNUHdDIrZK9VW3uIsoG98yKUWMh+r7WGZsj4iALAn5KE3H4mFtkWtIYaNxBk5jUw==}
 
   nuxtseo-shared@5.3.12:
     resolution: {integrity: sha512-fD/zlPWIYQ+tM+i9zGfcsPvOzJDgI+kVM7UPztF360wLN7e1fU7xO4Wbmq6bKhxLTboAuloJwYnv8igc7XOc/w==}
@@ -14769,7 +14755,7 @@ snapshots:
       - xml2js
       - yaml
 
-  nuxtseo-layer-devtools@5.3.11(66a38a39e3fe966a432eae42c4e8eeb4):
+  nuxtseo-layer-devtools@5.3.12(66a38a39e3fe966a432eae42c4e8eeb4):
     dependencies:
       '@iconify-json/carbon': 1.2.25
       '@nuxt/devtools-kit': 4.0.0-alpha.7(magic-string@1.1.0)(magicast@0.5.4)(oxc-parser@0.141.0)(rolldown@1.2.1)(unplugin@3.3.0(esbuild@0.27.7)(rolldown@1.2.1)(rollup@4.62.4)(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
@@ -14779,7 +14765,7 @@ snapshots:
       '@shikijs/themes': 4.4.2
       '@vueuse/core': 14.4.0(vue@3.5.41(typescript@6.0.3))
       '@vueuse/nuxt': 14.4.0(magic-string@1.1.0)(magicast@0.5.4)(nuxt@4.5.2(de917305003d35b881988cf8f911efc2))(oxc-parser@0.141.0)(rolldown@1.2.1)(unplugin@3.3.0(esbuild@0.27.7)(rolldown@1.2.1)(rollup@4.62.4)(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(vue@3.5.41(typescript@6.0.3))
-      nuxtseo-shared: 5.3.11(ff6ba1375dba7c9fb562f10d71fdaada)
+      nuxtseo-shared: 5.3.12(ff6ba1375dba7c9fb562f10d71fdaada)
       ofetch: 1.5.1
       shiki: 4.4.2
       tailwindcss: 4.3.3
@@ -14869,36 +14855,6 @@ snapshots:
       - webpack
       - yup
       - zod
-
-  nuxtseo-shared@5.3.11(ff6ba1375dba7c9fb562f10d71fdaada):
-    dependencies:
-      '@clack/prompts': 1.7.0
-      '@nuxt/devtools-kit': 4.0.0-alpha.7(magic-string@1.1.0)(magicast@0.5.4)(oxc-parser@0.141.0)(rolldown@1.2.1)(unplugin@3.3.0(esbuild@0.27.7)(rolldown@1.2.1)(rollup@4.62.4)(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
-      '@nuxt/kit': 4.5.2(magic-string@1.1.0)(magicast@0.5.4)(oxc-parser@0.141.0)(rolldown@1.2.1)(unplugin@3.3.0(esbuild@0.27.7)(rolldown@1.2.1)(rollup@4.62.4)(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))
-      '@nuxt/schema': 4.5.2
-      birpc: 4.0.0
-      consola: 3.4.2
-      defu: 6.1.7
-      nuxt: 4.5.2(de917305003d35b881988cf8f911efc2)
-      nypm: 0.6.9
-      ofetch: 1.5.1
-      pathe: 2.0.3
-      pkg-types: 2.3.1
-      radix3: 1.1.2
-      sirv: 3.0.2
-      std-env: 4.2.0
-      ufo: 1.6.4
-      vue: 3.5.41(typescript@6.0.3)
-    optionalDependencies:
-      nuxt-site-config: 4.2.1(@nuxt/schema@4.5.2)(magic-string@1.1.0)(magicast@0.5.4)(nuxt@4.5.2(de917305003d35b881988cf8f911efc2))(oxc-parser@0.141.0)(rolldown@1.2.1)(unplugin@3.3.0(esbuild@0.27.7)(rolldown@1.2.1)(rollup@4.62.4)(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0)))(vite@8.0.1(@emnapi/core@2.0.0-alpha.3)(@emnapi/runtime@2.0.0-alpha.3)(@types/node@26.1.2)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))(vue@3.5.41(typescript@6.0.3))(zod@4.4.3)
-      zod: 4.4.3
-    transitivePeerDependencies:
-      - magic-string
-      - magicast
-      - oxc-parser
-      - rolldown
-      - unplugin
-      - vite
 
   nuxtseo-shared@5.3.12(ff6ba1375dba7c9fb562f10d71fdaada):
     dependencies:
