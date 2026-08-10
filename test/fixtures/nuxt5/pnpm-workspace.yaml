@@ -1,8 +1,7 @@
-blockExoticSubdeps: false
 catalog:
   nitro: 3.0.260610-beta
   nuxt: npm:nuxt-nightly@5.0.0-29762711.192612c7
-  nuxt-site-config: https://pkg.pr.new/nuxt-site-config@3e35397
+  nuxt-site-config: ^4.2.1
   nuxtseo-shared: ^5.3.12
   typescript: 6.0.3
   vue: ^3.5.40
@@ -10,8 +9,11 @@ catalog:
   vue-tsc: ^3.3.7
 minimumReleaseAgeExclude:
   - nuxt-site-config@4.1.4
+  - nuxt-site-config@4.2.1
   - nuxt-site-config-kit@4.1.4
+  - nuxt-site-config-kit@4.2.1
   - site-config-stack@4.1.4
+  - site-config-stack@4.2.1
   - '@nuxt/kit-nightly@5.0.0-29762711.192612c7'
   - '@nuxt/nitro-server-nightly@5.0.0-29762711.192612c7'
   - '@nuxt/schema-nightly@5.0.0-29762711.192612c7'
