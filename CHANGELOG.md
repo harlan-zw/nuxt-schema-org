@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v6.2.7...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.7...main)
+
+### 🩹 Fixes
+
+- Avoid undefined schema plugin import ([#141](https://github.com/harlan-zw/nuxt-schema-org/pull/141))
+
+### 🏡 Chore
+
+- Code cleanup sweep ([#135](https://github.com/harlan-zw/nuxt-schema-org/pull/135))
+- Adopt nuxtseo-shared 5.3.4 APIs ([0811ac8](https://github.com/harlan-zw/nuxt-schema-org/commit/0811ac8))
+- Adopt nuxtseo-shared 5.3.4 APIs ([#136](https://github.com/harlan-zw/nuxt-schema-org/pull/136))
+- Bump deps ([e1f0631](https://github.com/harlan-zw/nuxt-schema-org/commit/e1f0631))
+- Bump deps ([ac50ee7](https://github.com/harlan-zw/nuxt-schema-org/commit/ac50ee7))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
 ## v6.2.6...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.6...main)

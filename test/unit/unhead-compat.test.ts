@@ -31,11 +31,21 @@ describe('resolveSerializableIdentityConfig', () => {
   it('uses the most specific resolver default type', () => {
     const identity = resolveSerializableIdentityConfig(defineLocalBusiness({
       name: 'Harlan Hamburgers',
+      address: {
+        streetAddress: '1 Example Street',
+        postalCode: '3000',
+        addressCountry: 'AU',
+      },
     }))
 
     expect(identity).toEqual({
       type: 'LocalBusiness',
       name: 'Harlan Hamburgers',
+      address: {
+        streetAddress: '1 Example Street',
+        postalCode: '3000',
+        addressCountry: 'AU',
+      },
     })
   })
 
