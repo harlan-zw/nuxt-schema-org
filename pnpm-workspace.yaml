@@ -1,4 +1,5 @@
 catalogMode: prefer
+blockExoticSubdeps: false
 minimumReleaseAgeExclude:
   - '@nuxt/ui@4.8.2'
   - '@unhead/schema-org'
@@ -63,9 +64,9 @@ catalog:
   happy-dom: ^20.11.2
   nuxt: ^4.5.2
   nuxt-seo-utils: ^8.3.3
-  nuxt-site-config: ^4.2.0
+  nuxt-site-config: https://pkg.pr.new/nuxt-site-config@108
   nuxtseo-layer-devtools: ^5.3.11
-  nuxtseo-shared: ^5.3.11
+  nuxtseo-shared: https://pkg.pr.new/nuxtseo-shared@613
   pkg-types: ^2.3.1
   typescript: 6.0.3
   ufo: ^1.6.4
