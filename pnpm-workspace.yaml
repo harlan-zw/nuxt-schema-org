@@ -1,5 +1,6 @@
 catalogMode: prefer
 minimumReleaseAgeExclude:
+  - eslint-plugin-harlanzw@0.18.1
   - '@nuxt/ui@4.8.2'
   - '@unhead/schema-org'
   - '@vue/test-utils@2.4.11'
@@ -62,7 +63,7 @@ catalog:
   cheerio: ^1.2.0
   defu: ^6.1.7
   eslint: ^10.8.1
-  eslint-plugin-harlanzw: ^0.17.1
+  eslint-plugin-harlanzw: ^0.18.1
   happy-dom: ^20.11.2
   nuxt: ^4.5.2
   nuxt-seo-utils: ^8.3.3
