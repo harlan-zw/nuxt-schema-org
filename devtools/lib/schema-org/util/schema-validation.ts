@@ -386,7 +386,7 @@ export interface ValidationSummary {
 }
 
 // Google structured data page slugs mapped to schema types
-export const googleStructuredDataLinks: Record<string, string[]> = {
+export const googleStructuredDataLinks = {
   'article': ['Article', 'NewsArticle', 'BlogPosting'],
   'book': ['Book'],
   'breadcrumb': ['BreadcrumbList'],
@@ -424,7 +424,7 @@ export const googleStructuredDataLinks: Record<string, string[]> = {
   'vacation-rental': ['Accommodation', 'LodgingBusiness'],
   'vehicle-listing': ['Vehicle'],
   'video': ['VideoObject'],
-}
+} satisfies Record<string, string[]>
 
 export function nodeToSchemaOrgLink(type: string) {
   const simpleType = type.replace('https://schema.org/', '')
