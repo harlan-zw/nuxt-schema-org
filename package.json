@@ -92,6 +92,7 @@
     "@antfu/eslint-config": "catalog:",
     "@arethetypeswrong/cli": "catalog:",
     "@iconify-json/lucide": "catalog:",
+    "@harlan-zw/comark-content": "catalog:",
     "@nuxt/content": "catalog:",
     "@nuxt/module-builder": "catalog:",
     "@nuxt/schema": "catalog:",

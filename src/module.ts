@@ -18,7 +18,7 @@ import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
 import { setupNitroRuntimeCompatibility, useModuleLogger } from 'nuxtseo-shared/kit'
 import { readPackageJSON } from 'pkg-types'
 import { setupDevToolsUI } from './devtools'
-import { extendTypes, resolveHostUnheadMajor, resolveNuxtContentVersion } from './kit'
+import { extendTypes, hasContentFileHooks, resolveContentProvider, resolveHostUnheadMajor } from './kit'
 import { buildSchemaOrgContentScript } from './runtime/utils/content'
 import { resolveSerializableIdentityConfig, schemaOrgVendor } from './unhead-compat'
 
@@ -86,6 +86,10 @@ export default defineNuxtModule<ModuleOptions>({
       },
       'nuxt-site-config': {
         version: '>=3.2',
+      },
+      '@harlan-zw/comark-content': {
+        version: '>=0.1.2',
+        optional: true,
       },
       '@nuxt/content': {
         version: '>=2',
@@ -201,10 +205,12 @@ export default defineNuxtModule<ModuleOptions>({
 
     nuxt.options.alias['#schema-org'] = resolve('./runtime')
 
-    const contentVersion = await resolveNuxtContentVersion()
-    const isNuxtContentV3 = contentVersion && contentVersion.version === 3
-    const isNuxtContentV2 = contentVersion && contentVersion.version === 2
-    if (isNuxtContentV3) {
+    const contentProvider = await resolveContentProvider(nuxt)
+    const isNuxtContentV2 = contentProvider._tag === 'NuxtContent' && contentProvider.version === 2
+    // @nuxt/content v3 and comark-content both fire this build hook with the same
+    // context shape, so one handler covers both. Nuxt Content v2 has no such hook and
+    // is served by a Nitro plugin instead.
+    if (hasContentFileHooks(contentProvider)) {
       nuxt.hooks.hook('content:file:afterParse', (ctx) => {
         if (typeof ctx.content.schemaOrg === 'undefined') {
           return
