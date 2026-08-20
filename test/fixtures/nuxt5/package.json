@@ -2,7 +2,6 @@
   "name": "nuxt-schema-org-nuxt5-fixture",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@11.20.0",
   "scripts": {
     "test": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.server.json && nuxt build && node test.mjs"
   },
