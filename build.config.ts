@@ -18,6 +18,7 @@ export default defineBuildConfig({
     'std-env',
     'nitropack',
     'consola',
+    '@harlan-zw/comark-content',
     '@nuxt/content',
     'zod',
     '@unhead/vue',
