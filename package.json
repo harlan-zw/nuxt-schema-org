@@ -2,7 +2,7 @@
   "name": "nuxt-schema-org",
   "type": "module",
   "version": "6.2.9",
-  "packageManager": "pnpm@11.20.0",
+  "packageManager": "pnpm@11.22.0",
   "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
   "license": "MIT",
