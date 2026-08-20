@@ -1,4 +1,3 @@
-/* eslint-disable no-console -- progress output for a standalone CLI script */
 // Runs the Unhead v2 compatibility fixture in an isolated temp directory.
 //
 // The fixture must build + run OUTSIDE the repo tree: nested under the repo, the
