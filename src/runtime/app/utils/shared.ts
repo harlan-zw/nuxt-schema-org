@@ -81,7 +81,7 @@ export function initSchemaOrgMeta() {
 }
 
 export function initSchemaOrgHead(nuxtApp: NuxtApp) {
-  const head = injectHead()
+  const head = injectHead(nuxtApp)
   const config = useSchemaOrgConfig()
   const siteConfig = useSiteConfig()
   const schemaOrgPlugin = schemaOrgVue.UnheadSchemaOrg as SchemaOrgPlugin
