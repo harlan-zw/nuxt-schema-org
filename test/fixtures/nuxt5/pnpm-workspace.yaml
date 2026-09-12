@@ -16,7 +16,7 @@ minimumReleaseAgeExclude:
   - '@nuxt/schema-nightly@5.0.0-29762711.192612c7'
   - '@nuxt/vite-builder-nightly@5.0.0-29762711.192612c7'
   - nuxt-nightly@5.0.0-29762711.192612c7
-  - nuxtseo-shared@5.3.8 || 5.3.9 || 5.3.11 || 5.3.12 || 5.3.14
+  - nuxtseo-shared@5.3.8 || 5.3.9 || 5.3.11 || 5.3.12 || 5.3.14 || 5.3.15
 overrides:
   '@unhead/vue': ^3.3.1
   unhead: ^3.3.1
