@@ -132,4 +132,11 @@ describe('pages', () => {
     expect(webPage).toBeDefined()
     expect(webPage).not.toHaveProperty('about')
   })
+  it.each(['/', '/en/', '/ja/', '/ja/about'])('every graph node on %s is typed and resolved (#155)', async (path) => {
+    const schemaOrg = await $fetchSchemaOrg(path)
+    for (const node of schemaOrg['@graph']) {
+      expect(node['@type'], `node ${node['@id']} on ${path} has no @type`).toBeTruthy()
+      expect(node['@id'], `orphan node on ${path}`).not.toMatch(/#\/schema\/\//)
+    }
+  })
 })

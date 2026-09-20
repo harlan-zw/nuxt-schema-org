@@ -1,4 +1,4 @@
-import type { Id } from '@unhead/schema-org'
+import type { Id, WebPage } from '@unhead/schema-org'
 import type { RuntimeI18nConfig, RuntimeLocale } from 'nuxtseo-shared/i18n-runtime'
 import type { MaybeRefOrGetter } from 'vue'
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
@@ -6,7 +6,7 @@ import { resolveSitePath } from 'nuxt-site-config/urls'
 import { defineNuxtPlugin, useError, useRoute, useRuntimeConfig } from 'nuxt/app'
 import { resolveCanonicalLocaleDomain, localePath as resolveLocalePath } from 'nuxtseo-shared/i18n-runtime'
 import { hasProtocol, withHttps, withoutTrailingSlash, withTrailingSlash } from 'ufo'
-import { computed, toValue } from 'vue'
+import { toValue } from 'vue'
 // @ts-expect-error untyped
 import { useLocalePath } from '#i18n'
 import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
@@ -115,17 +115,22 @@ export default defineNuxtPlugin({
     }
     useSchemaOrg([
       website,
-      defineWebPage(computed(() => ({
-        // null blocks identity resolver defaults and is stripped from the graph
-        about: (schemaOrgConfig.identity || toValue(siteConfig.identity))
+      defineWebPage({
+        // null blocks identity resolver defaults and is stripped from the graph.
+        // Keep this input a plain object: a ref or computed loses the resolver
+        // metadata defineWebPage attaches, which orphans an untyped WebPage node
+        // in the graph (#155). Getter props keep route-aware reactivity; the
+        // cast only bridges the vendor types, which don't model getters on
+        // object props like `about`.
+        about: (() => Boolean(schemaOrgConfig.identity || toValue(siteConfig.identity))
           && withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
           ? { '@id': identityId() }
-          : null,
-        description: toValue(siteConfig.description) || '',
+          : null) as unknown as WebPage['about'],
+        description: () => toValue(siteConfig.description) || '',
         isPartOf: {
           '@id': websiteId(),
         },
-      }))),
+      }),
     ])
     maybeAddIdentitySchemaOrg()
   },
