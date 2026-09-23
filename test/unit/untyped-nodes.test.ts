@@ -1,6 +1,6 @@
 import { createSchemaOrgGraph, defineLocalBusiness } from '@unhead/schema-org'
-import { describe, expect, it } from 'vitest'
-import { describeUntypedSchemaOrgNodes } from '../../src/runtime/app/utils/untyped-nodes'
+import { describe, expect, it, vi } from 'vitest'
+import { describeUntypedSchemaOrgNodes, warnOnUntypedSchemaOrgNodes } from '../../src/runtime/app/utils/untyped-nodes'
 
 const meta = { host: 'https://example.com', url: 'https://example.com/clinic', path: '/clinic' }
 
@@ -49,5 +49,37 @@ describe('describeUntypedSchemaOrgNodes', () => {
   it('ignores input that is not a JSON-LD graph', () => {
     expect(describeUntypedSchemaOrgNodes(null)).toEqual([])
     expect(describeUntypedSchemaOrgNodes({ '@graph': 'x' })).toEqual([])
+  })
+
+  it('warns for a node whose @type is empty', () => {
+    const rendered = {
+      '@context': 'https://schema.org',
+      '@graph': [{ '@type': [], 'name': 'Studio Smile' }, { '@type': '', 'name': 'Studio Smile Too' }],
+    }
+
+    expect(describeUntypedSchemaOrgNodes(rendered)).toEqual([
+      'Node "(no @id)" has no "@type", so search engines ignore it. Add "@type", or build it with a define function such as defineLocalBusiness().',
+      'Node "(no @id)" has no "@type", so search engines ignore it. Add "@type", or build it with a define function such as defineLocalBusiness().',
+    ])
+  })
+})
+
+describe('warnOnUntypedSchemaOrgNodes', () => {
+  function createFakeHead(innerHTML: string) {
+    let handler: ((context: { tags: { key: string, innerHTML: string }[] }) => void) | undefined
+    return {
+      head: { hooks: { hook: (name: string, fn: any) => { handler = fn } } },
+      fire: () => handler?.({ tags: [{ key: 'schema-org-graph', innerHTML }] }),
+    }
+  }
+
+  it('ignores an unparseable graph tag instead of throwing', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const { head, fire } = createFakeHead('not-json')
+
+    expect(() => warnOnUntypedSchemaOrgNodes(head as any)).not.toThrow()
+    expect(() => fire()).not.toThrow()
+    expect(warnSpy).not.toHaveBeenCalled()
+    warnSpy.mockRestore()
   })
 })

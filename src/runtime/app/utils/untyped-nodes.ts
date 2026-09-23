@@ -13,7 +13,11 @@ export function describeUntypedSchemaOrgNodes(rendered: unknown): string[] {
     return []
   const messages: string[] = []
   for (const node of nodes) {
-    if (!node || typeof node !== 'object' || node['@type'])
+    if (!node || typeof node !== 'object')
+      continue
+    const type = node['@type']
+    const hasType = typeof type === 'string' ? type.length > 0 : Array.isArray(type) && type.length > 0
+    if (hasType)
       continue
     const id = typeof node['@id'] === 'string' ? node['@id'] : '(no @id)'
     messages.push('@graph' in node
@@ -32,7 +36,14 @@ export function warnOnUntypedSchemaOrgNodes(head: Pick<Unhead<any>, 'hooks'>) {
     const graphTag = tags.find(tag => tag.key === 'schema-org-graph' && typeof tag.innerHTML === 'string')
     if (!graphTag)
       return
-    for (const message of describeUntypedSchemaOrgNodes(JSON.parse(graphTag.innerHTML as string))) {
+    let rendered: unknown
+    try {
+      rendered = JSON.parse(graphTag.innerHTML as string)
+    }
+    catch {
+      return
+    }
+    for (const message of describeUntypedSchemaOrgNodes(rendered)) {
       if (warned.has(message))
         continue
       warned.add(message)
