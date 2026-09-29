@@ -29,7 +29,7 @@ describe('comark-content', () => {
               "AboutPage",
               "AboutPage",
             ],
-            "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
+            "description": "hello",
             "isPartOf": {
               "@id": "https://nuxtseo.com/#website",
             },

@@ -99,4 +99,38 @@ describe('pages', () => {
       }
     `)
   })
+  it('applies schema-org:meta hook overrides', async () => {
+    const schema = await $fetchSchemaOrg('/plugin-override')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage['@id']).toBe('https://override-example.com/plugin-override#webpage')
+    expect(webPage.url).toBe('https://override-example.com/plugin-override')
+    const webSite = schema['@graph'].find(n => n['@type'] === 'WebSite')
+    expect(new URL(webSite['@id']).host).toBe('override-example.com')
+  })
+
+  it('ranks a schema-org:meta hook url above a page canonical link', async () => {
+    const schema = await $fetchSchemaOrg('/plugin-override-canonical')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage['@id']).toBe('https://override-example.com/custom-path#webpage')
+    expect(webPage.url).toBe('https://override-example.com/custom-path')
+  })
+
+  it('uses the page canonical link for the WebPage url', async () => {
+    const schema = await $fetchSchemaOrg('/canonical')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage.url).toBe('https://nuxtseo.com/canonical-target')
+    expect(webPage['@id']).toBe('https://nuxtseo.com/canonical-target#webpage')
+  })
+
+  it('awaits an async schema-org:meta hook', async () => {
+    const schema = await $fetchSchemaOrg('/plugin-override-async')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage.url).toBe('https://async-override-example.com/plugin-override-async')
+  })
+
+  it('leaves other routes untouched by the schema-org:meta hook', async () => {
+    const schema = await $fetchSchemaOrg('/about')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'AboutPage' || n['@type']?.includes?.('AboutPage'))
+    expect(webPage.url).toBe('https://nuxtseo.com/about')
+  })
 })

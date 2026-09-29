@@ -5,7 +5,7 @@ import { resolveSitePath } from 'nuxt-site-config/urls'
 import { useRoute, useRuntimeConfig } from 'nuxt/app'
 import { withTrailingSlash } from 'ufo'
 import { toValue, watch } from 'vue'
-import { injectHead, useHead } from '#imports'
+import { injectHead } from '#imports'
 import {
   useSiteConfig,
 } from '#site-config/app/composables/useSiteConfig'
@@ -13,9 +13,11 @@ import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
 
+// Both vendored majors export this signature: the vendor script maps the v2
+// `UnheadSchemaOrg` onto its three-argument `SchemaOrgUnheadPlugin`.
 type SchemaOrgPlugin = (
   config: _MetaInput,
-  resolveMeta: () => Promise<_MetaInput>,
+  resolveMeta: undefined,
   options: NonNullable<Parameters<typeof schemaOrgVue.UnheadSchemaOrg>[2]>,
 ) => ReturnType<typeof schemaOrgVue.UnheadSchemaOrg>
 
@@ -31,11 +33,17 @@ function resolvePathDirect(siteConfig: Record<string, any>, path: string, option
 }
 
 export function initPlugin(nuxtApp: NuxtApp) {
-  initSchemaOrgMeta()
+  initSchemaOrgMeta(nuxtApp)
   initSchemaOrgHead(nuxtApp)
 }
 
-export function initSchemaOrgMeta() {
+function withoutUrl<T extends { url?: string }>(meta: T): Omit<T, 'url'> {
+  const { url: _url, ...rest } = meta
+  return rest
+}
+
+export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
+  const head = injectHead(nuxtApp)
   const route = useRoute()
   const siteConfig = useSiteConfig()
 
@@ -67,14 +75,42 @@ export function initSchemaOrgMeta() {
       path: route.path,
     } satisfies MetaInput
   }
-  const templateParamEntry = useHead({
-    templateParams: { schemaOrg: resolveSchemaOrg() },
+  // The `schema-org:meta` hook edits the resolved meta in place. It runs here,
+  // not as the unhead plugin's meta callback: unhead v3 reads that callback
+  // synchronously and ranks it below this template param, and unhead v2's
+  // `UnheadSchemaOrg` never reads it.
+  async function resolveSchemaOrgWithHook() {
+    const meta = resolveSchemaOrg()
+    const url = meta.url
+    await nuxtApp.hooks.callHook('schema-org:meta', meta)
+    // The route `url` is only a default. Leave it out so unhead can use the
+    // page canonical link, and fall back to `host` + `path` without one.
+    if (meta.url === url)
+      return withoutUrl(meta)
+    // Older unhead releases rebuild `url` from `host` and `path`, so a hook `url`
+    // alone would be dropped. The hook is the most specific override: its `url`
+    // wins over the page canonical link, so derive `host` and `path` from it.
+    if (URL.canParse(meta.url)) {
+      const parsed = new URL(meta.url)
+      meta.host = withTrailingSlash(parsed.origin)
+      meta.path = parsed.pathname
+    }
+    return meta
+  }
+  const templateParamEntry = head.push({
+    templateParams: { schemaOrg: withoutUrl(resolveSchemaOrg()) },
+  })
+  // `app:created` fires after every plugin, so hooks that user plugins register are in place
+  nuxtApp.hooks.hookOnce('app:created', async () => {
+    templateParamEntry.patch({
+      templateParams: { schemaOrg: await resolveSchemaOrgWithHook() },
+    })
   })
   // only watch for siteConfig changes on the client to avoid leaking reactive scopes during SSR
   if (import.meta.client) {
-    watch(() => siteConfig, () => {
-      templateParamEntry!.patch({
-        templateParams: { schemaOrg: resolveSchemaOrg() },
+    watch(() => siteConfig, async () => {
+      templateParamEntry.patch({
+        templateParams: { schemaOrg: await resolveSchemaOrgWithHook() },
       })
     }, { deep: true })
   }
@@ -86,12 +122,7 @@ export function initSchemaOrgHead(nuxtApp: NuxtApp) {
   const siteConfig = useSiteConfig()
   const schemaOrgPlugin = schemaOrgVue.UnheadSchemaOrg as SchemaOrgPlugin
   head.use(
-    schemaOrgPlugin({} as _MetaInput, async () => {
-      const meta = {} as MetaInput
-      // call hook
-      await nuxtApp.hooks.callHook('schema-org:meta', meta)
-      return meta as _MetaInput
-    }, {
+    schemaOrgPlugin({} as _MetaInput, undefined, {
       minify: config.minify,
       trailingSlash: siteConfig.trailingSlash,
     }),

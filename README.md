@@ -5,6 +5,14 @@
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
 
+<a href="https://skilld.dev/gh/harlan-zw/nuxt-schema-org">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://skilld.dev/b/harlan-zw/nuxt-schema-org?theme=dark">
+    <source media="(prefers-color-scheme: light)" srcset="https://skilld.dev/b/harlan-zw/nuxt-schema-org?theme=light">
+    <img alt="Skill repository on skilld.dev" src="https://skilld.dev/b/harlan-zw/nuxt-schema-org?theme=light">
+  </picture>
+</a>
+
 Nuxt Schema.org lets you generate Schema.org graphs which can help your site appear with rich search results.
 
 New to Schema.org or SEO? Check out the [Schema.org](https://nuxtseo.com/learn/mastering-meta/schema-org) guide to learn more about why you might want to use this module.
@@ -36,10 +44,7 @@ npx nuxi@latest module add schema-org
 ```
 
 > [!TIP]
-> Generate an Agent Skill for this package using [skilld](https://github.com/harlan-zw/skilld):
-> ```bash
-> npx skilld add nuxt-schema-org
-> ```
+> Using an AI agent? Get the nuxt-schema-org Skill on [skilld.dev/gh/harlan-zw/nuxt-schema-org](https://skilld.dev/gh/harlan-zw/nuxt-schema-org).
 
 💡 Added Schema.org? Validate your structured data against Google's rules with the free [Schema Validator](https://nuxtseo.com/tools/schema-validator), or track rich-result eligibility across your site with [Nuxt SEO Pro](https://nuxtseo.com/pro).
 

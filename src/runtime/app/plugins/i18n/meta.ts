@@ -8,7 +8,7 @@ export default defineNuxtPlugin({
     // @ts-expect-error conditionally available from nuxt-site-config's i18n plugin
     'nuxt-site-config:i18n',
   ],
-  setup() {
-    initSchemaOrgMeta()
+  setup(nuxtApp) {
+    initSchemaOrgMeta(nuxtApp)
   },
 })

@@ -1,3 +1,10 @@
+## 6.4.0
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.3.2...v6.4.0)
+
+- fix(i18n): keep defineWebPage input a plain object (#156) ([d2713a0](https://github.com/harlan-zw/nuxt-schema-org/commit/d2713a0a41ddcd961eeea4ec45e82448a4c8ff6e))
+- feat: warn in dev when a schema.org node has no @type (#157) ([f3825c9](https://github.com/harlan-zw/nuxt-schema-org/commit/f3825c9227d32ae99aa70e780a0f9ee2dd43e12a))
+
 # Changelog
 
 

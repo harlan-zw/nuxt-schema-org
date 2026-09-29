@@ -8,5 +8,10 @@ export default defineNuxtConfig({
     identity: 'Organization',
   },
 
+  schemaOrg: {
+    // dev builds pretty-print by default, so dev.test.ts can see this option
+    minify: true,
+  },
+
   compatibilityDate: '2024-11-25',
 })

@@ -48,4 +48,16 @@ describe('unhead v2 compatibility', () => {
     // no junk/unresolved nodes leaked into the graph
     expect(graph.some(n => String(n['@id']).includes('#/schema//'))).toBe(false)
   })
+
+  it('applies schema-org:meta hook overrides', async () => {
+    const graph = await fetchGraph('/plugin-override')
+    const webPage = graph.find(n => n['@type'] === 'WebPage')
+    expect(webPage.url).toBe('https://override-example.com/plugin-override')
+  })
+
+  it('ranks a schema-org:meta hook url above a page canonical link', async () => {
+    const graph = await fetchGraph('/plugin-override-canonical')
+    const webPage = graph.find(n => n['@type'] === 'WebPage')
+    expect(webPage.url).toBe('https://override-example.com/custom-path')
+  })
 })
