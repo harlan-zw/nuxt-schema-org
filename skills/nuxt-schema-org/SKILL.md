@@ -123,7 +123,7 @@ Full node list: https://unhead.unjs.io/docs/schema-org/api/schema/organization
 - `reactive` (dev, or `ssr: false`): ship schema code to the client and update on navigation. SEO does not need it.
 - Other options: https://nuxtseo.com/docs/schema-org/api/config
 
-To change the meta that feeds every node, such as `host` or `url`, edit the object that the `schema-org:meta` hook receives in a Nuxt plugin. The hook may be async.
+To change the meta that feeds every node, such as `host` or `url`, edit the object that the `schema-org:meta` hook receives in a Nuxt plugin. The hook may be async. A hook `url` sets `host` and `path` and wins over a canonical link.
 
 ## Debug
 
