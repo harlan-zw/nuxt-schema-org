@@ -43,6 +43,9 @@ Install `nuxt-schema-org` dependency to your project:
 npx nuxi@latest module add schema-org
 ```
 
+> [!TIP]
+> Using an AI agent? Get the nuxt-schema-org Skill on [skilld.dev/gh/harlan-zw/nuxt-schema-org](https://skilld.dev/gh/harlan-zw/nuxt-schema-org).
+
 💡 Added Schema.org? Validate your structured data against Google's rules with the free [Schema Validator](https://nuxtseo.com/tools/schema-validator), or track rich-result eligibility across your site with [Nuxt SEO Pro](https://nuxtseo.com/pro).
 
 ## Documentation
