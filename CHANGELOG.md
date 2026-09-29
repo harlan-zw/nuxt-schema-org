@@ -1,3 +1,9 @@
+## 6.4.2
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.4.1...v6.4.2)
+
+- fix(i18n): let page meta description reach the WebPage (#165) ([8a5b7a8](https://github.com/harlan-zw/nuxt-schema-org/commit/8a5b7a80c03e15773cffab91a015fb20e5311e5e))
+
 ## 6.4.0
 
 [Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.3.2...v6.4.0)
