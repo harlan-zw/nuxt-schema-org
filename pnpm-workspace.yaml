@@ -37,8 +37,8 @@ packages:
   - '!examples/**'
   - '!test/compat-v2/**'
 overrides:
-  '@unhead/vue': ^3.3.2
-  unhead: ^3.3.2
+  '@unhead/vue': ^3.4.2
+  unhead: ^3.4.2
   vite: npm:vite@8.0.1
   vue: ^3.5.41
 catalog:
@@ -54,7 +54,7 @@ catalog:
   '@nuxt/ui': ^4.10.0
   '@nuxtjs/i18n': ^10.6.0
   '@nuxtjs/robots': ^6.1.5
-  '@unhead/schema-org': ^3.3.2
+  '@unhead/schema-org': ^3.4.2
   '@unhead/schema-org-v2': npm:@unhead/schema-org@^2.1.17
   '@vue/test-utils': ^2.4.11
   better-sqlite3: ^13.0.3

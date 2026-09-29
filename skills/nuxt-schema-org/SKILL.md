@@ -19,7 +19,7 @@ The module needs SSR. Crawlers read only the SSR response. With `ssr: false` the
 With `defaults: true` (the default), every page gets:
 
 - `WebSite` from `site.name`, `site.description`, and the current locale.
-- `WebPage` for the current URL. Its `name` comes from the page `<title>`.
+- `WebPage` for the page canonical link, or the current URL without one. Its `name` comes from the page `<title>`.
 - The identity node, if `schemaOrg.identity` is set. `WebSite.publisher` and `WebPage.about` point to it.
 
 `WebPage` picks a subtype from the last path segment: `about`, `about-us` to `AboutPage`; `contact`, `contact-us`, `get-in-touch` to `ContactPage`; `faq` to `FAQPage`; `search` to `SearchResultsPage`; `checkout` to `CheckoutPage`.
@@ -105,7 +105,7 @@ The config identity is shared across locales. For translated identity fields, ca
 ## Traps
 
 - **`defineLocalBusiness({ '@type': 'Restaurant' })` as the config identity loses the LocalBusiness resolver.** It renders `["Organization", "Restaurant"]` and leaves `openingHoursSpecification` unnormalized. Use the plain object form above.
-- **A page `useSeoMeta({ description })` does not reach `WebPage` or `Article`.** They show `site.description`. Pass `description` to `defineWebPage()` or `defineArticle()`, or use `useHead({ meta: [{ name: 'description', content }] })`, which works. The cause is upstream in unhead.
+- **On unhead v2, a page `useSeoMeta({ description })` does not reach `WebPage` or `Article`.** They show `site.description`. Pass `description` to `defineWebPage()` or `defineArticle()`. On unhead v3, the page meta description reaches both nodes.
 - **Type names are case sensitive.** `FAQPage` is valid. `FaqPage` renders as written and is not a schema.org type.
 - **Content v3 without a `head` field in the collection schema drops the `schemaOrg` frontmatter.** No error, no node. See [references/nuxt-content.md](references/nuxt-content.md).
 - **A node without `'@type'` still renders, and search engines ignore it.** The module warns in dev only.
