@@ -2,6 +2,10 @@ name: Deploy Docs
 
 on:
   push:
+    # nuxtseo.com reads docs from main, so only a main push has new docs to deploy.
+    # A branch push would only trigger a full production deploy with unchanged docs.
+    branches:
+      - main
     paths:
       - 'docs/**'
 
