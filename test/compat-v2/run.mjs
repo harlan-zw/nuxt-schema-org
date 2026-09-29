@@ -21,7 +21,7 @@ run('pnpm', ['build'], repoRoot)
 run('pnpm', ['pack', '--pack-destination', workDir], repoRoot)
 
 console.log(`[compat-v2] staging fixture in ${workDir}`)
-for (const file of ['app.vue', 'nuxt.config.ts', 'pages', 'render.test.ts', 'vitest.config.ts'])
+for (const file of ['app.vue', 'dev.test.ts', 'nuxt.config.ts', 'pages', 'plugins', 'render.test.ts', 'vitest.config.ts'])
   cpSync(join(fixtureDir, file), join(workDir, file), { recursive: true })
 cpSync(join(fixtureDir, 'package.template.json'), join(workDir, 'package.json'))
 const tgz = readdirSync(workDir).find(f => f.endsWith('.tgz'))

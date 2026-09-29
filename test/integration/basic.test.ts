@@ -99,4 +99,24 @@ describe('pages', () => {
       }
     `)
   })
+  it('applies schema-org:meta hook overrides', async () => {
+    const schema = await $fetchSchemaOrg('/plugin-override')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage['@id']).toBe('https://override-example.com/plugin-override#webpage')
+    expect(webPage.url).toBe('https://override-example.com/plugin-override')
+    const webSite = schema['@graph'].find(n => n['@type'] === 'WebSite')
+    expect(webSite['@id'].startsWith('https://override-example.com')).toBe(true)
+  })
+
+  it('awaits an async schema-org:meta hook', async () => {
+    const schema = await $fetchSchemaOrg('/plugin-override-async')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage.url).toBe('https://async-override-example.com/plugin-override-async')
+  })
+
+  it('leaves other routes untouched by the schema-org:meta hook', async () => {
+    const schema = await $fetchSchemaOrg('/about')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'AboutPage' || n['@type']?.includes?.('AboutPage'))
+    expect(webPage.url).toBe('https://nuxtseo.com/about')
+  })
 })

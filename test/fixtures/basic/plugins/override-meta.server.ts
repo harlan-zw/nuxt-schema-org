@@ -7,4 +7,12 @@ export default defineNuxtPlugin((nuxtApp) => {
       meta.url = `${meta.host}${meta.path}`
     }
   })
+  // an async hook must finish before the graph resolves
+  nuxtApp.hooks.hook('schema-org:meta', async (meta) => {
+    if (nuxtApp._route.path === '/plugin-override-async') {
+      await new Promise(resolve => setTimeout(resolve, 10))
+      meta.host = 'https://async-override-example.com'
+      meta.url = `${meta.host}${meta.path}`
+    }
+  })
 })
