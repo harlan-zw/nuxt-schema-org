@@ -115,6 +115,13 @@ describe('pages', () => {
     expect(webPage.url).toBe('https://override-example.com/custom-path')
   })
 
+  it('uses the page canonical link for the WebPage url', async () => {
+    const schema = await $fetchSchemaOrg('/canonical')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage.url).toBe('https://nuxtseo.com/canonical-target')
+    expect(webPage['@id']).toBe('https://nuxtseo.com/canonical-target#webpage')
+  })
+
   it('awaits an async schema-org:meta hook', async () => {
     const schema = await $fetchSchemaOrg('/plugin-override-async')
     const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')

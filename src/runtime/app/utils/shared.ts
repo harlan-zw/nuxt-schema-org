@@ -37,6 +37,11 @@ export function initPlugin(nuxtApp: NuxtApp) {
   initSchemaOrgHead(nuxtApp)
 }
 
+function withoutUrl<T extends { url?: string }>(meta: T): Omit<T, 'url'> {
+  const { url: _url, ...rest } = meta
+  return rest
+}
+
 export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
   const head = injectHead(nuxtApp)
   const route = useRoute()
@@ -78,10 +83,14 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
     const meta = resolveSchemaOrg()
     const url = meta.url
     await nuxtApp.hooks.callHook('schema-org:meta', meta)
-    // unhead always rebuilds `url` from `host` and `path`, so a hook `url` alone
-    // would be dropped. The hook is the most specific override: its `url` wins
-    // over the page canonical link, so derive `host` and `path` from it.
-    if (meta.url !== url && URL.canParse(meta.url)) {
+    // The route `url` is only a default. Leave it out so unhead can use the
+    // page canonical link, and fall back to `host` + `path` without one.
+    if (meta.url === url)
+      return withoutUrl(meta)
+    // Older unhead releases rebuild `url` from `host` and `path`, so a hook `url`
+    // alone would be dropped. The hook is the most specific override: its `url`
+    // wins over the page canonical link, so derive `host` and `path` from it.
+    if (URL.canParse(meta.url)) {
       const parsed = new URL(meta.url)
       meta.host = withTrailingSlash(parsed.origin)
       meta.path = parsed.pathname
@@ -89,7 +98,7 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
     return meta
   }
   const templateParamEntry = head.push({
-    templateParams: { schemaOrg: resolveSchemaOrg() },
+    templateParams: { schemaOrg: withoutUrl(resolveSchemaOrg()) },
   })
   // `app:created` fires after every plugin, so hooks that user plugins register are in place
   nuxtApp.hooks.hookOnce('app:created', async () => {

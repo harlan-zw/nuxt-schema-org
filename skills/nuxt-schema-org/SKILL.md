@@ -19,7 +19,7 @@ The module needs SSR. Crawlers read only the SSR response. With `ssr: false` the
 With `defaults: true` (the default), every page gets:
 
 - `WebSite` from `site.name`, `site.description`, and the current locale.
-- `WebPage` for the current URL. Its `name` comes from the page `<title>`.
+- `WebPage` for the page canonical link, or the current URL without one. Its `name` comes from the page `<title>`.
 - The identity node, if `schemaOrg.identity` is set. `WebSite.publisher` and `WebPage.about` point to it.
 
 `WebPage` picks a subtype from the last path segment: `about`, `about-us` to `AboutPage`; `contact`, `contact-us`, `get-in-touch` to `ContactPage`; `faq` to `FAQPage`; `search` to `SearchResultsPage`; `checkout` to `CheckoutPage`.
