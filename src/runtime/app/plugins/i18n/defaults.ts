@@ -126,7 +126,6 @@ export default defineNuxtPlugin({
           && withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
           ? { '@id': identityId() }
           : null) as unknown as WebPage['about'],
-        description: () => toValue(siteConfig.description) || '',
         isPartOf: {
           '@id': websiteId(),
         },
