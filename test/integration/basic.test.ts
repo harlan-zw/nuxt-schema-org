@@ -105,7 +105,7 @@ describe('pages', () => {
     expect(webPage['@id']).toBe('https://override-example.com/plugin-override#webpage')
     expect(webPage.url).toBe('https://override-example.com/plugin-override')
     const webSite = schema['@graph'].find(n => n['@type'] === 'WebSite')
-    expect(webSite['@id'].startsWith('https://override-example.com')).toBe(true)
+    expect(new URL(webSite['@id']).host).toBe('override-example.com')
   })
 
   it('awaits an async schema-org:meta hook', async () => {
