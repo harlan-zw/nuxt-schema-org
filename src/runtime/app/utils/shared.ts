@@ -76,7 +76,16 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
   // `UnheadSchemaOrg` never reads it.
   async function resolveSchemaOrgWithHook() {
     const meta = resolveSchemaOrg()
+    const url = meta.url
     await nuxtApp.hooks.callHook('schema-org:meta', meta)
+    // unhead always rebuilds `url` from `host` and `path`, so a hook `url` alone
+    // would be dropped. The hook is the most specific override: its `url` wins
+    // over the page canonical link, so derive `host` and `path` from it.
+    if (meta.url !== url && URL.canParse(meta.url)) {
+      const parsed = new URL(meta.url)
+      meta.host = withTrailingSlash(parsed.origin)
+      meta.path = parsed.pathname
+    }
     return meta
   }
   const templateParamEntry = head.push({

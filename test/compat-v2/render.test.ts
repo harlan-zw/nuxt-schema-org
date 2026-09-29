@@ -54,4 +54,10 @@ describe('unhead v2 compatibility', () => {
     const webPage = graph.find(n => n['@type'] === 'WebPage')
     expect(webPage.url).toBe('https://override-example.com/plugin-override')
   })
+
+  it('ranks a schema-org:meta hook url above a page canonical link', async () => {
+    const graph = await fetchGraph('/plugin-override-canonical')
+    const webPage = graph.find(n => n['@type'] === 'WebPage')
+    expect(webPage.url).toBe('https://override-example.com/custom-path')
+  })
 })

@@ -108,6 +108,13 @@ describe('pages', () => {
     expect(new URL(webSite['@id']).host).toBe('override-example.com')
   })
 
+  it('ranks a schema-org:meta hook url above a page canonical link', async () => {
+    const schema = await $fetchSchemaOrg('/plugin-override-canonical')
+    const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')
+    expect(webPage['@id']).toBe('https://override-example.com/custom-path#webpage')
+    expect(webPage.url).toBe('https://override-example.com/custom-path')
+  })
+
   it('awaits an async schema-org:meta hook', async () => {
     const schema = await $fetchSchemaOrg('/plugin-override-async')
     const webPage = schema['@graph'].find(n => n['@type'] === 'WebPage')

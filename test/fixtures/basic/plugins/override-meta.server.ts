@@ -7,6 +7,11 @@ export default defineNuxtPlugin((nuxtApp) => {
       meta.url = `${meta.host}${meta.path}`
     }
   })
+  // only `url` changes; it must beat the page's canonical link
+  nuxtApp.hooks.hook('schema-org:meta', (meta) => {
+    if (nuxtApp._route.path === '/plugin-override-canonical')
+      meta.url = 'https://override-example.com/custom-path'
+  })
   // an async hook must finish before the graph resolves
   nuxtApp.hooks.hook('schema-org:meta', async (meta) => {
     if (nuxtApp._route.path === '/plugin-override-async') {
