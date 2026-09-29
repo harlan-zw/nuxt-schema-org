@@ -132,6 +132,23 @@ describe('pages', () => {
     expect(webPage).toBeDefined()
     expect(webPage).not.toHaveProperty('about')
   })
+  it.each(['/en/described', '/zh/described'])('page meta description wins on %s', async (path) => {
+    const schemaOrg = await $fetchSchemaOrg(path)
+    const webPage = schemaOrg['@graph'].find(node => node['@type'] === 'WebPage')
+
+    expect(webPage.description).toBe('PAGE')
+  })
+  it('falls back to the per-locale site description without page meta', async () => {
+    const schemaOrg = await $fetchSchemaOrg('/zh/about')
+    const webPage = schemaOrg['@graph'].find((node) => {
+      const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']]
+      return types.includes('WebPage')
+    })
+    const webSite = schemaOrg['@graph'].find(node => node['@type'] === 'WebSite')
+
+    expect(webPage.description).toBe('ZH site description')
+    expect(webSite.description).toBe('ZH site description')
+  })
   it.each(['/', '/en/', '/ja/', '/ja/about'])('every graph node on %s is typed and resolved (#155)', async (path) => {
     const schemaOrg = await $fetchSchemaOrg(path)
     for (const node of schemaOrg['@graph']) {
