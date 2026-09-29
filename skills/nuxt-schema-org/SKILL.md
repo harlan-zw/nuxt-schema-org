@@ -105,11 +105,11 @@ The config identity is shared across locales. For translated identity fields, ca
 ## Traps
 
 - **`defineLocalBusiness({ '@type': 'Restaurant' })` as the config identity loses the LocalBusiness resolver.** It renders `["Organization", "Restaurant"]` and leaves `openingHoursSpecification` unnormalized. Use the plain object form above.
-- **A page `useSeoMeta({ description })` does not reach `WebPage` or `Article`.** They show `site.description`. Pass `description` to `defineWebPage()` or `defineArticle()`.
+- **A page `useSeoMeta({ description })` does not reach `WebPage` or `Article`.** They show `site.description`. Pass `description` to `defineWebPage()` or `defineArticle()`, or use `useHead({ meta: [{ name: 'description', content }] })`, which works. The cause is upstream in unhead.
 - **Type names are case sensitive.** `FAQPage` is valid. `FaqPage` renders as written and is not a schema.org type.
 - **Content v3 without a `head` field in the collection schema drops the `schemaOrg` frontmatter.** No error, no node. See [references/nuxt-content.md](references/nuxt-content.md).
 - **A node without `'@type'` still renders, and search engines ignore it.** The module warns in dev only.
-- **A LocalBusiness identity with `logo` adds a second node, `#organization`.** The logo goes on that node, not on `#identity`.
+- **A LocalBusiness identity with `logo` adds a second node, `#organization`.** The logo goes on that node, not on `#identity`. This is intentional upstream: unhead emits it for Google Logo rich results.
 
 ## Version limits
 
@@ -123,7 +123,7 @@ Full node list: https://unhead.unjs.io/docs/schema-org/api/schema/organization
 - `reactive` (dev, or `ssr: false`): ship schema code to the client and update on navigation. SEO does not need it.
 - Other options: https://nuxtseo.com/docs/schema-org/api/config
 
-To change the meta that feeds every node, such as `host`, use the `schema-org:meta` runtime hook in a Nuxt plugin.
+To change the meta that feeds every node, such as `host` or `url`, edit the object that the `schema-org:meta` hook receives in a Nuxt plugin. The hook may be async. A hook `url` sets `host` and `path` and wins over a canonical link.
 
 ## Debug
 

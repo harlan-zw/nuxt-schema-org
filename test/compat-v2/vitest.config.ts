@@ -7,5 +7,7 @@ export default defineConfig({
     environment: 'node',
     include: ['./*.test.ts'],
     exclude: ['**/node_modules/**'],
+    // render.test.ts and dev.test.ts share one fixture dir; parallel builds clobber each other
+    fileParallelism: false,
   },
 })

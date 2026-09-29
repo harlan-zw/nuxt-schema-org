@@ -83,6 +83,15 @@ function addToFinalExport(code, names) {
   return `${code.slice(0, listStart)}${[...namesList, ...missing].join(', ')}${code.slice(listEnd)}`
 }
 
+// v2 `UnheadSchemaOrg(options)` takes one argument; v3 `UnheadSchemaOrg(config, meta, options)`
+// takes three. The runtime calls the v3 shape, so export v2's three-argument
+// `SchemaOrgUnheadPlugin` under that name. Without this, v2 drops `minify`.
+function exportV3PluginSignature(code) {
+  if (exportedNames(code).has('UnheadSchemaOrg'))
+    throw new Error('schema-org v2 vue entry already exports UnheadSchemaOrg; re-check its signature before vendoring.')
+  return `export { SchemaOrgUnheadPlugin as UnheadSchemaOrg } from './index.mjs';\n${code}`
+}
+
 function patchSchemaOrgV2VueRuntime(outDir) {
   const file = join(outDir, 'vue.mjs')
   let code = readFileSync(file, 'utf8')
@@ -98,10 +107,8 @@ function patchSchemaOrgV2VueRuntime(outDir) {
     code = code.replace(marker, `${resolverCode}\n${marker}`)
   }
 
-  code = addToFinalExport(code, [
-    'UnheadSchemaOrg',
-    ...V2_VUE_EXTRA_RESOLVERS.map(([name]) => name),
-  ])
+  code = addToFinalExport(code, V2_VUE_EXTRA_RESOLVERS.map(([name]) => name))
+  code = exportV3PluginSignature(code)
 
   const exports = exportedNames(code)
   const missingExports = ['UnheadSchemaOrg', ...V2_VUE_EXTRA_RESOLVERS.map(([name]) => name)]
@@ -118,8 +125,7 @@ function patchSchemaOrgV2VueTypes(outDir, entry) {
   const indexSpecifier = './index.mjs'
   const typeNames = V2_VUE_EXTRA_RESOLVERS.map(([, , typeName]) => typeName)
 
-  if (!exportedNames(code).has('UnheadSchemaOrg'))
-    code = `export { UnheadSchemaOrg } from '${indexSpecifier}';\n${code}`
+  code = exportV3PluginSignature(code)
 
   const typeImport = `import type { ${typeNames.join(', ')} } from '${indexSpecifier}';`
   if (!code.includes(typeImport))
