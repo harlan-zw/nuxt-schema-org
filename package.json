@@ -45,7 +45,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "skills"
   ],
   "scripts": {
     "lint": "eslint . --fix",
