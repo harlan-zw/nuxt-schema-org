@@ -1,6 +1,56 @@
 # Changelog
 
 
+## v6.3.1...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.3.1...main)
+
+### 🩹 Fixes
+
+- **i18n:** Resolve canonical website translation IDs ([#153](https://github.com/harlan-zw/nuxt-schema-org/pull/153))
+
+### 🏡 Chore
+
+- **ci:** Allow manual nightly recovery ([#154](https://github.com/harlan-zw/nuxt-schema-org/pull/154))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+
+## v6.3.0...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.3.0...main)
+
+### 🩹 Fixes
+
+- Pass nuxtApp to injectHead in init plugin ([#152](https://github.com/harlan-zw/nuxt-schema-org/pull/152))
+
+### ❤️ Contributors
+
+- Noah Sturis ([@nsturis](https://github.com/nsturis))
+
+## v6.2.9...main
+
+[compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.9...main)
+
+### 🚀 Enhancements
+
+- First-party comark-content support ([#151](https://github.com/harlan-zw/nuxt-schema-org/pull/151))
+
+### 🏡 Chore
+
+- Sync ([4a9547e](https://github.com/harlan-zw/nuxt-schema-org/commit/4a9547e))
+- Avoid `__dirname` in shipped devtools layer config ([#149](https://github.com/harlan-zw/nuxt-schema-org/pull/149))
+- Adopt eslint-plugin-harlanzw base config ([#150](https://github.com/harlan-zw/nuxt-schema-org/pull/150))
+- Sync ([11f0802](https://github.com/harlan-zw/nuxt-schema-org/commit/11f0802))
+- Sync ([cea1c59](https://github.com/harlan-zw/nuxt-schema-org/commit/cea1c59))
+- Sync ([be835bc](https://github.com/harlan-zw/nuxt-schema-org/commit/be835bc))
+
+### ❤️ Contributors
+
+- Harlan Wilton ([@harlan-zw](https://github.com/harlan-zw))
+- Daniel Roe ([@danielroe](https://github.com/danielroe))
+
 ## v6.2.8...main
 
 [compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.2.8...main)
