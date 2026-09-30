@@ -51,7 +51,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "client:build": "node -e \"require('fs').cpSync('devtools','dist/devtools',{recursive:true})\"",
-    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && npm run client:build && npm run vendor:build",
+    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && pnpm run client:build && pnpm run vendor:build",
     "vendor:build": "node scripts/vendor-schema-org.mjs",
     "dev": "nuxt dev playground",
     "dev:build": "nuxt build playground",

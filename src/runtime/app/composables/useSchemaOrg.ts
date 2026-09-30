@@ -1,9 +1,8 @@
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
 import type { ActiveHeadEntry, Script, UseHeadInput } from '@unhead/vue'
 import type { MaybeRef } from 'vue'
-import { useNuxtApp } from 'nuxt/app'
+import { useHead, useNuxtApp } from 'nuxt/app'
 import { isRef, toValue } from 'vue'
-import { useHead } from '#imports'
 import { useSchemaOrgConfig } from '../utils/config'
 
 type Input = MaybeRef<Parameters<typeof _useSchemaOrg>[0]>
