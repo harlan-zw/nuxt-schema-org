@@ -1,5 +1,4 @@
-import { defineNuxtPlugin } from 'nuxt/app'
-import { injectHead } from '#imports'
+import { defineNuxtPlugin, injectHead } from 'nuxt/app'
 import { initPlugin } from '../utils/shared'
 import { warnOnUntypedSchemaOrgNodes } from '../utils/untyped-nodes'
 

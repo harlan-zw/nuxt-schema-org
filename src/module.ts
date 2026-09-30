@@ -116,7 +116,7 @@ export default defineNuxtModule<ModuleOptions>({
       logger.debug('The module is disabled, skipping setup.')
       return
     }
-    setupNitroRuntimeCompatibility(nuxt)
+    const nitroRuntime = setupNitroRuntimeCompatibility(nuxt)
     if (!nuxt.options.ssr && nuxt.options.dev)
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
 
@@ -142,14 +142,6 @@ export default defineNuxtModule<ModuleOptions>({
       // (#116). Their own imports (unhead, @unhead/vue, ufo, vue) stay external
       // and resolve from the host app.
       nuxt.options.build.transpile.push(vendor.dir)
-      nuxt.hooks.hook('nitro:config', (nitroConfig) => {
-        nitroConfig.alias = nitroConfig.alias || {}
-        nitroConfig.alias['@unhead/schema-org/vue'] = vendor.vue
-        nitroConfig.alias['@unhead/schema-org'] = vendor.main
-        nitroConfig.externals = nitroConfig.externals || {}
-        nitroConfig.externals.inline = nitroConfig.externals.inline || []
-        nitroConfig.externals.inline.push(vendor.dir)
-      })
     }
     else if (vendor.main !== '@unhead/schema-org') {
       // repo dev/stub fallback on an unhead v2 host: alias to the npm-aliased
@@ -158,12 +150,30 @@ export default defineNuxtModule<ModuleOptions>({
       logger.debug(`Detected unhead v${unheadMajor}, aliasing @unhead/schema-org -> ${vendor.main}`)
       nuxt.options.alias['@unhead/schema-org'] = vendor.main
       nuxt.options.build.transpile.push(vendor.main)
+    }
+
+    if (vendor.vendored || vendor.main !== '@unhead/schema-org') {
       nuxt.hooks.hook('nitro:config', (nitroConfig) => {
-        nitroConfig.alias = nitroConfig.alias || {}
+        nitroConfig.alias ||= {}
+        if (vendor.vendored)
+          nitroConfig.alias['@unhead/schema-org/vue'] = vendor.vue
         nitroConfig.alias['@unhead/schema-org'] = vendor.main
-        nitroConfig.externals = nitroConfig.externals || {}
-        nitroConfig.externals.inline = nitroConfig.externals.inline || []
-        nitroConfig.externals.inline.push(vendor.main)
+
+        const inlinePath = vendor.vendored ? vendor.dir : vendor.main
+        if (nitroRuntime._tag === 'nitro-v3') {
+          const nitro3Config = nitroConfig as Omit<typeof nitroConfig, 'noExternals'> & { noExternals?: boolean | (string | RegExp)[] }
+          if (nitro3Config.noExternals !== true) {
+            nitro3Config.noExternals = [
+              ...(Array.isArray(nitro3Config.noExternals) ? nitro3Config.noExternals : []),
+              inlinePath,
+            ]
+          }
+        }
+        else {
+          nitroConfig.externals ||= {}
+          nitroConfig.externals.inline ||= []
+          nitroConfig.externals.inline.push(inlinePath)
+        }
       })
     }
 

@@ -10,6 +10,12 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
   ],
 
+  // @ts-expect-error i18n config is added by the module at runtime.
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'fr'],
+  },
+
   site: {
     url: 'https://harlanhamburgers.com',
     identity: {

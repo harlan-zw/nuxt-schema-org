@@ -15,7 +15,7 @@ async function main() {
 
   const origin = `http://127.0.0.1:${port}`
   const nitroManifest = JSON.parse(await readFile(new URL('.output/nitro.json', import.meta.url), 'utf8'))
-  assert.equal(nitroManifest.versions.nitro, '3.0.260610-beta')
+  assert.match(nitroManifest.versions.nitro, /^3\./)
 
   const server = spawn(process.execPath, ['.output/server/index.mjs'], {
     cwd: import.meta.dirname,
@@ -51,6 +51,14 @@ async function main() {
     const body = await response.json()
     assert.equal(body.siteConfig.url, 'https://schema-org.example.com')
     assert.equal(body.runtimeConfig.version, rootPackage.version)
+
+    const page = await fetch(origin)
+    assert.equal(page.status, 200)
+    const html = await page.text()
+    const jsonLd = html.match(/<script\b[^>]*type="application\/ld\+json"[^>]*>([^<]*)<\/script>/)?.[1]
+    assert.ok(jsonLd, 'The page must render a Schema.org script')
+    const schema = JSON.parse(jsonLd)
+    assert.equal(schema['@graph'].find(node => node['@type'] === 'WebSite')?.url, 'https://schema-org.example.com/')
   }
   finally {
     server.kill()

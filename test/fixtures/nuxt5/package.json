@@ -15,6 +15,7 @@
     "vue-router": "catalog:"
   },
   "devDependencies": {
+    "chokidar": "5.0.0",
     "typescript": "catalog:",
     "vue-tsc": "catalog:"
   }

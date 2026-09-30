@@ -2,10 +2,9 @@ import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org/vue'
 import type { NuxtApp } from 'nuxt/app'
 import * as schemaOrgVue from '@unhead/schema-org/vue'
 import { resolveSitePath } from 'nuxt-site-config/urls'
-import { useRoute, useRuntimeConfig } from 'nuxt/app'
+import { injectHead, useRoute, useRuntimeConfig } from 'nuxt/app'
 import { withTrailingSlash } from 'ufo'
 import { toValue, watch } from 'vue'
-import { injectHead } from '#imports'
 import {
   useSiteConfig,
 } from '#site-config/app/composables/useSiteConfig'
