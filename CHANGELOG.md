@@ -1,3 +1,10 @@
+## 6.4.3
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.4.2...v6.4.3)
+
+- chore(ci): remove the docs deploy dispatch (#167) ([f5f088a](https://github.com/harlan-zw/nuxt-schema-org/commit/f5f088a07c77b4c4d06a07ffddae59b545a261e7))
+- fix(nitro): support Nuxt 5 vendor bundling (#168) ([fcaa1f8](https://github.com/harlan-zw/nuxt-schema-org/commit/fcaa1f80a4dd95d5b995f808a0fcdb2f47cbaabe))
+
 ## 6.4.2
 
 [Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.4.1...v6.4.2)
