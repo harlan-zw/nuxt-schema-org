@@ -5,7 +5,7 @@ description: Add, fix, or debug Schema.org JSON-LD in a Nuxt app with the nuxt-s
 
 # nuxt-schema-org
 
-Tested against `nuxt-schema-org` 6.4.0 on Nuxt 4.5 (requires Nuxt `>=3.16.0`).
+Requires Nuxt `^4.6.0 || ^5.0.0` and Unhead 3.4.2 or newer.
 The module renders one Schema.org `@graph` per page as `<script type="application/ld+json">`.
 It wraps [Unhead Schema.org](https://unhead.unjs.io/docs/schema-org/guides/get-started/overview) and adds site config, Nuxt Content, and i18n. Docs: https://nuxtseo.com/docs/schema-org
 
@@ -113,7 +113,7 @@ The config identity is shared across locales. For translated identity fields, ca
 
 ## Version limits
 
-The module aliases `@unhead/schema-org` to the major that matches the app's `@unhead/vue`. Nuxt 4.5 ships unhead v3.
+The module vendors Unhead Schema.org 3 and aliases `@unhead/schema-org` to that copy.
 On unhead v2 these are undefined: `defineDiscussionForumPosting`, `defineEmployerAggregateRating`, `defineMathSolver`, `defineQuiz`, `defineVacationRental`.
 Full node list: https://unhead.unjs.io/docs/schema-org/api/schema/organization
 

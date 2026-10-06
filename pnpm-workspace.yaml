@@ -22,22 +22,84 @@ minimumReleaseAgeExclude:
   - nuxt-site-config-kit@4.1.4 || 4.2.1
   - nuxt-site-config@4.1.4 || 4.2.1
   - site-config-stack@4.1.4 || 4.2.1
-  - '@nuxt/kit@4.5.0'
-  - '@nuxt/nitro-server@4.5.0'
-  - '@nuxt/schema@4.5.0'
-  - '@nuxt/vite-builder@4.5.0'
-  - nuxt@4.5.0
+  - '@nuxt/kit@4.5.0 || 4.6.0'
+  - '@nuxt/nitro-server@4.5.0 || 4.6.0'
+  - '@nuxt/schema@4.5.0 || 4.6.0'
+  - '@nuxt/vite-builder@4.5.0 || 4.6.0'
+  - nuxt@4.5.0 || 4.6.0
   - nuxt-seo-utils@8.3.2
   - '@harlan-zw/comark-content@0.1.4'
+  - '@nuxt/cli@4.0.0'
+  - '@nuxt/vite-server@4.6.0'
 shellEmulator: true
 
 trustPolicy: no-downgrade
+trustPolicyExclude:
+  - stylehacks@9.0.7
+  - postcss-normalize-timing-functions@9.0.5
+  - postcss-normalize-display-values@9.0.5
+  - postcss-normalize-repeat-style@9.0.5
+  - postcss-normalize-whitespace@9.0.5
+  - postcss-normalize-positions@9.0.6
+  - postcss-minify-font-values@9.0.7
+  - postcss-discard-duplicates@9.0.5
+  - postcss-discard-overridden@9.0.5
+  - postcss-reduce-transforms@9.0.4
+  - postcss-normalize-unicode@9.0.5
+  - postcss-unique-selectors@9.0.5
+  - postcss-normalize-string@9.0.5
+  - postcss-minify-selectors@9.0.6
+  - postcss-merge-longhand@9.2.0
+  - postcss-normalize-charset@9.0.5
+  - postcss-minify-gradients@9.0.6
+  - postcss-ordered-values@9.0.6
+  - postcss-discard-comments@9.0.6
+  - postcss-normalize-url@9.0.5
+  - postcss-reduce-initial@9.0.6
+  - postcss-convert-values@9.0.7
+  - postcss-merge-rules@9.0.8
+  - postcss-colormin@9.0.6
+  - postcss-discard-empty@9.0.5
+  - postcss-minify-params@9.0.6
+  - postcss-svgo@9.0.4
+  - cssnano-utils@8.1.0
+  - cssnano-preset-default@9.2.2
+  - cssnano@9.2.2
 packages:
   - devtools
   - '!examples/**'
-  - '!test/compat-v2/**'
 overrides:
   '@unhead/vue': ^3.4.2
+  cssnano: 9.2.2
+  cssnano-preset-default: 9.2.2
+  cssnano-utils: 8.1.0
+  postcss-colormin: 9.0.6
+  postcss-convert-values: 9.0.7
+  postcss-discard-comments: 9.0.6
+  postcss-discard-duplicates: 9.0.5
+  postcss-discard-empty: 9.0.5
+  postcss-discard-overridden: 9.0.5
+  postcss-merge-longhand: 9.2.0
+  postcss-merge-rules: 9.0.8
+  postcss-minify-font-values: 9.0.7
+  postcss-minify-gradients: 9.0.6
+  postcss-minify-params: 9.0.6
+  postcss-minify-selectors: 9.0.6
+  postcss-normalize-charset: 9.0.5
+  postcss-normalize-display-values: 9.0.5
+  postcss-normalize-positions: 9.0.6
+  postcss-normalize-repeat-style: 9.0.5
+  postcss-normalize-string: 9.0.5
+  postcss-normalize-timing-functions: 9.0.5
+  postcss-normalize-unicode: 9.0.5
+  postcss-normalize-url: 9.0.5
+  postcss-normalize-whitespace: 9.0.5
+  postcss-ordered-values: 9.0.6
+  postcss-reduce-initial: 9.0.6
+  postcss-reduce-transforms: 9.0.4
+  postcss-svgo: 9.0.4
+  postcss-unique-selectors: 9.0.5
+  stylehacks: 9.0.7
   unhead: ^3.4.2
   vite: npm:vite@8.0.1
   vue: ^3.5.41
@@ -47,15 +109,14 @@ catalog:
   '@harlan-zw/comark-content': ^0.1.4
   '@iconify-json/lucide': ^1.2.124
   '@nuxt/content': ^3.15.2
-  '@nuxt/kit': ^4.5.2
+  '@nuxt/kit': ^4.6.0
   '@nuxt/module-builder': ^1.0.3
-  '@nuxt/schema': ^4.5.2
+  '@nuxt/schema': ^4.6.0
   '@nuxt/test-utils': ^4.1.0
   '@nuxt/ui': ^4.10.0
   '@nuxtjs/i18n': ^10.6.0
   '@nuxtjs/robots': ^6.1.5
   '@unhead/schema-org': ^3.4.2
-  '@unhead/schema-org-v2': npm:@unhead/schema-org@^2.1.17
   '@vue/test-utils': ^2.4.11
   better-sqlite3: ^13.0.3
   bumpp: ^12.2.1
@@ -64,12 +125,11 @@ catalog:
   eslint: ^10.8.1
   eslint-plugin-harlanzw: ^0.20.0
   happy-dom: ^20.11.2
-  nuxt: ^4.5.2
+  nuxt: 4.6.0
   nuxt-seo-utils: ^8.4.2
-  nuxt-site-config: ^4.2.3
+  nuxt-site-config: ^5.0.0
   nuxtseo-layer-devtools: ^5.3.14
-  nuxtseo-shared: ^5.3.15
-  pkg-types: ^2.3.1
+  nuxtseo-shared: ^6.0.0
   typescript: 6.0.3
   ufo: ^1.6.4
   unbuild: ^3.6.1

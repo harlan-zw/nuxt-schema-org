@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
 
 async function main() {
-  const rootPackage = JSON.parse(await readFile(new URL('../../../package.json', import.meta.url), 'utf8'))
+  const rootPackage = JSON.parse(await readFile(new URL('node_modules/nuxt-schema-org/package.json', import.meta.url), 'utf8'))
   const portServer = createServer()
   portServer.listen(0, '127.0.0.1')
   await once(portServer, 'listening')
@@ -15,7 +15,7 @@ async function main() {
 
   const origin = `http://127.0.0.1:${port}`
   const nitroManifest = JSON.parse(await readFile(new URL('.output/nitro.json', import.meta.url), 'utf8'))
-  assert.match(nitroManifest.versions.nitro, /^3\./)
+  assert.match(nitroManifest.versions.nitro, process.env.NUXT_TEST_LANE === 'nuxt5' ? /^3\./ : /^2\./)
 
   const server = spawn(process.execPath, ['.output/server/index.mjs'], {
     cwd: import.meta.dirname,

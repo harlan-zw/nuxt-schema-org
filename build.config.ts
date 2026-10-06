@@ -5,7 +5,7 @@ export default defineBuildConfig({
   rollup: {
     emitCJS: true,
     // `schema.ts` re-exports @unhead/schema-org, which is a devDependency only:
-    // the published package vendors both majors under dist/vendor instead of
+    // the published package vendors Unhead 3 under dist/vendor instead of
     // depending on them (#125), so the re-export must be bundled in.
     inlineDependencies: ['@unhead/schema-org'],
   },
@@ -14,6 +14,7 @@ export default defineBuildConfig({
     { input: 'src/content', name: 'content' },
   ],
   externals: [
+    'nuxt/server',
     'h3',
     'std-env',
     'nitropack',

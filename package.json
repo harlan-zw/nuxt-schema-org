@@ -1,7 +1,7 @@
 {
   "name": "nuxt-schema-org",
   "type": "module",
-  "version": "6.4.3",
+  "version": "7.0.0",
   "packageManager": "pnpm@11.22.0",
   "description": "The quickest and easiest way to build Schema.org graphs for Nuxt.",
   "author": "Harlan Wilton <harlan@harlanzw.com>",
@@ -19,8 +19,7 @@
     "schema-org",
     "nuxt",
     "@nuxt-schema-org",
-    "nuxt-module",
-    "nuxt3"
+    "nuxt-module"
   ],
   "exports": {
     ".": {
@@ -48,6 +47,9 @@
     "dist",
     "skills"
   ],
+  "engines": {
+    "node": "^22.22.3 || ^24.15.0 || >=26.0.0"
+  },
   "scripts": {
     "lint": "eslint . --fix",
     "client:build": "node -e \"require('fs').cpSync('devtools','dist/devtools',{recursive:true})\"",
@@ -60,14 +62,15 @@
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "typecheck": "tsc --noEmit ",
     "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest",
-    "test:run": "pnpm test -- --run && pnpm test:nuxt5",
-    "test:nuxt5": "pnpm pack --out test/fixtures/nuxt5/nuxt-schema-org.tgz && pnpm install --dir test/fixtures/nuxt5 --no-frozen-lockfile --update-checksums && pnpm --dir test/fixtures/nuxt5 test",
-    "test:compat-v2": "node test/compat-v2/run.mjs",
-    "test:attw": "attw --pack"
+    "test:run": "pnpm test -- --run && pnpm test:nuxt-lanes",
+    "test:nuxt5": "node scripts/test-nuxt-lanes.ts nuxt5",
+    "test:attw": "attw --pack",
+    "test:nuxt-lanes": "node scripts/test-nuxt-lanes.ts"
   },
   "peerDependencies": {
-    "@unhead/vue": "^2.0.7 || ^3.0.0",
-    "unhead": "^2.0.7 || ^3.0.0",
+    "@unhead/vue": "^3.4.2",
+    "nuxt": "^4.6.0 || ^5.0.0",
+    "unhead": "^3.4.2",
     "zod": ">=3"
   },
   "peerDependenciesMeta": {
@@ -86,7 +89,6 @@
     "defu": "catalog:",
     "nuxt-site-config": "catalog:",
     "nuxtseo-shared": "catalog:",
-    "pkg-types": "catalog:",
     "ufo": "catalog:"
   },
   "devDependencies": {
@@ -102,7 +104,6 @@
     "@nuxtjs/i18n": "catalog:",
     "@nuxtjs/robots": "catalog:",
     "@unhead/schema-org": "catalog:",
-    "@unhead/schema-org-v2": "catalog:",
     "@vue/test-utils": "catalog:",
     "better-sqlite3": "catalog:",
     "bumpp": "catalog:",
