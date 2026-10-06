@@ -62,10 +62,9 @@
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "typecheck": "tsc --noEmit ",
     "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest",
-    "test:run": "pnpm test -- --run && pnpm test:nuxt-lanes",
-    "test:nuxt5": "node scripts/test-nuxt-lanes.ts nuxt5",
-    "test:attw": "attw --pack",
-    "test:nuxt-lanes": "node scripts/test-nuxt-lanes.ts"
+    "test:run": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest run && pnpm test:nuxt5",
+    "test:nuxt5": "pnpm build && pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 test",
+    "test:attw": "attw --pack"
   },
   "peerDependencies": {
     "@unhead/vue": "^3.4.2",

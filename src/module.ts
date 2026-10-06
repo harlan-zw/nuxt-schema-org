@@ -85,7 +85,7 @@ export default defineNuxtModule<ModuleOptions>({
         optional: true,
       },
       'nuxt-site-config': {
-        version: '^5.0.0',
+        version: '>=5.0.0',
       },
       '@harlan-zw/comark-content': {
         version: '>=0.1.2',

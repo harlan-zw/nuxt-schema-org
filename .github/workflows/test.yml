@@ -3,8 +3,14 @@ name: CI
 on:
   push:
     paths-ignore:
-      - '**/README.md'
+      - '**/*.md'
       - 'docs/**'
+    branches:
+      - main
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+      - docs/**
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
@@ -15,8 +21,24 @@ permissions:
 
 jobs:
   ci:
-    uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@226c091a0744b7286ef721ac035eed53856bfaa5
+    uses: harlan-zw/nuxt-seo/.github/workflows/reusable-ci.yml@09760efb0ffeac9f477673725c1c2f1fc8b1b049
     with:
-      migration: true
       playwright: false
       test-command: pnpm test:run
+      node-version: 22.22.3
+
+  # Regression guard for #114: the module ships both @unhead/schema-org majors and
+  # must alias to the one matching the host's unhead. The main suite runs on the
+  # unhead v3 stack, so it can't catch a v3-schema-org / v2-unhead skew. This job
+  # builds + packs the module and installs it into an isolated unhead v2 host.
+  compat-v2:
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 'lts/*'
+          cache: pnpm
+      - run: pnpm i
+      - run: pnpm test:compat-v2
