@@ -1,17 +1,10 @@
-<h1>nuxt-schema-org</h1>
+<h1><a href="https://nuxtseo.com"><img src=".github/assets/icon.svg" width="40" height="40" alt="Nuxt SEO" align="top"></a> nuxt-schema-org</h1>
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![License][license-src]][license-href]
 [![Nuxt][nuxt-src]][nuxt-href]
-
-<a href="https://skilld.dev/gh/harlan-zw/nuxt-schema-org">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://skilld.dev/b/harlan-zw/nuxt-schema-org?theme=dark">
-    <source media="(prefers-color-scheme: light)" srcset="https://skilld.dev/b/harlan-zw/nuxt-schema-org?theme=light">
-    <img alt="Skill repository on skilld.dev" src="https://skilld.dev/b/harlan-zw/nuxt-schema-org?theme=light">
-  </picture>
-</a>
+[![Skill repository on skilld.dev][skilld-src]][skilld-href]
 
 Nuxt Schema.org lets you generate Schema.org graphs which can help your site appear with rich search results.
 
@@ -69,14 +62,17 @@ npx nuxi@latest module add schema-org
 Licensed under the [MIT license](https://github.com/harlan-zw/nuxt-schema-org/blob/main/LICENSE.md).
 
 <!-- Badges -->
-[npm-version-src]: https://img.shields.io/npm/v/nuxt-schema-org/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-version-src]: https://img.shields.io/npm/v/nuxt-schema-org/latest.svg?style=flat&labelColor=16152b&color=00a63e
 [npm-version-href]: https://npmjs.com/package/nuxt-schema-org
 
-[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-schema-org.svg?style=flat&colorA=18181B&colorB=28CF8D
+[npm-downloads-src]: https://img.shields.io/npm/dm/nuxt-schema-org.svg?style=flat&labelColor=16152b&color=00a63e
 [npm-downloads-href]: https://npmjs.com/package/nuxt-schema-org
 
-[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-schema-org.svg?style=flat&colorA=18181B&colorB=28CF8D
+[license-src]: https://img.shields.io/github/license/harlan-zw/nuxt-schema-org.svg?style=flat&labelColor=16152b&color=00a63e
 [license-href]: https://github.com/harlan-zw/nuxt-schema-org/blob/main/LICENSE.md
 
-[nuxt-src]: https://img.shields.io/badge/Nuxt-18181B?logo=nuxt
+[nuxt-src]: https://img.shields.io/badge/Nuxt-16152b?logo=nuxt&style=flat
 [nuxt-href]: https://nuxt.com
+
+[skilld-src]: https://skilld.dev/b/harlan-zw/nuxt-schema-org?style=flat&labelColor=16152b&color=00a63e&logoColor=ffffff
+[skilld-href]: https://skilld.dev/gh/harlan-zw/nuxt-schema-org
