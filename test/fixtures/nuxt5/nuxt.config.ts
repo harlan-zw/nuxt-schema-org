@@ -1,8 +1,9 @@
 import NuxtSchemaOrg from 'nuxt-schema-org'
 import NuxtSiteConfig from 'nuxt-site-config'
+import NuxtSeoShared from 'nuxtseo-shared'
 
 if (process.env.NUXT_TEST_LANE === 'nuxt5') {
-  for (const module of [NuxtSchemaOrg, NuxtSiteConfig]) {
+  for (const module of [NuxtSchemaOrg, NuxtSiteConfig, NuxtSeoShared]) {
     const metadata = await module.getMeta()
     metadata.compatibility ||= {}
     metadata.compatibility.nuxt = `${metadata.compatibility.nuxt} || 5.0.0-2610052343-36eafab`

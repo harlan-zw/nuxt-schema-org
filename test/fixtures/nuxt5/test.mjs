@@ -54,6 +54,7 @@ async function main() {
 
     const page = await fetch(origin)
     assert.equal(page.status, 200)
+    assert.equal((await (await fetch(`${origin}/api/runtime-alias`)).json()).version, rootPackage.version)
     const html = await page.text()
     const jsonLd = html.match(/<script\b[^>]*type="application\/ld\+json"[^>]*>([^<]*)<\/script>/)?.[1]
     assert.ok(jsonLd, 'The page must render a Schema.org script')

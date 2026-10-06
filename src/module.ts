@@ -16,7 +16,7 @@ import {
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
-import { setupNitroRuntimeCompatibility, useModuleLogger } from 'nuxtseo-shared/kit'
+import { setupNitroRuntimeCompatibility, setupRuntimeAliases, useModuleLogger } from 'nuxtseo-shared/kit'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, hasContentFileHooks, resolveContentProvider } from './kit'
 import { buildSchemaOrgContentScript } from './runtime/utils/content'
@@ -200,7 +200,8 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    nuxt.options.alias['#schema-org'] = resolve('./runtime')
+    setupRuntimeAliases({ namespace: '#schema-org', app: resolve('./runtime/app'), server: resolve('./runtime/server') }, nuxt)
+    nuxt.options.alias['#schema-org/types'] = resolve('./runtime/types')
 
     const contentProvider = await resolveContentProvider(nuxt)
     const isNuxtContentV2 = contentProvider._tag === 'NuxtContent' && contentProvider.version === 2
