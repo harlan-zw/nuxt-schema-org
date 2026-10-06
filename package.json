@@ -71,15 +71,10 @@
     "@unhead/vue": "^3.4.2",
     "nuxt": "^4.6.0 || ^5.0.0",
     "unhead": "^3.4.2",
+    "vue": "^3.5.0",
     "zod": ">=3"
   },
   "peerDependenciesMeta": {
-    "@unhead/vue": {
-      "optional": true
-    },
-    "unhead": {
-      "optional": true
-    },
     "zod": {
       "optional": true
     }

@@ -1,3 +1,4 @@
+hoist: false
 trustPolicyExclude:
   - cssnano@9.2.2
 allowBuilds:
