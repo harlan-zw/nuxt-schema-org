@@ -19,19 +19,3 @@ jobs:
     with:
       playwright: false
       test-command: pnpm test:run
-
-  # Regression guard for #114: the module ships both @unhead/schema-org majors and
-  # must alias to the one matching the host's unhead. The main suite runs on the
-  # unhead v3 stack, so it can't catch a v3-schema-org / v2-unhead skew. This job
-  # builds + packs the module and installs it into an isolated unhead v2 host.
-  compat-v2:
-    runs-on: ubuntu-24.04-arm
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
-        with:
-          node-version: 'lts/*'
-          cache: pnpm
-      - run: pnpm i
-      - run: pnpm test:compat-v2

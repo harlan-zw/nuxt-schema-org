@@ -12,8 +12,7 @@ import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
 
-// Both vendored majors export this signature: the vendor script maps the v2
-// `UnheadSchemaOrg` onto its three-argument `SchemaOrgUnheadPlugin`.
+// The vendored Unhead 3 plugin accepts configuration, metadata, and options.
 type SchemaOrgPlugin = (
   config: _MetaInput,
   resolveMeta: undefined,
@@ -76,8 +75,7 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
   }
   // The `schema-org:meta` hook edits the resolved meta in place. It runs here,
   // not as the unhead plugin's meta callback: unhead v3 reads that callback
-  // synchronously and ranks it below this template param, and unhead v2's
-  // `UnheadSchemaOrg` never reads it.
+  // synchronously and ranks it below this template param.
   async function resolveSchemaOrgWithHook() {
     const meta = resolveSchemaOrg()
     const url = meta.url
@@ -163,8 +161,6 @@ export function maybeAddIdentitySchemaOrg() {
     }
     // map the identity type to its schema.org resolver; defineX sets the
     // `#identity` @id so WebSite/WebPage etc. can reference it as publisher/about.
-    // defineX works across majors: it abstracts the v2 string vs v3 function
-    // `_resolver` difference internally.
     const identityDefines: Record<string, (input: any) => any> = {
       organization: schemaOrgVue.defineOrganization,
       person: schemaOrgVue.definePerson,

@@ -5,7 +5,7 @@ import { readFile } from 'node:fs/promises'
 import { createServer } from 'node:net'
 
 async function main() {
-  const rootPackage = JSON.parse(await readFile(new URL('../../../package.json', import.meta.url), 'utf8'))
+  const rootPackage = JSON.parse(await readFile(new URL('node_modules/nuxt-schema-org/package.json', import.meta.url), 'utf8'))
   const portServer = createServer()
   portServer.listen(0, '127.0.0.1')
   await once(portServer, 'listening')
@@ -54,6 +54,7 @@ async function main() {
 
     const page = await fetch(origin)
     assert.equal(page.status, 200)
+    assert.equal((await (await fetch(`${origin}/api/runtime-alias`)).json()).version, rootPackage.version)
     const html = await page.text()
     const jsonLd = html.match(/<script\b[^>]*type="application\/ld\+json"[^>]*>([^<]*)<\/script>/)?.[1]
     assert.ok(jsonLd, 'The page must render a Schema.org script')

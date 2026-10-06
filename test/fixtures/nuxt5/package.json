@@ -2,21 +2,22 @@
   "name": "nuxt-schema-org-nuxt5-fixture",
   "type": "module",
   "private": true,
+  "packageManager": "pnpm@12.8.1",
   "scripts": {
-    "test": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.server.json && nuxt build && node test.mjs"
+    "test": "nuxt prepare && vue-tsc --noEmit -p .nuxt/tsconfig.app.json && vue-tsc --noEmit -p .nuxt/tsconfig.server.json && nuxt build && node test.mjs"
   },
   "dependencies": {
-    "nitro": "catalog:",
-    "nuxt": "catalog:",
-    "nuxt-schema-org": "file:./nuxt-schema-org.tgz",
-    "nuxt-site-config": "catalog:",
-    "nuxtseo-shared": "catalog:",
-    "vue": "catalog:",
-    "vue-router": "catalog:"
+    "nitro": "3.0.260903-beta",
+    "nuxt": "npm:nuxt-nightly@5.0.0-2610061032-c7ad8cd",
+    "nuxt-schema-org": "link:../../..",
+    "nuxt-site-config": "^5.0.0",
+    "nuxtseo-shared": "^6.0.0",
+    "vue": "^3.5.43",
+    "vue-router": "^5.3.1"
   },
   "devDependencies": {
-    "chokidar": "5.0.0",
-    "typescript": "catalog:",
-    "vue-tsc": "catalog:"
+    "chokidar": "^5.0.0",
+    "typescript": "6.0.3",
+    "vue-tsc": "^3.3.12"
   }
 }

@@ -2,6 +2,7 @@ import type { NuxtModule } from '@nuxt/schema'
 import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import type { Script, UseHeadInput } from '@unhead/vue/types'
 import type { ModuleRuntimeConfig } from './runtime/types'
+import { readFile } from 'node:fs/promises'
 import { pathToFileURL } from 'node:url'
 import {
   addComponent,
@@ -15,10 +16,9 @@ import {
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
-import { setupNitroRuntimeCompatibility, useModuleLogger } from 'nuxtseo-shared/kit'
-import { readPackageJSON } from 'pkg-types'
+import { setupNitroRuntimeCompatibility, setupRuntimeAliases, useModuleLogger } from 'nuxtseo-shared/kit'
 import { setupDevToolsUI } from './devtools'
-import { extendTypes, hasContentFileHooks, resolveContentProvider, resolveHostUnheadMajor } from './kit'
+import { extendTypes, hasContentFileHooks, resolveContentProvider } from './kit'
 import { buildSchemaOrgContentScript } from './runtime/utils/content'
 import { resolveSerializableIdentityConfig, schemaOrgVendor } from './unhead-compat'
 
@@ -73,7 +73,7 @@ export default defineNuxtModule<ModuleOptions>({
     name: 'nuxt-schema-org',
     configKey: 'schemaOrg',
     compatibility: {
-      nuxt: '>=3.16.0',
+      nuxt: '^4.6.0 || ^5.0.0',
     },
     moduleDependencies: {
       '@nuxtjs/i18n': {
@@ -85,7 +85,7 @@ export default defineNuxtModule<ModuleOptions>({
         optional: true,
       },
       'nuxt-site-config': {
-        version: '>=3.2',
+        version: '>=5.0.0',
       },
       '@harlan-zw/comark-content': {
         version: '>=0.1.2',
@@ -110,7 +110,7 @@ export default defineNuxtModule<ModuleOptions>({
   },
   async setup(config, nuxt) {
     const { resolve } = createResolver(import.meta.url)
-    const { name, version } = await readPackageJSON(resolve('../package.json'))
+    const { name, version } = JSON.parse(await readFile(resolve('../package.json'), 'utf8')) as { name: string, version: string }
     const logger = useModuleLogger(name, config, nuxt)
     if (config.enabled === false) {
       logger.debug('The module is disabled, skipping setup.')
@@ -120,11 +120,7 @@ export default defineNuxtModule<ModuleOptions>({
     if (!nuxt.options.ssr && nuxt.options.dev)
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
 
-    // Pin `@unhead/schema-org` to the major matching the host's unhead. Pairing
-    // schema-org v3 with unhead v2 (e.g. current Nuxt) crashes during head
-    // resolution; we vendor both majors and alias to the compatible one. See #114.
-    const unheadMajor = await resolveHostUnheadMajor(nuxt.options.rootDir)
-    const vendor = schemaOrgVendor(unheadMajor, resolve)
+    const vendor = schemaOrgVendor(resolve)
     const { defineWebPage } = await import(vendor.vendored ? pathToFileURL(vendor.main).href : vendor.main) as typeof import('@unhead/schema-org')
     const { schemaOrgAutoImports, schemaOrgComponents } = await import(vendor.vendored ? pathToFileURL(vendor.vue).href : vendor.vue) as typeof import('@unhead/schema-org/vue')
     if (vendor.vendored) {
@@ -132,7 +128,7 @@ export default defineNuxtModule<ModuleOptions>({
       // paths) onto the vendored copy. The `/vue` entry must precede the bare
       // one: aliases prefix-match in insertion order, and the bare entry would
       // rewrite the subpath onto index.mjs.
-      logger.debug(`Detected unhead v${unheadMajor}, aliasing @unhead/schema-org -> ${vendor.dir}`)
+      logger.debug(`Aliasing @unhead/schema-org -> ${vendor.dir}`)
       nuxt.options.alias['@unhead/schema-org/vue'] = vendor.vue
       nuxt.options.alias['@unhead/schema-org'] = vendor.main
       // Inline the vendored files into both the client bundle and the nitro
@@ -143,16 +139,7 @@ export default defineNuxtModule<ModuleOptions>({
       // and resolve from the host app.
       nuxt.options.build.transpile.push(vendor.dir)
     }
-    else if (vendor.main !== '@unhead/schema-org') {
-      // repo dev/stub fallback on an unhead v2 host: alias to the npm-aliased
-      // v2 package from the workspace devDependencies; substring replacement
-      // keeps subpaths like `/vue` intact.
-      logger.debug(`Detected unhead v${unheadMajor}, aliasing @unhead/schema-org -> ${vendor.main}`)
-      nuxt.options.alias['@unhead/schema-org'] = vendor.main
-      nuxt.options.build.transpile.push(vendor.main)
-    }
-
-    if (vendor.vendored || vendor.main !== '@unhead/schema-org') {
+    if (vendor.vendored) {
       nuxt.hooks.hook('nitro:config', (nitroConfig) => {
         nitroConfig.alias ||= {}
         if (vendor.vendored)
@@ -213,7 +200,8 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    nuxt.options.alias['#schema-org'] = resolve('./runtime')
+    setupRuntimeAliases({ namespace: '#schema-org', app: resolve('./runtime/app'), server: resolve('./runtime/server') }, nuxt)
+    nuxt.options.alias['#schema-org/types'] = resolve('./runtime/types')
 
     const contentProvider = await resolveContentProvider(nuxt)
     const isNuxtContentV2 = contentProvider._tag === 'NuxtContent' && contentProvider.version === 2
@@ -277,7 +265,7 @@ declare module '#app' {
     if (config.debug || nuxt.options.dev) {
       addServerHandler({
         route: '/__schema-org__/debug.json',
-        handler: resolve('./runtime/server/routes/__schema-org__/debug'),
+        handler: { nuxt: resolve('./runtime/server/routes/__schema-org__/debug') },
       })
     }
 
