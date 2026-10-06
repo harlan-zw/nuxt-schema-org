@@ -54,3 +54,7 @@ Temporary Items
 
 .data
 .claude/worktrees/
+
+.migration-sources/
+.migration-checkouts/
+.migration-artifacts/
