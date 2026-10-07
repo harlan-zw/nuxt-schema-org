@@ -10,6 +10,17 @@ await setup({
   browser: false,
 })
 
+async function fetchClientScripts(path: string) {
+  const $ = load(await $fetch<string>(path))
+  const scripts = $('script[src], link[rel="modulepreload"]')
+    .map((_, el) => $(el).attr('src') || $(el).attr('href'))
+    .get()
+    .filter(src => src.endsWith('.js'))
+  expect(scripts.length).toBeGreaterThan(0)
+  const code = await Promise.all(scripts.map(src => $fetch<string>(src, { responseType: 'text' })))
+  return code.join('\n')
+}
+
 describe('pages', () => {
   it('render index', async () => {
     const schema = await $fetchSchemaOrg('/')
@@ -139,16 +150,20 @@ describe('pages', () => {
     const schema = await $fetchSchemaOrg('/tree-shake')
     expect(schema['@graph'].find(n => n['@type'] === 'WebPage').name).toBe('tree-shaken-page')
 
-    const $ = load(await $fetch<string>('/tree-shake'))
-    const scripts = $('script[src], link[rel="modulepreload"]')
-      .map((_, el) => $(el).attr('src') || $(el).attr('href'))
-      .get()
-      .filter(src => src.endsWith('.js'))
-    const code = await Promise.all(scripts.map(src => $fetch<string>(src, { responseType: 'text' })))
+    const code = await fetchClientScripts('/tree-shake')
+    expect(code).not.toContain('tree-shaken-page')
+    expect(code).not.toContain('tree-shaken-alias')
+    expect(code).not.toContain('tree-shaken-unhead')
+  })
 
-    expect(scripts.length).toBeGreaterThan(0)
-    expect(code.join('\n')).not.toContain('tree-shaken-page')
-    expect(code.join('\n')).not.toContain('tree-shaken-alias')
-    expect(code.join('\n')).not.toContain('tree-shaken-unhead')
+  it('renders component slots without shipping the schema-org runtime to the client', async () => {
+    const html = await $fetch<string>('/components-slot')
+    expect(html).toMatch(/<article[^>]*><!--\[--><h1>Slot Article<\/h1><!--\]--><\/article>/)
+
+    const schema = await $fetchSchemaOrg('/components-slot')
+    expect(schema['@graph'].find(n => n['@type'] === 'Article').headline).toBe('Slot Article')
+
+    const code = await fetchClientScripts('/components-slot')
+    expect(code).not.toContain('schema-org-graph')
   })
 })

@@ -10,6 +10,7 @@ import {
   addPlugin,
   addServerHandler,
   addServerPlugin,
+  addTemplate,
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
@@ -236,12 +237,27 @@ export default defineNuxtModule<ModuleOptions>({
       treeShake[schemaOrgImportSource] = ['useSchemaOrg', ...schemaOrgImports]
     }
 
+    let componentsPath = '@unhead/schema-org/vue'
+    if (!config.reactive) {
+      // client builds render only the default slot, so the schema-org runtime stays out of the bundle
+      componentsPath = '#build/schema-org/components'
+      addTemplate({
+        filename: 'schema-org/components.ts',
+        write: true,
+        getContents: () => [
+          `import { ${schemaOrgComponents.map(c => `${c} as _${c}`).join(', ')} } from '@unhead/schema-org/vue'`,
+          `import { defineSchemaOrgSlotComponent } from ${JSON.stringify(resolve('./runtime/app/utils/slot-component'))}`,
+          '',
+          ...schemaOrgComponents.map(c => `export const ${c} = (import.meta.server || import.meta.dev ? _${c} : defineSchemaOrgSlotComponent('${c}')) as typeof _${c}`),
+        ].join('\n'),
+      })
+    }
     for (const component of schemaOrgComponents) {
       await addComponent({
         name: component,
         export: component,
         chunkName: 'nuxt-schema-org/components',
-        filePath: '@unhead/schema-org/vue',
+        filePath: componentsPath,
       })
     }
 
