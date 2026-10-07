@@ -148,5 +148,7 @@ describe('pages', () => {
 
     expect(scripts.length).toBeGreaterThan(0)
     expect(code.join('\n')).not.toContain('tree-shaken-page')
+    expect(code.join('\n')).not.toContain('tree-shaken-alias')
+    expect(code.join('\n')).not.toContain('tree-shaken-unhead')
   })
 })
