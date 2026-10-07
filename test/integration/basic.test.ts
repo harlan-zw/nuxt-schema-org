@@ -1,5 +1,6 @@
 import { resolve } from 'node:path'
-import { setup } from '@nuxt/test-utils'
+import { $fetch, setup } from '@nuxt/test-utils'
+import { load } from 'cheerio'
 import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from './utils'
 
@@ -132,5 +133,20 @@ describe('pages', () => {
     const schema = await $fetchSchemaOrg('/about')
     const webPage = schema['@graph'].find(n => n['@type'] === 'AboutPage' || n['@type']?.includes?.('AboutPage'))
     expect(webPage.url).toBe('https://nuxtseo.com/about')
+  })
+
+  it('tree-shakes useSchemaOrg calls from the client bundle', async () => {
+    const schema = await $fetchSchemaOrg('/tree-shake')
+    expect(schema['@graph'].find(n => n['@type'] === 'WebPage').name).toBe('tree-shaken-page')
+
+    const $ = load(await $fetch<string>('/tree-shake'))
+    const scripts = $('script[src], link[rel="modulepreload"]')
+      .map((_, el) => $(el).attr('src') || $(el).attr('href'))
+      .get()
+      .filter(src => src.endsWith('.js'))
+    const code = await Promise.all(scripts.map(src => $fetch<string>(src, { responseType: 'text' })))
+
+    expect(scripts.length).toBeGreaterThan(0)
+    expect(code.join('\n')).not.toContain('tree-shaken-page')
   })
 })

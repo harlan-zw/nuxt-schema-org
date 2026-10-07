@@ -224,9 +224,15 @@ export default defineNuxtModule<ModuleOptions>({
       addServerPlugin(resolve('./runtime/server/plugins/nuxt-content-v2'))
     }
 
-    if (!config.reactive)
-      // tree-shake all schema-org functions
-      nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = schemaOrgAutoImports[0]!.imports
+    const useSchemaOrgPath = resolve('./runtime/app/composables/useSchemaOrg')
+    const schemaOrgImportSource = schemaOrgAutoImports[0]!.from
+    const schemaOrgImports = schemaOrgAutoImports[0]!.imports.filter((i: string) => i !== 'useSchemaOrg')
+
+    if (!config.reactive) {
+      // tree-shake all schema-org functions; keys must match the injected import sources
+      nuxt.options.optimization.treeShake.composables.client[useSchemaOrgPath] = ['useSchemaOrg']
+      nuxt.options.optimization.treeShake.composables.client[schemaOrgImportSource] = schemaOrgImports
+    }
 
     for (const component of schemaOrgComponents) {
       await addComponent({
@@ -238,13 +244,12 @@ export default defineNuxtModule<ModuleOptions>({
     }
 
     addImports({
-      from: resolve('./runtime/app/composables/useSchemaOrg'),
+      from: useSchemaOrgPath,
       name: 'useSchemaOrg',
     })
 
     nuxt.hooks.hook('imports:sources', (autoImports) => {
-      schemaOrgAutoImports[0]!.imports = schemaOrgAutoImports[0]!.imports.filter((i: string) => i !== 'useSchemaOrg')
-      autoImports.unshift(...schemaOrgAutoImports)
+      autoImports.unshift({ from: schemaOrgImportSource, imports: schemaOrgImports })
     })
 
     extendTypes('nuxt-schema-org', ({ typesPath }) => {
