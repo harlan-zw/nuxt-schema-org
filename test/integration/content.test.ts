@@ -10,6 +10,15 @@ await setup({
 })
 
 describe('content', () => {
+  it('renders nested nullable properties from frontmatter', async () => {
+    const schema = await $fetchSchemaOrg('/null-properties')
+    expect(schema['@graph']).toContainEqual(expect.objectContaining({
+      '@type': 'BlogPosting',
+      'headline': 'Nullable properties',
+      'author': expect.objectContaining({ '@type': 'Person', 'name': 'Jane Smith' }),
+    }))
+  })
+
   it('render faq', async () => {
     const schema = await $fetchSchemaOrg('/question-answer')
 
