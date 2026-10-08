@@ -16,6 +16,8 @@ const rolldownBin = join(dirname(rolldownPackage), 'bin/cli.mjs')
 describe('runtime build warnings', () => {
   it('only reads exports provided by the v3 schema org runtime', () => {
     const root = mkdtempSync(join(tmpdir(), 'nuxt-schema-org-build-'))
+    // This test must feed the runtime source through rolldown itself to assert no IMPORT_IS_UNDEFINED warning.
+    // eslint-disable-next-line harlanzw/no-test-file-reads
     const source = readFileSync(new URL('../../src/runtime/app/utils/shared.ts', import.meta.url), 'utf8')
       .replaceAll('@unhead/schema-org/vue', './schema-org-vue.mjs')
       .replace('../composables/useSchemaOrg', 'useSchemaOrg')
