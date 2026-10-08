@@ -149,11 +149,13 @@ describe('pages', () => {
   it('tree-shakes useSchemaOrg calls from the client bundle', async () => {
     const schema = await $fetchSchemaOrg('/tree-shake')
     expect(schema['@graph'].find(n => n['@type'] === 'WebPage').name).toBe('tree-shaken-page')
+    expect(schema['@graph'].find(n => n['@id'] === 'https://nuxtseo.com/#deep-alias').name).toBe('tree-shaken-deep-alias')
 
     const code = await fetchClientScripts('/tree-shake')
     expect(code).not.toContain('tree-shaken-page')
     expect(code).not.toContain('tree-shaken-alias')
     expect(code).not.toContain('tree-shaken-unhead')
+    expect(code).not.toContain('tree-shaken-deep-alias')
   })
 
   it('renders component slots without shipping the schema-org runtime to the client', async () => {

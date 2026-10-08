@@ -233,6 +233,7 @@ export default defineNuxtModule<ModuleOptions>({
       // tree-shake all schema-org functions; keys must match the injected import sources
       const treeShake = nuxt.options.optimization.treeShake.composables.client
       treeShake[useSchemaOrgPath] = ['useSchemaOrg']
+      treeShake['#schema-org/app/composables/useSchemaOrg'] = ['useSchemaOrg']
       treeShake['#schema-org/app'] = ['useSchemaOrg', ...schemaOrgImports]
       treeShake[schemaOrgImportSource] = ['useSchemaOrg', ...schemaOrgImports]
     }
