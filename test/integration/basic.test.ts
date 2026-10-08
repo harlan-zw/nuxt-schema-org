@@ -1,5 +1,6 @@
 import { resolve } from 'node:path'
-import { setup } from '@nuxt/test-utils'
+import { $fetch, setup } from '@nuxt/test-utils'
+import { load } from 'cheerio'
 import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from './utils'
 
@@ -8,6 +9,17 @@ await setup({
   server: true,
   browser: false,
 })
+
+async function fetchClientScripts(path: string) {
+  const $ = load(await $fetch<string>(path))
+  const scripts = $('script[src], link[rel="modulepreload"]')
+    .map((_, el) => $(el).attr('src') || $(el).attr('href'))
+    .get()
+    .filter(src => src.endsWith('.js'))
+  expect(scripts.length).toBeGreaterThan(0)
+  const code = await Promise.all(scripts.map(src => $fetch<string>(src, { responseType: 'text' })))
+  return code.join('\n')
+}
 
 describe('pages', () => {
   it('render index', async () => {
@@ -132,5 +144,28 @@ describe('pages', () => {
     const schema = await $fetchSchemaOrg('/about')
     const webPage = schema['@graph'].find(n => n['@type'] === 'AboutPage' || n['@type']?.includes?.('AboutPage'))
     expect(webPage.url).toBe('https://nuxtseo.com/about')
+  })
+
+  it('tree-shakes useSchemaOrg calls from the client bundle', async () => {
+    const schema = await $fetchSchemaOrg('/tree-shake')
+    expect(schema['@graph'].find(n => n['@type'] === 'WebPage').name).toBe('tree-shaken-page')
+    expect(schema['@graph'].find(n => n['@id'] === 'https://nuxtseo.com/#deep-alias').name).toBe('tree-shaken-deep-alias')
+
+    const code = await fetchClientScripts('/tree-shake')
+    expect(code).not.toContain('tree-shaken-page')
+    expect(code).not.toContain('tree-shaken-alias')
+    expect(code).not.toContain('tree-shaken-unhead')
+    expect(code).not.toContain('tree-shaken-deep-alias')
+  })
+
+  it('renders component slots without shipping the schema-org runtime to the client', async () => {
+    const html = await $fetch<string>('/components-slot')
+    expect(html).toMatch(/<article[^>]*><!--\[--><h1>Slot Article<\/h1><!--\]--><\/article>/)
+
+    const schema = await $fetchSchemaOrg('/components-slot')
+    expect(schema['@graph'].find(n => n['@type'] === 'Article').headline).toBe('Slot Article')
+
+    const code = await fetchClientScripts('/components-slot')
+    expect(code).not.toContain('schema-org-graph')
   })
 })

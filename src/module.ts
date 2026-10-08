@@ -10,6 +10,7 @@ import {
   addPlugin,
   addServerHandler,
   addServerPlugin,
+  addTemplate,
   createResolver,
   defineNuxtModule,
   hasNuxtModule,
@@ -224,27 +225,50 @@ export default defineNuxtModule<ModuleOptions>({
       addServerPlugin(resolve('./runtime/server/plugins/nuxt-content-v2'))
     }
 
-    if (!config.reactive)
-      // tree-shake all schema-org functions
-      nuxt.options.optimization.treeShake.composables.client['nuxt-schema-org'] = schemaOrgAutoImports[0]!.imports
+    const useSchemaOrgPath = resolve('./runtime/app/composables/useSchemaOrg')
+    const schemaOrgImportSource = schemaOrgAutoImports[0]!.from
+    const schemaOrgImports = schemaOrgAutoImports[0]!.imports.filter((i: string) => i !== 'useSchemaOrg')
 
+    if (!config.reactive) {
+      // tree-shake all schema-org functions; keys must match the injected import sources
+      const treeShake = nuxt.options.optimization.treeShake.composables.client
+      treeShake[useSchemaOrgPath] = ['useSchemaOrg']
+      treeShake['#schema-org/app/composables/useSchemaOrg'] = ['useSchemaOrg']
+      treeShake['#schema-org/app'] = ['useSchemaOrg', ...schemaOrgImports]
+      treeShake[schemaOrgImportSource] = ['useSchemaOrg', ...schemaOrgImports]
+    }
+
+    let componentsPath = '@unhead/schema-org/vue'
+    if (!config.reactive) {
+      // client builds render only the default slot, so the schema-org runtime stays out of the bundle
+      componentsPath = '#build/schema-org/components'
+      addTemplate({
+        filename: 'schema-org/components.ts',
+        write: true,
+        getContents: () => [
+          `import { ${schemaOrgComponents.map(c => `${c} as _${c}`).join(', ')} } from '@unhead/schema-org/vue'`,
+          `import { defineSchemaOrgSlotComponent } from ${JSON.stringify(resolve('./runtime/app/utils/slot-component'))}`,
+          '',
+          ...schemaOrgComponents.map(c => `export const ${c} = (import.meta.server || import.meta.dev ? _${c} : defineSchemaOrgSlotComponent('${c}')) as typeof _${c}`),
+        ].join('\n'),
+      })
+    }
     for (const component of schemaOrgComponents) {
       await addComponent({
         name: component,
         export: component,
         chunkName: 'nuxt-schema-org/components',
-        filePath: '@unhead/schema-org/vue',
+        filePath: componentsPath,
       })
     }
 
     addImports({
-      from: resolve('./runtime/app/composables/useSchemaOrg'),
+      from: useSchemaOrgPath,
       name: 'useSchemaOrg',
     })
 
     nuxt.hooks.hook('imports:sources', (autoImports) => {
-      schemaOrgAutoImports[0]!.imports = schemaOrgAutoImports[0]!.imports.filter((i: string) => i !== 'useSchemaOrg')
-      autoImports.unshift(...schemaOrgAutoImports)
+      autoImports.unshift({ from: schemaOrgImportSource, imports: schemaOrgImports })
     })
 
     extendTypes('nuxt-schema-org', ({ typesPath }) => {
