@@ -3,6 +3,8 @@ export function buildSchemaOrgContentScript(schemaOrgInput: unknown, defineWebPa
 
   // we need to recursively go through all nodes and swap `type` for `@type`
   const replaceType = (node: any) => {
+    if (node === null || typeof node !== 'object')
+      return node
     if (node.type) {
       node['@type'] = node.type
       delete node.type
