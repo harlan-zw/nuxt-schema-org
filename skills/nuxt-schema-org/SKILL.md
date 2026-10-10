@@ -1,6 +1,8 @@
 ---
 name: nuxt-schema-org
 description: Add, fix, or debug Schema.org JSON-LD in a Nuxt app with the nuxt-schema-org module. Use when a task mentions structured data, rich results, JSON-LD, site identity (Organization, Person, LocalBusiness), useSchemaOrg, defineArticle, defineProduct, defineBreadcrumb, FAQ markup, or the schemaOrg frontmatter key in Nuxt Content. Gives the default graph, verified examples, and the traps that silently drop or corrupt nodes.
+license: MIT
+compatibility: "Requires a project using nuxt-schema-org. Requires Node.js ^22.22.3 || ^24.15.0 || >=26.0.0. Requires Nuxt ^4.6.0 || ^5.0.0."
 ---
 
 # nuxt-schema-org
