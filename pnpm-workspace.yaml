@@ -61,6 +61,7 @@ packages:
   - '!examples/**'
 
 overrides:
+  '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@31e54738c7afba269ab6ba53fa0113d4e31e1f01
   '@unhead/vue': ^3.4.2
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
