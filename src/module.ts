@@ -3,7 +3,7 @@ import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unh
 import type { Script, UseHeadInput } from '@unhead/vue/types'
 import type { ModuleRuntimeConfig } from './runtime/types'
 import { readFile } from 'node:fs/promises'
-import { pathToFileURL } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import {
   addComponent,
   addImports,
@@ -16,7 +16,6 @@ import {
   hasNuxtModule,
 } from '@nuxt/kit'
 import { defu } from 'defu'
-import { installNuxtSiteConfig } from 'nuxt-site-config/kit'
 import { setupNitroRuntimeCompatibility, setupRuntimeAliases, useModuleLogger } from 'nuxtseo-shared/kit'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, hasContentFileHooks, resolveContentProvider } from './kit'
@@ -76,26 +75,26 @@ export default defineNuxtModule<ModuleOptions>({
     compatibility: {
       nuxt: '^4.6.0 || ^5.0.0',
     },
-    moduleDependencies: {
-      '@nuxtjs/i18n': {
-        version: '>=8',
-        optional: true,
-      },
-      'nuxt-i18n-micro': {
-        version: '>=1',
-        optional: true,
-      },
-      'nuxt-site-config': {
-        version: '>=5.0.0',
-      },
-      '@harlan-zw/comark-content': {
-        version: '>=0.1.2',
-        optional: true,
-      },
-      '@nuxt/content': {
-        version: '>=2',
-        optional: true,
-      },
+  },
+  moduleDependencies: {
+    '@nuxtjs/i18n': {
+      version: '>=8',
+      optional: true,
+    },
+    'nuxt-i18n-micro': {
+      version: '>=1',
+      optional: true,
+    },
+    [fileURLToPath(import.meta.resolve('nuxt-site-config'))]: {
+      version: '>=5.0.0',
+    },
+    '@harlan-zw/comark-content': {
+      version: '>=0.1.2',
+      optional: true,
+    },
+    '@nuxt/content': {
+      version: '>=2',
+      optional: true,
     },
   },
   defaults(nuxt) {
@@ -164,8 +163,6 @@ export default defineNuxtModule<ModuleOptions>({
         }
       })
     }
-
-    await installNuxtSiteConfig()
 
     const runtimeConfig: ModuleRuntimeConfig = {
       reactive: config.reactive,

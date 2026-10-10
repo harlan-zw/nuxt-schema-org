@@ -11,7 +11,7 @@ for (const module of [NuxtSchemaOrg, NuxtSiteConfig, NuxtSeoShared]) {
 export default defineNuxtConfig({
   workspaceDir: import.meta.dirname,
   vite: { resolve: { dedupe: ['nuxt', 'vue', 'vue-router'] } },
-  modules: [NuxtSchemaOrg],
+  modules: [NuxtSiteConfig, NuxtSchemaOrg],
   schemaOrg: {
     debug: true,
   },
