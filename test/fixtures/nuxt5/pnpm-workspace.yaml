@@ -111,8 +111,8 @@ overrides:
   stylehacks: 9.0.7
   unhead: ^3.4.2
   vue: ^3.5.41
-  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@226c091a0744b7286ef721ac035eed53856bfaa5
-  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
-  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
-  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
+  nuxtseo-shared: https://pkg.pr.new/harlan-zw/nuxt-seo/nuxtseo-shared@113287e3fb44472264dd56fc90fb695ff8a9f6dd
+  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@40698727ca424460013f3534af9005e36728d669
+  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@40698727ca424460013f3534af9005e36728d669
+  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@40698727ca424460013f3534af9005e36728d669
 blockExoticSubdeps: false
