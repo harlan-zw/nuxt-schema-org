@@ -85,8 +85,10 @@ export default defineNuxtModule<ModuleOptions>({
       version: '>=1',
       optional: true,
     },
+    // Keep package-relative resolution until the minimum Nuxt version includes this fix:
+    // https://github.com/nuxt/nuxt/pull/36542
     [fileURLToPath(import.meta.resolve('nuxt-site-config'))]: {
-      version: '>=5.0.0',
+      version: '^5.0.0',
     },
     '@harlan-zw/comark-content': {
       version: '>=0.1.2',
