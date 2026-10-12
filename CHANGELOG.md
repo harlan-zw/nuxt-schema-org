@@ -1,3 +1,20 @@
+## 7.0.0
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.4.3...v7.0.0)
+
+- docs: add the module icon and unify the README badges (#171) ([c0ed31b](https://github.com/harlan-zw/nuxt-schema-org/commit/c0ed31ba752a89d91af970519ecdeab435cea87a))
+- feat!: require Nuxt 4.6 and drop Unhead 2 compatibility (#170) ([bf70be3](https://github.com/harlan-zw/nuxt-schema-org/commit/bf70be363f1a332d143f3a82110f15cbe4d0eeae))
+- chore: schedule weekly package maintenance (#172) ([b1807be](https://github.com/harlan-zw/nuxt-schema-org/commit/b1807be43815a577f4d4bdd3bf7884b4fbdfacc8))
+- fix: tree-shake auto-imported composables on the client (#175) ([895b996](https://github.com/harlan-zw/nuxt-schema-org/commit/895b99659f077dc1455ec2f799ce1a8096d8da15))
+- fix(content): preserve nullable schema properties (#176) ([40000a6](https://github.com/harlan-zw/nuxt-schema-org/commit/40000a6144751b065ede71004e864392931770be))
+- test(unit): justify runtime source read in build-warnings test (#178) ([87c46b9](https://github.com/harlan-zw/nuxt-schema-org/commit/87c46b9fe568bf86f13dc207c8cb00ad9d51ac91))
+- docs(schema-org): separate validation from search appearance (#179) ([3e066f4](https://github.com/harlan-zw/nuxt-schema-org/commit/3e066f4f517045ba03e6885b7f3725c14d47b1ab))
+- fix(skills): align metadata with the Agent Skills spec (#180) ([4446605](https://github.com/harlan-zw/nuxt-schema-org/commit/44466053570c1738fa48929e892fbfdb8036c45f))
+- fix: declare site config as a native module dependency (#181) ([7c93339](https://github.com/harlan-zw/nuxt-schema-org/commit/7c93339a8cca4f7a4221e26127d8c281f47dd1b6))
+- feat!: drop Nuxt Content v2 support (#182) ([cc75cfd](https://github.com/harlan-zw/nuxt-schema-org/commit/cc75cfd9fb40522a2f921ecdb0ae48a9481ed32f))
+- docs: add the v7 release page and Nuxt SEO v6 launch notes (#183) ([361646b](https://github.com/harlan-zw/nuxt-schema-org/commit/361646bf5b5a1358c7cc5e6a7a09b0c7d33016d3))
+- ci: let the reusable workflow skip docs-only jobs (#185) ([8bd0034](https://github.com/harlan-zw/nuxt-schema-org/commit/8bd0034fa23f78010f7be30235eed5980a3b9999))
+
 ## 6.4.3
 
 [Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.4.2...v6.4.3)
