@@ -13,6 +13,9 @@ It wraps [Unhead Schema.org](https://unhead.unjs.io/docs/schema-org/guides/get-s
 
 ## Setup
 
+Install with `npx nuxt module add schema-org`. Config key: `schemaOrg`.
+Included in `@nuxtjs/seo` v6. If the app uses `@nuxtjs/seo`, configure the `schemaOrg` key and do not add the module again.
+
 Set `site.url`. Every `@id` and relative URL resolves against it. `site.name` and `site.description` feed the `WebSite` node.
 The module needs SSR. Crawlers read only the SSR response. With `ssr: false` the module warns in dev.
 
@@ -107,7 +110,6 @@ The config identity is shared across locales. For translated identity fields, ca
 ## Traps
 
 - **`defineLocalBusiness({ '@type': 'Restaurant' })` as the config identity loses the LocalBusiness resolver.** It renders `["Organization", "Restaurant"]` and leaves `openingHoursSpecification` unnormalized. Use the plain object form above.
-- **On unhead v2, a page `useSeoMeta({ description })` does not reach `WebPage` or `Article`.** They show `site.description`. Pass `description` to `defineWebPage()` or `defineArticle()`. On unhead v3, the page meta description reaches both nodes.
 - **Type names are case sensitive.** `FAQPage` is valid. `FaqPage` renders as written and is not a schema.org type.
 - **Content v3 without a `head` field in the collection schema drops the `schemaOrg` frontmatter.** No error, no node. See [references/nuxt-content.md](references/nuxt-content.md).
 - **A node without `'@type'` still renders, and search engines ignore it.** The module warns in dev only.
@@ -115,8 +117,17 @@ The config identity is shared across locales. For translated identity fields, ca
 
 ## Version limits
 
+v7 breaking changes and their fixes:
+
+- **Nuxt 3 is not supported.** Upgrade to Nuxt `^4.6.0 || ^5.0.0`, Vue `^3.5.0`, and Node `^22.22.3 || ^24.15.0 || >=26.0.0`.
+- **Unhead 2 is not supported.** Nuxt 4.6 already ships Unhead 3.4.2 or later. Remove any Unhead 2 pin.
+- **Site Config 5 is required.** If the app depends on `nuxt-site-config` directly, upgrade it to v5.
+- **Nuxt Content v2 is not supported.** Nuxt stops at startup with a version error. Upgrade to Nuxt Content v3.
+- **The `#schema-org` runtime directory alias is gone.** Import from `#schema-org/app`, `#schema-org/server`, or `#schema-org/types`.
+- **With `reactive: false`, client code calls to `useSchemaOrg()` do nothing.** The functions and components leave the client bundle. Set `schemaOrg: { reactive: true }` to update the graph on the client.
+- **The DevTools panel needs `nuxtseo-devtools-host`.** Run `pnpm add -D nuxtseo-devtools-host@^1`.
+
 The module vendors Unhead Schema.org 3 and aliases `@unhead/schema-org` to that copy.
-On unhead v2 these are undefined: `defineDiscussionForumPosting`, `defineEmployerAggregateRating`, `defineMathSolver`, `defineQuiz`, `defineVacationRental`.
 Full node list: https://unhead.unjs.io/docs/schema-org/api/schema/organization
 
 ## Config
@@ -130,4 +141,4 @@ To change the meta that feeds every node, such as `host` or `url`, edit the obje
 ## Debug
 
 - `/__schema-org__/debug.json` in dev, or in production with `debug: true`.
-- Nuxt DevTools has a Schema.org tab. In dev the client shows a reactive graph; crawlers see only the SSR script.
+- Nuxt DevTools has a Schema.org tab. The panel needs `nuxtseo-devtools-host` as a dev dependency. In dev the client shows a reactive graph; crawlers see only the SSR script.

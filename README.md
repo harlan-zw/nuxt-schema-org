@@ -33,7 +33,7 @@ New to Schema.org or SEO? Check out the [Schema.org](https://nuxtseo.com/learn/m
 Install `nuxt-schema-org` dependency to your project:
 
 ```bash
-npx nuxi@latest module add schema-org
+npx nuxt module add schema-org
 ```
 
 > [!TIP]
