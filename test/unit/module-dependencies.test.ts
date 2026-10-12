@@ -84,25 +84,26 @@ it.each([false, true])('runs Site Config setup once across physical copies, expl
   }
 }, 30_000)
 
-it('rejects a Site Config copy outside the supported major', async () => {
-  const cwd = await mkdtemp(join(tmpdir(), 'schema-org-incompatible-dependency-'))
+it('accepts newer Site Config majors through the compatibility range', async () => {
+  const cwd = await mkdtemp(join(tmpdir(), 'schema-org-compatible-dependency-'))
   let nuxt: Nuxt | undefined
   try {
     await symlink(fileURLToPath(new URL('../../node_modules', import.meta.url)), join(cwd, 'node_modules'), 'dir')
-    const path = await copySiteConfig(cwd, 'unsupported', '6.0.0')
-    const result = await loadNuxt({
+    // Change package metadata to exercise Nuxt's range check with the real Site Config implementation.
+    const path = await copySiteConfig(cwd, 'compatible', '6.0.0')
+    nuxt = await loadNuxt({
       cwd,
       overrides: {
         dev: false,
         devtools: false,
-        modules: [await siteConfigConsumer(path, 'incompatible-consumer')],
+        site: { url: 'https://nuxtseo.com', name: 'Nuxt SEO' },
+        modules: [await siteConfigConsumer(path, 'compatible-consumer')],
       },
-    }).then((instance) => {
-      nuxt = instance
-      return undefined
-    }, (error: unknown) => error)
-    expect(result).toBeInstanceOf(TypeError)
-    expect(result).toHaveProperty('message', expect.stringContaining('version (`6.0.0`) does not satisfy `^5.0.0`'))
+    })
+    expect(nuxt.options.runtimeConfig['nuxt-site-config']).toMatchObject({
+      version: '6.0.0',
+      stack: expect.arrayContaining([expect.objectContaining({ url: 'https://nuxtseo.com', name: 'Nuxt SEO' })]),
+    })
   }
   finally {
     await nuxt?.close()
