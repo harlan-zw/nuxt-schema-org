@@ -1,10 +1,9 @@
 name: CI
 
 on:
+  # No paths-ignore: reusable-ci.yml skips its jobs when only docs change, so
+  # their checks still report.
   push:
-    paths-ignore:
-      - '**/README.md'
-      - 'docs/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.number || github.sha }}
