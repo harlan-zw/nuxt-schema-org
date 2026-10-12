@@ -9,7 +9,6 @@ import {
   addImports,
   addPlugin,
   addServerHandler,
-  addServerPlugin,
   addTemplate,
   createResolver,
   defineNuxtModule,
@@ -95,7 +94,7 @@ export default defineNuxtModule<ModuleOptions>({
       optional: true,
     },
     '@nuxt/content': {
-      version: '>=2',
+      version: '>=3',
       optional: true,
     },
   },
@@ -204,10 +203,8 @@ export default defineNuxtModule<ModuleOptions>({
     nuxt.options.alias['#schema-org/types'] = resolve('./runtime/types')
 
     const contentProvider = await resolveContentProvider(nuxt)
-    const isNuxtContentV2 = contentProvider._tag === 'NuxtContent' && contentProvider.version === 2
     // @nuxt/content v3 and comark-content both fire this build hook with the same
-    // context shape, so one handler covers both. Nuxt Content v2 has no such hook and
-    // is served by a Nitro plugin instead.
+    // context shape, so one handler covers both.
     if (hasContentFileHooks(contentProvider)) {
       nuxt.hooks.hook('content:file:afterParse', (ctx) => {
         if (typeof ctx.content.schemaOrg === 'undefined') {
@@ -219,9 +216,6 @@ export default defineNuxtModule<ModuleOptions>({
         content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
         ctx.content = content
       })
-    }
-    else if (isNuxtContentV2) {
-      addServerPlugin(resolve('./runtime/server/plugins/nuxt-content-v2'))
     }
 
     const useSchemaOrgPath = resolve('./runtime/app/composables/useSchemaOrg')

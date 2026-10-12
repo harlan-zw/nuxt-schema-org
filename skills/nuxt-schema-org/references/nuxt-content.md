@@ -48,4 +48,5 @@ schemaOrg:
 ```
 
 `asSchemaOrgCollection()` is deprecated. Replace it with `defineSchemaOrgSchema()`.
-Content v2 and comark-content need no schema change.
+comark-content needs no schema change.
+Nuxt Content v2 is not supported. Upgrade to Nuxt Content v3.
