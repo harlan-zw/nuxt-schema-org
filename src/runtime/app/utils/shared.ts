@@ -35,6 +35,28 @@ export function initPlugin(nuxtApp: NuxtApp) {
   initSchemaOrgHead(nuxtApp)
 }
 
+/**
+ * Resolve refs and copy plain objects and arrays at every depth.
+ *
+ * Site config objects are frozen on the server: Nitro deep freezes the shared
+ * runtime config that site config reads. Code here, the `schema-org:meta` hook,
+ * and unhead write into the result, so it must never share an object with site config.
+ */
+function resolveSiteConfigValue(value: unknown): any {
+  const resolved = toValue(value)
+  if (Array.isArray(resolved))
+    return resolved.map(resolveSiteConfigValue)
+  if (!resolved || typeof resolved !== 'object')
+    return resolved
+  const proto = Object.getPrototypeOf(resolved)
+  if (proto !== Object.prototype && proto !== null)
+    return resolved
+  const copy: Record<string, any> = {}
+  for (const key in resolved)
+    copy[key] = resolveSiteConfigValue((resolved as Record<string, unknown>)[key])
+  return copy
+}
+
 function withoutUrl<T extends { url?: string }>(meta: T): Omit<T, 'url'> {
   const { url: _url, ...rest } = meta
   return rest
@@ -56,13 +78,7 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
       if (key.startsWith('_')) {
         continue
       }
-      siteConfigResolved[key] = toValue(siteConfig[key])
-      // recursive check
-      if (typeof siteConfigResolved[key] === 'object') {
-        for (const k in siteConfigResolved[key]) {
-          siteConfigResolved[key][k] = toValue(siteConfigResolved[key][k])
-        }
-      }
+      siteConfigResolved[key] = resolveSiteConfigValue(siteConfig[key])
     }
     return {
       ...((route.meta?.schemaOrg as Record<string, any>) || {}),
@@ -139,9 +155,10 @@ export function maybeAddIdentitySchemaOrg() {
     }
     let identityType: string
     if (typeof identity !== 'string') {
+      // unhead writes into nested values, such as `sameAs`, so copy them out of site config
       identityPayload = {
         ...identityPayload,
-        ...identity,
+        ...resolveSiteConfigValue(identity),
       }
       identityType = identity.type
       // Remove type from object to avoid invalid markup
