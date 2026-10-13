@@ -1,3 +1,9 @@
+## 7.0.1
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v7.0.0...v7.0.1)
+
+- fix: stop writing into frozen site config objects (#189) ([d0ca863](https://github.com/harlan-zw/nuxt-schema-org/commit/d0ca863abc588e8d1b340af6bb041cea6f3e4528))
+
 ## 7.0.0
 
 [Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v6.4.3...v7.0.0)
