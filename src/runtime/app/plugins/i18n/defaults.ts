@@ -95,22 +95,28 @@ export default defineNuxtPlugin({
       }
       return pathResolver(path).value
     }
-    if (resolveDefaultLocale()) {
-      if (i18n.localeProperties.value.code !== resolveDefaultLocale()?.code) {
-        website.translationOfWork = {
-          '@type': 'WebSite',
-          '@id': () => `${resolveIdForLocale(resolveDefaultLocale()!)}#website`,
+    const isCurrentWebsite = (locale: SchemaOrgI18nLocale) => resolveIdForLocale(locale) === siteUrl()
+    const defaultLocale = resolveDefaultLocale()
+    if (defaultLocale) {
+      if (i18n.localeProperties.value.code !== defaultLocale.code) {
+        if (!isCurrentWebsite(defaultLocale)) {
+          website.translationOfWork = {
+            '@type': 'WebSite',
+            '@id': () => `${resolveIdForLocale(defaultLocale)}#website`,
+          }
         }
       }
       else {
-        website.workTranslation = locales
-          .filter(locale => locale.code !== resolveDefaultLocale()?.code)
+        const workTranslations = locales
+          .filter(locale => locale.code !== defaultLocale.code && !isCurrentWebsite(locale))
           .map((locale) => {
             return {
               '@type': 'WebSite',
               '@id': () => `${resolveIdForLocale(locale)}#website`,
             }
           })
+        if (workTranslations.length > 0)
+          website.workTranslation = workTranslations
       }
     }
     useSchemaOrg([
