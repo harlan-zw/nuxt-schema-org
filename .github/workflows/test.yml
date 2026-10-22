@@ -3,6 +3,7 @@ name: CI
 on:
   # No paths-ignore: reusable-ci.yml skips its jobs when only docs change, so
   # their checks still report.
+  pull_request:
   push:
 
 concurrency:
