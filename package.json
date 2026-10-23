@@ -61,8 +61,8 @@
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && nuxt prepare client && pnpm run client:build",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "typecheck": "tsc --noEmit ",
-    "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest",
-    "test:run": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && vitest run && pnpm test:nuxt5",
+    "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && nuxt prepare test/fixtures/i18n-no-prefix && vitest",
+    "test:run": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && nuxt prepare test/fixtures/i18n-no-prefix && vitest run && pnpm test:nuxt5",
     "test:nuxt5": "pnpm build && pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 test",
     "test:attw": "attw --pack"
   },
