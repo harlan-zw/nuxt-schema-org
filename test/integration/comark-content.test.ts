@@ -10,6 +10,23 @@ await setup({
 })
 
 describe('comark-content', () => {
+  it('renders FAQ content from storage in the built server', async () => {
+    const schema = await $fetchSchemaOrg('/question-answer')
+    expect(schema['@graph']).toContainEqual(expect.objectContaining({
+      '@type': 'FaqPage',
+      'mainEntity': expect.arrayContaining([
+        expect.objectContaining({
+          '@type': 'Question',
+          'name': 'What is your return policy?',
+          'acceptedAnswer': expect.objectContaining({
+            '@type': 'Answer',
+            'text': 'You can return any item within 30 days of purchase.',
+          }),
+        }),
+      ]),
+    }))
+  })
+
   it('renders the schemaOrg frontmatter into the graph', async () => {
     const schema = await $fetchSchemaOrg('/about')
     expect(schema).toMatchInlineSnapshot(`
