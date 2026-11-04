@@ -10,6 +10,7 @@ minimumReleaseAgeExclude:
   - nuxtseo-layer-devtools
   - nuxtseo-shared
   - vite@8.3.3
+  - '@iconify-json/lucide@1.2.151'
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 262800
@@ -118,11 +119,11 @@ catalog:
   '@antfu/eslint-config': ^10.0.0
   '@arethetypeswrong/cli': ^0.18.5
   '@harlan-zw/comark-content': ^0.2.2
-  '@iconify-json/lucide': ^1.2.147
+  '@iconify-json/lucide': ^1.2.151
   '@nuxt/content': ^3.16.2
-  '@nuxt/kit': ^4.6.2
+  '@nuxt/kit': ^4.6.4
   '@nuxt/module-builder': ^1.0.3
-  '@nuxt/schema': ^4.6.2
+  '@nuxt/schema': ^4.6.4
   '@nuxt/test-utils': ^4.3.4
   '@nuxt/ui': ^4.12.0
   '@nuxtjs/i18n': ^10.6.0
@@ -133,10 +134,10 @@ catalog:
   bumpp: ^12.3.0
   cheerio: ^1.2.0
   defu: ^6.1.7
-  eslint: ^10.13.0
+  eslint: ^10.14.0
   eslint-plugin-harlanzw: ^0.23.0
   happy-dom: ^21.0.4
-  nuxt: 4.6.2
+  nuxt: 4.6.4
   nuxt-seo-utils: ^8.6.1
   nuxt-site-config: ^5.0.0
   nuxtseo-layer-devtools: ^6.0.2
@@ -144,4 +145,4 @@ catalog:
   typescript: 6.0.3
   ufo: ^1.6.4
   unbuild: ^3.6.1
-  vitest: ^5.0.5
+  vitest: ^5.1.0

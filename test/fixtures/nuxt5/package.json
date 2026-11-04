@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "nitro": "3.0.260903-beta",
-    "nuxt": "npm:nuxt-nightly@5.0.0-2610061032-c7ad8cd",
+    "nuxt": "npm:nuxt-nightly@5.0.0-2611040928-8dd2066",
     "nuxt-schema-org": "link:../../..",
     "nuxt-site-config": "^5.0.0",
     "nuxtseo-shared": "^6.0.0",
@@ -18,6 +18,6 @@
   "devDependencies": {
     "chokidar": "^6.0.0",
     "typescript": "6.0.3",
-    "vue-tsc": "^3.3.13"
+    "vue-tsc": "^3.3.14"
   }
 }
