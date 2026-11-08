@@ -1,8 +1,11 @@
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
 import type { ActiveHeadEntry, Script, UseHeadInput } from '@unhead/vue'
 import type { MaybeRef } from 'vue'
-import { useHead, useNuxtApp } from 'nuxt/app'
+import { injectHead, useHead, useNuxtApp } from 'nuxt/app'
 import { isRef, toValue } from 'vue'
+import { graphAttributes, graphTags } from '#schema-org/compiled-graph'
+import { graphScript } from '../../utils/graphScript'
+import { pushGraphInput } from '../utils/compiledGraph'
 import { useSchemaOrgConfig } from '../utils/config'
 
 type Input = MaybeRef<Parameters<typeof _useSchemaOrg>[0]>
@@ -25,13 +28,18 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHead
       ? toValue(input)
       : () => nuxtApp.runWithContext(() => toValue(input))
   }
-  const script: Script = {
-    type: 'application/ld+json',
-    key: 'schema-org-graph',
-    // @ts-expect-error untyped
+  const script = {
+    ...graphScript(config.scriptAttributes),
     nodes,
-    tagPriority: 'high',
-    ...config.scriptAttributes,
+  } as unknown as Script
+  // Under compiler mode the server renders the graph as a value of compiled tags
+  if (import.meta.server && graphTags && JSON.stringify(config.scriptAttributes ?? null) === graphAttributes) {
+    const head = injectHead() as unknown as Parameters<typeof pushGraphInput>[0] & { _acceptsCompiled?: unknown }
+    if (head?._acceptsCompiled) {
+      return pushGraphInput(head, graphTags, {
+        script: [script],
+      }) as ActiveHeadEntry<UseHeadInput>
+    }
   }
   // dev always needs it for the overlay; server doesn't need the direct
   // composable as the plugin is already registered; client only when reactive

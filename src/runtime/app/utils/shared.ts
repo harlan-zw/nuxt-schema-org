@@ -1,15 +1,18 @@
 import type { MetaInput as _MetaInput, MetaInput } from '@unhead/schema-org/vue'
 import type { NuxtApp } from 'nuxt/app'
 import * as schemaOrgVue from '@unhead/schema-org/vue'
+import { TemplateParamsPlugin } from '@unhead/vue/plugins'
 import { resolveSitePath } from 'nuxt-site-config/urls'
 import { injectHead, useRoute, useRuntimeConfig } from 'nuxt/app'
 import { withTrailingSlash } from 'ufo'
 import { toValue, watch } from 'vue'
+import { graphAttributes, graphTags } from '#schema-org/compiled-graph'
 import {
   useSiteConfig,
 } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
+import { graphState } from './compiledGraph'
 import { useSchemaOrgConfig } from './config'
 
 // The vendored Unhead 3 plugin accepts configuration, metadata, and options.
@@ -111,7 +114,9 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
     return meta
   }
   const templateParamEntry = head.push({
-    templateParams: { schemaOrg: withoutUrl(resolveSchemaOrg()) },
+    templateParams: {
+      schemaOrg: withoutUrl(resolveSchemaOrg()),
+    },
   })
   // `app:created` fires after every plugin, so hooks that user plugins register are in place
   nuxtApp.hooks.hookOnce('app:created', async () => {
@@ -133,13 +138,19 @@ export function initSchemaOrgHead(nuxtApp: NuxtApp) {
   const head = injectHead(nuxtApp)
   const config = useSchemaOrgConfig()
   const siteConfig = useSiteConfig()
+  const options = {
+    minify: config.minify,
+    trailingSlash: siteConfig.trailingSlash,
+  }
+  // Under compiler mode the graph is a value of compiled tags, so the head takes no render hook.
+  // Only the template params plugin, which the Schema.org plugin registers, stays.
+  if (import.meta.server && graphTags && JSON.stringify(config.scriptAttributes ?? null) === graphAttributes && (head as { _acceptsCompiled?: unknown })._acceptsCompiled) {
+    graphState(head).options = options
+    head.use(TemplateParamsPlugin)
+    return
+  }
   const schemaOrgPlugin = schemaOrgVue.UnheadSchemaOrg as SchemaOrgPlugin
-  head.use(
-    schemaOrgPlugin({} as _MetaInput, undefined, {
-      minify: config.minify,
-      trailingSlash: siteConfig.trailingSlash,
-    }),
-  )
+  head.use(schemaOrgPlugin({} as _MetaInput, undefined, options))
 }
 
 export function maybeAddIdentitySchemaOrg() {
@@ -184,6 +195,8 @@ export function maybeAddIdentitySchemaOrg() {
       localbusiness: schemaOrgVue.defineLocalBusiness,
     }
     const defineIdentity = identityDefines[identityType?.toLowerCase()] || schemaOrgVue.defineOrganization
-    useSchemaOrg([defineIdentity(identityPayload)])
+    useSchemaOrg([
+      defineIdentity(identityPayload),
+    ])
   }
 }

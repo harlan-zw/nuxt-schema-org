@@ -22,6 +22,7 @@ describe('runtime build warnings', () => {
       .replaceAll('@unhead/schema-org/vue', './schema-org-vue.mjs')
       .replace('../composables/useSchemaOrg', 'useSchemaOrg')
       .replace('./config', 'schemaOrgConfig')
+      .replace('./compiledGraph', 'compiledGraph')
 
     writeFileSync(join(root, 'shared.ts'), source)
     writeFileSync(join(root, 'schema-org-vue.mjs'), `
@@ -49,6 +50,9 @@ export const defineLocalBusiness = () => {}
         '#site-config/app/composables/utils',
         'useSchemaOrg',
         'schemaOrgConfig',
+        'compiledGraph',
+        '@unhead/vue/plugins',
+        '#schema-org/compiled-graph',
       ].join(','),
     ], {
       encoding: 'utf8',

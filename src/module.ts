@@ -16,6 +16,7 @@ import {
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { setupNitroRuntimeCompatibility, setupRuntimeAliases, useModuleLogger } from 'nuxtseo-shared/kit'
+import { setupCompiledGraph } from './compiledGraph'
 import { setupDevToolsUI } from './devtools'
 import { extendTypes, hasContentFileHooks, resolveContentProvider } from './kit'
 import { buildSchemaOrgContentScript } from './runtime/utils/content'
@@ -122,8 +123,12 @@ export default defineNuxtModule<ModuleOptions>({
       logger.warn('You are using Schema.org with SSR disabled. This is not recommended, Google may not detect your Schema.org, and it adds extra page weight')
 
     const vendor = schemaOrgVendor(resolve)
-    const { defineWebPage } = await import(vendor.vendored ? pathToFileURL(vendor.main).href : vendor.main) as typeof import('@unhead/schema-org')
-    const { schemaOrgAutoImports, schemaOrgComponents } = await import(vendor.vendored ? pathToFileURL(vendor.vue).href : vendor.vue) as typeof import('@unhead/schema-org/vue')
+    const { defineWebPage } = await import(vendor.vendored
+      ? pathToFileURL(vendor.main).href
+      : vendor.main) as typeof import('@unhead/schema-org')
+    const { schemaOrgAutoImports, schemaOrgComponents } = await import(vendor.vendored
+      ? pathToFileURL(vendor.vue).href
+      : vendor.vue) as typeof import('@unhead/schema-org/vue')
     if (vendor.vendored) {
       // Redirect every `@unhead/schema-org` import (bundler + nitro + tsconfig
       // paths) onto the vendored copy. The `/vue` entry must precede the bare
@@ -152,7 +157,9 @@ export default defineNuxtModule<ModuleOptions>({
           const nitro3Config = nitroConfig as Omit<typeof nitroConfig, 'noExternals'> & { noExternals?: boolean | (string | RegExp)[] }
           if (nitro3Config.noExternals !== true) {
             nitro3Config.noExternals = [
-              ...(Array.isArray(nitro3Config.noExternals) ? nitro3Config.noExternals : []),
+              ...(Array.isArray(nitro3Config.noExternals)
+                ? nitro3Config.noExternals
+                : []),
               inlinePath,
             ]
           }
@@ -179,6 +186,12 @@ export default defineNuxtModule<ModuleOptions>({
     // @ts-expect-error untyped
     nuxt.options.runtimeConfig['nuxt-schema-org'] = runtimeConfig
 
+    // Under Unhead compiler mode the server renders the graph as a value of compiled tags, so the
+    // head takes no render hook. The output stays the one of the Unhead Schema.org plugin.
+    const compiledGraph = await setupCompiledGraph(nuxt, { reactive: config.reactive, scriptAttributes: config.scriptAttributes })
+    if (compiledGraph._tag === 'Unavailable')
+      logger.warn(`Compiler mode is on, but the Schema.org graph renders through a render hook, so the server takes the full Unhead pipeline: ${compiledGraph.reason}.`)
+
     // @ts-expect-error untyped
     const hasI18n = hasNuxtModule('@nuxtjs/i18n') && nuxt.options.i18n?.locales
     const pluginPath = hasI18n ? './runtime/app/plugins/i18n' : './runtime/app/plugins'
@@ -199,7 +212,11 @@ export default defineNuxtModule<ModuleOptions>({
       })
     }
 
-    setupRuntimeAliases({ namespace: '#schema-org', app: resolve('./runtime/app'), server: resolve('./runtime/server') }, nuxt)
+    setupRuntimeAliases({
+      namespace: '#schema-org',
+      app: resolve('./runtime/app'),
+      server: resolve('./runtime/server'),
+    }, nuxt)
     nuxt.options.alias['#schema-org/types'] = resolve('./runtime/types')
 
     const contentProvider = await resolveContentProvider(nuxt)
@@ -213,7 +230,9 @@ export default defineNuxtModule<ModuleOptions>({
         const content = ctx.content
         const script = buildSchemaOrgContentScript(content.schemaOrg, defineWebPage, config.scriptAttributes) as Script & { nodes: any }
 
-        content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
+        content.head = defu(<UseHeadInput<any>> {
+          script: [script],
+        }, content.head)
         ctx.content = content
       })
     }
@@ -282,7 +301,9 @@ declare module '#app' {
     if (config.debug || nuxt.options.dev) {
       addServerHandler({
         route: '/__schema-org__/debug.json',
-        handler: { nuxt: resolve('./runtime/server/routes/__schema-org__/debug') },
+        handler: {
+          nuxt: resolve('./runtime/server/routes/__schema-org__/debug'),
+        },
       })
     }
 
