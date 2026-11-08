@@ -1,5 +1,5 @@
 import { defineArticle, definePerson, defineWebPage, defineWebSite, UnheadSchemaOrg } from '@unhead/schema-org'
-import { compileTags, dynamicValue } from 'unhead/compiled/compile'
+import { compileTags, dynamicValue } from 'unhead/compiled'
 import { createHead as createCompiledHead } from 'unhead/compiled/server'
 import { TemplateParamsPlugin } from 'unhead/plugins'
 import { createHead, renderSSRHead } from 'unhead/server'

@@ -4,7 +4,7 @@ import { renderedGraphScript } from './runtime/utils/graphScript'
 
 type CompileResult = { _tag: 'Ok', tags: unknown } | { _tag: 'Bail', reason: string }
 
-/** The Unhead compiler API the build needs, from `unhead/compiled/compile`. */
+/** The Unhead compiler API the build needs, from `unhead/compiled`. */
 export interface HeadCompiler {
   compileTags: (input: unknown, options?: { dynamicValues?: number }) => CompileResult
   dynamicValue: (index: number) => string
@@ -36,7 +36,7 @@ export function compileGraphScript(compiler: HeadCompiler, scriptAttributes: Rec
  */
 export function compiledGraphModule(tags: unknown, attributes: Record<string, unknown> | false | undefined): string {
   return [
-    `/** @type {import('unhead/compiled/compile').CompiledTags | null} */`,
+    `/** @type {import('unhead/compiled').CompiledTags | null} */`,
     `export const graphTags = ${JSON.stringify(tags ?? null)}`,
     `/** @type {string} */`,
     `export const graphAttributes = ${JSON.stringify(JSON.stringify(attributes ?? null))}`,
@@ -45,12 +45,14 @@ export function compiledGraphModule(tags: unknown, attributes: Record<string, un
 
 async function compileGraph(nuxt: Nuxt, scriptAttributes: Record<string, unknown> | false | undefined): Promise<{ _tag: 'Ok', tags: unknown } | { _tag: 'Unavailable', reason: string }> {
   // The compiler must be the one of the Unhead that renders the app, so it resolves from the app.
-  const compilerPath = await tryResolveModule('unhead/compiled/compile', nuxt.options.modulesDir.map(dir => directoryToURL(dir)))
-  if (!compilerPath)
-    return { _tag: 'Unavailable', reason: 'the installed Unhead has no compiler (unhead/compiled/compile)' }
+  const compilerPath = await tryResolveModule('unhead/compiled', nuxt.options.modulesDir.map(dir => directoryToURL(dir)))
   // A dynamic import: an Unhead without the compiler must not break the module when compiler mode is off.
-  const compiler = await import(compilerPath) as HeadCompiler
-  const result = compileGraphScript(compiler, scriptAttributes)
+  const compiler = compilerPath
+    ? await import(compilerPath) as Partial<HeadCompiler>
+    : undefined
+  if (typeof compiler?.compileTags !== 'function' || typeof compiler.dynamicValue !== 'function')
+    return { _tag: 'Unavailable', reason: 'the installed Unhead has no compiler (compileTags in unhead/compiled)' }
+  const result = compileGraphScript(compiler as HeadCompiler, scriptAttributes)
   return result._tag === 'Ok'
     ? result
     : { _tag: 'Unavailable', reason: `the graph script cannot compile: ${result.reason}` }
