@@ -1,9 +1,11 @@
 import { defineArticle, definePerson, defineWebPage, defineWebSite, UnheadSchemaOrg } from '@unhead/schema-org'
-import { compileTags, dynamicValue } from 'unhead/compiled'
+import { VueResolver } from '@unhead/vue/utils'
+import { compileTags, dynamicValue, readEntry } from 'unhead/compiled'
 import { createHead as createCompiledHead } from 'unhead/compiled/server'
 import { TemplateParamsPlugin } from 'unhead/plugins'
 import { createHead, renderSSRHead } from 'unhead/server'
 import { describe, expect, it } from 'vitest'
+import { computed } from 'vue'
 import { compileGraphScript } from '../../src/compiledGraph'
 import { graphState, pushGraphInput } from '../../src/runtime/app/utils/compiledGraph'
 import { graphScript } from '../../src/runtime/utils/graphScript'
@@ -37,7 +39,10 @@ function schemaInput(nodes: unknown[]) {
 
 /** The head without compiler mode: the Unhead Schema.org plugin writes the graph. */
 function renderWithPlugin(steps: Step[]) {
-  const head = createHead({ disableDefaults: true })
+  const head = createHead({
+    disableDefaults: true,
+    propResolvers: [VueResolver],
+  })
   head.use(UnheadSchemaOrg({} as any, undefined, options))
   for (const step of steps) {
     head.push((step._tag === 'Head'
@@ -56,8 +61,11 @@ function renderWithPlugin(steps: Step[]) {
 }
 
 /** The head under compiler mode: `useSchemaOrg()` entries push the compiled graph script. */
-function renderCompiled(steps: Step[]) {
-  const head = createCompiledHead({ disableDefaults: true }) as any
+function renderCompiled(steps: Step[], { readFirst = false } = {}) {
+  const head = createCompiledHead({
+    disableDefaults: true,
+    propResolvers: [VueResolver],
+  }) as any
   // as the init plugin does
   head.use(TemplateParamsPlugin)
   graphState(head).options = options
@@ -83,6 +91,12 @@ function renderCompiled(steps: Step[]) {
         ],
       })
     }
+  }
+  if (readFirst) {
+    for (const entry of [
+      ...head.entries.values(),
+    ])
+      readEntry(entry, head)
   }
   const html = head.render()
   const hooks = head._hookStore?._hooks || {}
@@ -192,6 +206,25 @@ describe('resolveGraph under compiler mode', () => {
     expect(html).toEqual(renderWithPlugin(steps))
     expect(html.bodyTags).toContain('"name":"Late title"')
     expect(renderHooks).toEqual([])
+  })
+
+  it('resolves a Vue ref inside a node, read early or at the render', () => {
+    const headline = computed(() => 'Post from a ref')
+    const steps: Step[] = [
+      ...site,
+      {
+        _tag: 'Schema',
+        nodes: [
+          // A node takes a ref at runtime, as `useSchemaOrg()` in a page passes it
+          defineArticle({ headline: headline as unknown as string, datePublished: '2026-11-01' }),
+        ],
+      },
+    ]
+    const expected = renderWithPlugin(steps)
+    expect(expected.bodyTags).toContain('"headline":"Post from a ref"')
+    expect(renderCompiled(steps).html).toEqual(expected)
+    // Another module reads every entry before the render, as nuxt-seo-utils does at `app:rendered`
+    expect(renderCompiled(steps, { readFirst: true }).html).toEqual(expected)
   })
 
   it('renders no script for a graph with no node', () => {

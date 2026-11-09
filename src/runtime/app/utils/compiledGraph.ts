@@ -96,12 +96,16 @@ export function resolveGraph(head: Unhead<any>, own: Map<number, object>, option
     tagMap: new Map(),
     tags: [],
   })
+  const propResolvers = head.resolvedOptions.propResolvers || []
   const titleTags: HeadTag[] = []
   for (const entry of head.entries.values()) {
     const input = own.get(entry._i)
     // An entry the module owns is not read: the read of the graph holder would run its value again.
-    // `readEntry` settles values and prop resolvers, so the tags need no resolver.
-    const tags = normalizeEntryToTags((input ?? readEntry(entry, head).input) as any, [])
+    // Its input holds the nodes as the call gave them, so a Vue ref in a node resolves here.
+    // `readEntry` already resolves the input of any other entry.
+    const tags = input
+      ? normalizeEntryToTags(input as any, propResolvers)
+      : normalizeEntryToTags(readEntry(entry, head).input as any, [])
     if (!input && tags.some(isSchemaOrgTag))
       return { _tag: 'Foreign', reason: `entry ${entry._i} holds an ld+json script with nodes` }
     if (entry.options && Object.keys(entry.options).length) {
