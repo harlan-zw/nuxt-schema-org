@@ -17,7 +17,12 @@ const graphTags = compiled.tags
 
 const RENDER_HOOK_RE = /^(?:entries:[nr]|tags:|ssr:[br])/
 
-type Step = { _tag: 'Head', input: Record<string, unknown> } | { _tag: 'Schema', nodes: unknown[] } | { _tag: 'Foreign', nodes: unknown[] }
+/** `Compiled` is head input with one dynamic value, which a compiled head takes as compiled tags. */
+type Step
+  = | { _tag: 'Head', input: Record<string, unknown> }
+    | { _tag: 'Compiled', input: (token: string) => Record<string, unknown>, value: string }
+    | { _tag: 'Schema', nodes: unknown[] }
+    | { _tag: 'Foreign', nodes: unknown[] }
 
 function schemaInput(nodes: unknown[]) {
   return {
@@ -37,13 +42,15 @@ function renderWithPlugin(steps: Step[]) {
   for (const step of steps) {
     head.push((step._tag === 'Head'
       ? step.input
-      : step._tag === 'Schema'
-        ? schemaInput(step.nodes)
-        : {
-            script: [
-              { type: 'application/ld+json', nodes: step.nodes },
-            ],
-          }) as any)
+      : step._tag === 'Compiled'
+        ? step.input(step.value)
+        : step._tag === 'Schema'
+          ? schemaInput(step.nodes)
+          : {
+              script: [
+                { type: 'application/ld+json', nodes: step.nodes },
+              ],
+            }) as any)
   }
   return renderSSRHead(head)
 }
@@ -57,6 +64,14 @@ function renderCompiled(steps: Step[]) {
   for (const step of steps) {
     if (step._tag === 'Head') {
       head.push(step.input)
+    }
+    else if (step._tag === 'Compiled') {
+      const result = compileTags(step.input(dynamicValue(0)), { dynamicValues: 1 })
+      if (result._tag !== 'Ok')
+        throw new Error(result.reason)
+      head.push(result.tags, {
+        values: () => [step.value],
+      })
     }
     else if (step._tag === 'Schema') {
       pushGraphInput(head, graphTags, schemaInput(step.nodes))
@@ -151,6 +166,32 @@ describe('resolveGraph under compiler mode', () => {
     const { html } = renderCompiled(steps)
     expect(html).toEqual(renderWithPlugin(steps))
     expect(html.bodyTags).toContain('X page on Site, Brand X')
+  })
+
+  it('reads the value of a compiled entry into the graph', () => {
+    const steps: Step[] = [
+      ...site,
+      {
+        _tag: 'Compiled',
+        input: token => ({
+          title: token,
+          meta: [
+            { name: 'description', content: 'About the post' },
+          ],
+        }),
+        value: 'Late title',
+      },
+      {
+        _tag: 'Schema',
+        nodes: [
+          defineWebPage({ name: '%pageTitle' }),
+        ],
+      },
+    ]
+    const { html, renderHooks } = renderCompiled(steps)
+    expect(html).toEqual(renderWithPlugin(steps))
+    expect(html.bodyTags).toContain('"name":"Late title"')
+    expect(renderHooks).toEqual([])
   })
 
   it('renders no script for a graph with no node', () => {

@@ -1,6 +1,7 @@
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
 import type { ActiveHeadEntry, Script, UseHeadInput } from '@unhead/vue'
 import type { MaybeRef } from 'vue'
+import type { CompiledHead } from '../utils/compiledGraph'
 import { injectHead, useHead, useNuxtApp } from 'nuxt/app'
 import { isRef, toValue } from 'vue'
 import { graphAttributes, graphTags } from '#schema-org/compiled-graph'
@@ -32,14 +33,12 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHead
     ...graphScript(config.scriptAttributes),
     nodes,
   } as unknown as Script
-  // Under compiler mode the server renders the graph as a value of compiled tags
+  // Under compiler mode the server renders the graph as a value of compiled tags. The build
+  // compiles `graphTags` only under compiler mode, whose server head takes compiled tags.
   if (import.meta.server && graphTags && JSON.stringify(config.scriptAttributes ?? null) === graphAttributes) {
-    const head = injectHead() as unknown as Parameters<typeof pushGraphInput>[0] & { _acceptsCompiled?: unknown }
-    if (head?._acceptsCompiled) {
-      return pushGraphInput(head, graphTags, {
-        script: [script],
-      }) as ActiveHeadEntry<UseHeadInput>
-    }
+    return pushGraphInput(injectHead() as unknown as CompiledHead, graphTags, {
+      script: [script],
+    }) as ActiveHeadEntry<UseHeadInput>
   }
   // dev always needs it for the overlay; server doesn't need the direct
   // composable as the plugin is already registered; client only when reactive

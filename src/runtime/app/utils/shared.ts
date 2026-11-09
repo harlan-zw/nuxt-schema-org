@@ -143,8 +143,9 @@ export function initSchemaOrgHead(nuxtApp: NuxtApp) {
     trailingSlash: siteConfig.trailingSlash,
   }
   // Under compiler mode the graph is a value of compiled tags, so the head takes no render hook.
-  // Only the template params plugin, which the Schema.org plugin registers, stays.
-  if (import.meta.server && graphTags && JSON.stringify(config.scriptAttributes ?? null) === graphAttributes && (head as { _acceptsCompiled?: unknown })._acceptsCompiled) {
+  // Only the template params plugin, which the Schema.org plugin registers, stays. The build
+  // compiles `graphTags` only under compiler mode, whose server head takes compiled tags.
+  if (import.meta.server && graphTags && JSON.stringify(config.scriptAttributes ?? null) === graphAttributes) {
     graphState(head).options = options
     head.use(TemplateParamsPlugin)
     return

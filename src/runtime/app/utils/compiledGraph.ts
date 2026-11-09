@@ -1,6 +1,7 @@
 import type { MetaInput, PluginSchemaOrgOptions } from '@unhead/schema-org'
-import type { HeadPlugin, HeadTag, PropResolver, Unhead } from 'unhead/types'
+import type { HeadPlugin, HeadTag, Unhead } from 'unhead/types'
 import { UnheadSchemaOrg } from '@unhead/schema-org/vue'
+import { readEntry } from 'unhead/compiled'
 import { capoTagWeight } from 'unhead/server'
 import { dedupeKey, dedupeTags, normalizeEntryToTags, processTemplateParams, resolveTitleTemplate } from 'unhead/utils'
 import { SCHEMA_ORG_GRAPH_KEY } from '../../utils/graphScript'
@@ -21,18 +22,6 @@ export type GraphResult
   = | { _tag: 'Graph', html: string }
     | { _tag: 'Empty' }
     | { _tag: 'Foreign', reason: string }
-
-interface ReadableEntry {
-  _i: number
-  input: unknown
-  options?: Record<string, unknown>
-}
-
-/** The head the graph reads: the entries, and the prop resolvers that normalize them. */
-export interface GraphHead {
-  entries: Map<number, ReadableEntry>
-  resolvedOptions: { propResolvers?: PropResolver[] }
-}
 
 // Read each entry once per render: the per request head is the key, so no request state outlives it.
 const states = new WeakMap<object, GraphState>()
@@ -93,7 +82,7 @@ export function resolveTemplateParams(tags: HeadTag[]): { params: Record<string,
  * `own` holds the input of each `useSchemaOrg()` entry. An ld+json entry with nodes that the
  * module does not own returns `Foreign`: only the registered plugin merges its script.
  */
-export function resolveGraph(head: GraphHead, own: Map<number, object>, options: PluginSchemaOrgOptions): GraphResult {
+export function resolveGraph(head: Unhead<any>, own: Map<number, object>, options: PluginSchemaOrgOptions): GraphResult {
   const graphHead = {
     use() {},
     _templateParams: undefined as Record<string, unknown> | undefined,
@@ -107,12 +96,12 @@ export function resolveGraph(head: GraphHead, own: Map<number, object>, options:
     tagMap: new Map(),
     tags: [],
   })
-  const propResolvers = head.resolvedOptions.propResolvers || []
   const titleTags: HeadTag[] = []
   for (const entry of head.entries.values()) {
     const input = own.get(entry._i)
-    // The `input` getter of a compiled server entry gives its head input
-    const tags = normalizeEntryToTags((input ?? entry.input) as any, propResolvers)
+    // An entry the module owns is not read: the read of the graph holder would run its value again.
+    // `readEntry` settles values and prop resolvers, so the tags need no resolver.
+    const tags = normalizeEntryToTags((input ?? readEntry(entry, head).input) as any, [])
     if (!input && tags.some(isSchemaOrgTag))
       return { _tag: 'Foreign', reason: `entry ${entry._i} holds an ld+json script with nodes` }
     if (entry.options && Object.keys(entry.options).length) {
@@ -146,9 +135,9 @@ export function resolveGraph(head: GraphHead, own: Map<number, object>, options:
     : { _tag: 'Empty' }
 }
 
-interface CompiledHead extends GraphHead {
+/** A head that takes compiled tags, whose entries may hold a value function. */
+export type CompiledHead = Omit<Unhead<any>, 'push'> & {
   push: (input: unknown, options?: { values?: () => unknown[] }) => { _i: number }
-  use: (plugin: unknown) => void
 }
 
 // The entries after the first render no tag, so they share one set of compiled tags.
@@ -175,7 +164,7 @@ export function pushGraphInput(head: CompiledHead, graphTags: unknown, input: ob
       state.computing = true
       let result: GraphResult
       try {
-        result = resolveGraph(head, state.inputs, state.options)
+        result = resolveGraph(head as unknown as Unhead<any>, state.inputs, state.options)
       }
       finally {
         state.computing = false
