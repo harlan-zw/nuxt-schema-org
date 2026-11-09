@@ -1,7 +1,7 @@
 import type { MetaInput, PluginSchemaOrgOptions } from '@unhead/schema-org'
 import type { HeadPlugin, HeadTag, Unhead } from 'unhead/types'
 import { UnheadSchemaOrg } from '@unhead/schema-org/vue'
-import { readEntry } from 'unhead/compiled'
+import { compileTags, readEntry } from 'unhead/compiled'
 import { capoTagWeight } from 'unhead/server'
 import { dedupeKey, dedupeTags, normalizeEntryToTags, processTemplateParams, resolveTitleTemplate } from 'unhead/utils'
 import { SCHEMA_ORG_GRAPH_KEY } from '../../utils/graphScript'
@@ -10,6 +10,7 @@ import { SCHEMA_ORG_GRAPH_KEY } from '../../utils/graphScript'
  * The graph of a request under compiler mode. Each `useSchemaOrg()` entry holds compiled tags,
  * and its input, with the nodes, waits here under the index of its entry. The first entry renders
  * the graph script; the others render nothing and keep the place of their nodes in the entry order.
+ * The Schema.org meta template param waits here too, with the route keys its compiled tags leave out.
  */
 export interface GraphState {
   inputs: Map<number, object>
@@ -190,4 +191,47 @@ export function pushGraphInput(head: CompiledHead, graphTags: unknown, input: ob
   state.holder = entry._i
   state.inputs.set(entry._i, input)
   return entry
+}
+
+// The route keys of the Schema.org meta. The compiled tags leave them out, so every route of a site shares them.
+const ROUTE_KEYS = new Set(['path', 'url'])
+// Compiled tags by site meta. A site has one per locale, so a full cache means the meta changes per
+// route: compiled tags per route would hold one server memo per route, so the meta stays loose input.
+const MAX_SITE_METAS = 16
+const siteMetaTags = new Map<string, unknown>()
+
+function siteMetaCompiledTags(meta: Record<string, unknown>): unknown {
+  const site: Record<string, unknown> = {}
+  for (const key in meta) {
+    if (!ROUTE_KEYS.has(key))
+      site[key] = meta[key]
+  }
+  const key = JSON.stringify(site)
+  if (!siteMetaTags.has(key) && siteMetaTags.size < MAX_SITE_METAS) {
+    const result = compileTags({
+      templateParams: { schemaOrg: site },
+    })
+    siteMetaTags.set(key, result._tag === 'Ok'
+      ? result.tags
+      : undefined)
+  }
+  return siteMetaTags.get(key)
+}
+
+/**
+ * Sets the Schema.org meta template param of a compiled server head. The entry holds compiled tags
+ * of the site meta, which every route shares, so the head keeps the server memo. The graph reads the
+ * whole meta, with `path` and `url`, from the graph state. Meta that cannot compile stays loose input.
+ */
+export function patchSchemaOrgMeta(head: CompiledHead, entry: { _i: number, patch: (input: any) => void }, meta: Record<string, unknown>): void {
+  const input = {
+    templateParams: { schemaOrg: meta },
+  }
+  const tags = siteMetaCompiledTags(meta)
+  if (!tags) {
+    entry.patch(input)
+    return
+  }
+  graphState(head).inputs.set(entry._i, input)
+  entry.patch(tags)
 }

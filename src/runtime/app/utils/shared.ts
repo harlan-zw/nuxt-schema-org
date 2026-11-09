@@ -12,7 +12,7 @@ import {
 } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
-import { graphState } from './compiledGraph'
+import { graphState, patchSchemaOrgMeta } from './compiledGraph'
 import { useSchemaOrgConfig } from './config'
 
 // The vendored Unhead 3 plugin accepts configuration, metadata, and options.
@@ -31,6 +31,15 @@ function resolvePathDirect(siteConfig: Record<string, any>, path: string, option
     trailingSlash: toValue(siteConfig.trailingSlash),
     base: nuxtBase,
   })
+}
+
+/**
+ * Whether the graph renders as compiled tags, on the server only. The build compiles `graphTags` only under
+ * compiler mode, whose server head takes compiled tags. A runtime config override of
+ * `scriptAttributes` keeps the plugin.
+ */
+function rendersCompiledGraph(): boolean {
+  return !!graphTags && JSON.stringify(useSchemaOrgConfig().scriptAttributes ?? null) === graphAttributes
 }
 
 export function initPlugin(nuxtApp: NuxtApp) {
@@ -118,10 +127,19 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
       schemaOrg: withoutUrl(resolveSchemaOrg()),
     },
   })
+  // Read in the plugin setup: the Nuxt context is gone after an `await` in the hook below.
+  // `import.meta.server` at the call, so the client build drops the compiler.
+  const compiledMeta = import.meta.server && rendersCompiledGraph()
   // `app:created` fires after every plugin, so hooks that user plugins register are in place
   nuxtApp.hooks.hookOnce('app:created', async () => {
+    const meta = await resolveSchemaOrgWithHook()
+    // Compiled tags keep the server memo; the graph still reads the whole meta
+    if (import.meta.server && compiledMeta) {
+      patchSchemaOrgMeta(head as any, templateParamEntry as any, meta)
+      return
+    }
     templateParamEntry.patch({
-      templateParams: { schemaOrg: await resolveSchemaOrgWithHook() },
+      templateParams: { schemaOrg: meta },
     })
   })
   // only watch for siteConfig changes on the client to avoid leaking reactive scopes during SSR
@@ -143,9 +161,8 @@ export function initSchemaOrgHead(nuxtApp: NuxtApp) {
     trailingSlash: siteConfig.trailingSlash,
   }
   // Under compiler mode the graph is a value of compiled tags, so the head takes no render hook.
-  // Only the template params plugin, which the Schema.org plugin registers, stays. The build
-  // compiles `graphTags` only under compiler mode, whose server head takes compiled tags.
-  if (import.meta.server && graphTags && JSON.stringify(config.scriptAttributes ?? null) === graphAttributes) {
+  // Only the template params plugin, which the Schema.org plugin registers, stays.
+  if (import.meta.server && rendersCompiledGraph()) {
     graphState(head).options = options
     head.use(TemplateParamsPlugin)
     return

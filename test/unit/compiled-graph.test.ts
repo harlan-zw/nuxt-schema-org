@@ -7,7 +7,7 @@ import { createHead, renderSSRHead } from 'unhead/server'
 import { describe, expect, it } from 'vitest'
 import { computed } from 'vue'
 import { compileGraphScript } from '../../src/compiledGraph'
-import { graphState, pushGraphInput } from '../../src/runtime/app/utils/compiledGraph'
+import { graphState, patchSchemaOrgMeta, pushGraphInput } from '../../src/runtime/app/utils/compiledGraph'
 import { graphScript } from '../../src/runtime/utils/graphScript'
 
 const attributes = { 'data-nuxt-schema-org': true }
@@ -25,6 +25,7 @@ type Step
     | { _tag: 'Compiled', input: (token: string) => Record<string, unknown>, value: string }
     | { _tag: 'Schema', nodes: unknown[] }
     | { _tag: 'Foreign', nodes: unknown[] }
+    | { _tag: 'Meta', meta: Record<string, unknown> }
 
 function schemaInput(nodes: unknown[]) {
   return {
@@ -51,11 +52,15 @@ function renderWithPlugin(steps: Step[]) {
         ? step.input(step.value)
         : step._tag === 'Schema'
           ? schemaInput(step.nodes)
-          : {
-              script: [
-                { type: 'application/ld+json', nodes: step.nodes },
-              ],
-            }) as any)
+          : step._tag === 'Meta'
+            ? {
+                templateParams: { schemaOrg: step.meta },
+              }
+            : {
+                script: [
+                  { type: 'application/ld+json', nodes: step.nodes },
+                ],
+              }) as any)
   }
   return renderSSRHead(head)
 }
@@ -84,6 +89,12 @@ function renderCompiled(steps: Step[], { readFirst = false } = {}) {
     else if (step._tag === 'Schema') {
       pushGraphInput(head, graphTags, schemaInput(step.nodes))
     }
+    else if (step._tag === 'Meta') {
+      // as the init plugin does: a loose push, patched at `app:created`
+      patchSchemaOrgMeta(head, head.push({
+        templateParams: { schemaOrg: {} },
+      }), step.meta)
+    }
     else {
       head.push({
         script: [
@@ -98,10 +109,13 @@ function renderCompiled(steps: Step[], { readFirst = false } = {}) {
     ])
       readEntry(entry, head)
   }
+  const entries = [
+    ...head.entries.values(),
+  ]
   const html = head.render()
   const hooks = head._hookStore?._hooks || {}
   const renderHooks = Object.keys(hooks).filter(name => RENDER_HOOK_RE.test(name) && hooks[name].some((listener: unknown) => !head._known?.has(listener)))
-  return { html, renderHooks }
+  return { html, renderHooks, entries, head }
 }
 
 const site = [
@@ -251,5 +265,50 @@ describe('resolveGraph under compiler mode', () => {
     expect(html).toEqual(renderWithPlugin(steps))
     expect(html.bodyTags).toContain('Ada')
     expect(renderHooks).not.toEqual([])
+  })
+})
+
+describe('schema.org meta template param under compiler mode', () => {
+  const meta = (path: string) => ({
+    name: 'Site',
+    host: 'https://example.com/',
+    inLanguage: 'en',
+    path,
+  })
+  const page = (path: string): Step[] => [
+    {
+      _tag: 'Meta',
+      meta: meta(path),
+    },
+    {
+      _tag: 'Head',
+      input: {
+        title: 'Post',
+        templateParams: { siteName: 'Site' },
+      },
+    },
+    {
+      _tag: 'Schema',
+      nodes: [
+        defineWebSite({ name: 'Site' }),
+        defineWebPage(),
+      ],
+    },
+  ]
+
+  it('renders the graph of the plugin from compiled tags', () => {
+    const { html, entries, head } = renderCompiled(page('/blog/post'))
+    expect(html).toEqual(renderWithPlugin(page('/blog/post')))
+    expect(html.bodyTags).toContain('https://example.com/blog/post')
+    expect(readEntry(entries[0], head).compiled).toBe(true)
+  })
+
+  // The memo keys on the compiled tags of each entry, so per-route tags would hold one memo per route
+  it('shares one set of compiled tags between routes of a site', () => {
+    const first = renderCompiled(page('/a'))
+    const second = renderCompiled(page('/b'))
+    expect(second.html).toEqual(renderWithPlugin(page('/b')))
+    expect(second.html.bodyTags).toContain('https://example.com/b')
+    expect(second.entries[0]._compiled).toBe(first.entries[0]._compiled)
   })
 })
