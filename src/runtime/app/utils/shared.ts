@@ -111,7 +111,9 @@ export function initSchemaOrgMeta(nuxtApp: NuxtApp) {
     return meta
   }
   const templateParamEntry = head.push({
-    templateParams: { schemaOrg: withoutUrl(resolveSchemaOrg()) },
+    templateParams: {
+      schemaOrg: withoutUrl(resolveSchemaOrg()),
+    },
   })
   // `app:created` fires after every plugin, so hooks that user plugins register are in place
   nuxtApp.hooks.hookOnce('app:created', async () => {
@@ -172,8 +174,9 @@ export function maybeAddIdentitySchemaOrg() {
       const id = siteConfig.twitter.startsWith('@')
         ? siteConfig.twitter.slice(1)
         : siteConfig.twitter
+      const existing = [identityPayload.sameAs].flat().filter(Boolean)
       identityPayload.sameAs = [
-        `https://twitter.com/${id}`,
+        ...new Set([...existing, `https://twitter.com/${id}`]),
       ]
     }
     // map the identity type to its schema.org resolver; defineX sets the
@@ -184,6 +187,8 @@ export function maybeAddIdentitySchemaOrg() {
       localbusiness: schemaOrgVue.defineLocalBusiness,
     }
     const defineIdentity = identityDefines[identityType?.toLowerCase()] || schemaOrgVue.defineOrganization
-    useSchemaOrg([defineIdentity(identityPayload)])
+    useSchemaOrg([
+      defineIdentity(identityPayload),
+    ])
   }
 }
