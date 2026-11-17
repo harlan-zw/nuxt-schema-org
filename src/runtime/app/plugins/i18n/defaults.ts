@@ -109,6 +109,7 @@ export default defineNuxtPlugin({
       else {
         const workTranslations = locales
           .filter(locale => locale.code !== defaultLocale.code && !isCurrentWebsite(locale))
+          .filter(locale => !schemaOrgConfig.excludeWorkTranslationLocales?.includes(locale.code))
           .map((locale) => {
             return {
               '@type': 'WebSite',

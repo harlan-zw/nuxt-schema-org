@@ -29,6 +29,13 @@ export interface ModuleOptions {
    */
   defaults?: boolean
   /**
+   * Locale codes to exclude from automatic WebSite workTranslation entries.
+   * Does not change translationOfWork or other default nodes.
+   *
+   * @default []
+   */
+  excludeWorkTranslationLocales?: string[]
+  /**
    * The identity of the site.
    */
   identity?: 'Person' | 'Organization' | 'LocalBusiness' | OrganizationSimple | PersonSimple | LocalBusinessSimple
@@ -102,6 +109,7 @@ export default defineNuxtModule<ModuleOptions>({
     return {
       enabled: true,
       defaults: true,
+      excludeWorkTranslationLocales: [],
       reactive: nuxt.options.dev || !nuxt.options.ssr,
       minify: !nuxt.options.dev,
       scriptAttributes: {
@@ -170,6 +178,7 @@ export default defineNuxtModule<ModuleOptions>({
       minify: config.minify,
       scriptAttributes: config.scriptAttributes,
       identity: resolveSerializableIdentityConfig(config.identity),
+      excludeWorkTranslationLocales: config.excludeWorkTranslationLocales,
       version: version!,
     }
     // avoid polluting client-side bundle if we don't need to
