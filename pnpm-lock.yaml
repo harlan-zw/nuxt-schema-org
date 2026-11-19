@@ -239,17 +239,20 @@ catalogs:
     unbuild:
       specifier: ^3.6.1
       version: 3.6.1
+    valibot:
+      specifier: ^1.4.2
+      version: 1.4.2
     vitest:
       specifier: ^5.1.0
       version: 5.1.0
 
 overrides:
-  nitropack: 2.13.6
   '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@31e54738c7afba269ab6ba53fa0113d4e31e1f01
   '@unhead/vue': ^3.4.2
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
+  nitropack: 2.13.6
   nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@233d92189154617eb6b04238ecc9af3cf44c8144
   nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
   nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
@@ -390,6 +393,9 @@ importers:
       unbuild:
         specifier: 'catalog:'
         version: 3.6.1(typescript@6.0.3)(vue-sfc-transformer@0.2.5(@volar/typescript@2.4.28(typescript@6.0.3))(@vue/compiler-core@3.5.43)(@vue/language-core@3.3.9)(esbuild@0.28.2)(rolldown@1.2.12)(typescript@6.0.3)(vue@3.5.43(typescript@6.0.3)))(vue@3.5.43(typescript@6.0.3))
+      valibot:
+        specifier: 'catalog:'
+        version: 1.4.2(typescript@6.0.3)
       vitest:
         specifier: 'catalog:'
         version: 5.1.0(@types/node@26.1.2)(happy-dom@21.0.4)(vite@8.3.3(@types/node@26.1.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.49.0)(yaml@2.9.0))
@@ -17941,7 +17947,6 @@ snapshots:
   valibot@1.4.2(typescript@6.0.3):
     optionalDependencies:
       typescript: 6.0.3
-    optional: true
 
   validate-npm-package-name@5.0.1: {}
 

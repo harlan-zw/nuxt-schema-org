@@ -12,6 +12,7 @@ export default defineBuildConfig({
   entries: [
     { input: 'src/schema', name: 'schema' },
     { input: 'src/content', name: 'content' },
+    { input: 'src/content-valibot', name: 'content-valibot' },
   ],
   externals: [
     'nuxt/server',
@@ -21,6 +22,7 @@ export default defineBuildConfig({
     'consola',
     '@harlan-zw/comark-content',
     '@nuxt/content',
+    'valibot',
     'zod',
     '@unhead/vue',
     '@unhead/schema',
