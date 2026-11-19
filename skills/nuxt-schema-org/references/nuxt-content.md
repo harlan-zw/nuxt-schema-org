@@ -2,7 +2,8 @@
 
 Content v3: add `defineSchemaOrgSchema()` and a `head` field to the page collection schema.
 Without `head`, the `schemaOrg` frontmatter key is parsed but never rendered.
-The [Content guide](https://nuxtseo.com/docs/schema-org/guides/content) omits `head`.
+For Valibot, install `valibot` and `@valibot/to-json-schema`. Import the helper from `nuxt-schema-org/content/valibot`.
+Use it with a Valibot `head` field. See the [Content guide](https://nuxtseo.com/docs/schema-org/guides/content).
 
 ```ts
 // content.config.ts
