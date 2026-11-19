@@ -67,6 +67,8 @@ overrides:
   minimatch@>=7 <11.0.1: ^11.0.9
   # Keep module storage imports on the same Nitro runtime as Nuxt.
   nitropack: 2.13.6
+  # Nitro's tracer needs Glob 14 for Minimatch 11.
+  nitropack@2.13.6>@vercel/nft: ^1.11.2
   nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@233d92189154617eb6b04238ecc9af3cf44c8144
 
   nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
