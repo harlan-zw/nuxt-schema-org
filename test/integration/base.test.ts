@@ -69,30 +69,33 @@ describe('base', () => {
     const schema = await $fetchSchemaOrg('/prefix/reactivity-computed')
 
     const articleNode = schema['@graph'].filter(n => n['@type'] === 'Article')[0]
-    // Snapshot
-    expect(articleNode).toMatchInlineSnapshot(`
+    expect(articleNode).toEqual(
       {
-        "@id": "https://nuxtseo.com/prefix/reactivity-computed#article",
-        "@type": "Article",
-        "author": {
-          "@id": "https://nuxtseo.com/prefix/#identity",
+        '@id': 'https://nuxtseo.com/prefix/reactivity-computed#article',
+        '@type': 'Article',
+        'author': {
+          '@id': 'https://nuxtseo.com/prefix/#identity',
         },
-        "description": "Harlan Wilton - Last Name",
-        "headline": "Harlan Wilton - Last Name",
-        "image": {
-          "@id": "https://nuxtseo.com/prefix/#/schema/image/1",
+        'description': 'Harlan Wilton - Last Name',
+        'headline': 'Harlan Wilton - Last Name',
+        'image': {
+          '@id': 'https://nuxtseo.com/prefix/reactivity-computed#/schema/image/1',
         },
-        "isPartOf": {
-          "@id": "https://nuxtseo.com/prefix/reactivity-computed#webpage",
+        'isPartOf': {
+          '@id': 'https://nuxtseo.com/prefix/reactivity-computed#webpage',
         },
-        "mainEntityOfPage": {
-          "@id": "https://nuxtseo.com/prefix/reactivity-computed#webpage",
+        'mainEntityOfPage': {
+          '@id': 'https://nuxtseo.com/prefix/reactivity-computed#webpage',
         },
-        "publisher": {
-          "@id": "https://nuxtseo.com/prefix/#identity",
+        'publisher': {
+          '@id': 'https://nuxtseo.com/prefix/#identity',
         },
-        "thumbnailUrl": "https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png",
-      }
-    `)
+        'thumbnailUrl': 'https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png',
+      },
+    )
+    expect(schema['@graph'].find(n => n['@id'] === articleNode.image['@id'])).toMatchObject({
+      '@type': 'ImageObject',
+      'url': 'https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png',
+    })
   })
 })

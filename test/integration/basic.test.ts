@@ -85,31 +85,34 @@ describe('pages', () => {
     const schema = await $fetchSchemaOrg('/reactivity-computed')
 
     const articleNode = schema['@graph'].filter(n => n['@type'] === 'Article')[0]
-    // Snapshot
-    expect(articleNode).toMatchInlineSnapshot(`
+    expect(articleNode).toEqual(
       {
-        "@id": "https://nuxtseo.com/reactivity-computed#article",
-        "@type": "Article",
-        "author": {
-          "@id": "https://nuxtseo.com/#identity",
+        '@id': 'https://nuxtseo.com/reactivity-computed#article',
+        '@type': 'Article',
+        'author': {
+          '@id': 'https://nuxtseo.com/#identity',
         },
-        "description": "Harlan Wilton - Last Name",
-        "headline": "Harlan Wilton - Last Name",
-        "image": {
-          "@id": "https://nuxtseo.com/#/schema/image/1",
+        'description': 'Harlan Wilton - Last Name',
+        'headline': 'Harlan Wilton - Last Name',
+        'image': {
+          '@id': 'https://nuxtseo.com/reactivity-computed#/schema/image/1',
         },
-        "isPartOf": {
-          "@id": "https://nuxtseo.com/reactivity-computed#webpage",
+        'isPartOf': {
+          '@id': 'https://nuxtseo.com/reactivity-computed#webpage',
         },
-        "mainEntityOfPage": {
-          "@id": "https://nuxtseo.com/reactivity-computed#webpage",
+        'mainEntityOfPage': {
+          '@id': 'https://nuxtseo.com/reactivity-computed#webpage',
         },
-        "publisher": {
-          "@id": "https://nuxtseo.com/#identity",
+        'publisher': {
+          '@id': 'https://nuxtseo.com/#identity',
         },
-        "thumbnailUrl": "https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png",
-      }
-    `)
+        'thumbnailUrl': 'https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png',
+      },
+    )
+    expect(schema['@graph'].find(n => n['@id'] === articleNode.image['@id'])).toMatchObject({
+      '@type': 'ImageObject',
+      'url': 'https://emojiguide.org/images/emoji/n/3ep4zx1jztp0n.png',
+    })
   })
   it('applies schema-org:meta hook overrides', async () => {
     const schema = await $fetchSchemaOrg('/plugin-override')

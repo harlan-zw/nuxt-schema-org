@@ -81,7 +81,7 @@ overrides:
   # Pin the CLI for this Nuxt nightly only.
   'nuxt-nightly@5.0.0-2611040928-8dd2066>@nuxt/cli': npm:@nuxt/cli-nightly@4.0.3-2611031054-7d4dec6
   'zod@<4.6.6': ^4.6.7
-  "@unhead/vue": ^3.4.2
+  "@unhead/vue": ^3.5.0
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
@@ -112,7 +112,7 @@ overrides:
   postcss-svgo: 9.0.4
   postcss-unique-selectors: 9.0.5
   stylehacks: 9.0.7
-  unhead: ^3.4.2
+  unhead: ^3.5.0
   vue: ^3.5.41
   nuxtseo-shared: ^6.0.4
   nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@40698727ca424460013f3534af9005e36728d669
