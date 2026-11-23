@@ -1,11 +1,37 @@
+import type { SchemaOrgNodeDefinition } from '@unhead/schema-org'
 import type { useSchemaOrg as _useSchemaOrg } from '@unhead/schema-org/vue'
 import type { ActiveHeadEntry, Script, UseHeadInput } from '@unhead/vue'
-import type { MaybeRef } from 'vue'
+import type { InjectionKey, MaybeRef } from 'vue'
 import { useHead, useNuxtApp } from 'nuxt/app'
-import { isRef, toValue } from 'vue'
+import { inject, isRef, toValue } from 'vue'
 import { useSchemaOrgConfig } from '../utils/config'
 
 type Input = MaybeRef<Parameters<typeof _useSchemaOrg>[0]>
+
+export const localeWebsiteUrlKey: InjectionKey<() => string> = Symbol('schema-org:locale-website-url')
+
+function localizeWebsiteNode(node: unknown, siteUrl: () => string): unknown {
+  if (isRef(node) || typeof node === 'function')
+    return () => localizeWebsiteNode(toValue(node), siteUrl)
+  if (!node || typeof node !== 'object' || !('_resolver' in node))
+    return node
+
+  const defaults = (node._resolver as SchemaOrgNodeDefinition | undefined)?.defaults
+  if (typeof defaults !== 'object' || defaults?.['@type'] !== 'WebSite')
+    return node
+  if ('@id' in node && node['@id'] != null)
+    return node
+
+  // Give implicit WebSite overrides the same identity as the locale default.
+  // Otherwise Unhead merges by fragment and the inferred host URL wins.
+  const { url = siteUrl } = node as { url?: unknown }
+  return {
+    ...node,
+    '@id': () => `${siteUrl()}#website`,
+    'url': url,
+  }
+}
+
 export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHeadInput> | undefined {
   const config = useSchemaOrgConfig()
   const nuxtApp = useNuxtApp()
@@ -24,6 +50,19 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHead
     nodes = import.meta.server
       ? toValue(input)
       : () => nuxtApp.runWithContext(() => toValue(input))
+  }
+  const localeWebsiteUrl = nuxtApp.vueApp.runWithContext(() => inject(localeWebsiteUrlKey, undefined))
+  if (localeWebsiteUrl) {
+    const localize = (value: unknown) => Array.isArray(value)
+      ? value.map(node => localizeWebsiteNode(node, localeWebsiteUrl))
+      : localizeWebsiteNode(value, localeWebsiteUrl)
+    if (typeof nodes === 'function') {
+      const resolveNodes = nodes
+      nodes = () => localize(resolveNodes())
+    }
+    else {
+      nodes = localize(nodes)
+    }
   }
   const script: Script = {
     type: 'application/ld+json',

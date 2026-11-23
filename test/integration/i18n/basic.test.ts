@@ -157,3 +157,52 @@ describe('pages', () => {
     }
   })
 })
+
+it.each([
+  { locale: 'en', reference: 'workTranslation', target: 'https://nuxtseo.com/ja#website' },
+  { locale: 'ja', reference: 'translationOfWork', target: 'https://nuxtseo.com/en#website' },
+])('merges WebSite customizations into the $locale graph', async ({ locale, reference, target }) => {
+  const { '@graph': graph } = await $fetchSchemaOrg(`/${locale}/custom-website`)
+  const websiteUrl = `https://nuxtseo.com/${locale}`
+  const websiteId = `${websiteUrl}#website`
+  const website = graph.find((node: Record<string, unknown>) => node.name === 'Custom website')
+  const page = graph.find((node: Record<string, unknown>) => node['@type'] === 'WebPage')
+
+  expect(website).toMatchObject({
+    '@id': websiteId,
+    'url': websiteUrl,
+    'description': 'Custom description',
+  })
+  expect([website[reference]].flat()).toContainEqual({ '@id': target })
+  expect(page.isPartOf).toEqual({ '@id': websiteId })
+  expect(graph).toContainEqual(expect.objectContaining({
+    '@id': 'https://example.com/#separate-website',
+    'name': 'Separate website',
+  }))
+})
+
+it('links the page to an explicitly identified WebSite override', async () => {
+  const { '@graph': graph } = await $fetchSchemaOrg('/ja/custom-website?customIdentity=true')
+  const websiteId = 'https://example.com/custom#website'
+  const website = graph.find((node: Record<string, unknown>) => node.name === 'Custom website')
+  const page = graph.find((node: Record<string, unknown>) => node['@type'] === 'WebPage')
+
+  expect(website).toMatchObject({
+    '@id': websiteId,
+    'url': 'https://example.com/custom',
+    'translationOfWork': { '@id': 'https://nuxtseo.com/en#website' },
+  })
+  expect(page.isPartOf).toEqual({ '@id': websiteId })
+})
+
+it('preserves a relative WebSite URL override and an explicit WebPage parent', async () => {
+  const { '@graph': graph } = await $fetchSchemaOrg('/ja/custom-website?customUrl=true&customParent=true')
+  const website = graph.find((node: Record<string, unknown>) => node.name === 'Custom website')
+  const page = graph.find((node: Record<string, unknown>) => node['@type'] === 'WebPage')
+
+  expect(website).toMatchObject({
+    '@id': 'https://nuxtseo.com/ja#website',
+    'url': '/about-the-site',
+  })
+  expect(page.isPartOf).toEqual({ '@id': 'https://example.com/#separate-website' })
+})

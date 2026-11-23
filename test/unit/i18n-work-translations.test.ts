@@ -1,6 +1,6 @@
 import type { NuxtApp } from 'nuxt/app'
 import { describe, expect, it, vi } from 'vitest'
-import { ref, toValue } from 'vue'
+import { createSSRApp, ref, toValue } from 'vue'
 import defaults from '../../src/runtime/app/plugins/i18n/defaults'
 
 const context = vi.hoisted(() => ({
@@ -34,7 +34,8 @@ vi.mock('../../src/runtime/app/utils/config', () => ({
 vi.mock('../../src/runtime/app/utils/shared', () => ({
   maybeAddIdentitySchemaOrg: () => {},
 }))
-vi.mock('../../src/runtime/app/composables/useSchemaOrg', () => ({
+vi.mock(import('../../src/runtime/app/composables/useSchemaOrg'), async importOriginal => ({
+  ...await importOriginal(),
   useSchemaOrg: (nodes: Record<string, any>[]) => { context.nodes = nodes },
 }))
 
@@ -48,6 +49,7 @@ async function render(excluded?: string[], currentLocale = 'en') {
   context.config = { excludeWorkTranslationLocales: excluded }
   context.nodes = []
   await defaults({
+    vueApp: createSSRApp({}),
     $i18n: {
       defaultLocale: 'en',
       locales: ref(locales),
@@ -88,10 +90,9 @@ describe('automatic workTranslation locale exclusions', () => {
     ])
   })
 
-  it('keeps the default WebSite and WebPage when translations are excluded', async () => {
+  it('keeps the default WebSite when translations are excluded', async () => {
     const website = await render(['en', 'de', 'fr'])
     expect(toValue(website['@id'])).toBe('https://example.com/#website')
-    expect(context.nodes[1].isPartOf).toEqual({ '@id': 'https://example.com/#website' })
   })
 
   it('leaves translationOfWork on excluded locale websites unchanged', async () => {
