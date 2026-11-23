@@ -11,7 +11,7 @@ import { toValue } from 'vue'
 import { useLocalePath } from '#i18n'
 import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
-import { useSchemaOrg } from '../../composables/useSchemaOrg'
+import { localeWebsiteUrlKey, useSchemaOrg } from '../../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from '../../utils/config'
 import { maybeAddIdentitySchemaOrg } from '../../utils/shared'
 
@@ -120,8 +120,17 @@ export default defineNuxtPlugin({
           website.workTranslation = workTranslations
       }
     }
+    const about = () => {
+      const hasIdentity = Boolean(schemaOrgConfig.identity || toValue(siteConfig.identity))
+      const isHomepage = withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
+      if (hasIdentity && isHomepage)
+        return { '@id': identityId() }
+      return null
+    }
+    nuxtApp.vueApp.provide(localeWebsiteUrlKey, siteUrl)
     useSchemaOrg([
       website,
+      // Unhead links the page to the final WebSite after merging overrides.
       defineWebPage({
         // null blocks identity resolver defaults and is stripped from the graph.
         // Keep this input a plain object: a ref or computed loses the resolver
@@ -129,13 +138,7 @@ export default defineNuxtPlugin({
         // in the graph (#155). Getter props keep route-aware reactivity; the
         // cast only bridges the vendor types, which don't model getters on
         // object props like `about`.
-        about: (() => Boolean(schemaOrgConfig.identity || toValue(siteConfig.identity))
-          && withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
-          ? { '@id': identityId() }
-          : null) as unknown as WebPage['about'],
-        isPartOf: {
-          '@id': websiteId(),
-        },
+        about: about as unknown as WebPage['about'],
       }),
     ])
     maybeAddIdentitySchemaOrg()
