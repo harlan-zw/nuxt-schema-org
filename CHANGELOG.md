@@ -1,3 +1,15 @@
+## 7.1.0
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v7.0.1...v7.1.0)
+
+- Import the Nuxt Content schema helpers from `nuxt-schema-org/content/valibot` if your collections use Valibot. [#210](https://github.com/harlan-zw/nuxt-schema-org/pull/210)
+- Set `schemaOrg.excludeWorkTranslationLocales` to omit selected locale codes from automatic `workTranslation` links. [#205](https://github.com/harlan-zw/nuxt-schema-org/pull/205)
+- Keep existing social profile links when adding the site’s Twitter profile. [#204](https://github.com/harlan-zw/nuxt-schema-org/pull/204)
+- Skip self-referencing `workTranslation` links with the i18n `no_prefix` strategy. [#192](https://github.com/harlan-zw/nuxt-schema-org/pull/192)
+- Generated Schema.org IDs that use a counter now include the page URL. Explicit IDs keep their current URLs. [Unhead #1077](https://github.com/unjs/unhead/pull/1077)
+- If your project pins `unhead` or `@unhead/vue` directly, update it to 3.5.0 or later in the 3.x series. [#212](https://github.com/harlan-zw/nuxt-schema-org/pull/212)
+- Require Site Config 5.0.4 or later in the 5.x series.
+
 ## 7.0.1
 
 [Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v7.0.0...v7.0.1)
