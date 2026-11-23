@@ -36,7 +36,11 @@ vi.mock('../../src/runtime/app/utils/shared', () => ({
 }))
 vi.mock(import('../../src/runtime/app/composables/useSchemaOrg'), async importOriginal => ({
   ...await importOriginal(),
-  useSchemaOrg: (nodes: Record<string, any>[]) => { context.nodes = nodes },
+  useSchemaOrg: (nodes) => {
+    if (Array.isArray(nodes))
+      context.nodes = nodes.filter((node): node is Record<string, unknown> => node !== null && typeof node === 'object')
+    return undefined
+  },
 }))
 
 const locales = [
