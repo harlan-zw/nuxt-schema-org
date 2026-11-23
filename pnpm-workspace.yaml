@@ -3,6 +3,9 @@ blockExoticSubdeps: false
 
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
+  - nuxt-site-config@5.0.4
+  - nuxt-site-config-kit@5.0.4
+  - site-config-stack@5.0.4
   - '@unhead/schema-org'
   - unhead
   - '@unhead/bundler'
@@ -71,8 +74,6 @@ overrides:
   nitropack@2.13.6>@vercel/nft: ^1.11.2
   nuxt-seo-utils: https://pkg.pr.new/harlan-zw/nuxt-seo-utils/nuxt-seo-utils@233d92189154617eb6b04238ecc9af3cf44c8144
 
-  nuxt-site-config: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
-  nuxt-site-config-kit: https://pkg.pr.new/harlan-zw/nuxt-site-config/nuxt-site-config-kit@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
   nuxtseo-shared: ^6.0.4
   postcss-colormin: 9.0.6
   postcss-convert-values: 9.0.7
@@ -100,7 +101,6 @@ overrides:
   postcss-reduce-transforms: 9.0.4
   postcss-svgo: 9.0.4
   postcss-unique-selectors: 9.0.5
-  site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
 
   stylehacks: 9.0.7
   unhead: ^3.5.0
@@ -153,7 +153,7 @@ catalog:
   happy-dom: ^21.0.4
   nuxt: 4.6.4
   nuxt-seo-utils: ^8.6.1
-  nuxt-site-config: ^5.0.0
+  nuxt-site-config: ^5.0.4
   nuxtseo-layer-devtools: ^6.0.2
   nuxtseo-shared: ^6.0.4
   typescript: 6.0.3
