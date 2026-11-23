@@ -53,15 +53,13 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHead
   }
   const localeWebsiteUrl = nuxtApp.vueApp.runWithContext(() => inject(localeWebsiteUrlKey, undefined))
   if (localeWebsiteUrl) {
-    const localize = (value: unknown) => Array.isArray(value)
-      ? value.map(node => localizeWebsiteNode(node, localeWebsiteUrl))
-      : localizeWebsiteNode(value, localeWebsiteUrl)
-    if (typeof nodes === 'function') {
-      const resolveNodes = nodes
-      nodes = () => localize(resolveNodes())
-    }
-    else {
-      nodes = localize(nodes)
+    const sourceNodes = nodes
+    // Let Unhead track the reactive array and its nodes before copying overrides.
+    nodes = () => {
+      const value = toValue(sourceNodes)
+      return Array.isArray(value)
+        ? value.map(node => localizeWebsiteNode(node, localeWebsiteUrl))
+        : localizeWebsiteNode(value, localeWebsiteUrl)
     }
   }
   const script: Script = {
