@@ -1,3 +1,9 @@
+## 7.1.1
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v7.1.0...v7.1.1)
+
+- Keep the locale WebSite ID and URL when customizing its name or description with `defineWebSite()`. This keeps the WebPage linked to the right WebSite. [#215](https://github.com/harlan-zw/nuxt-schema-org/pull/215)
+
 ## 7.1.0
 
 [Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v7.0.1...v7.1.0)
