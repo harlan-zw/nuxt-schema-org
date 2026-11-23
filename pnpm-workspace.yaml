@@ -58,7 +58,7 @@ overrides:
   '@intlify/core@<11.4.14': ^11.4.22
   '@intlify/shared@<11.4.14': ^11.4.22
   '@nuxtjs/robots': https://pkg.pr.new/nuxt-modules/robots/@nuxtjs/robots@31e54738c7afba269ab6ba53fa0113d4e31e1f01
-  '@unhead/vue': ^3.4.2
+  '@unhead/vue': ^3.5.0
   cssnano: 9.2.2
   cssnano-preset-default: 9.2.2
   cssnano-utils: 8.1.0
@@ -103,7 +103,7 @@ overrides:
   site-config-stack: https://pkg.pr.new/harlan-zw/nuxt-site-config/site-config-stack@b8c8a6978ce818d77ecc50c679d412e748fdbdcb
 
   stylehacks: 9.0.7
-  unhead: ^3.4.2
+  unhead: ^3.5.0
   vite: ^8.3.3
   vue: ^3.5.43
 
@@ -142,7 +142,7 @@ catalog:
   '@nuxt/ui': ^4.12.0
   '@nuxtjs/i18n': ^10.6.0
   '@nuxtjs/robots': ^6.2.4
-  '@unhead/schema-org': ^3.4.3
+  '@unhead/schema-org': ^3.5.0
   '@vue/test-utils': ^2.5.1
   better-sqlite3: ^13.0.3
   bumpp: ^12.3.0

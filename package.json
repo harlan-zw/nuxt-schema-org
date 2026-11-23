@@ -74,9 +74,9 @@
     "test:attw": "attw --pack"
   },
   "peerDependencies": {
-    "@unhead/vue": "^3.4.2",
+    "@unhead/vue": "^3.5.0",
     "nuxt": "^4.6.0 || ^5.0.0",
-    "unhead": "^3.4.2",
+    "unhead": "^3.5.0",
     "valibot": "^1.0.0",
     "vue": "^3.5.0",
     "zod": ">=3"
