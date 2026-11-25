@@ -1,3 +1,4 @@
+import type {} from '@nuxt/content'
 import type { NuxtModule } from '@nuxt/schema'
 import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import type { Script, UseHeadInput } from '@unhead/vue/types'
