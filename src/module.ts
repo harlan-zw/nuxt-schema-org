@@ -1,3 +1,4 @@
+import type {} from '@nuxt/content'
 import type { NuxtModule } from '@nuxt/schema'
 import type { LocalBusinessSimple, OrganizationSimple, PersonSimple } from '@unhead/schema-org'
 import type { Script, UseHeadInput } from '@unhead/vue/types'
@@ -16,10 +17,10 @@ import {
 } from '@nuxt/kit'
 import { defu } from 'defu'
 import { setupNitroRuntimeCompatibility, setupRuntimeAliases, useModuleLogger } from 'nuxtseo-shared/kit'
-import { setupDevToolsUI } from './devtools'
-import { extendTypes, hasContentFileHooks, resolveContentProvider } from './kit'
-import { buildSchemaOrgContentScript } from './runtime/utils/content'
-import { resolveSerializableIdentityConfig, schemaOrgVendor } from './unhead-compat'
+import { setupDevToolsUI } from './devtools.ts'
+import { extendTypes, hasContentFileHooks, resolveContentProvider } from './kit.ts'
+import { buildSchemaOrgContentScript } from './runtime/utils/content.ts'
+import { resolveSerializableIdentityConfig, schemaOrgVendor } from './unhead-compat.ts'
 
 type SchemaOrgScriptAttributes = Partial<Script> & Record<string, unknown>
 
@@ -222,7 +223,7 @@ export default defineNuxtModule<ModuleOptions>({
         const content = ctx.content
         const script = buildSchemaOrgContentScript(content.schemaOrg, defineWebPage, config.scriptAttributes) as Script & { nodes: any }
 
-        content.head = defu(<UseHeadInput<any>> { script: [script] }, content.head)
+        content.head = defu({ script: [script] } as UseHeadInput<any>, content.head)
         ctx.content = content
       })
     }

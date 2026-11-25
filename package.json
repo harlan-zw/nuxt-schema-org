@@ -26,8 +26,14 @@
       "types": "./dist/types.d.mts",
       "import": "./dist/module.mjs"
     },
-    "./schema": "./dist/schema.mjs",
-    "./content": "./dist/content.mjs",
+    "./schema": {
+      "types": "./dist/schema.d.mts",
+      "default": "./dist/schema.mjs"
+    },
+    "./content": {
+      "types": "./dist/content.d.mts",
+      "default": "./dist/content.mjs"
+    },
     "./content/valibot": {
       "types": "./dist/content-valibot.d.mts",
       "default": "./dist/content-valibot.mjs"
@@ -60,14 +66,14 @@
   "scripts": {
     "lint": "eslint . --fix",
     "client:build": "node -e \"require('fs').cpSync('devtools','dist/devtools',{recursive:true})\"",
-    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && pnpm run client:build && pnpm run vendor:build",
+    "build": "nuxt-module-build prepare && nuxt prepare test/fixtures/i18n && tsdown && pnpm run client:build && pnpm run vendor:build",
     "vendor:build": "node scripts/vendor-schema-org.mjs",
-    "dev": "nuxt dev playground",
+    "dev": "nuxt-module-build prepare && nuxt dev playground",
     "dev:build": "nuxt build playground",
     "prepack": "pnpm run build",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && nuxt prepare client && pnpm run client:build",
+    "dev:prepare": "nuxt-module-build prepare && nuxt prepare test/fixtures/i18n && tsdown && pnpm run vendor:build && nuxt prepare playground && nuxt prepare client && pnpm run client:build",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
-    "typecheck": "tsc --noEmit ",
+    "typecheck": "tsc -b --noEmit",
     "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && nuxt prepare test/fixtures/i18n-no-prefix && vitest",
     "test:run": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && nuxt prepare test/fixtures/i18n-no-prefix && vitest run && pnpm test:nuxt5",
     "test:nuxt5": "pnpm build && pnpm --dir test/fixtures/nuxt5 install --frozen-lockfile && pnpm --dir test/fixtures/nuxt5 test",
@@ -119,14 +125,9 @@
     "nuxt": "catalog:",
     "nuxt-seo-utils": "catalog:",
     "nuxtseo-layer-devtools": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
-    "unbuild": "catalog:",
     "valibot": "catalog:",
     "vitest": "catalog:"
-  },
-  "build": {
-    "externals": [
-      "@unhead/vue/types"
-    ]
   }
 }
