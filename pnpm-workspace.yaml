@@ -136,7 +136,7 @@ catalog:
   '@iconify-json/lucide': ^1.2.151
   '@nuxt/content': ^3.16.2
   '@nuxt/kit': ^4.6.4
-  '@nuxt/module-builder': ^1.0.3
+  '@nuxt/module-builder': 2.0.0-alpha.1
   '@nuxt/schema': ^4.6.4
   '@nuxt/test-utils': ^4.3.4
   '@nuxt/ui': ^4.12.0
@@ -156,8 +156,8 @@ catalog:
   nuxt-site-config: ^5.0.4
   nuxtseo-layer-devtools: ^6.0.2
   nuxtseo-shared: ^6.0.4
+  tsdown: ^0.23.7
   typescript: 6.0.3
   ufo: ^1.6.4
-  unbuild: ^3.6.1
   valibot: ^1.4.2
   vitest: ^5.1.0

@@ -60,12 +60,12 @@
   "scripts": {
     "lint": "eslint . --fix",
     "client:build": "node -e \"require('fs').cpSync('devtools','dist/devtools',{recursive:true})\"",
-    "build": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt-module-build build && pnpm run client:build && pnpm run vendor:build",
+    "build": "nuxt-module-build prepare && nuxt prepare test/fixtures/i18n && tsdown && pnpm run client:build && pnpm run vendor:build",
     "vendor:build": "node scripts/vendor-schema-org.mjs",
     "dev": "nuxt dev playground",
     "dev:build": "nuxt build playground",
     "prepack": "pnpm run build",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxt prepare playground && nuxt prepare client && pnpm run client:build",
+    "dev:prepare": "nuxt-module-build prepare && nuxt prepare test/fixtures/i18n && tsdown && nuxt prepare playground && nuxt prepare client && pnpm run client:build",
     "release": "pnpm build && bumpp -x \"npx changelogen --output=CHANGELOG.md\"",
     "typecheck": "tsc --noEmit ",
     "test": "nuxt prepare test/fixtures/i18n && nuxt prepare test/fixtures/i18n-domains && nuxt prepare test/fixtures/i18n-no-prefix && vitest",
@@ -119,14 +119,9 @@
     "nuxt": "catalog:",
     "nuxt-seo-utils": "catalog:",
     "nuxtseo-layer-devtools": "catalog:",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
-    "unbuild": "catalog:",
     "valibot": "catalog:",
     "vitest": "catalog:"
-  },
-  "build": {
-    "externals": [
-      "@unhead/vue/types"
-    ]
   }
 }
