@@ -1,5 +1,5 @@
-import { defineNuxtPlugin, useError } from 'nuxt/app'
-import { deferSchemaOrgInit, initSchemaOrgMeta } from '../../utils/shared'
+import { defineNuxtPlugin } from 'nuxt/app'
+import { initSchemaOrgMeta } from '../../utils/shared'
 
 export default defineNuxtPlugin({
   name: 'nuxt-schema-org:meta',
@@ -9,10 +9,6 @@ export default defineNuxtPlugin({
     'nuxt-site-config:i18n',
   ],
   setup(nuxtApp) {
-    if (useError().value) {
-      deferSchemaOrgInit(nuxtApp, () => initSchemaOrgMeta(nuxtApp))
-      return
-    }
     initSchemaOrgMeta(nuxtApp)
   },
 })

@@ -6,7 +6,7 @@ import { resolveSitePath } from 'nuxt-site-config/urls'
 import { defineNuxtPlugin, useError, useRoute, useRuntimeConfig } from 'nuxt/app'
 import { resolveCanonicalLocaleDomain, localePath as resolveLocalePath } from 'nuxtseo-shared/i18n-runtime'
 import { hasProtocol, withHttps, withoutTrailingSlash, withTrailingSlash } from 'ufo'
-import { toValue } from 'vue'
+import { toValue, watch } from 'vue'
 // @ts-expect-error untyped
 import { useLocalePath } from '#i18n'
 import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
@@ -22,133 +22,145 @@ export default defineNuxtPlugin({
     'nuxt-schema-org:meta',
   ],
   setup(nuxtApp) {
-    if (useError().value) {
-      return
-    }
-    const siteConfig = useSiteConfig()
-    const schemaOrgConfig = useSchemaOrgConfig()
-    const route = useRoute()
-    const pathResolver = createSitePathResolver({
-      canonical: true,
-      absolute: true,
-      withBase: true,
-    })
-
     // we need a name by default
     if (!nuxtApp.$i18n)
       return
-    interface SchemaOrgI18nLocale extends Omit<RuntimeLocale, 'hreflang'> {
-      iso?: string
-    }
-    interface SchemaOrgI18n {
-      defaultLocale?: MaybeRefOrGetter<string>
-      locales: { value: SchemaOrgI18nLocale[] }
-      localeProperties: { value: SchemaOrgI18nLocale }
-      strategy: RuntimeI18nConfig['strategy']
-    }
+    const registerDefaults = () => {
+      const siteConfig = useSiteConfig()
+      const schemaOrgConfig = useSchemaOrgConfig()
+      const route = useRoute()
+      const pathResolver = createSitePathResolver({
+        canonical: true,
+        absolute: true,
+        withBase: true,
+      })
 
-    const localePath = useLocalePath()
-    const i18n = nuxtApp.$i18n as SchemaOrgI18n
-    const locales = i18n.locales.value || []
-    const runtimeConfig = useRuntimeConfig()
-    const globalDefault = (runtimeConfig.public.i18n as { defaultLocale?: string }).defaultLocale || toValue(i18n.defaultLocale)
-    const resolveDefaultLocale = (): SchemaOrgI18nLocale | undefined => {
-      const defaultLocaleCode = globalDefault
-      const defaultSiteLocale = toValue(siteConfig.defaultLocale)
-      return locales.find(locale => locale.code === defaultLocaleCode)
-        || locales.find(locale => locale.code === defaultSiteLocale || locale.language === defaultSiteLocale || locale.iso === defaultSiteLocale)
-        || (defaultLocaleCode || defaultSiteLocale
-          ? { code: defaultLocaleCode || defaultSiteLocale }
-          : undefined)
-    }
-    // init vendors
-    const siteUrl = () => resolveIdForLocale(i18n.localeProperties.value)
-    const identityId = () => `${withTrailingSlash(pathResolver('/').value)}#identity` as Id
-    const websiteId = () => `${siteUrl()}#website`
-    const website = defineWebSite({
-      '@id': websiteId,
-      'url': siteUrl,
-      'name': () => toValue(siteConfig.name) || '',
-      'inLanguage': () => toValue(i18n.localeProperties.value.language) || '',
-      'description': () => toValue(siteConfig.description) || '',
-    })
-    const runtimeI18n: RuntimeI18nConfig = {
-      defaultLocale: globalDefault,
-      strategy: i18n.strategy,
-      locales: locales.map(locale => ({ ...locale, hreflang: locale.language || locale.iso || locale.code })),
-    }
-    const canonicalDefault = runtimeI18n.locales.find(locale => locale.code === globalDefault)
-    const resolveIdForLocale = (locale: SchemaOrgI18nLocale) => {
-      const path = localePath('index', locale.code)
-      const domain = resolveCanonicalLocaleDomain(runtimeI18n.locales.find(item => item.code === locale.code), canonicalDefault)
-      if (domain) {
-        const prefixed = i18n.strategy === 'prefix'
-          || (i18n.strategy !== 'no_prefix' && locale.code !== toValue(i18n.defaultLocale))
-        const prefix = `/${locale.code}`
-        const basePath = prefixed && (path === prefix || path.startsWith(`${prefix}/`))
-          ? path.slice(prefix.length) || '/'
-          : path
-        return resolveSitePath(resolveLocalePath(basePath, locale.code, runtimeI18n, { host: domain }), {
-          absolute: true,
-          siteUrl: hasProtocol(domain, { acceptRelative: false })
-            ? domain
-            : withHttps(domain),
-          trailingSlash: siteConfig.trailingSlash,
-          base: runtimeConfig.app.baseURL,
-          withBase: true,
-        })
+      interface SchemaOrgI18nLocale extends Omit<RuntimeLocale, 'hreflang'> {
+        iso?: string
       }
-      return pathResolver(path).value
-    }
-    const isCurrentWebsite = (locale: SchemaOrgI18nLocale) => resolveIdForLocale(locale) === siteUrl()
-    const defaultLocale = resolveDefaultLocale()
-    if (defaultLocale) {
-      if (i18n.localeProperties.value.code !== defaultLocale.code) {
-        if (!isCurrentWebsite(defaultLocale)) {
-          website.translationOfWork = {
-            '@type': 'WebSite',
-            '@id': () => `${resolveIdForLocale(defaultLocale)}#website`,
+      interface SchemaOrgI18n {
+        defaultLocale?: MaybeRefOrGetter<string>
+        locales: { value: SchemaOrgI18nLocale[] }
+        localeProperties: { value: SchemaOrgI18nLocale }
+        strategy: RuntimeI18nConfig['strategy']
+      }
+
+      const localePath = useLocalePath()
+      const i18n = nuxtApp.$i18n as SchemaOrgI18n
+      const locales = i18n.locales.value || []
+      const runtimeConfig = useRuntimeConfig()
+      const globalDefault = (runtimeConfig.public.i18n as { defaultLocale?: string }).defaultLocale || toValue(i18n.defaultLocale)
+      const resolveDefaultLocale = (): SchemaOrgI18nLocale | undefined => {
+        const defaultLocaleCode = globalDefault
+        const defaultSiteLocale = toValue(siteConfig.defaultLocale)
+        return locales.find(locale => locale.code === defaultLocaleCode)
+          || locales.find(locale => locale.code === defaultSiteLocale || locale.language === defaultSiteLocale || locale.iso === defaultSiteLocale)
+          || (defaultLocaleCode || defaultSiteLocale
+            ? { code: defaultLocaleCode || defaultSiteLocale }
+            : undefined)
+      }
+      // init vendors
+      const siteUrl = () => resolveIdForLocale(i18n.localeProperties.value)
+      const identityId = () => `${withTrailingSlash(pathResolver('/').value)}#identity` as Id
+      const websiteId = () => `${siteUrl()}#website`
+      const website = defineWebSite({
+        '@id': websiteId,
+        'url': siteUrl,
+        'name': () => toValue(siteConfig.name) || '',
+        'inLanguage': () => toValue(i18n.localeProperties.value.language) || '',
+        'description': () => toValue(siteConfig.description) || '',
+      })
+      const runtimeI18n: RuntimeI18nConfig = {
+        defaultLocale: globalDefault,
+        strategy: i18n.strategy,
+        locales: locales.map(locale => ({ ...locale, hreflang: locale.language || locale.iso || locale.code })),
+      }
+      const canonicalDefault = runtimeI18n.locales.find(locale => locale.code === globalDefault)
+      const resolveIdForLocale = (locale: SchemaOrgI18nLocale) => {
+        const path = localePath('index', locale.code)
+        const domain = resolveCanonicalLocaleDomain(runtimeI18n.locales.find(item => item.code === locale.code), canonicalDefault)
+        if (domain) {
+          const prefixed = i18n.strategy === 'prefix'
+            || (i18n.strategy !== 'no_prefix' && locale.code !== toValue(i18n.defaultLocale))
+          const prefix = `/${locale.code}`
+          const basePath = prefixed && (path === prefix || path.startsWith(`${prefix}/`))
+            ? path.slice(prefix.length) || '/'
+            : path
+          return resolveSitePath(resolveLocalePath(basePath, locale.code, runtimeI18n, { host: domain }), {
+            absolute: true,
+            siteUrl: hasProtocol(domain, { acceptRelative: false })
+              ? domain
+              : withHttps(domain),
+            trailingSlash: siteConfig.trailingSlash,
+            base: runtimeConfig.app.baseURL,
+            withBase: true,
+          })
+        }
+        return pathResolver(path).value
+      }
+      const isCurrentWebsite = (locale: SchemaOrgI18nLocale) => resolveIdForLocale(locale) === siteUrl()
+      const defaultLocale = resolveDefaultLocale()
+      if (defaultLocale) {
+        if (i18n.localeProperties.value.code !== defaultLocale.code) {
+          if (!isCurrentWebsite(defaultLocale)) {
+            website.translationOfWork = {
+              '@type': 'WebSite',
+              '@id': () => `${resolveIdForLocale(defaultLocale)}#website`,
+            }
           }
         }
-      }
-      else {
-        const workTranslations = locales
-          .filter(locale => locale.code !== defaultLocale.code && !isCurrentWebsite(locale))
-          .filter(locale => !schemaOrgConfig.excludeWorkTranslationLocales?.includes(locale.code))
-          .map((locale) => {
-            return {
-              '@type': 'WebSite',
-              '@id': () => `${resolveIdForLocale(locale)}#website`,
-            }
-          })
-        if (workTranslations.length > 0)
-          website.workTranslation = workTranslations
-      }
-    }
-    const about = () => {
-      const hasIdentity = Boolean(schemaOrgConfig.identity || toValue(siteConfig.identity))
-      const isHomepage = withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
-      if (hasIdentity && isHomepage) {
-        return {
-          '@id': identityId(),
+        else {
+          const workTranslations = locales
+            .filter(locale => locale.code !== defaultLocale.code && !isCurrentWebsite(locale))
+            .filter(locale => !schemaOrgConfig.excludeWorkTranslationLocales?.includes(locale.code))
+            .map((locale) => {
+              return {
+                '@type': 'WebSite',
+                '@id': () => `${resolveIdForLocale(locale)}#website`,
+              }
+            })
+          if (workTranslations.length > 0)
+            website.workTranslation = workTranslations
         }
       }
-      return null
+      const about = () => {
+        const hasIdentity = Boolean(schemaOrgConfig.identity || toValue(siteConfig.identity))
+        const isHomepage = withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
+        if (hasIdentity && isHomepage) {
+          return {
+            '@id': identityId(),
+          }
+        }
+        return null
+      }
+      nuxtApp.vueApp.provide(localeWebsiteUrlKey, siteUrl)
+      useSchemaOrg([
+        website,
+        // Unhead links the page to the final WebSite after merging overrides.
+        defineWebPage({
+          // null blocks identity resolver defaults and is stripped from the graph.
+          // Keep this input a plain object: a ref or computed loses the resolver
+          // metadata defineWebPage attaches, which orphans an untyped WebPage node
+          // in the graph (#155). Getter props keep route-aware reactivity; the
+          // cast only bridges the vendor types, which don't model getters on
+          // object props like `about`.
+          about: about as unknown as WebPage['about'],
+        }),
+      ])
+      maybeAddIdentitySchemaOrg()
     }
-    nuxtApp.vueApp.provide(localeWebsiteUrlKey, siteUrl)
-    useSchemaOrg([
-      website,
-      // Unhead links the page to the final WebSite after merging overrides.
-      defineWebPage({
-        // null blocks identity resolver defaults and is stripped from the graph.
-        // Keep this input a plain object: a ref or computed loses the resolver
-        // metadata defineWebPage attaches, which orphans an untyped WebPage node
-        // in the graph (#155). Getter props keep route-aware reactivity; the
-        // cast only bridges the vendor types, which don't model getters on
-        // object props like `about`.
-        about: about as unknown as WebPage['about'],
-      }),
-    ])
-    maybeAddIdentitySchemaOrg()
+    const error = useError()
+    if (error.value) {
+      if (import.meta.server)
+        return
+      const stop = watch(error, (val) => {
+        if (!val) {
+          stop()
+          nuxtApp.runWithContext(registerDefaults)
+        }
+      })
+      return
+    }
+    registerDefaults()
   },
 })
