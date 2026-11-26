@@ -22,8 +22,7 @@ export default defineNuxtPlugin({
     'nuxt-schema-org:meta',
   ],
   setup(nuxtApp) {
-    const error = useError()
-    if (error.value?.error) {
+    if (useError().value) {
       return
     }
     const siteConfig = useSiteConfig()
@@ -58,7 +57,9 @@ export default defineNuxtPlugin({
       const defaultSiteLocale = toValue(siteConfig.defaultLocale)
       return locales.find(locale => locale.code === defaultLocaleCode)
         || locales.find(locale => locale.code === defaultSiteLocale || locale.language === defaultSiteLocale || locale.iso === defaultSiteLocale)
-        || (defaultLocaleCode || defaultSiteLocale ? { code: defaultLocaleCode || defaultSiteLocale } : undefined)
+        || (defaultLocaleCode || defaultSiteLocale
+          ? { code: defaultLocaleCode || defaultSiteLocale }
+          : undefined)
     }
     // init vendors
     const siteUrl = () => resolveIdForLocale(i18n.localeProperties.value)
@@ -84,10 +85,14 @@ export default defineNuxtPlugin({
         const prefixed = i18n.strategy === 'prefix'
           || (i18n.strategy !== 'no_prefix' && locale.code !== toValue(i18n.defaultLocale))
         const prefix = `/${locale.code}`
-        const basePath = prefixed && (path === prefix || path.startsWith(`${prefix}/`)) ? path.slice(prefix.length) || '/' : path
+        const basePath = prefixed && (path === prefix || path.startsWith(`${prefix}/`))
+          ? path.slice(prefix.length) || '/'
+          : path
         return resolveSitePath(resolveLocalePath(basePath, locale.code, runtimeI18n, { host: domain }), {
           absolute: true,
-          siteUrl: hasProtocol(domain, { acceptRelative: false }) ? domain : withHttps(domain),
+          siteUrl: hasProtocol(domain, { acceptRelative: false })
+            ? domain
+            : withHttps(domain),
           trailingSlash: siteConfig.trailingSlash,
           base: runtimeConfig.app.baseURL,
           withBase: true,
@@ -123,8 +128,11 @@ export default defineNuxtPlugin({
     const about = () => {
       const hasIdentity = Boolean(schemaOrgConfig.identity || toValue(siteConfig.identity))
       const isHomepage = withoutTrailingSlash(route.path) === withoutTrailingSlash(localePath('index'))
-      if (hasIdentity && isHomepage)
-        return { '@id': identityId() }
+      if (hasIdentity && isHomepage) {
+        return {
+          '@id': identityId(),
+        }
+      }
       return null
     }
     nuxtApp.vueApp.provide(localeWebsiteUrlKey, siteUrl)

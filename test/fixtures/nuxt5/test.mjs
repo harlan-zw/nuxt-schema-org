@@ -63,6 +63,12 @@ async function main() {
     assert.ok(jsonLd, 'The page must render a Schema.org script')
     const schema = JSON.parse(jsonLd)
     assert.equal(schema['@graph'].find(node => node['@type'] === 'WebSite')?.url, 'https://schema-org.example.com/')
+
+    const notFound = await fetch(`${origin}/missing`, { headers: { accept: 'text/html' } })
+    assert.equal(notFound.status, 404)
+    assert.match(notFound.headers.get('content-type') || '', /text\/html/)
+    const notFoundHtml = await notFound.text()
+    assert.equal(notFoundHtml.includes('application/ld+json'), false, '404 error pages must not render Schema.org JSON-LD')
   }
   finally {
     server.kill()

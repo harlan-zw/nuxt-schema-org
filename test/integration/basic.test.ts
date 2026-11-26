@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { $fetch, setup } from '@nuxt/test-utils'
+import { $fetch, fetch, setup } from '@nuxt/test-utils'
 import { load } from 'cheerio'
 import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from './utils'
@@ -170,5 +170,20 @@ describe('pages', () => {
 
     const code = await fetchClientScripts('/components-slot')
     expect(code).not.toContain('schema-org-graph')
+  })
+
+  it.each([
+    { path: '/does-not-exist', status: 404 },
+    { path: '/error-500', status: 500 },
+  ])('omits Schema.org JSON-LD on $status error page ($path)', async ({ path, status }) => {
+    const res = await fetch(path, {
+      headers: { accept: 'text/html' },
+    })
+    expect(res.status).toBe(status)
+    expect(res.headers.get('content-type')).toContain('text/html')
+
+    const html = await res.text()
+    const $ = load(html)
+    expect($('script[type="application/ld+json"]')).toHaveLength(0)
   })
 })

@@ -9,6 +9,11 @@ import { useSchemaOrgConfig } from '../utils/config'
 type Input = MaybeRef<Parameters<typeof _useSchemaOrg>[0]>
 
 export const localeWebsiteUrlKey: InjectionKey<() => string> = Symbol('schema-org:locale-website-url')
+export const deferredInitKey = Symbol('schema-org:deferred-init')
+
+export interface DeferredSchemaOrgApp {
+  [deferredInitKey]?: Array<() => void>
+}
 
 function localizeWebsiteNode(node: unknown, siteUrl: () => string): unknown {
   if (isRef(node) || typeof node === 'function')
@@ -73,6 +78,13 @@ export function useSchemaOrg<T extends Input>(input: T): ActiveHeadEntry<UseHead
   // dev always needs it for the overlay; server doesn't need the direct
   // composable as the plugin is already registered; client only when reactive
   if (import.meta.dev || import.meta.server || config?.reactive) {
+    const appWithDeferred = nuxtApp as typeof nuxtApp & DeferredSchemaOrgApp
+    const deferredInit = appWithDeferred[deferredInitKey]
+    if (deferredInit) {
+      delete appWithDeferred[deferredInitKey]
+      for (const init of deferredInit)
+        nuxtApp.runWithContext(init)
+    }
     return useHead({
       script: [script],
     })

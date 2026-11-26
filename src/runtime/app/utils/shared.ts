@@ -9,7 +9,7 @@ import {
   useSiteConfig,
 } from '#site-config/app/composables/useSiteConfig'
 import { createSitePathResolver } from '#site-config/app/composables/utils'
-import { useSchemaOrg } from '../composables/useSchemaOrg'
+import { deferredInitKey, useSchemaOrg } from '../composables/useSchemaOrg'
 import { useSchemaOrgConfig } from './config'
 
 // The vendored Unhead 3 plugin accepts configuration, metadata, and options.
@@ -28,6 +28,14 @@ function resolvePathDirect(siteConfig: Record<string, any>, path: string, option
     trailingSlash: toValue(siteConfig.trailingSlash),
     base: nuxtBase,
   })
+}
+
+export function deferSchemaOrgInit(nuxtApp: NuxtApp, init: () => void) {
+  const appWithDeferred = nuxtApp as NuxtApp & { [deferredInitKey]?: Array<() => void> }
+  if (appWithDeferred[deferredInitKey])
+    appWithDeferred[deferredInitKey].push(init)
+  else
+    appWithDeferred[deferredInitKey] = [init]
 }
 
 export function initPlugin(nuxtApp: NuxtApp) {

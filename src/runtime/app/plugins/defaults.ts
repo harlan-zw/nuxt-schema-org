@@ -11,8 +11,7 @@ export default defineNuxtPlugin({
     'nuxt-schema-org:init',
   ],
   setup() {
-    const error = useError()
-    if (error.value?.error) {
+    if (useError().value) {
       return
     }
     // get the head instance
