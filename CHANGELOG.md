@@ -1,3 +1,9 @@
+## 7.1.2
+
+[Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v7.1.1...v7.1.2)
+
+- Skip default Schema.org graph registration on Nuxt error pages and restore defaults after client `clearError()` recovery. [#219](https://github.com/harlan-zw/nuxt-schema-org/pull/219)
+
 ## 7.1.1
 
 [Compare changes](https://github.com/harlan-zw/nuxt-schema-org/compare/v7.1.0...v7.1.1)
