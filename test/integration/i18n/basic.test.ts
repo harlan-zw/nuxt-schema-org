@@ -1,5 +1,6 @@
 import { resolve } from 'node:path'
-import { setup } from '@nuxt/test-utils'
+import { fetch, setup } from '@nuxt/test-utils'
+import { load } from 'cheerio'
 import { describe, expect, it } from 'vitest'
 import { $fetchSchemaOrg } from '../utils'
 
@@ -125,7 +126,9 @@ describe('pages', () => {
   it('does not link the identity from nested locale pages', async () => {
     const schemaOrg = await $fetchSchemaOrg('/ja/about')
     const webPage = schemaOrg['@graph'].find((node) => {
-      const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']]
+      const types = Array.isArray(node['@type'])
+        ? node['@type']
+        : [node['@type']]
       return types.includes('WebPage')
     })
 
@@ -141,7 +144,9 @@ describe('pages', () => {
   it('falls back to the per-locale site description without page meta', async () => {
     const schemaOrg = await $fetchSchemaOrg('/zh/about')
     const webPage = schemaOrg['@graph'].find((node) => {
-      const types = Array.isArray(node['@type']) ? node['@type'] : [node['@type']]
+      const types = Array.isArray(node['@type'])
+        ? node['@type']
+        : [node['@type']]
       return types.includes('WebPage')
     })
     const webSite = schemaOrg['@graph'].find(node => node['@type'] === 'WebSite')
@@ -155,6 +160,18 @@ describe('pages', () => {
       expect(node['@type'], `node ${node['@id']} on ${path} has no @type`).toBeTruthy()
       expect(node['@id'], `orphan node on ${path}`).not.toMatch(/#\/schema\/\//)
     }
+  })
+
+  it('omits Schema.org JSON-LD on 404 error pages', async () => {
+    const res = await fetch('/en/does-not-exist', {
+      headers: { accept: 'text/html' },
+    })
+    expect(res.status).toBe(404)
+    expect(res.headers.get('content-type')).toContain('text/html')
+
+    const html = await res.text()
+    const $ = load(html)
+    expect($('script[type="application/ld+json"]')).toHaveLength(0)
   })
 })
 

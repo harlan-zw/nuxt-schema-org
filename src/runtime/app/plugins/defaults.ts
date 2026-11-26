@@ -1,6 +1,6 @@
 import { defineWebPage, defineWebSite } from '@unhead/schema-org/vue'
 import { defineNuxtPlugin, useError } from 'nuxt/app'
-import { toValue } from 'vue'
+import { toValue, watch } from 'vue'
 import { useSiteConfig } from '#site-config/app/composables/useSiteConfig'
 import { useSchemaOrg } from '../composables/useSchemaOrg'
 import { maybeAddIdentitySchemaOrg } from '../utils/shared'
@@ -10,22 +10,33 @@ export default defineNuxtPlugin({
   dependsOn: [
     'nuxt-schema-org:init',
   ],
-  setup() {
+  setup(nuxtApp) {
+    const registerDefaults = () => {
+      // get the head instance
+      const siteConfig = useSiteConfig()
+      // init vendors
+      useSchemaOrg([
+        defineWebSite({
+          name: () => toValue(siteConfig.name) || '',
+          inLanguage: () => toValue(siteConfig.currentLocale) || '',
+          description: () => toValue(siteConfig.description) || '',
+        }),
+        defineWebPage(),
+      ])
+      maybeAddIdentitySchemaOrg()
+    }
     const error = useError()
-    if (error.value?.error) {
+    if (error.value) {
+      if (import.meta.server)
+        return
+      const stop = watch(error, (val) => {
+        if (!val) {
+          stop()
+          nuxtApp.runWithContext(registerDefaults)
+        }
+      })
       return
     }
-    // get the head instance
-    const siteConfig = useSiteConfig()
-    // init vendors
-    useSchemaOrg([
-      defineWebSite({
-        name: () => toValue(siteConfig.name) || '',
-        inLanguage: () => toValue(siteConfig.currentLocale) || '',
-        description: () => toValue(siteConfig.description) || '',
-      }),
-      defineWebPage(),
-    ])
-    maybeAddIdentitySchemaOrg()
+    registerDefaults()
   },
 })
